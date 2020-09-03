@@ -1,0 +1,104 @@
+<resources>
+    <string name="app_name">YunHuaLian</string>
+
+    <!--tab-->
+    <string name="tab_home">首页</string>
+    <string name="tab_mall">分类</string>
+    <string name="tab_purchased_miner">创作者</string>
+    <string name="tab_assets">购物车</string>
+    <string name="tab_mine">我的</string>
+    <string name="edit_hint">请输入关键字搜索作品</string>
+    <string name="parameter_error">请求参数错误，请稍候重试</string>
+
+    <string name="net_word_error">网络连接异常，请检查网络</string>
+    <string name="request_error">请求失败，请稍候重试</string>
+    <string name="reponse_error">服务器返回错误，请稍候重试</string>
+    <string name="version_install">立即安装</string>
+
+    <string name="double_click_exit">再次点击返回键退出</string>
+
+    <string name="version_download_ing">下载中...</string>
+    <string name="version_download_error">下载失败</string>
+    <string name="version_error">您所下载的APP解析错误，请重新下载更新</string>
+    <string name="dialog_title">操作提示</string>
+    <string name="version_update">立即更新</string>
+    <string name="version_download_progress">正在下载更新</string>
+
+    <string name="permissions_alert">请在系统设置-应用管理-权限管理设置-允许%1$s</string>
+    <string name="canel">取消</string>
+
+    <string name="determine">确定</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!--分类模块-->
+    <string name="sort">分类</string>
+    <string name="type">题材</string>
+    <string name="prize">价格</string>
+    <string name="new_goods">最新上架</string>
+    <string name="sort_prize">价格排序</string>
+
+    <!--首页-->
+    <string name="certify_search">证书查询</string>
+    <string name="certify_apply">申请证书</string>
+    <string name="count_bage">积分钱包</string>
+    <string name="hot">热门原创</string>
+    <string name="theme">主题推荐/THEME</string>
+
+    <!--我的-->
+    <string name="buy_in">买入订单</string>
+    <string name="sell_out">卖出订单</string>
+    <string name="message">消息</string>
+    <string name="service">客服</string>
+    <string name="my_page">我的主页</string>
+    <string name="upgrade_art">上传作品</string>
+    <string name="add">收货地址</string>
+    <string name="send">发起拍卖</string>
+    <string name="advice">意见反馈</string>
+    <string name="about_us">关于我们</string>
+
+    <!--创作者-->
+    <string name="creator">创作者</string>
+    <string name="platform_push">平台推荐</string>
+    <string name="after_push">往期平台推荐</string>
+
+    <!--我到主页-->
+    <string name="already_up">已上架</string>
+    <string name="ever_up">未上架</string>
+    <string name="my_buy_in">我买入的</string>
+    <string name="my_sell_out">我卖出的</string>
+
+    <string-array name="my_page_tabs">
+
+        <item>已上架</item>
+        <item>未上架</item>
+        <item>我买入的</item>
+        <item>我卖出的</item>
+
+    </string-array>
+    <string-array name="sorts">
+        <item>油画</item>
+        <item>水彩</item>
+        <item>国画</item>
+        <item>速写</item>
+        <item>简笔</item>
+        <item>抽象</item>
+        <item>现代</item>
+
+
+    </string-array>
+    <string-array name="popular">
+        <item>油画</item>
+        <item>水彩</item>
+        <item>国画</item>
+        <item>速写</item>
+        <item>简笔</item>
+        <item>抽象</item>
+        <item>现代</item>
+        <item>简笔</item>
+        <item>抽象</item>
+        <item>现代</item>
+
+
+    </string-array>
+</resources>

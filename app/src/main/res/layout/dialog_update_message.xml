@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="28dip"
+    android:layout_marginTop="90dip"
+    android:layout_marginRight="24dip"
+    android:layout_marginBottom="90dip"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/bg_update"
+        tools:layout_editor_absoluteX="4dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <ImageButton
+        android:id="@+id/imb_aum_close"
+        android:layout_width="28dip"
+        android:layout_height="28dip"
+        android:layout_marginTop="33dip"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/icon_update_close"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_dum_update_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dip"
+        android:layout_marginTop="120dip"
+        android:text="发现新版本"
+        android:textColor="@android:color/white"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_aum_update_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="74dip"
+        android:layout_marginTop="5dip"
+        android:background="@drawable/rounded_rect_white_big_radius"
+        android:paddingLeft="12dip"
+        android:paddingTop="6dip"
+        android:paddingRight="12dip"
+        android:paddingBottom="6dip"
+        android:textColor="?attr/colorAccent"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_dum_update_hint" />
+
+    <Button
+        android:id="@+id/btn_aum_update"
+        android:layout_width="0dip"
+        android:layout_height="38dip"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="26dip"
+        android:layout_marginRight="26dp"
+        android:layout_marginBottom="24dip"
+        android:background="@drawable/rounded_rect_theme"
+        android:text="@string/version_update"
+        android:textColor="@android:color/white"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_aum_update_content_hint"
+        style="@style/txt_333333_13"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="34dip"
+        android:layout_marginTop="70dip"
+        android:layout_marginRight="34dip"
+        android:text="更新内容："
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_aum_update_content"
+        style="@style/txt_333333_13"
+        android:layout_width="0dip"
+        android:layout_height="0dip"
+        android:layout_marginLeft="34dip"
+        android:layout_marginTop="24dip"
+        android:layout_marginRight="34dip"
+        android:layout_marginBottom="24dip"
+        android:lineSpacingExtra="14dip"
+        app:layout_constraintBottom_toTopOf="@id/btn_aum_update"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_aum_update_content_hint" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

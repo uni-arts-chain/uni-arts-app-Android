@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="_D1402B">#D1402B</color>
+    <color name="_E67927">#E67927</color>
+    <color name="_FA3E7A">#FA3E7A</color>
+    <color name="_8C68F2">#8C68F2</color>
+    <color name="_4593E6">#4593E6</color>
+    <color name="_33D7EE">#33D7EE</color>
+
+    <color name="default_bg_color">#1b2227</color>
+    <color name="_DBE6EE">#ffdbe6ee</color>
+    <color name="_D2D5DB">#D2D5DB</color>
+    <color name="_EFEFEF">#EFEFEF</color>
+
+    <color name="black_color2">#ffdedede</color>
+
+    <color name="black">#333333</color>
+    <color name="_FD6E5F">#fd6e5f</color>
+    <color name="_FB5859">#fb5859</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="_FF3442">#FF3442</color>
+    <color name="_333333">#333333</color>
+    <color name="_666666">#666666</color>
+
+    <color name="default_text_light">#9a9fb0</color>
+    <color name="_00A7B6">#00A7B6</color>
+    <color name="_F5F5F5">#F5F5F5</color>
+    <color name="_4D4D4D">#4D4D4D</color>
+    <color name="_FFFFFF">#FFFFFF</color>
+    <color name="_999999">#999999</color>
+    <color name="_00D121">#00D121</color>
+    <color name="_02FFCB">#02FFCB</color>
+    <color name="_28405C">#28405C</color>
+    <color name="_7288A5">#7288A5</color>
+    <color name="_E6E6E6">#E6E6E6</color>
+    <color name="_CCCCCC">#CCCCCC</color>
+    <color name="_FF0000">#FF0000</color>
+    <color name="_B2000000">#B2000000</color>
+    <color name="_F2F2F2">#F2F2F2</color>
+    <color name="_4E6DEA">#4E6DEA</color>
+    <color name="_B7B6B7">#B7B6B7</color>
+    <color name="_2EA496">#2EA496</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="bg_news_blue">#E64FBCF9</color>
+    <color name="bg_search_title">#FFF3F3F3</color>
+    <color name="blue_point">#FF5FB9EB</color>
+    <color name="line_color">#FF000000</color>
+    <color name="picture_name_color">#101010</color>
+    <color name="picture_profile">#909090</color>
+    <color name="_606060">#606060</color>
+</resources>

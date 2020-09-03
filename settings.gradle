@@ -1,0 +1,4 @@
+include ':app'
+rootProject.name = "YunHuaLian"
+include ':zxing',':common'
+//,':takephoto_library'

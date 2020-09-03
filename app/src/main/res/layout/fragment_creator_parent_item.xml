@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp_10">
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_10"
+        android:padding="@dimen/dp_10"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/img_default_head" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/picture"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_toRightOf="@+id/picture"
+        android:text="name"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_toRightOf="@+id/picture"
+        android:text="简介、简介" />
+
+    <TextView
+        android:id="@+id/arts_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_alignParentRight="true"
+        android:text="简介、简介" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/picture_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/picture" />
+</RelativeLayout>

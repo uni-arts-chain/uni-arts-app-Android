@@ -1,0 +1,35 @@
+def deps = [:]
+
+def common_libs(DependencyHandler handler, String mode = "implementation") {
+    handler.add(mode, 'com.google.android.material:material:1.1.0')
+    handler.add(mode, 'androidx.legacy:legacy-support-v4:1.0.0')
+
+    //glider 网络图片加载库
+    handler.add(mode, 'com.github.bumptech.glide:glide:4.11.0')
+    handler.add(mode, 'jp.wasabeef:glide-transformations:2.0.1')
+    //eventbus
+    handler.add(mode, 'org.greenrobot:eventbus:3.1.1')
+    //utils 类 比较全的工具三方库。
+    // 具体使用教程https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/README-CN.md。其中还有一个子类。一般用不到。
+    handler.add(mode, 'com.blankj:utilcode:1.23.4')
+    //retrofit 使用相关的所有库。
+    handler.add(mode, 'com.squareup.okhttp3:okhttp:3.12.0')
+    handler.add(mode, 'com.squareup.retrofit2:retrofit:2.4.0')
+    handler.add(mode, 'com.google.code.gson:gson:2.8.5')
+    handler.add(mode, 'com.squareup.retrofit2:adapter-rxjava2:2.4.0')
+    handler.add(mode, 'io.reactivex.rxjava2:rxandroid:2.0.2')
+    handler.add(mode, 'io.reactivex.rxjava2:rxjava:2.1.16')
+    handler.add(mode, 'com.squareup.retrofit2:converter-gson:2.4.0')
+    handler.add(mode, 'com.squareup.okhttp3:logging-interceptor:3.11.0')
+
+    //recyclerView adapter
+    handler.add(mode, 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44')
+    handler.add(mode, 'commons-codec:commons-codec:20041127.091804')
+    handler.add(mode, 'com.jph.takephoto:takephoto_library:4.0.3')
+    handler.add(mode, 'liji.library.dev:citypickerview:5.2.2')
+    handler.add(mode,'com.aliyun.dpa:oss-android-sdk:+')
+    handler.add(mode, "com.github.hotchemi:permissionsdispatcher:3.3.1")
+}
+
+deps.common_libs = this.&common_libs
+ext.deps = deps
