@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_bg_color"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,10 +14,14 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/select_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:text="头像设置" />
+            android:text="从相册选择"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/sp_16" />
+
 
         <View
             android:layout_width="match_parent"
@@ -29,19 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:text="拍照" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.3dp"
-            android:background="@color/default_text_light" />
-
-        <Button
-            android:id="@+id/select_photo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:text="从相册选择" />
+            android:text="拍照"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
     <Button
@@ -52,5 +46,7 @@
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginEnd="15dp"
         android:background="@drawable/shape_default_white"
-        android:text="取消" />
+        android:text="取消"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/sp_16" />
 </LinearLayout>

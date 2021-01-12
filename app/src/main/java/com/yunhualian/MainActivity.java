@@ -32,6 +32,7 @@ import com.yunhualian.ui.fragment.PictureSortFragment;
 import com.yunhualian.ui.fragment.ShoppingCartFragment;
 import com.yunhualian.utils.DownLoadManager;
 import com.yunhualian.utils.ToastManager;
+import com.yunhualian.utils.UserManager;
 import com.yunhualian.widget.PermissionDialog;
 import com.yunhualian.widget.UpdateDialog;
 
@@ -85,7 +86,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onGranted(List<String> permissionsGranted) {
                     if (permissionsGranted.containsAll(Arrays.asList(PermissionConstants.getPermissions(PermissionConstants.STORAGE)))) {
-                        DownLoadManager.with().init(MainActivity.this);
+                      //  DownLoadManager.with().init(MainActivity.this);
                     }
                 }
 
@@ -96,7 +97,7 @@ public class MainActivity extends BaseActivity {
             }).request();
             return;
         }
-        DownLoadManager.with().init(this);
+       // DownLoadManager.with().init(this);
     }
 
     @Override
@@ -322,6 +323,12 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UserManager.isLogin(false);
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")

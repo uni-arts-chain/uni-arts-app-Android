@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.VerifiedActivity">
+
+        <include
+            android:id="@+id/mAppBarLayout_av"
+            layout="@layout/layout_generic_toolbar" />
+
+        <TextView
+            android:id="@+id/txt_av_actual_name"
+            style="@style/txt_333333_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="12dip"
+            android:paddingTop="12dip"
+            android:paddingBottom="12dip"
+            android:text="@string/actual_name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mAppBarLayout_av" />
+
+        <EditText
+            android:id="@+id/edt_av_actual_name"
+            style="@style/txt_333333_14"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dip"
+            android:background="@android:color/transparent"
+            android:gravity="end"
+            android:hint="@string/hint_input_actual_name"
+            android:maxLines="1"
+            android:paddingLeft="55dip"
+            android:paddingTop="12dip"
+            android:paddingRight="@dimen/dp_15"
+            android:paddingBottom="12dip"
+            android:singleLine="true"
+            android:textColorHint="@color/_CCCCCC"
+            app:layout_constraintLeft_toRightOf="@id/txt_av_actual_name"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mAppBarLayout_av" />
+
+        <TextView
+            android:id="@+id/txt_av_ID_number"
+            style="@style/txt_333333_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:paddingTop="12dip"
+            android:paddingBottom="12dip"
+            android:text="@string/id_number"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_av_actual_name" />
+
+        <EditText
+            android:id="@+id/edt_av_ID_number"
+            style="@style/txt_333333_14"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:gravity="end"
+            android:hint="@string/hint_input_id_number"
+            android:maxLength="18"
+            android:maxLines="1"
+            android:paddingLeft="55dip"
+            android:paddingTop="12dip"
+            android:paddingRight="@dimen/dp_15"
+            android:paddingBottom="12dip"
+            android:singleLine="true"
+            android:textColorHint="@color/_CCCCCC"
+            app:layout_constraintLeft_toRightOf="@id/txt_av_ID_number"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_av_actual_name" />
+
+        <TextView
+            android:id="@+id/txt_av_physical_authentication_hint"
+            style="@style/txt_333333_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:paddingTop="12dip"
+            android:paddingBottom="12dip"
+            android:text="@string/physical_authentication"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_av_ID_number" />
+
+        <TextView
+            android:id="@+id/txt_av_physical_authentication"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:drawableRight="@mipmap/icon_arrow_right"
+            android:drawablePadding="6dip"
+            android:gravity="right"
+            android:onClick="onClickStartPhysicalAuthentication"
+            android:paddingLeft="55dip"
+            android:paddingTop="12dip"
+            android:paddingRight="@dimen/dp_15"
+            android:paddingBottom="12dip"
+            android:text="@string/start_physical_authentication"
+            android:textColor="@color/_BBBBBB"
+            android:textColorHint="@color/_CCCCCC"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintLeft_toRightOf="@id/txt_av_physical_authentication_hint"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_av_ID_number" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

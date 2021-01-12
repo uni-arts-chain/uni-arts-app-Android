@@ -26,6 +26,7 @@
     <color name="default_text_light">#9a9fb0</color>
     <color name="_00A7B6">#00A7B6</color>
     <color name="_F5F5F5">#F5F5F5</color>
+    <color name="_F6F6F6">#F6F6F6</color>
     <color name="_4D4D4D">#4D4D4D</color>
     <color name="_FFFFFF">#FFFFFF</color>
     <color name="_999999">#999999</color>
@@ -34,6 +35,7 @@
     <color name="_28405C">#28405C</color>
     <color name="_7288A5">#7288A5</color>
     <color name="_E6E6E6">#E6E6E6</color>
+    <color name="_909090">#909090</color>
     <color name="_CCCCCC">#CCCCCC</color>
     <color name="_FF0000">#FF0000</color>
     <color name="_B2000000">#B2000000</color>
@@ -49,4 +51,13 @@
     <color name="picture_name_color">#101010</color>
     <color name="picture_profile">#909090</color>
     <color name="_606060">#606060</color>
+    <color name="_212121">#212121</color>
+    <color name="apply_sign">#38B2F1</color>
+    <color name="gray_line">#DDDDDD</color>
+    <color name="button_bg_color">#50C3FF</color>
+    <color name="copy_txt_color">#38B2F1</color>
+    <color name="picture_prize_color">#D70000</color>
+    <color name="bg_txt">#FF000000</color>
+    <color name="auth_text_color">#1E1D1E</color>
+    <color name="_BBBBBB">#BBBBBB</color>
 </resources>

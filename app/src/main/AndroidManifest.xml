@@ -55,10 +55,59 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.MyHomePageActivity"></activity>
-        <activity android:name=".ui.activity.UpdatePictureActivity" />
-        <activity android:name=".ui.activity.UserCenterActivity" />
-        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.SettingsActivity"></activity>
+        <activity android:name=".ui.activity.CustomerServiceActivity" />
+        <activity
+            android:name=".ui.activity.MessagesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ConfirmDocumentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.VerifiedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.BindPhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ResetPswStep2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ResetPswActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.CoinWalletActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.LinkSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.OrganDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ArtDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SelectPicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.CertificateApplyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ApplyCertificateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MyHomePageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.UpdatePictureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.UserCenterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,6 +115,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.sensetime.liveness.motion.MotionLivenessActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SampleTheme" />
     </application>
 
 </manifest>

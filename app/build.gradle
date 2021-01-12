@@ -52,9 +52,17 @@ dependencies {
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
     implementation project(path: ':common')
     implementation project(path: ':zxing')
+    implementation project(path: ':liveness-lib')
     compile (name: 'alipaySdk-15.7.9-20200727142846', ext: 'aar')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    compile ('com.jelly:mango:1.3.0'){
+        exclude group: 'com.github.chrisbanes.photoview'
+        exclude group: 'com.github.bumptech.glide'
+        exclude group: 'com.squareup.okhttp3'
+    }
     deps.common_libs(dependencies)
+
+
 }

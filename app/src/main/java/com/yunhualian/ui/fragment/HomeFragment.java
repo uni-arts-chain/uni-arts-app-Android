@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +29,8 @@ import com.yunhualian.base.BaseFragment;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.databinding.FragmentHomeBinding;
+import com.yunhualian.ui.activity.ApplyCertificateActivity;
+import com.yunhualian.ui.activity.LinkSearchActivity;
 import com.yunhualian.utils.ToolbarHelper2;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
@@ -36,7 +39,12 @@ import com.zhouwei.mzbanner.holder.MZViewHolder;
 import java.util.Arrays;
 import java.util.List;
 
-public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+
+
+public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements View.OnClickListener {
     private HomePagePopularAdapter popularAdapter;
     private HomePageThemeAdapter themeAdapter;
     private List<String> sortList;
@@ -105,6 +113,34 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                 return new BannerViewHolder();
             }
         });
+        mBinding.applyLayout.setOnClickListener(this);
+        mBinding.certifySearch.setOnClickListener(this);
+        Observer<String> observable = new Observer<String>() {
+
+            @Override
+            public void onCompleted() {
+                Log.i("TAG", "Completed");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                Log.i("TAG", s);
+            }
+        };
+        Observable observable1 = Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext("Hello");
+                subscriber.onNext("World");
+                subscriber.onCompleted();
+            }
+        });
+        observable1.subscribe(observable);
     }
 
 
@@ -180,6 +216,18 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             }
         } else {
             ToastUtils.showShort("取消扫描");
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.apply_layout:
+                startActivity(ApplyCertificateActivity.class);
+                break;
+            case R.id.certify_search:
+                startActivity(LinkSearchActivity.class);
+                break;
         }
     }
 

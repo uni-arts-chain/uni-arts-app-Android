@@ -48,6 +48,16 @@
         <!-- 指定消失的动画xml -->
     </style>
 
+    <style name="SampleThemeP" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:actionMenuTextAppearance">@style/txt_333333_13</item>
+    </style>
+
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="actionMenuTextColor">#000000</item> <!--  菜单字体颜色-->
         <item name="android:textSize">18sp</item> <!-- 菜单字体大小-->
@@ -55,4 +65,31 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ClearEditTextView">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="txt_333333_14">
+        <item name="android:textColor">@color/picture_name_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="SampleTheme" parent="SampleThemeP">
+        <item name="actionMenuTextColor">@color/_333333</item>//调整改变颜色
+    </style>
+
+    <style name="MyDialogStyle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        　　
+    </style>
 </resources>

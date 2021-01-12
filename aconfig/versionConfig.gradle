@@ -1,11 +1,12 @@
 ext{
     config =[
 
-            applicationId   :"com.yunhualian",
-            minSdkVersion :16,
-
-            targetSdkVersion :30,
-            compileSdkVersion :30
+            applicationId   :"com.CloudArtChain",
+            compileSdkVersion    : 28,
+            buildToolsVersion    : "28.0.3",
+            minSdkVersion        : 21,
+            targetSdkVersion     : 28,
+            androidSupportVersion: "28.+",
     ]
 
 }

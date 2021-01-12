@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CreatorParentAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    CommonPictureAdapter homePageThemeAdapter;
+    CreatorChildPictureAdapter homePageThemeAdapter;
     private List<String> sortList;
 
     public CreatorParentAdapter(List<String> data,Context context) {
@@ -26,7 +26,7 @@ public class CreatorParentAdapter extends BaseQuickAdapter<String, BaseViewHolde
     @Override
     protected void convert(BaseViewHolder helper, String item) {
         int position = helper.getPosition();
-        homePageThemeAdapter = new CommonPictureAdapter(getData());
+        homePageThemeAdapter = new CreatorChildPictureAdapter(getData());
         LinearLayoutManager sortLayoutManager = new LinearLayoutManager(YunApplication.getInstance());
         sortLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         RecyclerView recyclerView = helper.getView(R.id.picture_list);

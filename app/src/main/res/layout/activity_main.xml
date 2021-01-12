@@ -19,7 +19,7 @@
                 android:id="@+id/mBottomNavigationView"
                 style="@style/Widget.Design.BottomNavigationView"
                 android:layout_width="match_parent"
-                android:layout_height="47dip"
+                android:layout_height="53dip"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/line_top"
                 app:itemBackground="@android:color/transparent"

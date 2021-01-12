@@ -21,7 +21,8 @@ public class AppConstant {
     //接口地址
     private static final String IPADDRESS_RELEASE = "tatmasglobal.com";
     private static final String IPADDRESS_DEBUG = "8.210.140.90:3000";
-    public static final String ADDRESS = (BuildConfig.DEBUG ? "http" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
+//    public static final String ADDRESS = (BuildConfig.DEBUG ? "http" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
+    public static final String ADDRESS = (BuildConfig.DEBUG ? "https" : "http") + "://" + (BuildConfig.DEBUG ? IPADDRESS_RELEASE : IPADDRESS_DEBUG);
 
     // 服务器固定参数
     public static final String MD5_KEY = "h0r9,cf@5Ae;aB,0";

@@ -9,14 +9,54 @@
     <string name="tab_mine">我的</string>
     <string name="edit_hint">请输入关键字搜索作品</string>
     <string name="parameter_error">请求参数错误，请稍候重试</string>
+    <string name="artist">作品</string>
+    <string name="mine_acount">我的积分：%1$s</string>
+    <string name="centify_addr">证书地址：%1$s</string>
+    <string name="sign_amounts">作品签名次数：%1$s</string>
+    <string name="centify_time">签名时间：%1$s</string>
+    <string name="sign_cost">签名费用：%1$s</string>
+    <string name="sign_amount">已签名：%1$s</string>
+    <string name="count_power">积分权益</string>
+    <string name="picture_size">尺寸：%1$s</string>
+    <string name="picture_caizhi">材质：%1$s</string>
+    <string name="forget_psw">忘记密码？</string>
+    <string name="picture_cailiao">材料：%1$s</string>
+    <string name="picture_type">作品类型：%1$s</string>
 
+    <string name="picture_creator">创作者：%1$s</string>
+    <string name="picture_owner">拥有者：%1$s</string>
+    <string name="picture_time">创作时间：%1$s</string>
+
+    <string name="sign_certify">签名证书</string>
+
+    <string name="sign_img">证书照片</string>
+    <string name="sign_amountss">签名数</string>
+
+    <string name="sign_company">签名机构</string>
+    <string name="picture_name_link">《%1$s》</string>
+    <string name="wallet_add">钱包地址：%1$s</string>
+    <string name="mine_sign">我的签名作品</string>
+    <string name="apply_certify">申请证书</string>
+    <string name="input_centify_addr">请输入证书地址</string>
+    <string name="apply_add_certify">申请加签</string>
+    <string name="select_sign_company">选择机构增加签名</string>
+    <string name="show_more">全部作品</string>
     <string name="net_word_error">网络连接异常，请检查网络</string>
     <string name="request_error">请求失败，请稍候重试</string>
     <string name="reponse_error">服务器返回错误，请稍候重试</string>
     <string name="version_install">立即安装</string>
-
+    <string name="select_art_hint">请选择需要签名的作品</string>
     <string name="double_click_exit">再次点击返回键退出</string>
+    <string name="next">下一步</string>
 
+    <string name="start_match">开始对比</string>
+    <string name="id_card_1">身份证人像面</string>
+    <string name="id_card_2">身份证国徽面</string>
+    <string name="select_pics">选择作品</string>
+    <string name="qukuai">区块链信息</string>
+    <string name="picture_profile">创作者张大中在作品《水墨》系列中以“梅花”作为自己某种观念或隐喻的象征，山林中的梅花不再有寒冷的感觉，红热的梅花体现出了烈焰灼烧的意味，这也代表了创作者心中某种热烈的情感需要爆发。生活只有遵循内心的想法才会精彩，真实从心的想法才会是第一顺位。</string>
+    <string name="go_creator_page">进入创作者主页</string>
+    <string name="up_id_img">请拍摄以下证件照片,注意避免证件反光</string>
     <string name="version_download_ing">下载中...</string>
     <string name="version_download_error">下载失败</string>
     <string name="version_error">您所下载的APP解析错误，请重新下载更新</string>
@@ -31,6 +71,15 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <string name="login_txt">登陆</string>
+    <string name="register_txt">注册</string>
+    <string name="hint_phone">手机号</string>
+    <string name="hint_psw">密码</string>
+
+    <string name="register_hint_phone">手机号</string>
+    <string name="register_hint_psw">请输入6-18位数字与祖母组合</string>
+    <string name="register_hint_code">请输入验证码</string>
+    <string name="register_txt_code">获取验证码</string>
     <!--分类模块-->
     <string name="sort">分类</string>
     <string name="type">题材</string>
@@ -40,8 +89,11 @@
 
     <!--首页-->
     <string name="certify_search">证书查询</string>
+    <string name="certify_search_find">查询</string>
     <string name="certify_apply">申请证书</string>
     <string name="count_bage">积分钱包</string>
+    <string name="count_point">积分</string>
+    <string name="point_profile">积分说明</string>
     <string name="hot">热门原创</string>
     <string name="theme">主题推荐/THEME</string>
 
@@ -56,18 +108,65 @@
     <string name="send">发起拍卖</string>
     <string name="advice">意见反馈</string>
     <string name="about_us">关于我们</string>
-
+    <string name="register_user_Agreement">同意《用户协议》</string>
+    <string name="cusomer_service">客服</string>
+    <string name="lianxi_type">请通过以下方式联系我们</string>
+    <string name="actual_name">真实姓名</string>
+    <string name="hint_input_actual_name">请输入姓名</string>
+    <string name="id_number">证件号码</string>
+    <string name="hint_input_id_number">请输入证件号</string>
+    <string name="physical_authentication">实人认证</string>
+    <string name="start_physical_authentication">开始认证</string>
+    <string name="hint_please_input_id_info">请先填写身份信息</string>
+    <string name="hint_id_number_illegal">身份证号不合法，请重新输入</string>
+    <string name="hint_certification_must_be_over_18_years_old">认证需大于18周岁</string>
+    <string name="hint_liveness_verify_failed">认证失败，请稍候重试</string>
+    <string name="hint_get_verify_info_error">获取认证信息失败，请重新进行人脸认证</string>
+    <string name="hint_pleast_upload_self_id_cards">请上传 %1$s 本人身份证</string>
+    <string name="hint_id_has_expired">身份证已过期，请上传有效身份证件</string>
     <!--创作者-->
     <string name="creator">创作者</string>
+    <string name="creator_profile">创作者简介</string>
     <string name="platform_push">平台推荐</string>
     <string name="after_push">往期平台推荐</string>
+    <string name="art_info">艺术品信息</string>
+    <string name="art_appreciation">艺术品评析</string>
+    <string name="art_detail">艺术品细节</string>
+    <string name="add_cart">加入购物车</string>
+    <string name="buy_now">立即购买</string>
 
+    <string name="organ_profile">机构简介</string>
+    <string name="organ_detail">机构详情</string>
+    <string name="link_search">链查询</string>
     <!--我到主页-->
     <string name="already_up">已上架</string>
     <string name="ever_up">未上架</string>
     <string name="my_buy_in">我买入的</string>
     <string name="my_sell_out">我卖出的</string>
 
+    <!--    设置-->
+    <string name="settings">设置</string>
+
+    <string name="head_img">头像</string>
+
+    <string name="nick_name">昵称</string>
+
+    <string name="desc">描述</string>
+
+    <string name="phone">手机号</string>
+
+    <string name="wechat">微信</string>
+
+    <string name="login_psw">登录密码</string>
+    <string name="true_man_certify">实人认证</string>
+    <string name="alipay_certify">支付宝实名认证</string>
+    <string name="verifi_tips">为了您的账户安全，请完成一下认证</string>
+    <string name="go_certify">去认证</string>
+    <string name="certified">已认证</string>
+    <string name="i_see">我知道了</string>
+    <string name="quite_login">退出登陆</string>
+    <!--选择作品-->
+    <string name="confirm_tips">请选择作品后确认</string>
     <string-array name="my_page_tabs">
 
         <item>已上架</item>
@@ -98,7 +197,22 @@
         <item>简笔</item>
         <item>抽象</item>
         <item>现代</item>
+    </string-array>
 
-
+    <string-array name="mine_actions">
+        <item>买入订单</item>
+        <item>卖出订单</item>
+        <item>消息</item>
+        <item>客服</item>
+        <item>我的主页</item>
+        <item>上传作品</item>
+        <item>收藏地址</item>
+        <item>发起拍卖</item>
+        <item>意见反馈</item>
+        <item>关于我们</item>
+    </string-array>
+    <string-array name="my_sign">
+        <item>买入订单</item>
+        <item>卖出订单</item>
     </string-array>
 </resources>
