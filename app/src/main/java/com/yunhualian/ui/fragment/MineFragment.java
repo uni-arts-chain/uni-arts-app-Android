@@ -1,34 +1,26 @@
 package com.yunhualian.ui.fragment;
 
 
-import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.constant.PermissionConstants;
-import com.blankj.utilcode.util.PermissionUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.sensetime.liveness.motion.ui.camera.SenseCamera;
 import com.yunhualian.R;
 import com.yunhualian.adapter.MineActionAdapter;
 import com.yunhualian.base.BaseFragment;
-import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.FragmentMineBinding;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
 import com.yunhualian.ui.activity.MessagesActivity;
 import com.yunhualian.ui.activity.MyHomePageActivity;
 import com.yunhualian.ui.activity.SettingsActivity;
 import com.yunhualian.ui.activity.UpdatePictureActivity;
-import com.yunhualian.ui.activity.VerifiedActivity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,7 +47,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_mine;
+        return R.layout.fragment_mine_k;
     }
 
     @Override

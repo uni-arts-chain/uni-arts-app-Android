@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/icon_home_selector"
+        android:title="@string/tab_home" />
+
+    <item
+        android:id="@+id/navigation_art_sort"
+        android:icon="@drawable/icon_mail_selector"
+        android:title="@string/tab_mall" />
+
+    <item
+        android:id="@+id/navigation_creator"
+        android:icon="@drawable/icon_miner_selector"
+        android:title="@string/tab_purchased_miner" />
+
+
+    <item
+        android:id="@+id/navigation_shop_cart"
+        android:icon="@drawable/icon_assets_selector"
+        android:title="@string/tab_assets" />
+
+
+    <item
+        android:id="@+id/navigation_mine"
+        android:icon="@drawable/icon_mine_selector"
+        android:title="@string/tab_mine" />
+
+</menu>

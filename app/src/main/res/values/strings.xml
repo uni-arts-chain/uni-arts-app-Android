@@ -27,11 +27,22 @@
     <string name="picture_owner">拥有者：%1$s</string>
     <string name="picture_time">创作时间：%1$s</string>
 
+    <string name="derive_with_keystore">Keystore</string>
+    <string name="derive_with_qrcode">二维码</string>
+    <string name="derive_keystore_title">导出Keystore</string>
     <string name="sign_certify">签名证书</string>
+    <string name="derive_keystore_tip_title">离线保存</string>
+    <string name="derive_keystore_tip_title4">仅供直接扫描</string>
+    <string name="derive_keystore_tip4">二维码禁止保存、截图、以及拍照、仅供用户在安全环境下直接扫描来方便的导入钱包。</string>
+    <string name="derive_keystore_tip_title5">在安全环境下使用</string>
+    <string name="derive_keystore_tip5">请在确保四周无人及无摄像头的情况下使用。二维码一旦被人获取将造成不可挽回的资产损失。</string>
+    <string name="derive_keystore_tip">请复制粘贴Keystore文件到安全、离线的地方保存。切勿保存至邮箱、记事本、网盘、聊天工具等，非常危险</string>
+    <string name="derive_keystore_tip_title2">请勿使用网络传输</string>
 
+    <string name="derive_private_key_already_copy_btn">已复制</string>
     <string name="sign_img">证书照片</string>
     <string name="sign_amountss">签名数</string>
-
+    <string name="progress_loading">加载中...</string>
     <string name="sign_company">签名机构</string>
     <string name="picture_name_link">《%1$s》</string>
     <string name="wallet_add">钱包地址：%1$s</string>
@@ -215,4 +226,13 @@
         <item>买入订单</item>
         <item>卖出订单</item>
     </string-array>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

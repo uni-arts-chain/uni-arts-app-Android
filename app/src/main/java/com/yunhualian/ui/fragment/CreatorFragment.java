@@ -1,7 +1,5 @@
 package com.yunhualian.ui.fragment;
 
-import android.view.WindowManager;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.yunhualian.R;
@@ -29,7 +27,7 @@ public class CreatorFragment extends BaseFragment<FragmentCreatorBinding> {
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_creator;
+        return R.layout.fragment_creator_k;
     }
 
     @Override

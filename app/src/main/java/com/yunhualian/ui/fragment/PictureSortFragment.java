@@ -1,7 +1,6 @@
 package com.yunhualian.ui.fragment;
 
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +31,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_picture_sort;
+        return R.layout.fragment_picture_sort_k;
     }
 
     @Override

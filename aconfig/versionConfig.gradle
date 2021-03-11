@@ -4,7 +4,7 @@ ext{
             applicationId   :"com.CloudArtChain",
             compileSdkVersion    : 28,
             buildToolsVersion    : "28.0.3",
-            minSdkVersion        : 21,
+            minSdkVersion        : 23,
             targetSdkVersion     : 28,
             androidSupportVersion: "28.+",
     ]

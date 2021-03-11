@@ -6,7 +6,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Activity;
@@ -20,8 +19,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.zxing.client.android.CaptureActivity;
+import com.upbest.arouter.ArouterModelPath;
 import com.yunhualian.R;
 import com.yunhualian.adapter.HomePagePopularAdapter;
 import com.yunhualian.adapter.HomePageThemeAdapter;
@@ -30,8 +32,8 @@ import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.databinding.FragmentHomeBinding;
 import com.yunhualian.ui.activity.ApplyCertificateActivity;
+import com.yunhualian.ui.activity.ArtDetailActivity;
 import com.yunhualian.ui.activity.LinkSearchActivity;
-import com.yunhualian.utils.ToolbarHelper2;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
@@ -44,7 +46,7 @@ import rx.Observer;
 import rx.Subscriber;
 
 
-public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements View.OnClickListener {
+public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
     private HomePagePopularAdapter popularAdapter;
     private HomePageThemeAdapter themeAdapter;
     private List<String> sortList;
@@ -61,7 +63,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_home_k;
     }
 
     @Override
@@ -95,6 +97,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     @Override
     protected void initView() {
         initRefresh();
+
         sortList = Arrays.asList(getResources().getStringArray(R.array.popular));
 
         popularAdapter = new HomePagePopularAdapter(sortList);
@@ -102,6 +105,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         mBinding.hotRecycle.setLayoutManager(layoutManager);
         mBinding.hotRecycle.setAdapter(popularAdapter);
+        popularAdapter.setOnItemClickListener(this);
         LinearLayoutManager sortLayoutManager = new LinearLayoutManager(YunApplication.getInstance());
         mBinding.theme.setLayoutManager(sortLayoutManager);
         mBinding.theme.setAdapter(themeAdapter);
@@ -115,6 +119,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         });
         mBinding.applyLayout.setOnClickListener(this);
         mBinding.certifySearch.setOnClickListener(this);
+        mBinding.wallet.setOnClickListener(this);
         Observer<String> observable = new Observer<String>() {
 
             @Override
@@ -227,8 +232,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
                 break;
             case R.id.certify_search:
                 startActivity(LinkSearchActivity.class);
+
+                ARouter.getInstance().build(ArouterModelPath.Test_Activity).navigation();
+                break;
+            case R.id.wallet:
+                ARouter.getInstance().build(ArouterModelPath.ROOT_ACTIVITY).navigation();
+//                startActivity(ExportKeystoreActivity.class);
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        startActivity(ArtDetailActivity.class);
     }
 
     public static class BannerViewHolder implements MZViewHolder<Integer> {

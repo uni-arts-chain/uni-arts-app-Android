@@ -1,18 +1,29 @@
 package com.yunhualian.base;
 
 import android.app.Application;
+import android.util.Log;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.igexin.sdk.PushManager;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.utils.UserManager;
 
-public class YunApplication extends Application {
+import jp.co.soramitsu.app.App;
+
+
+public class YunApplication extends App {
     private static YunApplication mYunApplicaion;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mYunApplicaion = this;
+        ARouter.openDebug();
+        ARouter.init(this);
+        PushManager.getInstance().initialize(this);
+        Log.e("AV", "===>>");
     }
+
     public static void setmUserVo(UserVo mUserVo) {
         UserManager.setmUserVo(mUserVo);
     }
@@ -36,6 +47,7 @@ public class YunApplication extends Application {
     public static YunApplication getInstance() {
         return mYunApplicaion;
     }
+
     public static boolean isLogin() {
         return isLogin(false);
     }

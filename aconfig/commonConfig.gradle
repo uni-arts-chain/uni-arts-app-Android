@@ -5,8 +5,8 @@ def common_libs(DependencyHandler handler, String mode = "implementation") {
     handler.add(mode, 'androidx.legacy:legacy-support-v4:1.0.0')
 
     //glider 网络图片加载库
-    handler.add(mode, 'com.github.bumptech.glide:glide:4.11.0')
-    handler.add(mode, 'jp.wasabeef:glide-transformations:2.0.1')
+//    handler.add(mode, 'com.github.bumptech.glide:glide:4.11.0')
+//    handler.add(mode, 'jp.wasabeef:glide-transformations:2.0.1')
     //eventbus
     handler.add(mode, 'org.greenrobot:eventbus:3.1.1')
     //utils 类 比较全的工具三方库。

@@ -27,6 +27,7 @@ import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.entity.EventBusMessageEvent;
 import com.yunhualian.ui.fragment.CreatorFragment;
 import com.yunhualian.ui.fragment.HomeFragment;
+import com.yunhualian.ui.fragment.MainTabFragment;
 import com.yunhualian.ui.fragment.MineFragment;
 import com.yunhualian.ui.fragment.PictureSortFragment;
 import com.yunhualian.ui.fragment.ShoppingCartFragment;
@@ -60,7 +61,7 @@ public class MainActivity extends BaseActivity {
     private CreatorFragment creatorFragment;
     private boolean mIsback;
     private Fragment mCurrentFragment;
-
+    private Fragment mainTabFragment;
     private int mCurrentItemId;
     private List<String> mLackedPermission = new ArrayList<>();
     private BottomNavigationView mBottomNavigationView;
@@ -86,7 +87,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onGranted(List<String> permissionsGranted) {
                     if (permissionsGranted.containsAll(Arrays.asList(PermissionConstants.getPermissions(PermissionConstants.STORAGE)))) {
-                      //  DownLoadManager.with().init(MainActivity.this);
+                        //  DownLoadManager.with().init(MainActivity.this);
                     }
                 }
 
@@ -97,7 +98,7 @@ public class MainActivity extends BaseActivity {
             }).request();
             return;
         }
-       // DownLoadManager.with().init(this);
+        // DownLoadManager.with().init(this);
     }
 
     @Override
@@ -109,6 +110,7 @@ public class MainActivity extends BaseActivity {
 
 //        SetTranslanteBar();
 //        SetStatusBarColor();
+        mainTabFragment = (MainTabFragment) getSupportFragmentManager().findFragmentByTag("mainTabFragment");
         homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("homeFragment");
         pictureSortFragment = (PictureSortFragment) getSupportFragmentManager().findFragmentByTag("pictureSortFragment");
         creatorFragment = (CreatorFragment) getSupportFragmentManager().findFragmentByTag("creatorFragment");
@@ -126,7 +128,7 @@ public class MainActivity extends BaseActivity {
                     mCurrentFragment = creatorFragment;
                     break;
                 case R.id.navigation_shop_cart:
-                    mCurrentFragment = shoppingCartFragment;
+                    mCurrentFragment = mainTabFragment;
                     break;
                 case R.id.navigation_mine:
                     mCurrentFragment = mineFragment;
@@ -191,15 +193,15 @@ public class MainActivity extends BaseActivity {
 
                         break;
                     case R.id.navigation_shop_cart:
-                        if (null == shoppingCartFragment) {
-                            if (null != getSupportFragmentManager().findFragmentByTag("shoppingCartFragment")) {
-                                shoppingCartFragment = (ShoppingCartFragment) getSupportFragmentManager().findFragmentByTag("shoppingCartFragment");
+                        if (null == mainTabFragment) {
+                            if (null != getSupportFragmentManager().findFragmentByTag("mainTabFragment")) {
+                                mainTabFragment = (MainTabFragment) getSupportFragmentManager().findFragmentByTag("mainTabFragment");
                             } else {
-                                shoppingCartFragment = (ShoppingCartFragment) ShoppingCartFragment.newInstance();
-                                mFragmentTransaction.add(R.id.container, shoppingCartFragment, "shoppingCartFragment");
+                                mainTabFragment = (MainTabFragment) MainTabFragment.newInstance();
+                                mFragmentTransaction.add(R.id.container, mainTabFragment, "mainTabFragment");
                             }
                         }
-                        mCurrentFragment = shoppingCartFragment;
+                        mCurrentFragment = mainTabFragment;
                         break;
                     case R.id.navigation_mine:
                         if (null == mineFragment) {

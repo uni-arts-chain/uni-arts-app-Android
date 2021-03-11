@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="278dp"
+    android:layout_height="266dp"
+    android:layout_gravity="center"
+    android:background="@drawable/mnemonic_backup_alert_dialog_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="28dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/icon_no_picture" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="请勿截图"
+        android:textColor="@color/text_black_dark"
+        android:textSize="17sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/mnemonic_backup_alert_tips"
+        android:textColor="@color/text_black_dark"
+        android:textSize="15sp" />
+
+
+    <TextView
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/shape_sign_red_rounder"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:text="我知道了"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+
+</LinearLayout>

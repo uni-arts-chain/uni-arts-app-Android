@@ -1,4 +1,12 @@
 include ':app'
 rootProject.name = "YunHuaLian"
-include ':zxing',':common','liveness-lib','idcard-lib'
+include ':zxing'
+include ':wallet-inport'
+include ':feature-wallet-impl'
+include ':feature-wallet-api'
+include ':feature-onboarding-impl'
+include ':feature-onboarding-api'
+include ':test-shared', ':common', ':feature-splash', ':core-db', ':library-arouter'
+include ':feature-account-api'
+include ':feature-account-impl'
 //,':takephoto_library'

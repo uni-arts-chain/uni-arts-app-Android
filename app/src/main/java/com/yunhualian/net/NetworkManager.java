@@ -15,7 +15,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.miner.common.BuildConfig;
 import com.yunhualian.R;
 import com.yunhualian.base.ActivityManager;
 import com.yunhualian.base.BaseActivity;
@@ -43,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
+import com.yunhualian.BuildConfig;
 
 public class NetworkManager {
     private static final int HTTP_CONNECT_TIMEOUT = 30;

@@ -23,9 +23,9 @@ import androidx.databinding.ViewDataBinding;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.util.Util;
-import com.miner.common.LoadingDialog;
 import com.yunhualian.R;
 import com.yunhualian.utils.StatusBarCompat;
+import com.yunhualian.widget.LoadingDialog;
 
 import java.lang.reflect.Field;
 

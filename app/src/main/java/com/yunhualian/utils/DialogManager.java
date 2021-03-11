@@ -5,11 +5,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yunhualian.R;
@@ -170,4 +174,15 @@ public class DialogManager {
         mDialog.getWindow().setAttributes(p);
     }
 
+    public static void showImgDialog(Context mContext, Bitmap img, DialogInterface.OnClickListener mOnClickListener) {
+        AlertDialog.Builder imgDialog =
+                new AlertDialog.Builder(mContext);
+//        listDialog.setTitle("选择");
+//        listDialog.setItems(items, mOnClickListener);
+        RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.alert_img, null);
+        ImageView imageView = relativeLayout.findViewById(R.id.code_img);
+        imageView.setImageBitmap(img);
+        imgDialog.setView(R.layout.alert_img);
+        imgDialog.show();
+    }
 }
