@@ -41,17 +41,68 @@
     <application
         android:name=".base.YunApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.TestActivity"></activity>
-        <activity android:name=".ui.activity.SettingsActivity" />
-        <activity android:name=".ui.activity.CustomerServiceActivity" />
+        <activity android:name=".ui.activity.ShowLiveActivity"></activity>
+        <activity android:name=".ui.activity.blindbox.BlindBoxRecordActivity" />
+        <activity android:name=".ui.activity.blindbox.BlindBoxDetailActivity" />
+        <activity android:name=".ui.activity.user.SellArtActivity" />
+        <activity android:name=".ui.activity.user.UserHomePageActivity" />
+        <activity android:name=".ui.activity.user.CreateOrderActivity" />
+        <activity android:name=".ui.activity.ExportActivity" />
+        <activity android:name=".ui.activity.SearchActivity" />
+        <activity
+            android:name=".ui.activity.user.MyOrgnazitionListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.user.UserDescActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.order.OrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.UploadArtActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.user.EditNickNameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.user.MyOrgnazitionAddActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AdviceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AcountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.TestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SampleTheme" />
+        <activity
+            android:name=".ui.activity.user.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.CustomerServiceActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.MessagesActivity"
             android:screenOrientation="portrait" />
+
+        <service
+            android:name=".service.PushIntentService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name=".service.MessagePushService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":pushservice" />
+
         <activity
             android:name=".ui.activity.ConfirmDocumentsActivity"
             android:screenOrientation="portrait" />
@@ -59,7 +110,7 @@
             android:name=".ui.activity.VerifiedActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.BindPhoneActivity"
+            android:name=".ui.activity.user.BindPhoneActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ResetPswStep2Activity"
@@ -89,19 +140,20 @@
             android:name=".ui.activity.ApplyCertificateActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.MyHomePageActivity"
+            android:name=".ui.activity.user.MyHomePageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.UpdatePictureActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.UserCenterActivity"
+            android:name=".ui.activity.user.UserCenterActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.SplashActivity"
@@ -116,10 +168,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.sensetime.liveness.motion.MotionLivenessActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/SampleTheme" />
-        <activity
             android:name=".ui.activity.GuideActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SampleTheme" />
@@ -127,6 +175,15 @@
             android:name=".ui.activity.ExportKeystoreActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SampleTheme" />
+        <activity
+            android:name=".ui.activity.user.FollowAndFansActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.order.SellAndBuyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.user.MyCollectActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.yunhualian.utils.CustomGlideModule"

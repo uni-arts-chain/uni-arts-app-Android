@@ -22,8 +22,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.util.Util;
 
 import java.lang.reflect.Field;
 
@@ -184,11 +182,11 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
         super.onDestroy();
         fixInputMethodManagerLeak(this);
         //Glide 回收
-        if (Util.isOnMainThread() && !this.isFinishing()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && !this.isDestroyed()) {
-                Glide.with(this).pauseRequests();
-            }
-        }
+//        if (Util.isOnMainThread() && !this.isFinishing()) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && !this.isDestroyed()) {
+//                Glide.with(this).pauseRequests();
+//            }
+//        }
         ActivityManager.getAppManager().finishActivity(this);
     }
 

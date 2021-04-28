@@ -62,7 +62,7 @@ public class UserManager {
             }
         }
         if (null == mUserVo) {
-            mUserVo = new UserVo();
+//            mUserVo = new UserVo();
         }
         return mUserVo;
     }

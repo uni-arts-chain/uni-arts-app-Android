@@ -1,10 +1,31 @@
 package com.yunhualian.net;
 
 import com.google.gson.JsonObject;
+import com.yunhualian.entity.AnnouncementVo;
 import com.yunhualian.entity.AppUpdateVo;
+import com.yunhualian.entity.ArtAuctionVo;
+import com.yunhualian.entity.ArtBean;
+import com.yunhualian.entity.ArtMaterialVo;
+import com.yunhualian.entity.ArtPriceVo;
+import com.yunhualian.entity.ArtThemeVo;
+import com.yunhualian.entity.ArtTopicVo;
+import com.yunhualian.entity.ArtTypeVo;
+import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.entity.BlindBoxCheckVO;
+import com.yunhualian.entity.BlindBoxVo;
+import com.yunhualian.entity.BoughtArtVo;
+import com.yunhualian.entity.FollowerVO;
+import com.yunhualian.entity.LivenessVerifyVo;
+import com.yunhualian.entity.MemberInfo;
+import com.yunhualian.entity.MessagesVo;
+import com.yunhualian.entity.NoticeVo;
+import com.yunhualian.entity.OrderAmountVo;
+import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.UserVo;
+import com.yunhualian.entity.WithDrawHistoryVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.RequestBody;
@@ -13,12 +34,14 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
@@ -69,34 +92,34 @@ public interface RemoteService {
 //    Call<BaseResponseVo<OrdersBean>> ordersDetails(@Path("sn") String sn);
 
     //续费电费包（补缴电费包）
-    @POST("/api/v1/ /orders/add_electricity")
+    @POST("/api/v1/orders/add_electricity")
     @FormUrlEncoded
     Call<BaseResponseVo> addElectricity(@Field("currency") String currency,
                                         @Field("mining_sn") int mining_sn,
                                         @Field("electricity_id") int electricity_id,
                                         @Field("otp") String otp);
 
-  /*  //订单创建
-    @POST("/api/v1/orders")
-    @FormUrlEncoded
-    Call<BaseResponseVo<OrderCreateVo>> ordersCreate(@Field("currency") String currency,
-                                                     @Field("power_id") int power_id,
+    /*  //订单创建
+      @POST("/api/v1/orders")
+      @FormUrlEncoded
+      Call<BaseResponseVo<OrderCreateVo>> ordersCreate(@Field("currency") String currency,
+                                                       @Field("power_id") int power_id,
+                                                       @Field("power_amount") String power_amount,
+                                                       @Field("electricity_id") int electricity_id,
+                                                       @Field("deduct_flag") int deduct_flag,
+                                                       @Field("otp") String otp);
+
+
+      //订单提交
+      @POST("/api/v1/orders/book")
+      @FormUrlEncoded
+      Call<BaseResponseVo<OrderCreateVo>> ordersBook(@Field("power_id") int power_id,
                                                      @Field("power_amount") String power_amount,
                                                      @Field("electricity_id") int electricity_id,
                                                      @Field("deduct_flag") int deduct_flag,
-                                                     @Field("otp") String otp);
-
-
-    //订单提交
-    @POST("/api/v1/orders/book")
-    @FormUrlEncoded
-    Call<BaseResponseVo<OrderCreateVo>> ordersBook(@Field("power_id") int power_id,
-                                                   @Field("power_amount") String power_amount,
-                                                   @Field("electricity_id") int electricity_id,
-                                                   @Field("deduct_flag") int deduct_flag,
-                                                   @Field("discount_flag") int discount_flag,
-                                                   @Field("deduct_amount") String deduct_amount);
-*/
+                                                     @Field("discount_flag") int discount_flag,
+                                                     @Field("deduct_amount") String deduct_amount);
+  */
     //订单支付
     @POST("/api/v1/orders/pay")
     @FormUrlEncoded
@@ -171,6 +194,10 @@ public interface RemoteService {
     @GET("/api/v1/members/user_info")
     Call<BaseResponseVo<UserVo>> queryUser();
 
+    @POST("/api/v1/feedbacks")
+    @FormUrlEncoded
+    Call<BaseResponseVo<UserVo>> feedBack(@FieldMap HashMap<String, String> map);
+
     //账户列表
 //    @GET("/api/v1/accounts")
 //    Call<BaseResponseVo<List<AccountVo>>> accounts();
@@ -192,8 +219,12 @@ public interface RemoteService {
                                                @Field("password_confirmation") String password_confirmation);
 
     //Banner列表
-//    @GET("/api/v1/banners")
-//    Call<BaseResponseVo<List<BannersVo>>> queryBanner(@Query("platform") int platform);
+    @GET("/api/v1/banners")
+    Call<BaseResponseVo<List<BannersVo>>> queryBanner(@Query("platform") int platform);
+
+    //拍卖列表
+    @GET("/api/v1/auction_meetings")
+    Call<BaseResponseVo<List<ArtAuctionVo>>> queryAuction(@Query("page") int platform);
 
     //用户信息持久化
     @GET("/api/v1/members/user_info")
@@ -219,9 +250,114 @@ public interface RemoteService {
                                            @Field("password_confirmation") String password_confirmation
     );
 
+
+    //修改昵称
+    @POST("/api/v1/members/change_display_name")
+    @FormUrlEncoded
+    Call<BaseResponseVo<UserVo>> editNickname(@Field("display_name") String orgin_password);
+
+    //购买盲盒
+    @POST("/api/v1/blind_box_orders")
+    @FormUrlEncoded
+    Call<BaseResponseVo<UserVo>> blindBoxOrders(@FieldMap HashMap<String, String> map);
+
+    //check已购买盲盒
+    @POST("/api/v1/blind_box_orders/check")
+    @FormUrlEncoded
+    Call<BaseResponseVo<BlindBoxCheckVO>> blindBoxCheck(@FieldMap HashMap<String, String> map);
+
+
+    //修改昵称
+    @POST("/api/v1/members/change_display_name")
+    @FormUrlEncoded
+    Call<BaseResponseVo> editDesc(@Field("display_name") String orgin_password);
+
+    @POST("/api/v1/members/change_user_info")
+    @FormUrlEncoded
+    Call<BaseResponseVo<UserVo>> changeUserInfo(@FieldMap HashMap<String, String> map);
+
     // 新闻列表
-//    @GET("/api/v1/news")
-//    Call<BaseResponseVo<List<AnnouncementVo>>> queryNews(@Query("page") int page, @Query("type") String type);
+    @GET("/api/v1/news")
+    Call<BaseResponseVo<List<AnnouncementVo>>> queryNews(@Query("page") int page, @Query("type") String type);
+
+    // 新闻列表
+    @GET("/api/v1/arts/popular")
+    Call<BaseResponseVo<List<SellingArtVo>>> queryPopular(@Query("page") int page, @Query("limit") int type);
+
+    // 盲盒列表
+    @GET("/api/v1/blind_boxes")
+    Call<BaseResponseVo<List<BlindBoxVo>>> queryBlindBox();
+
+    // 新闻列表
+    @GET("/api/v1/members/favorate_arts")
+    Call<BaseResponseVo<List<SellingArtVo>>> queryCollect(@Query("page") int page, @Query("limit") int type);
+
+    // 新闻列表
+    @GET("/api/v2/arts/mine")
+    Call<BaseResponseVo<List<SellingArtVo>>> queryMine(@QueryMap HashMap<String, String> map);
+
+
+    @GET("/api/v1/arts/selling")
+    Call<BaseResponseVo<List<SellingArtVo>>> querySelling(@QueryMap HashMap<String, String> map);
+
+    @GET("/api/v1/blind_box_draws")
+    Call<BaseResponseVo<List<SellingArtVo>>> queryBox(@QueryMap HashMap<String, String> map);
+
+
+    @GET("/api/v1/members/followings")
+    Call<BaseResponseVo<List<FollowerVO>>> queryFollowings(@QueryMap HashMap<String, String> map);
+
+    @GET("/api/v1/members/followers")
+    Call<BaseResponseVo<List<FollowerVO>>> queryFollowers(@QueryMap HashMap<String, String> map);
+
+    @GET("/api/v1/arts/bought")
+    Call<BaseResponseVo<List<BoughtArtVo>>> queryBought(@QueryMap HashMap<String, String> map);
+
+    @POST("/api/v1/members/user_address_login")
+    Call<BaseResponseVo<UserVo>> addressLogin(@QueryMap HashMap<String, String> map);
+
+    @GET("/api/v1/arts/search")
+    Call<BaseResponseVo<List<SellingArtVo>>> searchArt(@QueryMap HashMap<String, String> map);
+
+    @GET("/api/v1/members/{id}/arts")
+    Call<BaseResponseVo<List<SellingArtVo>>> queryUserArts(@Path("id") String id);
+
+    @GET("/api/v1/arts/{id}/orders")
+    Call<BaseResponseVo<List<OrderAmountVo>>> queryOrderAmount(@Path("id") String id);
+
+    @GET("/api/v1/members/{id}")
+    Call<BaseResponseVo<MemberInfo>> queryMemberInfo(@Path("id") String id);
+
+
+    // 新闻列表
+    @GET("/api/v1/arts/categories")
+    Call<BaseResponseVo<List<ArtTypeVo>>> queryArtType();
+
+    // 材质列表
+    @GET("/api/v1/arts/materials")
+    Call<BaseResponseVo<List<ArtMaterialVo>>> queryArtMaterial();
+
+    // 材质列表
+    @GET("/api/v1/arts/themes")
+    Call<BaseResponseVo<List<ArtThemeVo>>> queryArtTheme();
+
+    // 主题列表
+    @GET("/api/v2/arts/categories")
+    Call<BaseResponseVo<List<ArtTypeVo>>> queryCategories();
+
+
+    // 类型列表
+    @GET("/api/v2/arts/art_types")
+    Call<BaseResponseVo<List<ArtTypeVo>>> queryArtTypes();
+
+    // 新闻列表
+    @GET("/api/v1/arts/topic")
+    Call<BaseResponseVo<List<ArtTopicVo>>> queryTheme();
+
+    // 价格区间
+    @GET("/api/v2/arts/prices")
+    Call<BaseResponseVo<List<ArtPriceVo>>> queryPrize();
+
 //
 //    // 获取充值地址
 //    @GET("/api/v1/payment_addresses/address")
@@ -252,8 +388,7 @@ public interface RemoteService {
     @POST("/api/v1/members/bind_phone")
     @FormUrlEncoded
     Call<BaseResponseVo> bindPhone(@Field("phone_number") String phone_number,
-                                   @Field("phone_token") String phone_token,
-                                   @Field("email_token") String email_token);
+                                   @Field("phone_token") String phone_token);
 
     // 绑定2步验证码
 //    @POST("/api/v1/members/binding_otp")
@@ -266,8 +401,13 @@ public interface RemoteService {
     Call<BaseResponseVo> verifyOtp(@Field("otp") String otp, @Header("Authorization") String mToken);
 
     // 通知
-//    @GET("/api/v1/notices")
-//    Call<BaseResponseVo<List<NoticeVo>>> queryNotices(@Query("page") int page);
+    @GET("/api/v1/messages")
+    Call<BaseResponseVo<List<MessagesVo>>> queryNotices(@Query("page") int page);
+
+    // 通知
+    @POST("/api/v1/messages/read")
+    @FormUrlEncoded
+    Call<BaseResponseVo> readMessage(@FieldMap HashMap<String, String> map);
 //
 //    // 提现地址列表
 //    @GET("/api/v1/fund_sources")
@@ -318,9 +458,11 @@ public interface RemoteService {
 //    Call<BaseResponseVo<LivenessVerifyVo>> livenessCheck(@Body RequestBody mRequestBody);
 
     // 上传身份图片
-//    @POST("/api/v1/members/upload_image")
-////    @FormUrlEncoded
-//    Call<BaseResponseVo<LivenessVerifyVo>> uploadIdImages(@Body RequestBody mRequestBody);
+    @POST("/api/v1/members/change_user_info")
+    Call<BaseResponseVo<UserVo>> uploadIdImages(@Body RequestBody mRequestBody);
+
+    @POST("/api/v2/arts")
+    Call<BaseResponseVo<UserVo>> uploadArts(@Body RequestBody mRequestBody);
 
     //矿池列表
 //    @GET("/api/v1/mining_pools")
@@ -340,10 +482,7 @@ public interface RemoteService {
 //                                                                @Query("state") String state,
 //                                                                @Query("page") int page);
 //
-//    // 提现历史
-//    @GET("/api/v1/withdraws")
-//    Call<BaseResponseVo<List<WithDrawHistoryVo>>> withDrawHistory(@Query("currency") String currency,
-//                                                                  @Query("state") String state);
+//
 //
 //    // 用户划转历史
 //    @GET("/api/v1/withdraws/transfer_history")
@@ -414,6 +553,47 @@ public interface RemoteService {
     @FormUrlEncoded
     Call<BaseResponseVo> bindingInvitation(@Field("ref_code") String ref_code);
 
+    // 提现历史
+    @GET("/api/v1/withdraws")
+    Call<BaseResponseVo<List<WithDrawHistoryVo>>> withDrawHistory(@Query("currency") String currency,
+                                                                  @Query("state") String state);
+
+    @POST("/api/v1/arts/{id}/like")
+    @FormUrlEncoded
+    Call<BaseResponseVo<SellingArtVo>> like(@Path("id") String id, @FieldMap HashMap<String, String> map);
+
+    @POST("/api/v1/members/send_sms")
+    @FormUrlEncoded
+    Call<BaseResponseVo> sendCode(@FieldMap HashMap<String, String> map);
+
+
+    @POST("/api/v1/arts/{id}/cancel_like")
+    @FormUrlEncoded
+    Call<BaseResponseVo<SellingArtVo>> cancleLike(@Path("id") String id, @FieldMap HashMap<String, String> map);
+
+    @POST("/api/v1/members/{id}/follow")
+    @FormUrlEncoded
+    Call<BaseResponseVo<MemberInfo>> followAction(@Path("id") int id, @FieldMap HashMap<String, String> map);
+
+    @POST("/api/v1/members/{id}/unfollow")
+    @FormUrlEncoded
+    Call<BaseResponseVo<MemberInfo>> unFollowAction(@Path("id") int id, @FieldMap HashMap<String, String> map);
+
+    @POST("/api/v1/arts/{id}/dislike")
+    @FormUrlEncoded
+    Call<BaseResponseVo<SellingArtVo>> disLike(@Path("id") String id, @FieldMap HashMap<String, String> map);
+
+    @POST("/api/v1/arts/{id}/cancel_dislike")
+    @FormUrlEncoded
+    Call<BaseResponseVo<SellingArtVo>> cancleDisLike(@Path("id") String id, @FieldMap HashMap<String, String> map);
+
+    @POST("/api/v1/arts/{id}/favorite")
+    @FormUrlEncoded
+    Call<BaseResponseVo<SellingArtVo>> collect(@Path("id") String id, @FieldMap HashMap<String, String> map);
+
+    @POST("/api/v1/arts/{id}/unfavorite")
+    @FormUrlEncoded
+    Call<BaseResponseVo<SellingArtVo>> disCollect(@Path("id") String id, @FieldMap HashMap<String, String> map);
 
 }
 

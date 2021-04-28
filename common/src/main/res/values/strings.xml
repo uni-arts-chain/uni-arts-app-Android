@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="buy_completed">Purchase initiated! Please wait up to 60 minutes. You can track status on the email.</string>
+
+    <string name="wallet_send_dead_recipient_title">Amount is too low</string>
+    <string name="wallet_send_dead_recipient_message">Your transfer will fail since the final amount on the destination account will be less than the existential deposit. Please, try to increase the amount.</string>
+
+    <string name="wallet_asset_buy">Buy</string>
+
+    <string name="network_info_address_v1_0_1">URL address</string>
+
+    <string name="connection_delete_description_v1_0_1">Confirm %s, %s deletion.</string>
+
+    <string name="node_add">Add node</string>
+
+    <string name="common_address">Address</string>
+
+    <string name="pincode_confirm_your_pin_code_v1_0_1">Confirm pin code</string>
+    <string name="pincode_title_create">Setup pin code</string>
+
+    <string name="common_share">Share</string>
+
+    <string name="export_seed_with_derivation" formatted="false">Network: %s\nSeed: %s\nDerivation path: %s</string>
+    <string name="export_seed_without_derivation" formatted="false">Network: %s\nSeed: %s</string>
+    <string name="export_mnemonic_without_derivation" formatted="false">Network: %s\nMnemonic: %s</string>
+    <string name="export_mnemonic_with_derivation" formatted="false">Network: %s\nMnemonic: %s\nDerivation path: %s</string>
+
+    <string name="account_export_password_change">Change password</string>
+
+    <string name="account_import_json_no_network">No network information. Please specify it in advanced block</string>
+
+    <string name="import_json_paste">Paste JSON</string>
+    <string name="common_choose_file">Upload file</string>
+
+    <string name="common_copy_address">Copy address</string>
+
+    <string name="export_json_password_explanation">Password is required to encrypt your account for transferring it via Recovery JSON. Please create password for the account to export it.</string>
+    <string name="export_json_password_new">Set password</string>
+    <string name="export_json_password_confirm">Confirm password</string>
+    <string name="export_json_password_match_error">Password mismatched</string>
+
+    <string name="account_export_warning_title">Be careful</string>
+    <string name="account_export_warning_message">Sharing or copying your secret is a high risk operation, don’t send it to anyone. Would you like to proceed with sharing/copying process?</string>
+
+    <string name="account_export_action">Export</string>
+
+    <string name="common_skip_process">Skip process</string>
+
+    <string name="import_json_invalid_format_title">Recovery JSON is invalid</string>
+    <string name="import_json_invalid_format_message">Please, make sure that your input contains valid json.</string>
+    <string name="import_json_invalid_password_title">Keystore decryption failed</string>
+    <string name="import_seed_invalid_title">Seed is invalid</string>
+    <string name="import_seed_invalid_message">Please, make sure that your input contains 64 hex symbols.</string>
+    <string name="error_try_another_one">Please, try another one.</string>
+    <string name="import_mnemonic_invalid_title">Mnemonic is invalid</string>
+    <string name="import_account_exists_title">Account already exists</string>
+
+    <string name="coming_soon">Coming soon…</string>
+
+    <string name="wallet_balance_details_title">Balance details</string>
+    <string name="wallet_balance_details_total">Total balance</string>
+    <string name="wallet_balance_details_total_after">Total after transfer</string>
+    <string name="wallet_balance_details_existential_deposit">Existential deposit</string>
+    <string name="wallet_send_existential_warning_title">Transfer will remove account</string>
+    <string name="wallet_send_existential_warning_message">Your transfer will remove account from blockstore since it will make total balance lower than existential deposit.</string>
+
+    <string name="search_header_my_accounts">my accounts</string>
+
+    <string name="wallet_balance_locked">Locked</string>
+    <string name="wallet_balance_reserved">Reserved</string>
+    <string name="wallet_balance_redeemable">Redeemable</string>
+    <string name="wallet_balance_unbonding">Unbonding</string>
+
+    <string name="wallet_balance_frozen_template">Frozen %s</string>
+
+    <string name="common_unknown">Unknown</string>
+    <string name="common_connecting">Connecting…</string>
+
+    <string name="common_next">Next</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_skip">Skip</string>
+    <string name="common_use">Use</string>
+    <string name="common_error_general_title">Error</string>
+    <string name="connection_error_message">Please, check internet connection and try again later.</string>
+    <string name="onboarding_restore_account">导入钱包</string>
+    <string name="onboarding_terms_and_conditions_1">I have read and agreed to Terms and Conditions and Privacy Policy</string>
+    <string name="onboarding_terms_and_conditions_2">Terms and Conditions</string>
+    <string name="onboarding_privacy_policy">Privacy Policy</string>
+    <string name="pincode_enter_pin_code">Enter pin code</string>
+    <string name="pincode_confirm_your_pin_code">Confirm your pin code</string>
+    <string name="recovery_passphrase">Mnemonic passphrase</string>
+    <string name="tabbar_wallet_title">Wallet</string>
+    <string name="tabbar_staking_title">Staking</string>
+    <string name="tabbar_governance_title">Governance</string>
+    <string name="tabbar_polkaswap_title" translatable="false">Polkaswap</string>
+    <string name="profile_settings_title">Settings</string>
+    <string name="profile_language_title">Language</string>
+    <string name="about_contact_us">Contact Us</string>
+    <string name="about_title">About</string>
+    <string name="about_privacy">Privacy policy</string>
+    <string name="about_terms">Terms and conditions</string>
+    <string name="onboarding_create_account">创建钱包</string>
+
+
+    <string name="username_setup_choose_title">Name</string>
+    <string name="username_setup_hint">The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.</string>
+    <string name="common_no_screenshot_title">Do not take screenshots</string>
+    <string name="common_no_screenshot_message">Do not take screenshots, which may be collected by third-party malware</string>
+    <string name="common_ok">OK</string>
+    <string name="account_create_title">Backup mnemonic</string>
+    <string name="account_create_details">Use non digital way to backup, such as writing it down on paper.</string>
+    <string name="common_advanced">Advanced</string>
+    <string name="common_crypto_type">Keypair crypto type</string>
+    <string name="common_secret_derivation_path">Secret derivation path</string>
+    <string name="common_choose_network">Choose network</string>
+    <string name="sr25519_selection_subtitle">sr25519 (recommended)</string>
+    <string name="ed25519_selection_subtitle">ed25519 (alternative)</string>
+    <string name="ecdsa_selection_subtitle">(BTC/ETH compatible)</string>
+    <string name="sr25519_selection_title">Schnorrkel</string>
+    <string name="ed25519_selection_title">Edwards</string>
+    <string name="ecdsa_selection_title">ECDSA</string>
+    <string name="account_creation_info">Mnemonic is used to recover access to account. Write it down, we will not be able to recover your account without it!</string>
+    <string name="common_info">Info</string>
+    <string name="common_undefined_error_message">Please, try again with another input. If the error appears again, please, contact support.</string>
+    <string name="recovery_source_type">Source type</string>
+    <string name="recovery_raw_seed">Raw seed</string>
+    <string name="recovery_json">Recovery JSON</string>
+    <string name="account_import_password_placeholder">Password</string>
+    <string name="common_error_general_message">We are working hard to fix the problem. Please, try again later.</string>
+    <string name="recover_json_hint">Paste json or upload file...</string>
+    <string name="account_confirmation_title">备份助记词</string>
+    <string name="account_confirmation_details">Choose words in the right order</string>
+    <string name="pincode_fingerprint_error">You are not authorized. Try another finger.</string>
+    <string name="pincode_touch_fingerprint_scanner">Touch the fingerprint scanner</string>
+    <string name="pincode_fingerprint_switch_dialog_title">Use biometric to authorize</string>
+    <string name="profile_title">Account</string>
+    <string name="profile_accounts_title">Accounts</string>
+    <string name="profile_network_title">Networks</string>
+    <string name="profile_pincode_change_title">Change pin code</string>
+    <string name="tabbar_profile_title">Profile</string>
+    <string name="pincode_biometry_dialog_title">Biometry</string>
+    <string name="common_edit">Edit</string>
+    <string name="common_done">Done</string>
+    <string name="accounts_add_account">Add account</string>
+    <string name="about_website">Official Website</string>
+    <string name="about_github">Github Source Code</string>
+    <string name="about_version">App version</string>
+    <string name="about_telegram">Join Telegram Group</string>
+    <string name="common_email_chooser_title">Select email app</string>
+
+    <string name="account_address">Account address</string>
+    <string name="account_export">Export account</string>
+    <string name="common_copied">Copied to clipboard</string>
+
+    <string name="connections_add_connection">Add connection</string>
+    <string name="connection_management_title">Networks</string>
+    <string name="connection_management_default_title">Default</string>
+    <string name="connection_management_custom_title">Custom</string>
+
+    <string name="account_delete_confirmation_title">Forget account?</string>
+    <string name="account_delete_confirmation_description">Make sure you have backed up your account before proceeding.</string>
+    <string name="account_delete_confirm">Forget</string>
+
+    <string name="wallet_assets_total_title">Assets value</string>
+    <string name="wallet_asset_receive">Receive</string>
+    <string name="wallet_asset_send">Send</string>
+
+    <string name="import_json_invalid_password">Please, check password correctness and try again.</string>
+    <string name="node_info_title">Node Info</string>
+    <string name="network_info_name">Node name</string>
+    <string name="common_update">Update</string>
+    <string name="network_info_address">Node address</string>
+
+    <string name="transfers">Transfers</string>
+    <string name="transfers_empty">Incoming and outgoing transfers will appear here</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+
+    <string name="wallet_balance_bonded">Frozen</string>
+    <string name="wallet_balance_available">Available</string>
+    <string name="language_title">Language</string>
+
+    <string name="common_add">Add</string>
+    <string name="connection_add_invalid_error">Can\'t establish connection with node. Please, try another one.</string>
+    <string name="connection_add_already_exists_error">The node has already been added previously. Please, try another node.</string>
+    <string name="connection_add_unsupported_error">Unfortunately, the network is unsupported. Please, try one of the following: %s.</string>
+
+    <string name="search_contacts">Contacts</string>
+    <string name="search_recipient_hint">Account address or account name</string>
+    <string name="search_recipient_welcome">Your accounts and contacts to who you were sending transfers will appear here</string>
+    <string name="search_result_header">Search result</string>
+    <string name="search_recipient_no_results">No search results</string>
+
+    <string name="choose_amount_asset">Asset</string>
+    <string name="choose_amount_to">To</string>
+    <string name="choose_amount_available_balance">Available balance</string>
+    <string name="common_amount">Amount</string>
+    <string name="choose_amount_fee">Transfer fee</string>
+    <string name="choose_amount_network_error">Network not responding</string>
+    <string name="choose_amount_initial" translatable="false">0</string>
+    <string name="common_continue">Continue</string>
+    <string name="common_retry">Retry</string>
+
+    <string name="choose_amount_error_balance">Sorry, balance checking request failed. Please, try again later.</string>
+    <string name="choose_amount_error_fee">Sorry, we couldn\'t contact transfer provider. Please, try again later.</string>
+    <string name="choose_amount_error_too_big">Sorry, you don\'t have enough funds to transfer specified amount.</string>
+    <string name="choose_amount_checking">Checking…</string>
+
+    <string name="wallet_send_total_title">Total</string>
+    <string name="wallet_send_confirm_transfer">Confirm Transfer</string>
+    <string name="wallet_send_progress">Sending…</string>
+
+    <string name="transaction_status_completed">Completed</string>
+    <string name="transaction_status_failed">Failed</string>
+    <string name="transaction_status_pending">Pending</string>
+
+    <string name="transaction_details_title">Transaction details</string>
+    <string name="transaction_detail_status">Status</string>
+    <string name="transaction_detail_date">Date</string>
+
+    <string name="transaction_details_from">From</string>
+
+    <string name="transaction_details_hash_title">Extrinsic Hash</string>
+    <string name="transaction_details_copy_hash">Copy hash</string>
+    <string name="transaction_details_view_polkascan">View in Polkascan</string>
+    <string name="transaction_details_view_subscan">View in Subscan</string>
+    <string name="account_needed_title">Account needed</string>
+    <string name="account_needed_message">You don’t have account for this network, you can create or import account.</string>
+    <string name="common_proceed">Proceed</string>
+    <string name="connection_delete_title">Delete network?</string>
+    <string name="connection_delete_description">Confirm %s deletion.</string>
+    <string name="connection_delete_confirm">Delete</string>
+    <string name="wallet_receive_description">Share this QR to sender</string>
+    <string name="wallet_receive_share_message">My %s address to receive %s:</string>
+    <string name="pincode_enter_new_pin_code">Enter new pin code</string>
+    <string name="pincode_changed_message">Pin code has been successfully changed</string>
+    <string name="invoice_scan_upload">Upload from gallery</string>
+    <string name="invoice_scan_camera">Camera</string>
+    <string name="invoice_scan_gallery">Gallery</string>
+    <string name="invoice_scan_qr_code_title">QR code</string>
+    <string name="contacts_scan">Scan QR code</string>
+    <string name="invoice_scan_error_no_info">QR can\'t be decoded</string>
+    <string name="common_options_title">Select an option</string>
+
+
+    <string name="wallet_profile">钱包是登录云画链唯一方式</string>
+    <string name="wallet_tips">钱包信息只存储在链上，请务必保管好</string>
+    <string name="mnemon_word_title">确认你的钱包助记词</string>
+    <string name="mnemonic_word_tips">请按顺序点击助记词，以确认你的备份助记词正确</string>
+    <string name="create_wallet_alert1">· 密码用于隐私保护和交易授权，强度非常重要</string>
+    <string name="create_wallet_alert2">· 云画链不存储密码秘钥，也无法帮您找回，请务必牢记</string>
+
+    <string name="derive_keystore_title">导出Keystore</string>
+    <string name="apply_wallet">申请证书</string>
+    <string name="create_wallet_name_hint">钱包名称</string>
+    <string name="wallet_addr">钱包地址：</string>
+    <string name="derive_keystore_tip_title">离线保存</string>
+    <string name="derive_keystore_tip_title4">仅供直接扫描</string>
+    <string name="derive_keystore_tip4">二维码禁止保存、截图、以及拍照、仅供用户在安全环境下直接扫描来方便的导入钱包。</string>
+    <string name="derive_keystore_tip_title5">在安全环境下使用</string>
+    <string name="derive_keystore_tip5">请在确保四周无人及无摄像头的情况下使用。二维码一旦被人获取将造成不可挽回的资产损失。</string>
+    <string name="derive_keystore_tip">请复制粘贴Keystore文件到安全、离线的地方保存。切勿保存至邮箱、记事本、网盘、聊天工具等，非常危险</string>
+    <string name="derive_keystore_tip_title2">请勿使用网络传输</string>
+
+    <string name="derive_keystore_copy">复制 Keystore</string>
+    <string name="derive_keystore_tip_title3">密码保险箱保存</string>
+    <string name="derive_keystore_tip3">如需在线保存，则建议使用安全等级更高的 1Password 等密码保管软件保存 Keystore。</string>
+
+    <string name="pincode_change_title">修改密码</string>
+    <string name="pricate_key_export">导出私钥</string>
+    <string name="keystore_export">导出Keystore</string>
+    <string name="account_wallet">积分钱包</string>
+    <string name="account_">积分</string>
+    <string name="mnemonic_backup_alert_tips">如果有人获取你的助记词将直接获取你的资产！请抄写下助记词并存放在安全的地方。</string>
+    <string name="private_key_tips">安全警告：私钥未经加密，导出存在风险，建议使用助记词和Keystore进行备份。</string>
+</resources>

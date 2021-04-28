@@ -5,6 +5,7 @@
     <data></data>
 
     <RelativeLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/_F6F6F6">
@@ -86,6 +87,8 @@
                     android:src="@mipmap/icon_arrow_right" />
 
                 <TextView
+
+                    android:id="@+id/nick_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -134,7 +137,8 @@
                     android:layout_marginEnd="@dimen/dp_15"
                     android:text="@string/nick_name"
                     android:textColor="@color/_BBBBBB"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="invisible" />
             </RelativeLayout>
 
             <View
@@ -166,6 +170,7 @@
                     android:src="@mipmap/icon_arrow_right" />
 
                 <TextView
+                    android:id="@+id/user_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -173,7 +178,8 @@
                     android:layout_marginEnd="@dimen/dp_15"
                     android:text="@string/nick_name"
                     android:textColor="@color/_BBBBBB"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="invisible" />
             </RelativeLayout>
 
             <View
@@ -181,21 +187,23 @@
                 android:layout_height="1px"
                 android:layout_marginStart="@dimen/dp_15"
                 android:layout_marginEnd="@dimen/dp_15"
-                android:background="@color/gray_line" />
+                android:background="@color/gray_line"
+                android:visibility="visible" />
 
             <RelativeLayout
                 android:id="@+id/wechatLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_20"
-                android:layout_marginEnd="@dimen/dp_20">
+                android:layout_marginEnd="@dimen/dp_20"
+                android:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/dp_20"
                     android:paddingBottom="@dimen/dp_20"
-                    android:text="@string/wechat"
+                    android:text="@string/advice"
                     android:textColor="@color/picture_name_color"
                     android:textSize="16sp" />
 
@@ -214,7 +222,8 @@
                     android:layout_marginEnd="@dimen/dp_15"
                     android:text="@string/nick_name"
                     android:textColor="@color/_BBBBBB"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="invisible" />
             </RelativeLayout>
 
             <View
@@ -222,14 +231,16 @@
                 android:layout_height="1px"
                 android:layout_marginStart="@dimen/dp_15"
                 android:layout_marginEnd="@dimen/dp_15"
-                android:background="@color/gray_line" />
+                android:background="@color/gray_line"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/loginPswLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_20"
-                android:layout_marginEnd="@dimen/dp_20">
+                android:layout_marginEnd="@dimen/dp_20"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -255,20 +266,23 @@
                     android:layout_marginEnd="@dimen/dp_15"
                     android:text="@string/nick_name"
                     android:textColor="@color/_BBBBBB"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="invisible" />
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_10"
-                android:background="@color/_F6F6F6" />
+                android:background="@color/_F6F6F6"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/verifiedLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_20"
-                android:layout_marginEnd="@dimen/dp_20">
+                android:layout_marginEnd="@dimen/dp_20"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -302,14 +316,16 @@
                 android:layout_height="1px"
                 android:layout_marginStart="@dimen/dp_15"
                 android:layout_marginEnd="@dimen/dp_15"
-                android:background="@color/gray_line" />
+                android:background="@color/gray_line"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/alipayLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_20"
-                android:layout_marginEnd="@dimen/dp_20">
+                android:layout_marginEnd="@dimen/dp_20"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -341,7 +357,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_10"
-                android:background="@color/_F6F6F6" />
+                android:background="@color/_F6F6F6"
+                android:visibility="gone" />
 
             <Button
                 android:layout_width="match_parent"
@@ -349,7 +366,8 @@
                 android:background="@color/white"
                 android:text="@string/quite_login"
                 android:textColor="@color/picture_prize_color"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
 

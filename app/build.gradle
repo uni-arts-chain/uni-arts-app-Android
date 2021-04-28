@@ -21,12 +21,17 @@ android {
 //                arg("AROUTER_MODULE_NAME", project.getName())
 //            }
 //        }
+        externalNativeBuild {
+            ndk {
+                abiFilters = []
+                abiFilters.addAll(PROP_APP_ABI.split(':').collect { it as String })
+            }
+        }
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         manifestPlaceholders = [
@@ -36,7 +41,12 @@ android {
                 GETUI_APP_SECRET : "YCUQxPEuhM9if6Pa6BdjO7",
         ]
     }
-
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
     buildTypes {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false" //不显示log
@@ -61,6 +71,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    sourceSets.main {
+        assets.srcDir "../../CubismSdkForNative-4-r.2/Samples/Resources"
+    }
+    ndkVersion '22.1.7171670'
 }
 play {
     serviceAccountCredentials = file(System.env.CI_PLAY_KEY ?: "../key/fake.json")
@@ -74,17 +89,27 @@ repositories {
 }
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    compile (name: 'alipaysdk-15.8.02.210308182128', ext: 'aar')
+    compile 'com.github.zcweng:switch-button:0.0.3@aar'
+
+    api 'com.ixuea:AndroidDownloader:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
     implementation 'com.shizhefei:ViewPagerIndicator:1.1.6'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'com.github.dmytrodanylyk.shadow-layout:library:1.0.3'
+    implementation 'com.qmuiteam:qmui:1.2.0'
+    implementation 'com.github.dmytrodanylyk.shadow-layout:library:1.0.3'
+    implementation 'com.contrarywind:Android-PickerView:3.2.6'
+    compile 'com.github.iwgang:countdownview:2.1.6'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     // 圆点Indicator
     implementation 'com.youth.banner:banner:1.4.10'
     implementation project(path: ':zxing')
 
+//    implementation project(':pickerview')
     implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.3.6'
 //    implementation project(path: ':liveness-lib')
 //    compile(name: 'alipaySdk-15.7.9-20200727142846', ext: 'aar')
@@ -92,6 +117,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.zxy.android:tiny:1.1.0'
+    implementation 'com.zhy:okhttputils:2.6.2'
     api 'com.jelly:mango:1.3.3'
 //    compile('com.jelly:mango:1.3.0') {
 //        exclude group: 'com.github.chrisbanes.photoview'
@@ -104,8 +130,11 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.17'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.17'
 
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation project(path: ':library-arouter')
     implementation "com.alibaba:arouter-api:1.5.0"
+
+    implementation 'org.greenrobot:eventbus:3.1.1'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':core-db')
@@ -131,12 +160,15 @@ dependencies {
 
     implementation navigationFragmentDep
     implementation navigationUiDep
-
+    implementation web3jDep
     implementation rxJavaDep
     implementation rxAndroidDep
 
+    implementation ed25519Dep
     implementation roomDep
 
+    implementation spoungyCastleBcPixDep
+    implementation spoungyCastleBcPgDep
     implementation fearlessLibDep
 
 //    api daggerDep
@@ -155,6 +187,5 @@ dependencies {
     compileOnly wsDep
 
     deps.common_libs(dependencies)
-
 
 }

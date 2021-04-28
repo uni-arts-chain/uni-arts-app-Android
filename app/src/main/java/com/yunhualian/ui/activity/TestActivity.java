@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.sensetime.liveness.motion.util.ToastUtil;
+import com.lljjcoder.style.citylist.Toast.ToastUtils;
 import com.yunhualian.R;
 import com.yunhualian.entity.ActivityModule;
 import com.yunhualian.entity.Presenter;
@@ -26,6 +26,6 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void showUserName(String name) {
-        ToastUtil.show(this, name);
+        ToastUtils.showLongToast(this, name);
     }
 }

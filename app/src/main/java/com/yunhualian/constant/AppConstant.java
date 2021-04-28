@@ -18,11 +18,12 @@ import java.util.Locale;
 public class AppConstant {
     public static final int REQ_PERM_CAMERA = 2;
     public static final int INTENT_EXTRA_KEY_QR_SCAN = 4;
+    public static final String TOKEN_FAILURE = "10002";
     //接口地址
     private static final String IPADDRESS_RELEASE = "tatmasglobal.com";
-    private static final String IPADDRESS_DEBUG = "8.210.140.90:3000";
-//    public static final String ADDRESS = (BuildConfig.DEBUG ? "http" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
-    public static final String ADDRESS = (BuildConfig.DEBUG ? "https" : "http") + "://" + (BuildConfig.DEBUG ? IPADDRESS_RELEASE : IPADDRESS_DEBUG);
+    private static final String IPADDRESS_DEBUG = "app.uniarts.me";
+    //    public static final String ADDRESS = (BuildConfig.DEBUG ? "http" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
+    public static final String ADDRESS = (BuildConfig.DEBUG ? "https" : "http") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_DEBUG);
 
     // 服务器固定参数
     public static final String MD5_KEY = "h0r9,cf@5Ae;aB,0";
@@ -33,7 +34,7 @@ public class AppConstant {
     public static final String URL_DOWNLOAD_ALICLOUD_APP = "http://otp.aliyun.com/m/";
 
     public static final long DEFAULT_CLICK_DURATION = 1000;
-    public static final  int REQ_QR_CODE = 1;
+    public static final int REQ_QR_CODE = 1;
     public static int REQUEST_CODE_SCAN_GALLERY = 3;
 
     public static int getThemeColor() {

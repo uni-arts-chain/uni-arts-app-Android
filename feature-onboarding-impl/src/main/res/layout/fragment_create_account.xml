@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <jp.co.soramitsu.common.view.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleText="@string/onboarding_create_account" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@color/blue_"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/create_wallet_alert1"
+            android:textColor="@color/blue_dark"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/create_wallet_alert2"
+            android:textColor="@color/blue_dark"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <!--    <jp.co.soramitsu.common.view.InputField-->
+    <!--        android:id="@+id/accountNameInput"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="@dimen/x2"-->
+    <!--        android:layout_marginTop="@dimen/x1"-->
+    <!--        android:layout_marginEnd="@dimen/x2"-->
+    <!--        android:layout_marginBottom="@dimen/x1"-->
+    <!--        android:hint="@string/create_wallet_name_hint" />-->
+
+    <EditText
+        android:id="@+id/accountNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginRight="15dp"
+        android:background="@null"
+        android:hint="@string/create_wallet_name_hint"
+        android:lines="1"
+        android:maxLength="16"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:textColorHint="@color/text_gray"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/text_gray" />
+
+    <TextView
+        style="@style/TextAppearance.Soramitsu.Body2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/x2"
+        android:layout_marginEnd="@dimen/x2"
+        android:layout_weight="1"
+        android:text="@string/username_setup_hint"
+        android:textColor="@color/white" />
+
+    <jp.co.soramitsu.common.view.PrimaryButton
+        android:id="@+id/nextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/x2"
+        android:layout_marginEnd="@dimen/x2"
+        android:layout_marginBottom="@dimen/x3"
+        android:background="@drawable/shape_sign_blue_rounder"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/apply_wallet"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+
+</LinearLayout>

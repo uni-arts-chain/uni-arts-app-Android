@@ -1,0 +1,89 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply from: '../tests.gradle'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "RAMP_TOKEN", "\"4bk3yhfrg99fer764bo7egrqmxbfene7gbrpwmp3\""
+        buildConfigField "String", "RAMP_HOST", "\"ri-widget-staging.firebaseapp.com\""
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            buildConfigField "String", "RAMP_TOKEN", "\"3quzr4e6wdyccndec8jzjebzar5kxxzfy2f3us5k\""
+            buildConfigField "String", "RAMP_HOST", "\"buy.ramp.network\""
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildToolsVersion '30.0.1'
+}
+
+dependencies {
+    implementation project(':core-db')
+    implementation project(':common')
+    implementation project(':feature-wallet-api')
+    implementation project(':feature-account-api')
+    implementation project(path: ':library-arouter')
+    implementation "com.alibaba:arouter-api:1.5.0"
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
+    implementation kotlinDep
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation androidDep
+    implementation materialDep
+    implementation cardViewDep
+    implementation constraintDep
+
+    implementation rxJavaDep
+    implementation rxAndroidDep
+
+    implementation rxPermissionsDep
+
+    implementation daggerDep
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+//    implementation project(path: ':liveness-lib')
+    kapt daggerKapt
+
+    implementation roomDep
+    implementation rxRoomDep
+    kapt roomKapt
+
+    implementation lifecycleDep
+    kapt lifecycleKapt
+
+    implementation bouncyCastleDep
+
+    testImplementation jUnitDep
+    testImplementation mockitoDep
+
+    implementation fearlessLibDep
+
+    implementation gsonDep
+    implementation retrofitDep
+
+    implementation wsDep
+
+    implementation zXingCoreDep
+    implementation zXingEmbeddedDep
+}

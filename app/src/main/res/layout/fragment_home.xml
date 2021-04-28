@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -12,7 +11,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/layout_toolbar_home" />
+        <include
+            android:id="@+id/title_layout"
+            layout="@layout/layout_toolbar_home" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/srl_shooping_mall"
@@ -43,7 +44,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_15"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
 
                         <LinearLayout
@@ -164,19 +166,74 @@
                             android:inAnimation="@anim/anim_come_in"
                             android:outAnimation="@anim/anim_come_out" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:drawableLeft="@drawable/bg_red_point"
-                            android:drawableRight="@mipmap/ic_right_in"
-                            android:drawablePadding="3dip"
-                            android:gravity="center"
-                            android:visibility="gone" />
-                        <!--                                android:onClick="@{() -> handlers.onClickMoreNotice()}"-->
-
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/auctionLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/auction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:gravity="center"
+                                android:padding="@dimen/dp_10"
+                                android:text="@string/auction"
+                                android:textColor="@color/picture_name_color"
+                                android:textSize="@dimen/sp_20"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/dp_10"
+                                android:layout_toLeftOf="@+id/auction"
+                                android:src="@mipmap/icon_auction_left" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/dp_10"
+                                android:layout_toRightOf="@+id/auction"
+                                android:src="@mipmap/icon_auction_right" />
+                        </RelativeLayout>
+
+                        <com.zhouwei.mzbanner.MZBannerView
+                            android:id="@+id/auctionList"
+                            android:layout_width="match_parent"
+                            android:layout_height="380dp"
+                            app:canLoop="false"
+                            app:indicatorAlign="center"
+                            app:middle_page_cover="false"
+                            app:open_mz_mode="false" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/dp_10"
+                        android:text="@string/theme"
+                        android:textColor="@color/picture_name_color"
+                        android:textSize="@dimen/sp_19"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/theme_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -224,21 +281,6 @@
 
                     </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="@dimen/dp_10"
-                        android:text="@string/theme"
-                        android:textColor="@color/picture_name_color"
-                        android:textSize="@dimen/sp_19"
-                        android:textStyle="bold" />
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/theme_"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>

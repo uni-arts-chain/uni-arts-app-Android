@@ -8,17 +8,25 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context="com.yunhualian.ui.activity.MessagesActivity">
 
         <include
             android:id="@+id/mAppBarLayout_av"
             layout="@layout/layout_generic_toolbar" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/message_list"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mAppBarLayout_av" />
+            app:layout_constraintTop_toBottomOf="@id/mAppBarLayout_av">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/message_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

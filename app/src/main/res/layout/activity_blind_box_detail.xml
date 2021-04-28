@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/_101010">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context="com.yunhualian.ui.activity.blindbox.BlindBoxDetailActivity">
+
+            <include
+                android:id="@+id/mAppBarLayout_av"
+                layout="@layout/layout_generic_toolbar" />
+
+            <ImageView
+                android:id="@+id/mainImag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@mipmap/shanshui" />
+
+            <TextView
+                android:id="@+id/box_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_15"
+                android:gravity="center"
+                android:text="哈利波特"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
+
+            <TextView
+                android:id="@+id/box_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginRight="@dimen/dp_15"
+                android:gravity="center"
+                android:text="哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏或转卖"
+                android:textColor="@color/_BEBEBE"
+                android:textSize="@dimen/sp_13" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_20"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/openOnce"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="7dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/bg_btn_once"
+                    android:text="@string/btn_open_once"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/openTen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/bg_btn_ten"
+                    android:text="@string/btn_open_ten"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_15"
+                android:text="可能获得"
+                android:textColor="@color/_999999"
+                android:textSize="@dimen/sp_15" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/itemList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_15"
+                android:text="规则说明"
+                android:textColor="@color/_BEBEBE"
+                android:textSize="@dimen/sp_15" />
+
+            <TextView
+                android:id="@+id/rule_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginRight="@dimen/dp_15"
+                android:lineSpacingExtra="@dimen/dp_5"
+                android:text="@string/rule_tips"
+                android:textColor="@color/_BEBEBE"
+                android:textSize="@dimen/sp_15" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_15"
+                android:scaleType="fitXY"
+                android:src="@mipmap/shanshui" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

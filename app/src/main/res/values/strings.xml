@@ -3,16 +3,16 @@
 
     <!--tab-->
     <string name="tab_home">首页</string>
-    <string name="tab_mall">分类</string>
+    <string name="tab_mall">市场</string>
     <string name="tab_purchased_miner">创作者</string>
-    <string name="tab_assets">购物车</string>
+    <string name="tab_assets">盲盒</string>
     <string name="tab_mine">我的</string>
     <string name="edit_hint">请输入关键字搜索作品</string>
     <string name="parameter_error">请求参数错误，请稍候重试</string>
     <string name="artist">作品</string>
-    <string name="mine_acount">我的积分：%1$s</string>
+    <string name="mine_acount">区块链积分：%1$s</string>
     <string name="centify_addr">证书地址：%1$s</string>
-    <string name="sign_amounts">作品签名次数：%1$s</string>
+    <string name="sign_amounts">交易次数：%1$s次</string>
     <string name="centify_time">签名时间：%1$s</string>
     <string name="sign_cost">签名费用：%1$s</string>
     <string name="sign_amount">已签名：%1$s</string>
@@ -22,7 +22,7 @@
     <string name="forget_psw">忘记密码？</string>
     <string name="picture_cailiao">材料：%1$s</string>
     <string name="picture_type">作品类型：%1$s</string>
-
+    <string name="upload_img">上传作品</string>
     <string name="picture_creator">创作者：%1$s</string>
     <string name="picture_owner">拥有者：%1$s</string>
     <string name="picture_time">创作时间：%1$s</string>
@@ -93,7 +93,8 @@
     <string name="register_txt_code">获取验证码</string>
     <!--分类模块-->
     <string name="sort">分类</string>
-    <string name="type">题材</string>
+    <string name="thpe_theme">主题</string>
+    <string name="type">类型</string>
     <string name="prize">价格</string>
     <string name="new_goods">最新上架</string>
     <string name="sort_prize">价格排序</string>
@@ -106,8 +107,12 @@
     <string name="count_point">积分</string>
     <string name="point_profile">积分说明</string>
     <string name="hot">热门原创</string>
+    <string name="auction">限时拍卖</string>
     <string name="theme">主题推荐/THEME</string>
+    <string name="bind_phone">绑定手机号</string>
+    <string name="auction_time_start">距离开始还有</string>
 
+    <string name="auction_time_end">距离结束还有</string>
     <!--我的-->
     <string name="buy_in">买入订单</string>
     <string name="sell_out">卖出订单</string>
@@ -127,6 +132,11 @@
     <string name="id_number">证件号码</string>
     <string name="hint_input_id_number">请输入证件号</string>
     <string name="physical_authentication">实人认证</string>
+    <string name="my_collect_title">我的收藏</string>
+    <string name="follw_title">关注的人</string>
+    <string name="sell_title">卖出订单</string>
+    <string name="buy_title">买入订单</string>
+    <string name="fans_title">粉丝</string>
     <string name="start_physical_authentication">开始认证</string>
     <string name="hint_please_input_id_info">请先填写身份信息</string>
     <string name="hint_id_number_illegal">身份证号不合法，请重新输入</string>
@@ -180,10 +190,8 @@
     <string name="confirm_tips">请选择作品后确认</string>
     <string-array name="my_page_tabs">
 
-        <item>已上架</item>
-        <item>未上架</item>
-        <item>我买入的</item>
-        <item>我卖出的</item>
+        <item>持有的NFT</item>
+        <item>出售的NFT</item>
 
     </string-array>
     <string-array name="sorts">
@@ -194,8 +202,11 @@
         <item>简笔</item>
         <item>抽象</item>
         <item>现代</item>
-
-
+    </string-array>
+    <string-array name="cut_amount">
+        <item>10份</item>
+        <item>100份</item>
+        <item>1000份</item>
     </string-array>
     <string-array name="popular">
         <item>油画</item>
@@ -211,16 +222,14 @@
     </string-array>
 
     <string-array name="mine_actions">
-        <item>买入订单</item>
-        <item>卖出订单</item>
-        <item>消息</item>
-        <item>客服</item>
         <item>我的主页</item>
         <item>上传作品</item>
-        <item>收藏地址</item>
-        <item>发起拍卖</item>
-        <item>意见反馈</item>
+        <item>买入订单</item>
+        <item>卖出订单</item>
+        <item>作品收藏</item>
         <item>关于我们</item>
+        <item>消息</item>
+        <item>客服</item>
     </string-array>
     <string-array name="my_sign">
         <item>买入订单</item>
@@ -235,4 +244,80 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="follow_num">关注 %1$s</string>
+    <string name="fans_num">粉丝 %1$s</string>
+    <string name="arts_num">%1$s个作品</string>
+    <string name="advice_title">意见反馈</string>
+    <string name="my_orgnaziton">我的机构</string>
+    <string name="upload_tips">注意：信息通过审核后无法修改，请谨慎操作</string>
+
+
+    <string name="order_info">订单号：%1$s</string>
+    <string name="order_create_time">创建时间：%1$s</string>
+    <string name="order_info_detail">订单详情</string>
+
+    <string name="push_transmission_data">收到一条透传测试消息</string>
+    <string name="user_profile_desc">描述</string>
+    <string name="user_profile_desc_save">保存</string>
+    <string name="blind_box_open_record">开启记录</string>
+    <string name="edit_nick_name_title">修改昵称</string>
+
+    <string name="reacquire_code">%1$d秒后可重新获取</string>
+    <string name="send_code_success">发送成功</string>
+
+    <!--TEST-->
+    <string name="action_settings">Settings</string>
+
+
+    <string name="picker_text_parse">解析数据</string>
+    <string name="picker_text_show">显示省市区选择器</string>
+
+    <string name="picker_custom_lunar">公农历切换</string>
+    <string name="picker_time">时间选择器</string>
+    <string name="picker_province">条件选择器</string>
+
+    <string name="picker_custom_time">时间选择器自定义布局</string>
+    <string name="picker_custom_province">条件选择器自定义布局</string>
+    <string name="picker_custom_parent">自定义父容器</string>
+    <string name="picker_use_circle_divider">使用圆形分割线</string>
+
+    <string name="picker_non_linkage">条件选择器(不联动)</string>
+
+    <string name="picker_json_parse_sample">省市区Json文件解析示例</string>
+
+    <string name="pic_detail_last">剩余：%1$s</string>
+
+    <string name="nft_address">NFT地址：%1$s</string>
+
+    <string name="upload_art_tips">上传作品(支持静态图、GIF)</string>
+
+    <string name="sells_amount">交易次数：%1$s</string>
+
+
+    <string name="text_zan_amount">%1$s喜欢</string>
+    <string name="text_cai_amount">%1$s踩</string>
+    <string name="text_collect_amount">收藏</string>
+    <string name="title_detail">详情</string>
+    <string name="buy_amount">购买数量</string>
+    <string name="art_total_price">商品总价</string>
+
+    <string name="text_buy_amount">￥%1$s</string>
+
+    <string name="text_art_last">作品库存</string>
+    <string name="text_art_amount">本次出售份数</string>
+    <string name="text_is_cut">是否拆开售卖</string>
+    <string name="text_cut_price">每份价格:</string>
+    <string name="text_set_art_price">设置作品价格:</string>
+    <string name="text_cut_theme">作品所属主题</string>
+    <string name="text_cut_amount">拆分数量</string>
+    <string name="text_user_home_page">主页</string>
+    <string name="set_display_name_tips">请设置昵称</string>
+    <string name="set_desc_tips">请输入描述</string>
+    <string name="upload_art_success">作品已上传，请等待审核\n可在"我的主页"中查看审核进度</string>
+    <string name="btn_open_once">开启 x1</string>
+    <string name="btn_open_ten">开启10次</string>
+    <string name="rule_tips">1. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权\n
+2. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一张卡片。\n
+3. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏。\n
+4. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏或转卖。</string>
 </resources>

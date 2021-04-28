@@ -251,7 +251,10 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
         }
 
         TextView txt_title = mToolbar.findViewById(R.id.txt_title);
-
+        TextView txt_right = mToolbar.findViewById(R.id.txt_right);
+        if (null != txt_right && options.rightTextString != 0) {
+            txt_right.setText(options.rightTextString);
+        }
         if (null != txt_title && options.titleId != 0) {
             txt_title.setText(options.titleId);
         }

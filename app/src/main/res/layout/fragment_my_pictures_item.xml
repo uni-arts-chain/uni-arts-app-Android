@@ -51,18 +51,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_5"
         android:text="下架"
-        android:textColor="@color/liji_c_blue"
+        android:textColor="@color/blue_point"
         android:textSize="@dimen/sp_14" />
 
     <TextView
         android:id="@+id/sign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/action"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_5"
+        android:paddingBottom="@dimen/dp_10"
         android:text="申请加签"
-        android:textColor="@color/liji_c_blue"
+        android:textColor="@color/blue_point"
         android:textSize="@dimen/sp_14" />
 </RelativeLayout>

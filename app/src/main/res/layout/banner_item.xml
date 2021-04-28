@@ -8,14 +8,14 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
         app:cardCornerRadius="@dimen/dp_5">
 
         <ImageView
             android:id="@+id/banner_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitXY" />
     </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -193,7 +193,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeKBinding> implements 
         if (id == R.id.apply_layout) {//                startActivity(ApplyCertificateActivity.class);
         } else if (id == R.id.certify_search) {//                startActivity(LinkSearchActivity.class);
 
-            ARouter.getInstance().build(ArouterModelPath.Test_Activity).navigation();
+//            ARouter.getInstance().build(ArouterModelPath.Test_Activity).navigation();
         } else if (id == R.id.wallet) {
 //            ARouter.getInstance().build(ArouterModelPath.ROOT_ACTIVITY).navigation();
 //                startActivity(ExportKeystoreActivity.class);

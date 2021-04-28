@@ -10,8 +10,6 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.sensetime.liveness.motion.ImageManager;
-import com.sensetime.liveness.motion.MotionLivenessActivity;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
@@ -69,8 +67,8 @@ public class VerifiedActivity extends BaseActivity<ActivityVerifiedBinding> {
             ToastManager.showShort(R.string.hint_certification_must_be_over_18_years_old);
             return;
         }
-        final Intent intent = new Intent(VerifiedActivity.this, MotionLivenessActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_LIVENESS);
+//        final Intent intent = new Intent(VerifiedActivity.this, MotionLivenessActivity.class);
+//        startActivityForResult(intent, REQUEST_CODE_LIVENESS);
         //idCardsCheck();
     }
 
@@ -80,11 +78,11 @@ public class VerifiedActivity extends BaseActivity<ActivityVerifiedBinding> {
             @Override
             public void onSuccess(Call<BaseResponseVo> call, Response<BaseResponseVo> response) {
                 if (response.body().isSuccessful()) {
-                    final Intent intent = new Intent(VerifiedActivity.this, MotionLivenessActivity.class);
+//                    final Intent intent = new Intent(VerifiedActivity.this, MotionLivenessActivity.class);
         /* intent.putExtra(MotionLivenessActivity.EXTRA_DIFFICULTY, PreferenceUtil.getDifficulty());
             intent.putExtra(MotionLivenessActivity.EXTRA_VOICE, PreferenceUtil.isInteractiveLivenessVoiceOn());
             intent.putExtra(MotionLivenessActivity.EXTRA_SEQUENCES, PreferenceUtil.getSequence());*/
-                    startActivityForResult(intent, REQUEST_CODE_LIVENESS);
+//                    startActivityForResult(intent, REQUEST_CODE_LIVENESS);
 //        startDetectActivity(0);
                 } else {
                     if (null != response.body().getHead())
@@ -109,20 +107,20 @@ public class VerifiedActivity extends BaseActivity<ActivityVerifiedBinding> {
         super.onActivityResult(requestCode, resultCode, data);
         if (null != data) {
             boolean bDealError = data.getBooleanExtra(ExtraConstant.RESULT_DEAL_ERROR_INNER, true);
-            final byte[] mResult = ImageManager.getInstance().getResult();
+//            final byte[] mResult = ImageManager.getInstance().getResult();
 
-            if (bDealError || null == mResult || mResult.length == 0) {
+//            if (bDealError || null == mResult || mResult.length == 0) {
 //                ToastManager.showShort(R.string.hint_liveness_verify_failed);
-                return;
+//                return;
             }
 
             Bundle mBundle = null != getIntent() && null != getIntent().getExtras() ? getIntent().getExtras() : new Bundle();
             mBundle.putString(ExtraConstant.KEY_ACTUAL_NAME, mActualName);
             mBundle.putString(ExtraConstant.KEY_ID_NUMBER, mIDNumber);
             startActivity(ConfirmDocumentsActivity.class, mBundle);
-        } else {
-//            ToastManager.showShort(R.string.hint_liveness_verify_failed);
-            LogUtils.iTag("mosr", "data = null");
-        }
+//        } else {
+////            ToastManager.showShort(R.string.hint_liveness_verify_failed);
+//            LogUtils.iTag("mosr", "data = null");
+//        }
     }
 }

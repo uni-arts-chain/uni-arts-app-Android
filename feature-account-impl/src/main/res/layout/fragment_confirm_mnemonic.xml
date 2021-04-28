@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:background="@color/white" />
+
+    <jp.co.soramitsu.common.view.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:iconRight="@drawable/ic_refresh_white_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleText="@string/account_confirmation_title" />
+
+    <TextView
+        android:id="@+id/tiptitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/mnemon_word_title"
+        android:textColor="@color/text_black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:id="@+id/tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/mnemonic_word_tips"
+        android:textColor="@color/text_more_gray"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/tiptitle" />
+
+    <jp.co.soramitsu.feature_account_impl.presentation.mnemonic.confirm.view.MnemonicContainerView2
+        android:id="@+id/confirmationMnemonicView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="16dp"
+        android:animateLayoutChanges="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tip"
+        tools:layout_height="144dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/TextAppearance.Soramitsu.Body0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:text="@string/account_confirmation_details"
+        android:textColor="@color/red"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/conformMnemonicSkip"
+        app:layout_constraintEnd_toEndOf="@+id/confirmationMnemonicView"
+        app:layout_constraintStart_toStartOf="@+id/confirmationMnemonicView" />
+
+    <jp.co.soramitsu.feature_account_impl.presentation.mnemonic.confirm.view.MnemonicContainerView
+        android:id="@+id/wordsMnemonicView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x2"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:animateLayoutChanges="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmationMnemonicView"
+        tools:layout_height="144dp" />
+
+    <jp.co.soramitsu.common.view.PrimaryButton
+        android:id="@+id/conformMnemonicSkip"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/shape_sign_blue_rounder"
+        android:gravity="center"
+        android:text="@string/common_skip_process"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/nextBtn"
+        app:layout_constraintEnd_toEndOf="@+id/nextBtn"
+        app:layout_constraintStart_toStartOf="@+id/nextBtn" />
+
+    <jp.co.soramitsu.common.view.PrimaryButton
+        android:id="@+id/nextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/shape_sign_blue_rounder"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/common_next"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</LinearLayout>

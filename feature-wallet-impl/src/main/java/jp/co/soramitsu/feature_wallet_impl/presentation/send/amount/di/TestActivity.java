@@ -16,7 +16,7 @@ import jp.co.soramitsu.feature_wallet_impl.R;
 import jp.co.soramitsu.feature_wallet_impl.di.WalletFeatureComponent2;
 import jp.co.soramitsu.feature_wallet_impl.presentation.send.amount.ChooseAmountViewModel2;
 
-@Route(path = ArouterModelPath.Test_Activity)
+//@Route(path = ArouterModelPath.Test_Activity)
 public class TestActivity extends AppCompatActivity {
     @Inject
     ChooseAmountViewModel2 viewModel;

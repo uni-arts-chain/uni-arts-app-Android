@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
+        android:layout_above="@+id/cancle"
         android:background="@drawable/shape_default_white"
         android:orientation="vertical">
 
@@ -19,7 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="从相册选择"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/_356CDB"
             android:textSize="@dimen/sp_16" />
 
 
@@ -34,7 +32,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="拍照"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/_356CDB"
             android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
@@ -42,11 +40,10 @@
         android:id="@+id/cancle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/dp_10"
-        android:layout_marginEnd="15dp"
         android:background="@drawable/shape_default_white"
         android:text="取消"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/sp_16" />
-</LinearLayout>
+</RelativeLayout>

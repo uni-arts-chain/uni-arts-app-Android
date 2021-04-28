@@ -18,9 +18,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.yunhualian.R;
+import com.yunhualian.adapter.BlindBoxAdapter;
 import com.yunhualian.base.BaseFragment;
 
 public class ShoppingCartFragment extends BaseFragment {
+
+    BlindBoxAdapter boxAdapter;
 
     public static BaseFragment newInstance() {
         ShoppingCartFragment fragment = new ShoppingCartFragment();

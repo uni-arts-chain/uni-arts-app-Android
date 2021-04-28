@@ -156,6 +156,7 @@ public abstract class BaseFragment<T> extends Fragment {
         startActivity(cls, null);
     }
 
+
     /**
      * 通过Class跳转界面
      **/

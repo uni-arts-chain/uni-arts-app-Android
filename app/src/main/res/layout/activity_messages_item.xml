@@ -10,8 +10,10 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:paddingTop="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_10"
+        android:singleLine="true"
         android:text="1213231313"
         android:textColor="@color/_212121"
         android:textSize="15sp" />
@@ -27,6 +29,7 @@
         android:textSize="13sp" />
 
     <TextView
+        android:id="@+id/noRead"
         android:layout_width="6dp"
         android:layout_height="6dp"
         android:layout_alignParentEnd="true"

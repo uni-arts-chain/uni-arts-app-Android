@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:background="@color/black">
+
+    <jp.co.soramitsu.common.view.Toolbar
+        android:id="@+id/fearlessToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:homeButtonIcon="@drawable/ic_close"
+        app:titleText="@string/profile_title" />
+
+    <jp.co.soramitsu.common.view.InputField
+        android:id="@+id/accountDetailsNameField"
+        style="@style/Widget.Fearless.Input.Primary.External"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/username_setup_choose_title" />
+
+    <jp.co.soramitsu.common.view.LabeledTextView
+        android:id="@+id/accountDetailsAddressView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:actionIcon="@drawable/ic_more_vertical"
+        app:enabled="false"
+        app:label="@string/common_address" />
+
+    <TextView
+        android:id="@+id/accountDetailsNode"
+        style="@style/TextAppearance.Soramitsu.Body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_button_primary_disabled"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:padding="16dp"
+        tools:drawableStart="@drawable/ic_ksm_24"
+        tools:text="Kusama" />
+
+    <jp.co.soramitsu.common.view.LabeledTextView
+        android:id="@+id/accountDetailsEncryptionType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:enabled="false"
+        app:label="@string/common_crypto_type"
+        app:message="@string/sr25519_selection_title" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/accountDetailsExport"
+        style="@style/TextAppearance.Soramitsu.Body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray4"
+        android:drawableStart="@drawable/ic_key"
+        android:drawableEnd="@drawable/ic_arrow_right_24"
+        android:drawablePadding="16dp"
+        android:padding="16dp"
+        android:text="@string/account_export" />
+
+</LinearLayout>

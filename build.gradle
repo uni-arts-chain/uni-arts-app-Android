@@ -41,10 +41,10 @@ buildscript {
         junitVersion = '4.12'
         mockitoVersion = '2.23.0'
         robolectricVersion = '4.1'
-
+        web3jVersion = '4.6.0-android'
         bouncyCastleVersion = '1.60'
 
-        fearlessLibVersion = '1.0.30'
+        fearlessLibVersion = '1.0.32'
 
         gifVersion = '1.2.19'
 
@@ -59,14 +59,18 @@ buildscript {
 
         wsVersion = "2.10"
 
+        spoungyCastleVersion = '1.58.0.0'
+        ed25519Version = '0.3.0'
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-
+        ed25519Dep = "net.i2p.crypto:eddsa:$ed25519Version"
         androidDep = "androidx.appcompat:appcompat:$supportVersion"
         cardViewDep = "androidx.cardview:cardview:$cardViewVersion"
         recyclerViewDep = "androidx.recyclerview:recyclerview:$supportVersion"
         constraintDep = "androidx.constraintlayout:constraintlayout:$constraintVersion"
         materialDep = "com.google.android.material:material:$supportVersion"
 
+        spoungyCastleBcPixDep = "com.madgag.spongycastle:bcpkix-jdk15on:$spoungyCastleVersion"
+        spoungyCastleBcPgDep = "com.madgag.spongycastle:bcpg-jdk15on:$spoungyCastleVersion"
         rxJavaDep = "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
         rxAndroidDep = "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
 
@@ -75,7 +79,7 @@ buildscript {
 
         lifecycleDep = "androidx.lifecycle:lifecycle-extensions:$architectureComponentVersion"
         lifecycleKapt = "androidx.lifecycle:lifecycle-compiler:$architectureComponentVersion"
-
+        web3jDep = "org.web3j:crypto:$web3jVersion"
         roomDep = "androidx.room:room-runtime:$architectureComponentVersion"
         rxRoomDep = "androidx.room:room-rxjava2:$architectureComponentVersion"
         roomKapt = "androidx.room:room-compiler:$architectureComponentVersion"
@@ -96,6 +100,8 @@ buildscript {
         rxPermissionsDep = "com.github.tbruyelle:rxpermissions:$rxPermssionVersion"
 
         fearlessLibDep = "jp.co.soramitsu.fearless-utils:fearless-utils:$fearlessLibVersion"
+        // liveData builder
+        liveDataKtxDep = "androidx.lifecycle:lifecycle-livedata-ktx:$architectureComponentVersion"
 
         gifDep = "pl.droidsonroids.gif:android-gif-drawable:$gifVersion"
 
@@ -112,8 +118,8 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://dl.bintray.com/umsdk/release'}
-        maven { url "https://plugins.gradle.org/m2/"}
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url "https://plugins.gradle.org/m2/" }
         maven {
             url "http://mvn.gt.getui.com/nexus/content/repositories/releases/"
         }
@@ -124,6 +130,10 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.3'
         classpath "com.google.firebase:firebase-appdistribution-gradle:$firebaseAppDistrVersion"
         classpath "com.github.triplet.gradle:play-publisher:$playPublisherVersion"
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+
+        classpath 'com.github.zcweng:switch-button:0.0.3@aar'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -134,14 +144,15 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url "https://www.jitpack.io" }
-        maven { url "https://nexus.iroha.tech/repository/maven-soramitsu/"}
+        maven { url "https://jitpack.io" }
+        maven { url "https://nexus.iroha.tech/repository/maven-soramitsu/" }
         mavenCentral()
+        mavenLocal()
         maven { url "http://mvn.gt.igexin.com/nexus/content/repositories/releases/" }
         flatDir {
             dirs '../repositories'
         }
-        maven { url 'https://dl.bintray.com/umsdk/release'}
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }
 

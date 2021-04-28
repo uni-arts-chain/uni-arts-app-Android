@@ -10,7 +10,9 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.LoginActivity">
 
-        <include layout="@layout/layout_toolbar_common" />
+        <include
+            android:id="@+id/mAppBarLayout_av"
+            layout="@layout/layout_generic_toolbar" />
 
         <LinearLayout
             android:id="@+id/register_layout"
@@ -18,7 +20,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/mAppBarLayout_av">
 
             <com.yunhualian.widget.ClearEditText
                 android:id="@+id/register_phone"
@@ -48,7 +50,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dp_20"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <com.yunhualian.widget.ClearEditText
                     android:id="@+id/register_psw"
@@ -108,7 +111,7 @@
                     android:paddingRight="@dimen/dp_15"
                     android:paddingBottom="@dimen/dp_5"
                     android:text="@string/register_txt_code"
-                    android:textColor="@color/apply_sign"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
@@ -120,32 +123,17 @@
                 android:background="@color/gray_line" />
 
             <Button
+                android:id="@+id/bindAction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_15"
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="@dimen/dp_15"
-                android:background="@drawable/shape_btn_bgcolor_blue"
-                android:text="@string/next"
+                android:background="@drawable/shape_btn_bgcolor_black"
+                android:text="确认绑定"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_17" />
         </LinearLayout>
-
-        <CheckBox
-            android:id="@+id/chb_user_Agreement"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="35dip"
-            android:button="@drawable/selector_register_checkbox"
-            android:checked="true"
-            android:paddingLeft="5dip"
-            android:text="@string/register_user_Agreement"
-            android:textColor="@color/_909090"
-            android:textSize="@dimen/sp_14"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

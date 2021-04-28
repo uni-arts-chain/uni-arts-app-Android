@@ -2,29 +2,29 @@ package com.yunhualian.adapter;
 
 
 import android.content.Context;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-
-import androidx.cardview.widget.CardView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunhualian.R;
-import com.yunhualian.utils.DisplayUtils;
+import com.yunhualian.entity.MessagesVo;
+import com.yunhualian.utils.DateUtil;
 
 import java.util.List;
 
-public class MessagesAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    Context context;
+public class MessagesAdapter extends BaseQuickAdapter<MessagesVo, BaseViewHolder> {
 
-    public MessagesAdapter(List<String> data, Context context) {
+    public MessagesAdapter(List<MessagesVo> data) {
         super(R.layout.activity_messages_item, data);
-        this.context = context;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
-
+    protected void convert(BaseViewHolder helper, MessagesVo item) {
+        helper.setText(R.id.title, item.getBody());
+        helper.setText(R.id.time, DateUtil.dateToStringWith(item.getCreated_at() * 1000));
+        if (item.isRead()) {
+            helper.setVisible(R.id.noRead, false);
+        } else {
+            helper.setVisible(R.id.noRead, true);
+        }
     }
 }

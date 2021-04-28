@@ -1,0 +1,153 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: "com.github.triplet.play"
+apply from: "../scripts/versions.gradle"
+
+android {
+  compileSdkVersion rootProject.compileSdkVersion
+  defaultConfig {
+//    applicationId "jp.co.soramitsu.fearless"
+    minSdkVersion rootProject.minSdkVersion
+    targetSdkVersion rootProject.targetSdkVersion
+    versionCode computeVersionCode()
+    versionName computeVersionName()
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    javaCompileOptions {
+      annotationProcessorOptions {
+        arguments = [ AROUTER_MODULE_NAME : project.getName() ]
+      }
+    }
+    dataBinding {
+      enabled = true
+    }
+  }
+  signingConfigs {
+    ci {
+      storeFile file(System.env.CI_KEYSTORE_PATH ?: "stub")
+      storePassword System.env.CI_KEYSTORE_PASS ?: ""
+      keyAlias System.env.CI_KEYSTORE_KEY_ALIAS ?: ""
+      keyPassword System.env.CI_KEYSTORE_KEY_PASS ?: ""
+    }
+  }
+//  buildTypes {
+//    debug {
+//      applicationIdSuffix '.debug'
+//      versionNameSuffix '-debug'
+//    }
+//    release {
+//      minifyEnabled false
+//      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//      signingConfig signingConfigs.ci
+//    }
+//    develop {
+//      signingConfig signingConfigs.ci
+//      matchingFallbacks = ['debug']
+//      versionNameSuffix '-develop'
+//      applicationIdSuffix '.dev'
+//    }
+//  }
+  buildTypes {
+    release {
+      buildConfigField "boolean", "LOG_DEBUG", "false" //不显示log
+      debuggable false//true 切换测试环境  false 切换生产环境
+      minifyEnabled false
+      shrinkResources false
+      zipAlignEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+    debug {
+      buildConfigField "boolean", "LOG_DEBUG", "true"
+      shrinkResources false
+      zipAlignEnabled true
+      debuggable true//true 切换测试环境  false 切换生产环境
+      minifyEnabled false
+    }
+  }
+  android {
+    compileOptions {
+      sourceCompatibility 1.8
+      targetCompatibility 1.8
+    }
+
+//    bundle {
+//      language {
+//        enableSplit = false
+//      }
+//    }
+  }
+}
+
+//play {
+//  serviceAccountCredentials = file(System.env.CI_PLAY_KEY ?: "../key/fake.json")
+//  track = "beta"
+//  releaseStatus = "completed"
+//}
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation project(':core-db')
+  implementation project(':common')
+  implementation project(path: ':library-arouter')
+  implementation project(':feature-splash')
+  implementation "com.alibaba:arouter-api:1.5.0"
+  implementation 'jp.wasabeef:glide-transformations:2.0.1'
+  implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44"
+
+  implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
+  implementation 'androidx.appcompat:appcompat:1.2.0'
+  implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+  implementation 'org.greenrobot:eventbus:3.1.1'
+  implementation 'androidx.annotation:annotation:1.1.0'
+  implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+  kapt 'com.alibaba:arouter-compiler:1.2.2'
+  implementation project(':feature-onboarding-api')
+  implementation project(':feature-onboarding-impl')
+
+  implementation project(':feature-account-api')
+  implementation project(':feature-account-impl')
+
+  implementation project(':feature-wallet-api')
+  implementation project(':feature-wallet-impl')
+
+  implementation kotlinDep
+
+  implementation androidDep
+  implementation constraintDep
+
+  implementation zXingEmbeddedDep
+
+  implementation navigationFragmentDep
+  implementation navigationUiDep
+
+  implementation rxJavaDep
+  implementation rxAndroidDep
+
+  implementation roomDep
+
+  implementation fearlessLibDep
+
+  implementation daggerDep
+  kapt daggerKapt
+
+  implementation lifecycleDep
+  kapt lifecycleKapt
+
+  implementation retrofitDep
+  implementation gsonConvertedDep
+  implementation rxCallAdapterDep
+
+  implementation gifDep
+
+  compileOnly wsDep
+}
+
+task printVersion {
+  doLast {
+    println "versionName:${computeVersionName()}"
+  }
+}

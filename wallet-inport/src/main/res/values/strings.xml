@@ -1,0 +1,138 @@
+<resources>
+    <string name="app_name" translatable="false">Fearless</string>
+    <!--首页-->
+    <string name="certify_search">证书查询</string>
+    <string name="certify_search_find">查询</string>
+    <string name="certify_apply">申请证书</string>
+    <string name="count_bage">积分钱包</string>
+    <string name="count_point">积分</string>
+    <string name="point_profile">积分说明</string>
+    <string name="hot">热门原创</string>
+    <string name="theme">主题推荐/THEME</string>
+
+    <!--我的-->
+    <string name="buy_in">买入订单</string>
+    <string name="sell_out">卖出订单</string>
+    <string name="message">消息</string>
+    <string name="service">客服</string>
+    <string name="my_page">我的主页</string>
+    <string name="upgrade_art">上传作品</string>
+    <string name="add">收货地址</string>
+    <string name="send">发起拍卖</string>
+    <string name="advice">意见反馈</string>
+    <string name="about_us">关于我们</string>
+    <string name="register_user_Agreement">同意《用户协议》</string>
+    <string name="cusomer_service">客服</string>
+    <string name="lianxi_type">请通过以下方式联系我们</string>
+    <string name="actual_name">真实姓名</string>
+    <string name="hint_input_actual_name">请输入姓名</string>
+    <string name="id_number">证件号码</string>
+    <string name="hint_input_id_number">请输入证件号</string>
+    <string name="physical_authentication">实人认证</string>
+    <string name="start_physical_authentication">开始认证</string>
+    <string name="hint_please_input_id_info">请先填写身份信息</string>
+    <string name="hint_id_number_illegal">身份证号不合法，请重新输入</string>
+    <string name="hint_certification_must_be_over_18_years_old">认证需大于18周岁</string>
+    <string name="hint_liveness_verify_failed">认证失败，请稍候重试</string>
+    <string name="hint_get_verify_info_error">获取认证信息失败，请重新进行人脸认证</string>
+    <string name="hint_pleast_upload_self_id_cards">请上传 %1$s 本人身份证</string>
+    <string name="hint_id_has_expired">身份证已过期，请上传有效身份证件</string>
+    <!--创作者-->
+    <string name="creator">创作者</string>
+    <string name="creator_profile">创作者简介</string>
+    <string name="platform_push">平台推荐</string>
+    <string name="after_push">往期平台推荐</string>
+    <string name="art_info">艺术品信息</string>
+    <string name="art_appreciation">艺术品评析</string>
+    <string name="art_detail">艺术品细节</string>
+    <string name="add_cart">加入购物车</string>
+    <string name="buy_now">立即购买</string>
+
+    <string name="organ_profile">机构简介</string>
+    <string name="organ_detail">机构详情</string>
+    <string name="link_search">链查询</string>
+    <!--我到主页-->
+    <string name="already_up">已上架</string>
+    <string name="ever_up">未上架</string>
+    <string name="my_buy_in">我买入的</string>
+    <string name="my_sell_out">我卖出的</string>
+
+    <!--    设置-->
+    <string name="settings">设置</string>
+
+    <string name="head_img">头像</string>
+
+    <string name="nick_name">昵称</string>
+
+    <string name="desc">描述</string>
+
+    <string name="phone">手机号</string>
+
+    <string name="wechat">微信</string>
+
+    <string name="login_psw">登录密码</string>
+    <string name="true_man_certify">实人认证</string>
+    <string name="alipay_certify">支付宝实名认证</string>
+    <string name="verifi_tips">为了您的账户安全，请完成一下认证</string>
+    <string name="go_certify">去认证</string>
+    <string name="certified">已认证</string>
+    <string name="i_see">我知道了</string>
+    <string name="quite_login">退出登陆</string>
+    <string-array name="my_page_tabs">
+
+        <item>已上架</item>
+        <item>未上架</item>
+        <item>我买入的</item>
+        <item>我卖出的</item>
+
+    </string-array>
+    <string-array name="sorts">
+        <item>油画</item>
+        <item>水彩</item>
+        <item>国画</item>
+        <item>速写</item>
+        <item>简笔</item>
+        <item>抽象</item>
+        <item>现代</item>
+
+
+    </string-array>
+    <string-array name="popular">
+        <item>油画</item>
+        <item>水彩</item>
+        <item>国画</item>
+        <item>速写</item>
+        <item>简笔</item>
+        <item>抽象</item>
+        <item>现代</item>
+        <item>简笔</item>
+        <item>抽象</item>
+        <item>现代</item>
+    </string-array>
+
+    <string-array name="mine_actions">
+        <item>买入订单</item>
+        <item>卖出订单</item>
+        <item>消息</item>
+        <item>客服</item>
+        <item>我的主页</item>
+        <item>上传作品</item>
+        <item>收藏地址</item>
+        <item>发起拍卖</item>
+        <item>意见反馈</item>
+        <item>关于我们</item>
+    </string-array>
+    <string-array name="my_sign">
+        <item>买入订单</item>
+        <item>卖出订单</item>
+    </string-array>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+</resources>

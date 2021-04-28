@@ -42,6 +42,9 @@
     <color name="_4E6DEA">#4E6DEA</color>
     <color name="_B7B6B7">#B7B6B7</color>
     <color name="_2EA496">#2EA496</color>
+    <color name="_B25F00">#B25F00</color>
+    <color name="_FFEBD4">#FFEBD4</color>
+    <color name="_EBEBEB">#EBEBEB</color>
     <color name="black_overlay">#66000000</color>
     <color name="bg_news_blue">#E64FBCF9</color>
     <color name="bg_search_title">#FFF3F3F3</color>
@@ -56,9 +59,15 @@
     <color name="gray_line">#DDDDDD</color>
     <color name="button_bg_color">#50C3FF</color>
     <color name="copy_txt_color">#38B2F1</color>
+    <color name="blue_txt_color">#337FFF</color>
     <color name="picture_prize_color">#D70000</color>
     <color name="bg_txt">#FF000000</color>
     <color name="auth_text_color">#1E1D1E</color>
     <color name="_BBBBBB">#BBBBBB</color>
-
+    <color name="_43A421">#43A421</color>
+    <color name="_FE7E00">#FE7E00</color>
+    <color name="_356CDB">#356CDB</color>
+    <color name="_BEBEBE">#BEBEBE</color>
+    <color name="_101010">#101010</color>
+    <color name="_C5C5C5">#C5C5C5</color>
 </resources>

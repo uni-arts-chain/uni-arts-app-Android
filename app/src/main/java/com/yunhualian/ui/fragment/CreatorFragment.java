@@ -27,7 +27,7 @@ public class CreatorFragment extends BaseFragment<FragmentCreatorBinding> {
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_creator_k;
+        return R.layout.fragment_creator;
     }
 
     @Override

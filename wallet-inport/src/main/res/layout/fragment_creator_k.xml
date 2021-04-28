@@ -42,7 +42,7 @@
                             android:id="@+id/artist_pic"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            android:background="@color/bank_bg01"
+                            android:background="@color/_909090"
                             android:scaleType="center" />
 
                         <ImageView

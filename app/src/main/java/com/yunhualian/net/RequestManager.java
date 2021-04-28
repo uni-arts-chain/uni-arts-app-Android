@@ -3,9 +3,32 @@ package com.yunhualian.net;
 import com.google.gson.JsonObject;
 import com.yunhualian.R;
 import com.yunhualian.base.YunApplication;
+import com.yunhualian.entity.AnnouncementVo;
 import com.yunhualian.entity.AppUpdateVo;
+import com.yunhualian.entity.ArtAuctionVo;
+import com.yunhualian.entity.ArtBean;
+import com.yunhualian.entity.ArtMaterialVo;
+import com.yunhualian.entity.ArtPriceVo;
+import com.yunhualian.entity.ArtThemeVo;
+import com.yunhualian.entity.ArtTopicVo;
+import com.yunhualian.entity.ArtTypeVo;
+import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.entity.BlindBoxCheckVO;
+import com.yunhualian.entity.BlindBoxVo;
+import com.yunhualian.entity.BoughtArtVo;
+import com.yunhualian.entity.FollowerVO;
+import com.yunhualian.entity.LivenessVerifyVo;
+import com.yunhualian.entity.MemberInfo;
+import com.yunhualian.entity.MessagesVo;
+import com.yunhualian.entity.NoticeVo;
+import com.yunhualian.entity.OrderAmountVo;
+import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.UserVo;
+import com.yunhualian.entity.WithDrawHistoryVo;
+
+import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -321,6 +344,15 @@ public class RequestManager {
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
+
+    /**
+     * 邮箱登录
+     */
+    public void feedBack(HashMap<String, String> map, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
+        Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().feedBack(map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
     /**
      * 手机号找回
      *
@@ -360,20 +392,37 @@ public class RequestManager {
      *
      * @param mCallBack
      */
-//    public void queryBanner(MinerCallback<BaseResponseVo<List<BannersVo>>> mCallBack) {
-//        Call<BaseResponseVo<List<BannersVo>>> mCall = NetworkManager.instance().getmRemoteService().queryBanner(1);
-//        NetworkManager.instance().postReq(mCallBack, mCall);
-//    }
-//
+    public void queryBanner(MinerCallback<BaseResponseVo<List<BannersVo>>> mCallBack) {
+        Call<BaseResponseVo<List<BannersVo>>> mCall = NetworkManager.instance().getmRemoteService().queryBanner(1);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * Banners
+     *
+     * @param mCallBack
+     */
+    public void queryAuction(MinerCallback<BaseResponseVo<List<ArtAuctionVo>>> mCallBack) {
+        Call<BaseResponseVo<List<ArtAuctionVo>>> mCall = NetworkManager.instance().getmRemoteService().queryAuction(1);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    //
 //    /**
 //     * 通知
 //     *
 //     * @param mCallBack
 //     */
-//    public void queryNotices(int page, MinerCallback<BaseResponseVo<List<NoticeVo>>> mCallBack) {
-//        Call<BaseResponseVo<List<NoticeVo>>> mCall = NetworkManager.instance().getmRemoteService().queryNotices(page);
-//        NetworkManager.instance().postReq(mCallBack, mCall);
-//    }
+    public void queryNotices(int page, MinerCallback<BaseResponseVo<List<MessagesVo>>> mCallBack) {
+        Call<BaseResponseVo<List<MessagesVo>>> mCall = NetworkManager.instance().getmRemoteService().queryNotices(page);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void readMessage(HashMap<String, String> map, MinerCallback<BaseResponseVo> mCallBack) {
+        Call<BaseResponseVo> mCall = NetworkManager.instance().getmRemoteService().readMessage(map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
 //
 //    /**
 //     * 资产列表
@@ -427,8 +476,6 @@ public class RequestManager {
 //        Call<BaseResponseVo<List<ElectricitiesVo>>> mCall = NetworkManager.instance().getmRemoteService().electricities(powerId);
 //        NetworkManager.instance().postReq(mCallBack, mCall);
 //    }
-
-
     public void changePwd(String orgin_password,
                           String password,
                           String password_confirmation,
@@ -443,10 +490,235 @@ public class RequestManager {
      *
      * @param mCallBack mCallBack
      */
-//    public void queryNews(int page, String type, MinerCallback<BaseResponseVo<List<AnnouncementVo>>> mCallBack) {
-//        Call<BaseResponseVo<List<AnnouncementVo>>> mCall = NetworkManager.instance().getmRemoteService().queryNews(page, type);
-//        NetworkManager.instance().postReq(mCallBack, mCall);
-//    }
+    public void queryNews(int page, String type, MinerCallback<BaseResponseVo<List<AnnouncementVo>>> mCallBack) {
+        Call<BaseResponseVo<List<AnnouncementVo>>> mCall = NetworkManager.instance().getmRemoteService().queryNews(page, type);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 首页流行列表
+     *
+     * @param mCallBack mCallBack
+     */
+    public void queryPopular(int page, int limit, MinerCallback<BaseResponseVo<List<SellingArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<SellingArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryPopular(page, limit);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 盲盒列表
+     *
+     * @param mCallBack mCallBack
+     */
+    public void queryBlindBoxes(MinerCallback<BaseResponseVo<List<BlindBoxVo>>> mCallBack) {
+        Call<BaseResponseVo<List<BlindBoxVo>>> mCall = NetworkManager.instance().getmRemoteService().queryBlindBox();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 我的收藏列表
+     *
+     * @param mCallBack mCallBack
+     */
+    public void queryCollect(int page, int limit, MinerCallback<BaseResponseVo<List<SellingArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<SellingArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryCollect(page, limit);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 我的作品列表
+     *
+     * @param mCallBack mCallBack
+     */
+    public void queryMine(HashMap<String, String> param, MinerCallback<BaseResponseVo<List<SellingArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<SellingArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryMine(param);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 获取分类数据
+     * */
+    public void querySelling(HashMap<String, String> params, MinerCallback<BaseResponseVo<List<SellingArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<SellingArtVo>>> mCall = NetworkManager.instance().getmRemoteService().querySelling(params);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 获取分类数据
+     * */
+    public void queryBoxRecord(HashMap<String, String> params, MinerCallback<BaseResponseVo<List<SellingArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<SellingArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryBox(params);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 获取分类数据
+     * */
+    public void queryFollowings(HashMap<String, String> params, MinerCallback<BaseResponseVo<List<FollowerVO>>> mCallBack) {
+        Call<BaseResponseVo<List<FollowerVO>>> mCall = NetworkManager.instance().getmRemoteService().queryFollowings(params);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 获取分类数据
+     * */
+    public void queryFollowers(HashMap<String, String> params, MinerCallback<BaseResponseVo<List<FollowerVO>>> mCallBack) {
+        Call<BaseResponseVo<List<FollowerVO>>> mCall = NetworkManager.instance().getmRemoteService().queryFollowers(params);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 获取分类数据
+     * */
+    public void queryBrought(HashMap<String, String> params, MinerCallback<BaseResponseVo<List<BoughtArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<BoughtArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryBought(params);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 获取分类数据
+     * */
+    public void addressLogin(HashMap<String, String> params, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
+        Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().addressLogin(params);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 搜索作品
+     * */
+    public void searchArts(HashMap<String, String> params, MinerCallback<BaseResponseVo<List<SellingArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<SellingArtVo>>> mCall = NetworkManager.instance().getmRemoteService().searchArt(params);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+
+    /*
+     * 搜索作品
+     * */
+    public void searchUserArts(String uid, MinerCallback<BaseResponseVo<List<SellingArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<SellingArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryUserArts(uid);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 搜索作品
+     * */
+    public void queryOrderAmounts(String uid, MinerCallback<BaseResponseVo<List<OrderAmountVo>>> mCallBack) {
+        Call<BaseResponseVo<List<OrderAmountVo>>> mCall = NetworkManager.instance().getmRemoteService().queryOrderAmount(uid);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 搜索作品
+     * */
+    public void searchMemberInfo(String uid, MinerCallback<BaseResponseVo<MemberInfo>> mCallBack) {
+        Call<BaseResponseVo<MemberInfo>> mCall = NetworkManager.instance().getmRemoteService().queryMemberInfo(uid);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 通知列表
+     *
+     * @param mCallBack mCallBack
+     */
+    public void queryTheme(MinerCallback<BaseResponseVo<List<ArtTopicVo>>> mCallBack) {
+        Call<BaseResponseVo<List<ArtTopicVo>>> mCall = NetworkManager.instance().getmRemoteService().queryTheme();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 价格列表
+     *
+     * @param mCallBack mCallBack
+     */
+    public void queryPrize(MinerCallback<BaseResponseVo<List<ArtPriceVo>>> mCallBack) {
+        Call<BaseResponseVo<List<ArtPriceVo>>> mCall = NetworkManager.instance().getmRemoteService().queryPrize();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 修改昵称
+     *
+     * @param mCallBack mCallBack
+     */
+    public void editNickName(String nickName, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
+        Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().editNickname(nickName);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * blindBoxOrder
+     *
+     * @param mCallBack mCallBack
+     */
+    public void blindBoxOrders(HashMap<String, String> param, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
+        Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().blindBoxOrders(param);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * blindBoxOrder
+     *
+     * @param mCallBack mCallBack
+     */
+    public void checkBlindBoxs(HashMap<String, String> param, MinerCallback<BaseResponseVo<BlindBoxCheckVO>> mCallBack) {
+        Call<BaseResponseVo<BlindBoxCheckVO>> mCall = NetworkManager.instance().getmRemoteService().blindBoxCheck(param);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 修改描述
+     *
+     * @param mCallBack mCallBack
+     */
+    public void editDesc(String desc, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
+        Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().editNickname(desc);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 通知作品类型
+     *
+     * @param mCallBack mCallBack
+     */
+    public void queryArtType(MinerCallback<BaseResponseVo<List<ArtTypeVo>>> mCallBack) {
+        Call<BaseResponseVo<List<ArtTypeVo>>> mCall = NetworkManager.instance().getmRemoteService().queryArtTypes();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 通知作品类型v2
+     *
+     * @param mCallBack mCallBack
+     */
+    public void queryArtTypes(MinerCallback<BaseResponseVo<List<ArtTypeVo>>> mCallBack) {
+        Call<BaseResponseVo<List<ArtTypeVo>>> mCall = NetworkManager.instance().getmRemoteService().queryArtTypes();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 作品材质
+     * */
+    public void queryArtMaterial(MinerCallback<BaseResponseVo<List<ArtMaterialVo>>> mCallBack) {
+        Call<BaseResponseVo<List<ArtMaterialVo>>> mCall = NetworkManager.instance().getmRemoteService().queryArtMaterial();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 作品题材
+     * */
+    public void queryArtTheme(MinerCallback<BaseResponseVo<List<ArtThemeVo>>> mCallBack) {
+        Call<BaseResponseVo<List<ArtThemeVo>>> mCall = NetworkManager.instance().getmRemoteService().queryArtTheme();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     *
+     * */
+    public void queryCategories(MinerCallback<BaseResponseVo<List<ArtTypeVo>>> mCallBack) {
+        Call<BaseResponseVo<List<ArtTypeVo>>> mCall = NetworkManager.instance().getmRemoteService().queryCategories();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
 //
 //    /**
 //     * 获取充值地址
@@ -529,15 +801,13 @@ public class RequestManager {
     /**
      * 绑定手机号
      *
-     * @param email       邮箱
      * @param phone_token 用户输入手机号
-     * @param email_token 用户输入邮箱
      * @param mCallBack   mCallBack
      */
-    public void bindPhone(String email,
+    public void bindPhone(String phone,
                           String phone_token,
-                          String email_token, MinerCallback<BaseResponseVo> mCallBack) {
-        Call<BaseResponseVo> mCall = NetworkManager.instance().getmRemoteService().bindPhone(email, phone_token, email_token);
+                          MinerCallback<BaseResponseVo> mCallBack) {
+        Call<BaseResponseVo> mCall = NetworkManager.instance().getmRemoteService().bindPhone(phone, phone_token);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
@@ -661,10 +931,17 @@ public class RequestManager {
      *
      * @param mCallBack
      */
-//    public void uploadIdImages(RequestBody mRequestBody, MinerCallback<BaseResponseVo<LivenessVerifyVo>> mCallBack) {
-//        Call<BaseResponseVo<LivenessVerifyVo>> mCall = NetworkManager.instance().getmRemoteService().uploadIdImages(mRequestBody);
-//        NetworkManager.instance().postReq(mCallBack, mCall);
-//    }
+    public void uploadIdImages(String param, RequestBody mRequestBody, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
+        Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().uploadIdImages(mRequestBody);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 上传艺术品*/
+    public void uploadArt(RequestBody mRequestBody, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
+        Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().uploadArts(mRequestBody);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
 //
 //    /**
 //     * 上传身份图片
@@ -700,18 +977,6 @@ public class RequestManager {
 //     */
 //    public void depositHistory(String currency, String state, int page, MinerCallback<BaseResponseVo<List<DepositHistoryVo>>> mCallBack) {
 //        Call<BaseResponseVo<List<DepositHistoryVo>>> mCall = NetworkManager.instance().getmRemoteService().depositHistory(currency, state, page);
-//        NetworkManager.instance().postReq(mCallBack, mCall);
-//    }
-//
-//    /**
-//     * 提现历史
-//     *
-//     * @param currency  币种
-//     * @param state     状态 Available values : submitting, submitted, rejected, accepted, suspect, processing, done, canceled, failed
-//     * @param mCallBack
-//     */
-//    public void withDrawHistory(String currency, String state, MinerCallback<BaseResponseVo<List<WithDrawHistoryVo>>> mCallBack) {
-//        Call<BaseResponseVo<List<WithDrawHistoryVo>>> mCall = NetworkManager.instance().getmRemoteService().withDrawHistory(currency, state);
 //        NetworkManager.instance().postReq(mCallBack, mCall);
 //    }
 //
@@ -872,4 +1137,66 @@ public class RequestManager {
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
+    /**
+     * //     * 提现历史
+     * //     *
+     * //     * @param currency  币种
+     * //     * @param state     状态 Available values : submitting, submitted, rejected, accepted, suspect, processing, done, canceled, failed
+     * //     * @param mCallBack
+     * //
+     */
+    public void withDrawHistory(String currency, String state, MinerCallback<BaseResponseVo<List<WithDrawHistoryVo>>> mCallBack) {
+        Call<BaseResponseVo<List<WithDrawHistoryVo>>> mCall = NetworkManager.instance().getmRemoteService().withDrawHistory(currency, state);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void like(String art_id, HashMap<String, String> map, MinerCallback<BaseResponseVo<SellingArtVo>> mCallBack) {
+        Call<BaseResponseVo<SellingArtVo>> mCall = NetworkManager.instance().getmRemoteService().like(art_id, map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void sendCode(HashMap<String, String> map, MinerCallback<BaseResponseVo> mCallBack) {
+        Call<BaseResponseVo> mCall = NetworkManager.instance().getmRemoteService().sendCode(map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void followAction(int art_id, HashMap<String, String> map, MinerCallback<BaseResponseVo<MemberInfo>> mCallBack) {
+        Call<BaseResponseVo<MemberInfo>> mCall = NetworkManager.instance().getmRemoteService().followAction(art_id, map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void unFollow(int art_id, HashMap<String, String> map, MinerCallback<BaseResponseVo<MemberInfo>> mCallBack) {
+        Call<BaseResponseVo<MemberInfo>> mCall = NetworkManager.instance().getmRemoteService().unFollowAction(art_id, map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void changeUserInfo(HashMap<String, String> map, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
+        Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().changeUserInfo(map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void canclelike(String art_id, HashMap<String, String> map, MinerCallback<BaseResponseVo<SellingArtVo>> mCallBack) {
+        Call<BaseResponseVo<SellingArtVo>> mCall = NetworkManager.instance().getmRemoteService().cancleLike(art_id, map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void dislike(String art_id, HashMap<String, String> map, MinerCallback<BaseResponseVo<SellingArtVo>> mCallBack) {
+        Call<BaseResponseVo<SellingArtVo>> mCall = NetworkManager.instance().getmRemoteService().disLike(art_id, map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void cancleDislike(String art_id, HashMap<String, String> map, MinerCallback<BaseResponseVo<SellingArtVo>> mCallBack) {
+        Call<BaseResponseVo<SellingArtVo>> mCall = NetworkManager.instance().getmRemoteService().cancleDisLike(art_id, map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void collect(String art_id, HashMap<String, String> map, MinerCallback<BaseResponseVo<SellingArtVo>> mCallBack) {
+        Call<BaseResponseVo<SellingArtVo>> mCall = NetworkManager.instance().getmRemoteService().collect(art_id, map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void discollect(String art_id, HashMap<String, String> map, MinerCallback<BaseResponseVo<SellingArtVo>> mCallBack) {
+        Call<BaseResponseVo<SellingArtVo>> mCall = NetworkManager.instance().getmRemoteService().disCollect(art_id, map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
 }

@@ -29,6 +29,7 @@ import com.lljjcoder.citywheel.CityConfig;
 import com.lljjcoder.style.citypickerview.CityPickerView;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
+import com.yunhualian.ui.activity.user.UserCenterActivity;
 
 import java.io.File;
 

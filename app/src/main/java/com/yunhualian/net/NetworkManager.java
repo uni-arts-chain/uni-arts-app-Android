@@ -2,9 +2,11 @@ package com.yunhualian.net;
 
 import android.accounts.NetworkErrorException;
 import android.app.Activity;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,6 +27,7 @@ import com.yunhualian.utils.ToastManager;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -42,6 +45,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 import com.yunhualian.BuildConfig;
 
 public class NetworkManager {
@@ -67,7 +71,9 @@ public class NetworkManager {
 
     public RemoteService init() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
+
                 .addInterceptor(new LoggingInterceptor())
+
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE))
                 .connectTimeout(HTTP_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(HTTP_READ_TIMEOUT, TimeUnit.SECONDS)
@@ -83,6 +89,8 @@ public class NetworkManager {
         return mRemoteService = retrofit.create(RemoteService.class);
     }
 
+    /*
+     * */
     public RemoteService getmRemoteService() {
         return null != mRemoteService ? mRemoteService : init();
     }
@@ -116,8 +124,8 @@ public class NetworkManager {
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
             Request.Builder requestBuilder = request.newBuilder();
-
-            RemoteParametersManager.getInstance().disposeHeader(requestBuilder);
+            requestBuilder.addHeader("Accept-Language", "zh-CN");
+            RemoteParametersManager.getInstance().disposeHeader(requestBuilder, request);
 
             if (request.method().equals("POST")) {
                 RequestBody requestBody = request.body();
@@ -127,9 +135,12 @@ public class NetworkManager {
                     }.getType());
 
                     String mParametes;
-                    requestBuilder.post(RequestBody.create(null != request.body() && null != request.body().contentType() ? request.body().contentType() : MediaType.parse("application/json; charset=utf-8"),
-                            mParametes = request.url().toString().contains(AppConstant.ADDRESS) && !TextUtils.isEmpty(mContent) ? RemoteParametersManager.getInstance().disposeParameters(mGson, mContentMap) : mContent));
+                    requestBuilder.post(RequestBody.create(null != request.body() && null != request.body().contentType() ? request.body().contentType() :
+                                    MediaType.parse("application/json; charset=utf-8"),
+                            mParametes = request.url().toString().contains(AppConstant.ADDRESS) &&
+                                    !TextUtils.isEmpty(mContent) ? RemoteParametersManager.getInstance().disposeParameters(mGson, mContentMap) : mContent));
                 } else if (requestBody instanceof FormBody) {
+
 //                    FormBody mBody = (FormBody) requestBody;
 //                    requestBuilder.post(request.url().toString().contains(AppConstant.ADDRESS) ? RemoteParametersManager.getInstance().disposeParameters(mBody) : requestBody);
                 }

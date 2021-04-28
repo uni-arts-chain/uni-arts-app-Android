@@ -1,3 +1,5 @@
+include ':pickerview'
+include ':wheelview'
 include ':app'
 rootProject.name = "YunHuaLian"
 include ':zxing'

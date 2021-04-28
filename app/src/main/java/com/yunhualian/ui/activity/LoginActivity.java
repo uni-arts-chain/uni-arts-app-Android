@@ -1,14 +1,28 @@
 package com.yunhualian.ui.activity;
 
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.blankj.utilcode.util.ToastUtils;
+import com.upbest.arouter.ArouterModelPath;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.databinding.ActivityLoginBinding;
+import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.net.MinerCallback;
+import com.yunhualian.net.RequestManager;
 
+import retrofit2.Call;
+import retrofit2.Response;
+
+//@Route(path = ArouterModelPath.MAIN)
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements View.OnClickListener {
 
     private boolean isLogin = false;
+
+    private CountDownTimer mCountDownTimer;
 
     @Override
     public int getLayoutId() {
@@ -20,6 +34,34 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
 
     }
 
+    private void initCountDownTimer() {
+        mCountDownTimer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mDataBinding.getCode.setText(getString(R.string.reacquire_code, millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                mDataBinding.getCode.setText(R.string.register_txt_code);
+                mDataBinding.getCode.setEnabled(true);
+                mDataBinding.getCode.setTextColor(getColor(R.color.apply_sign));
+            }
+        };
+    }
+
+    private boolean bSendCodeTag;
+
+    private void startCountDownTimer() {
+        bSendCodeTag = true;
+        if (null == mCountDownTimer)
+            initCountDownTimer();
+        mCountDownTimer.start();
+        mDataBinding.getCode.setTextColor(getColor(R.color.picture_profile));
+        mDataBinding.getCode.setEnabled(false);
+//        mDataBinding.edtArCode.requestFocus();
+    }
+
     @Override
     public void initView() {
         setAndroidNativeLightStatusBar(false, true, true);
@@ -27,6 +69,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
         mDataBinding.login.setOnClickListener(this);
         mDataBinding.register.setOnClickListener(this);
         mDataBinding.forgetPsw.setOnClickListener(this);
+        mDataBinding.getCode.setOnClickListener(this);
     }
 
     @Override
@@ -42,7 +85,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
             case R.id.forget_psw:
                 startActivity(ResetPswActivity.class);
                 break;
-
+            case R.id.get_code:
+                getCode("8618651090153", "signup");
+                break;
         }
     }
 
@@ -62,5 +107,27 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
         mDataBinding.forgetPsw.setVisibility(View.VISIBLE);
         mDataBinding.chbUserAgreement.setVisibility(View.GONE);
         mDataBinding.forgetPsw.setVisibility(View.VISIBLE);
+    }
+
+    public void getCode(String phone_number, String send_type) {
+        RequestManager.instance().sendSmsCode(phone_number, send_type, new MinerCallback<BaseResponseVo>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo> call, Response<BaseResponseVo> response) {
+                if (response.isSuccessful()) {
+                    ToastUtils.showLong(R.string.send_code_success);
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo> call, Response<BaseResponseVo> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+
     }
 }

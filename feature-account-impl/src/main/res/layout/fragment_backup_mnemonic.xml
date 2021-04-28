@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="visible" />
+
+    <jp.co.soramitsu.common.view.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:iconRight="@drawable/ic_info_white_24"
+        app:titleText="@string/account_create_title" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <jp.co.soramitsu.common.account.mnemonicViewer.MnemonicViewer
+                android:id="@+id/backupMnemonicViewer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <jp.co.soramitsu.feature_account_impl.presentation.view.advanced.AdvancedBlockView
+                android:id="@+id/advancedBlockView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x3"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <jp.co.soramitsu.common.view.PrimaryButton
+        android:id="@+id/nextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/x2"
+        android:layout_marginTop="@dimen/x3"
+        android:layout_marginEnd="@dimen/x2"
+        android:layout_marginBottom="@dimen/x3"
+        android:background="@drawable/shape_sign_blue_rounder"
+        android:gravity="center"
+        android:text="@string/common_next"
+        android:textColor="@color/white" />
+
+
+</LinearLayout>

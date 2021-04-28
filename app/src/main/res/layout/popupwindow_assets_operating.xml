@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.yunhualian.widget.UploadNormalPopUpWindow.ClickHandlers" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rel_root_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@drawable/shape_bg"
+            android:padding="@dimen/dp_10" />
+    </RelativeLayout>
+
+</layout>
+

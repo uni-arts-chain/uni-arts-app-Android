@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="QMUI.Compat">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
@@ -15,6 +15,38 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
+
+    <declare-styleable name="BannerIndicator">
+        <!-- 圆点的颜色 -->
+        <attr name="selectColor" format="color" />
+        <!-- 未选中圆点的颜色 -->
+        <attr name="unselectedColor" format="color" />
+        <!-- 圆点的大小 -->
+        <attr name="radius" format="dimension" />
+        <!-- 圆点间间距的大小 -->
+        <attr name="space" format="dimension" />
+    </declare-styleable>
+
+    <style name="text_normal">
+
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@color/_909090</item>
+        <item name="android:drawableRight">@mipmap/icon_zk</item>
+        <item name="android:layout_margin">@dimen/dp_15</item>
+        <!--        <item name="android:layout_marginLeft">@dimen/dp_15</item>-->
+        <!--        <item name="android:layout_marginRight">@dimen/dp_15</item>-->
+        <!--        <item name="android:layout_marginBottom">@dimen/dp_10</item>-->
+        <!--        <item name="android:layout_marginTop">@dimen/dp_10</item>-->
+    </style>
+    <style name="text_normal_dark">
+
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@color/_101010</item>
+        <item name="android:layout_marginLeft">@dimen/dp_15</item>
+        <!--        <item name="android:layout_marginRight">@dimen/dp_15</item>-->
+        <!--        <item name="android:layout_marginBottom">@dimen/dp_10</item>-->
+        <!--        <item name="android:layout_marginTop">@dimen/dp_10</item>-->
+    </style>
     <style name="mToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <!-- Toolbar 标题文字颜色 包括navigation search等icon颜色-->
         <item name="android:textColorPrimary">@color/black</item>
@@ -85,9 +117,6 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="SampleTheme" parent="SampleThemeP">
-        <item name="actionMenuTextColor">@color/_333333</item>//调整改变颜色
-    </style>
 
     <style name="MyDialogStyle">
         <item name="android:windowBackground">@android:color/transparent</item>

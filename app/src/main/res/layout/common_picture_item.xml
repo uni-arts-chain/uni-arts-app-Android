@@ -4,10 +4,44 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_2"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/title_text"
+            android:background="@color/line_color" />
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="@string/hot"
+            android:textColor="@color/picture_name_color"
+            android:textSize="@dimen/sp_19"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_2"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/title_text"
+            android:background="@color/line_color" />
+    </RelativeLayout>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/them_picture"
         android:layout_width="match_parent"
         android:layout_height="140dp"
+        android:layout_below="@+id/title"
         android:layout_margin="@dimen/dp_10"
         app:cardCornerRadius="@dimen/dp_5">
 
@@ -16,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@mipmap/shanshui"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitXY" />
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView

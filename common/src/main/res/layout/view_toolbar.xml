@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@android:color/white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    tools:layout_height="48dp">
+
+    <ImageView
+        android:id="@+id/backImg"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/bg_primary_list_item"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:src="@drawable/ic_arrow_back_24dp" />
+
+    <TextView
+        android:id="@+id/titleTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="@dimen/x1"
+        android:textColor="@color/black"
+        tools:text="Title" />
+
+    <ImageView
+        android:id="@+id/rightImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_marginEnd="9dp"
+        android:layout_gravity="center_vertical|end"
+        android:src="@drawable/ic_info_white_24"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/rightText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|end"
+        android:background="@drawable/bg_primary_list_item"
+        android:fontFamily="@font/soramitsu_semibold"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/x2"
+        android:paddingEnd="@dimen/x2"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        tools:text="Action" />
+
+</FrameLayout>

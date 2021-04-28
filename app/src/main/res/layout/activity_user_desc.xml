@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.yunhualian.ui.activity.UploadArtActivity">
+
+        <include
+            android:id="@+id/mAppBarLayout_av"
+            layout="@layout/layout_generic_toolbar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_15"
+            android:text="居住地"
+            android:textColor="@color/text_black_dark"
+            android:textSize="@dimen/sp_16"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/user_address"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@drawable/shape_edit_white"
+            android:hint="请输入所在城市"
+            android:paddingLeft="@dimen/dp_10"
+            android:textSize="@dimen/sp_13"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_15"
+            android:text="院校情况"
+            android:textColor="@color/text_black_dark"
+            android:textSize="@dimen/sp_16"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/user_edu"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@drawable/shape_edit_white"
+            android:hint="请输入xx大学在读/xx大学毕业"
+            android:paddingLeft="@dimen/dp_10"
+            android:textSize="@dimen/sp_13"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_15"
+            android:text="自我介绍"
+            android:textColor="@color/text_black_dark"
+            android:textSize="@dimen/sp_16"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/user_profile"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@drawable/shape_edit_white"
+            android:hint="介绍一下优秀的自己吧~"
+            android:paddingLeft="@dimen/dp_10"
+            android:textSize="@dimen/sp_13"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@drawable/shape_bg"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/advice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="描述一下自己在区块链行业的成就吧~"
+                android:padding="@dimen/dp_10"
+                android:textSize="@dimen/sp_13" />
+
+            <TextView
+                android:id="@+id/textNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/dp_15"
+                android:text="0/100"
+                android:textColor="@color/_909090" />
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

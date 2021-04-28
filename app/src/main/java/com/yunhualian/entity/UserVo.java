@@ -10,28 +10,41 @@ import java.io.Serializable;
  * Email        intimatestranger@sina.cn
  */
 public class UserVo implements Serializable {
+
     /**
-     * id : 2
-     * uid : duPP1E8jZBEfhwRwXbqSfEKD
-     * sn : SNAKEEI2NQ
+     * id : 11
+     * uid : U9i38dpvcrsydC1vtqWkGZd4
+     * sn : RPZNCLRCFY
      * email : null
      * display_name : null
-     * jwt_token : null
-     * token : null
-     * session_expiry : 1593658546
-     * phone_number : 8613002502070
-     * register_type : 1
+     * token : aaeb2e0a5430a96921f362298d92cc217c5dc6cd5ae18ad09bd39233aed2d758
+     * phone_number : null
      * id_document_validated : false
      * app_validated : false
      * pay_password_validated : false
-     * is_large_customer : false
-     * off : 1.0
-     * electricity_off : 1.0
-     * ref_code : 94634748
-     * created_at : 1593656746
-     * paid : false
-     * expire_at :
+     * ref_code : 67749002
+     * created_at : 1610440129
+     * expire_at : 2021-04-23 20:36:24
      * is_read_agreement : null
+     * is_binding_invitation : false
+     * address : 5GNLQHb56SDF6ASRPoNHSVKQxP47cvxhXL5DaRKTLSJJqF1c
+     * recommend_image : {"url":"https://miner-pool.oss-cn-hongkong.aliyuncs.com/miner_pool/member/recommend_image/11/de72717a-c952-42f0-a06f-5284bbf2713e.jpg"}
+     * sex : null
+     * desc : null
+     * avatar : {"url":null}
+     * is_artist : false
+     * artist_desc : null
+     * follow_user_size : 0
+     * following_user_size : 0
+     * follow_by_me : false
+     * favorite_art_size : 0
+     * art_size : 6
+     * residential_address : null
+     * college : null
+     * real_name : null
+     * id_document_number : null
+     * aasm_state : unverified
+     * is_organization : false
      */
 
     private int id;
@@ -39,49 +52,34 @@ public class UserVo implements Serializable {
     private String sn;
     private String email;
     private String display_name;
-    private String jwt_token;
     private String token;
-    private long session_expiry;
     private String phone_number;
-    private int register_type;
     private boolean id_document_validated;
     private boolean app_validated;
     private boolean pay_password_validated;
-    private boolean is_large_customer;
-    private String off;
-    private String electricity_off;
     private String ref_code;
     private String created_at;
-    private boolean paid;
     private String expire_at;
-    private String is_read_agreement;
-    private String total_power_count;
-    /**
-     * email : null
-     * display_name : null
-     * session_expiry : 1597134447
-     * total_power_count : 78.0
-     * is_read_agreement : null
-     * mining_level : 4
-     * invitation_level : null
-     * mining_level_desc : 钻石矿工
-     * mining_level_limit : 50
-     * is_binding_invitation : true
-     */
-
-    private int mining_level;
-    private Object invitation_level;
-    private String mining_level_desc;
-    private String mining_level_limit;
+    private boolean is_read_agreement;
     private boolean is_binding_invitation;
-
-    public String getTotal_power_count() {
-        return total_power_count;
-    }
-
-    public void setTotal_power_count(String total_power_count) {
-        this.total_power_count = total_power_count;
-    }
+    private String address;
+    private RecommendImageBean recommend_image;
+    private String sex;
+    private String desc;
+    private AvatarBean avatar;
+    private boolean is_artist;
+    private String artist_desc;
+    private int follow_user_size;
+    private int following_user_size;
+    private boolean follow_by_me;
+    private int favorite_art_size;
+    private int art_size;
+    private String residential_address;
+    private String college;
+    private String real_name;
+    private String id_document_number;
+    private String aasm_state;
+    private boolean is_organization;
 
     public int getId() {
         return id;
@@ -111,9 +109,8 @@ public class UserVo implements Serializable {
         return email;
     }
 
-    public UserVo setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
-        return this;
     }
 
     public String getDisplay_name() {
@@ -124,14 +121,6 @@ public class UserVo implements Serializable {
         this.display_name = display_name;
     }
 
-    public String getJwt_token() {
-        return jwt_token;
-    }
-
-    public void setJwt_token(String jwt_token) {
-        this.jwt_token = jwt_token;
-    }
-
     public String getToken() {
         return token;
     }
@@ -140,47 +129,28 @@ public class UserVo implements Serializable {
         this.token = token;
     }
 
-    public long getSession_expiry() {
-        return session_expiry;
-    }
-
-    public void setSession_expiry(long session_expiry) {
-        this.session_expiry = session_expiry;
-    }
-
     public String getPhone_number() {
         return phone_number;
     }
 
-    public UserVo setPhone_number(String phone_number) {
+    public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
-        return this;
-    }
-
-    public int getRegister_type() {
-        return register_type;
-    }
-
-    public void setRegister_type(int register_type) {
-        this.register_type = register_type;
     }
 
     public boolean isId_document_validated() {
         return id_document_validated;
     }
 
-    public UserVo setId_document_validated(boolean id_document_validated) {
+    public void setId_document_validated(boolean id_document_validated) {
         this.id_document_validated = id_document_validated;
-        return this;
     }
 
     public boolean isApp_validated() {
         return app_validated;
     }
 
-    public UserVo setApp_validated(boolean app_validated) {
+    public void setApp_validated(boolean app_validated) {
         this.app_validated = app_validated;
-        return this;
     }
 
     public boolean isPay_password_validated() {
@@ -189,30 +159,6 @@ public class UserVo implements Serializable {
 
     public void setPay_password_validated(boolean pay_password_validated) {
         this.pay_password_validated = pay_password_validated;
-    }
-
-    public boolean isIs_large_customer() {
-        return is_large_customer;
-    }
-
-    public void setIs_large_customer(boolean is_large_customer) {
-        this.is_large_customer = is_large_customer;
-    }
-
-    public String getOff() {
-        return off;
-    }
-
-    public void setOff(String off) {
-        this.off = off;
-    }
-
-    public String getElectricity_off() {
-        return electricity_off;
-    }
-
-    public void setElectricity_off(String electricity_off) {
-        this.electricity_off = electricity_off;
     }
 
     public String getRef_code() {
@@ -231,14 +177,6 @@ public class UserVo implements Serializable {
         this.created_at = created_at;
     }
 
-    public boolean isPaid() {
-        return paid;
-    }
-
-    public void setPaid(boolean paid) {
-        this.paid = paid;
-    }
-
     public String getExpire_at() {
         return expire_at;
     }
@@ -247,52 +185,195 @@ public class UserVo implements Serializable {
         this.expire_at = expire_at;
     }
 
-    public String getIs_read_agreement() {
+    public boolean getIs_read_agreement() {
         return is_read_agreement;
     }
 
-    public void setIs_read_agreement(String is_read_agreement) {
+    public void setIs_read_agreement(boolean is_read_agreement) {
         this.is_read_agreement = is_read_agreement;
-    }
-
-    public int getMining_level() {
-        return mining_level;
-    }
-
-    public void setMining_level(int mining_level) {
-        this.mining_level = mining_level;
-    }
-
-    public Object getInvitation_level() {
-        return invitation_level;
-    }
-
-    public void setInvitation_level(Object invitation_level) {
-        this.invitation_level = invitation_level;
-    }
-
-    public String getMining_level_desc() {
-        return mining_level_desc;
-    }
-
-    public void setMining_level_desc(String mining_level_desc) {
-        this.mining_level_desc = mining_level_desc;
-    }
-
-    public String getMining_level_limit() {
-        return mining_level_limit;
-    }
-
-    public void setMining_level_limit(String mining_level_limit) {
-        this.mining_level_limit = mining_level_limit;
     }
 
     public boolean isIs_binding_invitation() {
         return is_binding_invitation;
     }
 
-    public UserVo setIs_binding_invitation(boolean is_binding_invitation) {
+    public void setIs_binding_invitation(boolean is_binding_invitation) {
         this.is_binding_invitation = is_binding_invitation;
-        return this;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public RecommendImageBean getRecommend_image() {
+        return recommend_image;
+    }
+
+    public void setRecommend_image(RecommendImageBean recommend_image) {
+        this.recommend_image = recommend_image;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public AvatarBean getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(AvatarBean avatar) {
+        this.avatar = avatar;
+    }
+
+    public boolean isIs_artist() {
+        return is_artist;
+    }
+
+    public void setIs_artist(boolean is_artist) {
+        this.is_artist = is_artist;
+    }
+
+    public String getArtist_desc() {
+        return artist_desc;
+    }
+
+    public void setArtist_desc(String artist_desc) {
+        this.artist_desc = artist_desc;
+    }
+
+    public int getFollow_user_size() {
+        return follow_user_size;
+    }
+
+    public void setFollow_user_size(int follow_user_size) {
+        this.follow_user_size = follow_user_size;
+    }
+
+    public int getFollowing_user_size() {
+        return following_user_size;
+    }
+
+    public void setFollowing_user_size(int following_user_size) {
+        this.following_user_size = following_user_size;
+    }
+
+    public boolean isFollow_by_me() {
+        return follow_by_me;
+    }
+
+    public void setFollow_by_me(boolean follow_by_me) {
+        this.follow_by_me = follow_by_me;
+    }
+
+    public int getFavorite_art_size() {
+        return favorite_art_size;
+    }
+
+    public void setFavorite_art_size(int favorite_art_size) {
+        this.favorite_art_size = favorite_art_size;
+    }
+
+    public int getArt_size() {
+        return art_size;
+    }
+
+    public void setArt_size(int art_size) {
+        this.art_size = art_size;
+    }
+
+    public String getResidential_address() {
+        return residential_address;
+    }
+
+    public void setResidential_address(String residential_address) {
+        this.residential_address = residential_address;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
+    }
+
+    public String getReal_name() {
+        return real_name;
+    }
+
+    public void setReal_name(String real_name) {
+        this.real_name = real_name;
+    }
+
+    public String getId_document_number() {
+        return id_document_number;
+    }
+
+    public void setId_document_number(String id_document_number) {
+        this.id_document_number = id_document_number;
+    }
+
+    public String getAasm_state() {
+        return aasm_state;
+    }
+
+    public void setAasm_state(String aasm_state) {
+        this.aasm_state = aasm_state;
+    }
+
+    public boolean isIs_organization() {
+        return is_organization;
+    }
+
+    public void setIs_organization(boolean is_organization) {
+        this.is_organization = is_organization;
+    }
+
+    public static class RecommendImageBean implements Serializable{
+        /**
+         * url : https://miner-pool.oss-cn-hongkong.aliyuncs.com/miner_pool/member/recommend_image/11/de72717a-c952-42f0-a06f-5284bbf2713e.jpg
+         */
+
+        private String url;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+    }
+
+    public static class AvatarBean implements Serializable {
+        /**
+         * url : null
+         */
+
+        private String url;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
     }
 }

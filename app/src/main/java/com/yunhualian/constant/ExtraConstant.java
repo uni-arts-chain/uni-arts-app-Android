@@ -51,4 +51,5 @@ public class ExtraConstant {
     //质押成功
     public static final String EVENT_PLEDGE_SUCCESS = "EVENT_PLEDGE_SUCCESS";
 
+
 }

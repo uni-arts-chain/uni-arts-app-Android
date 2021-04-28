@@ -1,19 +1,13 @@
 package com.yunhualian.ui.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.yunhualian.R;
 import com.yunhualian.base.BaseFragment;
-import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.FragmentDeriveKeystoreQrcodeBinding;
-import com.yunhualian.utils.GlideImageLoader;
 import com.yunhualian.utils.ZxingEncodingUtils;
 
-import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
-import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 import io.reactivex.Single;
 
 

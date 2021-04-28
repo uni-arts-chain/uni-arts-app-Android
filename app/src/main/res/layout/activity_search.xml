@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.yunhualian.ui.activity.SearchActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_15"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/searchEx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/shape_search_bg_gray"
+                android:drawableLeft="@mipmap/icon_search"
+                android:drawablePadding="@dimen/dp_15"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:singleLine="true"
+                android:textSize="@dimen/sp_15" />
+
+            <TextView
+                android:id="@+id/cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:text="@string/button_cancel"
+                android:textColor="@color/_101010" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/searchHistoryLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/title_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_10"
+                android:text="搜索历史"
+                android:textColor="@color/_101010" />
+
+            <TextView
+                android:id="@+id/clearHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_15"
+                android:background="@drawable/shape_text_gray_boder"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingTop="2dp"
+                android:paddingRight="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_2"
+                android:text="清除"
+                android:textColor="@color/_101010"
+                android:textSize="@dimen/sp_13" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_history"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginRight="@dimen/dp_15" />
+        </RelativeLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srl_shooping_mall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="true">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/resultList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</layout>

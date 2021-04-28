@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/picture_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_5"
+        android:elevation="@dimen/dp_2"
+        app:cardCornerRadius="@dimen/dp_5">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/hot_picture"
+                android:layout_width="match_parent"
+                android:layout_height="166dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/shanshui" />
+
+            <TextView
+                android:id="@+id/picture_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hot_picture"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_toLeftOf="@+id/picture_prize"
+                android:text="向日葵"
+                android:textColor="@color/picture_name_color"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/picture_prize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hot_picture"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_toLeftOf="@+id/c"
+                android:text="¥8000"
+                android:textColor="@color/deep_red"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hot_picture"
+                android:layout_alignBaseline="@+id/picture_prize"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:text="/次"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/picture_name"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:text="哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏或转卖"
+                android:textColor="@color/_999999"
+                android:textSize="@dimen/sp_12" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/picture_type"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:paddingTop="5dp"-->
+    <!--        android:text="油画"-->
+    <!--        android:textColor="@color/picture_name_color"-->
+    <!--        android:textSize="@dimen/sp_13" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/picture_certify"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@+id/picture_type"-->
+    <!--        android:paddingTop="5dp"-->
+    <!--        android:text="油画"-->
+    <!--        android:textColor="@color/picture_profile"-->
+    <!--        android:textSize="@dimen/sp_13"-->
+    <!--        android:visibility="gone" />-->
+
+
+</RelativeLayout>

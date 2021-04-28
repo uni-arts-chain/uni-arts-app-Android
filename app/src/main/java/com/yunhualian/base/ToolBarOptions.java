@@ -60,7 +60,7 @@ public class ToolBarOptions implements Serializable {
 //    public int     closeId        = R.mipmap.icon_back_red_packet;
 //    public int     backId        = R.mipmap.icon_redpacket_back;
 
-    public int navigateId = R.mipmap.icon_back_dark;
+    public int navigateId = R.mipmap.icon_back;
     public int closeId = 0;
     public int backId = 0;
     /**

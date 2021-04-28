@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/auction_time_start"
+            android:textColor="@color/picture_name_color"
+            android:textSize="@dimen/sp_14" />
+
+        <cn.iwgang.countdownview.CountdownView
+            android:id="@+id/countDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_5"
+            app:isConvertDaysToHours="true"
+            app:isHideTimeBackground="false"
+            app:isShowHour="true"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:isTimeTextBold="true"
+            app:suffixGravity="center"
+            app:suffixHour=" ："
+            app:suffixMillisecond="毫秒"
+            app:suffixMinute=" ："
+            app:suffixSecond=""
+            app:suffixTextColor="#000000"
+            app:suffixTextSize="12sp"
+            app:timeBgColor="#FF8650"
+            app:timeBgRadius="@dimen/dp_5"
+            app:timeTextColor="@color/white"
+            app:timeTextSize="13sp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_15"
+            app:cardCornerRadius="@dimen/dp_5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/artist_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="fitXY" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/artist_pic"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_10">
+
+                    <TextView
+                        android:id="@+id/artist_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/creator"
+                        android:textColor="@color/picture_name_color"
+                        android:textSize="@dimen/sp_16"
+                        android:textStyle="bold" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/artist_name">
+
+                        <TextView
+                            android:id="@+id/artist_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:drawableLeft="@mipmap/icon_time_p"
+                            android:drawablePadding="@dimen/dp_5"
+                            android:text="@string/creator"
+                            android:textColor="@color/picture_name_color"
+                            android:textSize="@dimen/sp_14" />
+
+                        <TextView
+                            android:id="@+id/artist_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_toRightOf="@+id/artist_time"
+                            android:drawableLeft="@mipmap/icon_art_amount"
+                            android:drawablePadding="@dimen/dp_5"
+                            android:text="@string/creator"
+                            android:textColor="@color/picture_name_color"
+                            android:textSize="@dimen/sp_14" />
+
+                        <TextView
+                            android:id="@+id/come_in"
+                            android:layout_width="@dimen/dp_50"
+                            android:layout_height="24dp"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/shape_btn_bgcolor_blue"
+                            android:gravity="center"
+                            android:text="进入"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_13" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</LinearLayout>
