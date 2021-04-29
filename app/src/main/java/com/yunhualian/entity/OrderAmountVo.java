@@ -1,6 +1,8 @@
 package com.yunhualian.entity;
 
-public class OrderAmountVo {
+import java.io.Serializable;
+
+public class OrderAmountVo implements Serializable {
 
     /**
      * sn : g6aPt541wvQCPiwF1m1f9yEKGCFSwHHG

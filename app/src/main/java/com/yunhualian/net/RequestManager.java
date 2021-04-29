@@ -15,6 +15,8 @@ import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.BlindBoxCheckVO;
+import com.yunhualian.entity.BlindBoxOpenVo;
+import com.yunhualian.entity.BlindBoxOrderCheck;
 import com.yunhualian.entity.BlindBoxVo;
 import com.yunhualian.entity.BoughtArtVo;
 import com.yunhualian.entity.FollowerVO;
@@ -23,6 +25,7 @@ import com.yunhualian.entity.MemberInfo;
 import com.yunhualian.entity.MessagesVo;
 import com.yunhualian.entity.NoticeVo;
 import com.yunhualian.entity.OrderAmountVo;
+import com.yunhualian.entity.PayResult;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.entity.WithDrawHistoryVo;
@@ -651,8 +654,28 @@ public class RequestManager {
      *
      * @param mCallBack mCallBack
      */
-    public void blindBoxOrders(HashMap<String, String> param, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
-        Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().blindBoxOrders(param);
+    public void blindBoxOrders(HashMap<String, String> param, MinerCallback<BaseResponseVo<PayResult>> mCallBack) {
+        Call<BaseResponseVo<PayResult>> mCall = NetworkManager.instance().getmRemoteService().blindBoxOrders(param);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * artOrder
+     *
+     * @param mCallBack mCallBack
+     */
+    public void artOrders(HashMap<String, String> param, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
+        Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().artOrders(param);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * blindBox_checkOrder
+     *
+     * @param mCallBack mCallBack
+     */
+    public void blindBoxOrderCheck(HashMap<String, String> param, MinerCallback<BaseResponseVo<BlindBoxOrderCheck>> mCallBack) {
+        Call<BaseResponseVo<BlindBoxOrderCheck>> mCall = NetworkManager.instance().getmRemoteService().orderCheck(param);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
@@ -661,8 +684,13 @@ public class RequestManager {
      *
      * @param mCallBack mCallBack
      */
-    public void checkBlindBoxs(HashMap<String, String> param, MinerCallback<BaseResponseVo<BlindBoxCheckVO>> mCallBack) {
-        Call<BaseResponseVo<BlindBoxCheckVO>> mCall = NetworkManager.instance().getmRemoteService().blindBoxCheck(param);
+    public void checkBlindBoxs(HashMap<String, String> param, MinerCallback<BaseResponseVo<List<BlindBoxCheckVO>>> mCallBack) {
+        Call<BaseResponseVo<List<BlindBoxCheckVO>>> mCall = NetworkManager.instance().getmRemoteService().blindBoxCheck(param);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void openBlindBoxs(HashMap<String, String> param, MinerCallback<BaseResponseVo<List<BlindBoxOpenVo>>> mCallBack) {
+        Call<BaseResponseVo<List<BlindBoxOpenVo>>> mCall = NetworkManager.instance().getmRemoteService().blindBoxOpen(param);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 

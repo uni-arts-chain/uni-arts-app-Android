@@ -13,26 +13,37 @@ import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.databinding.ActivityCreateOrderBinding;
+import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.entity.OrderAmountVo;
 import com.yunhualian.entity.SellingArtVo;
+import com.yunhualian.entity.UserVo;
+import com.yunhualian.net.MinerCallback;
+import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.ArtDetailActivity;
 
 import org.bouncycastle.asn1.x9.ValidationParams;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding> implements View.OnClickListener {
-
+    public static final String ARTINFO = "art";
+    public static final String ORDERINFO = "order";
 
     SellingArtVo sellingArtVo;
-
+    OrderAmountVo orderAmountVo;
     private int MAX_VALUE = 1000;
     private int MAX_DAYS = 180;
-    private int MIN_VALUE = 3;
+    private int MIN_VALUE = 1;
 
-    private int buy_amount = 3;
+    private int buy_amount = 1;
 
     private boolean softInputIsShowing = false;
     private static String powers_num = "1";
+    private String payType = "wepay";
 
     @Override
     public int getLayoutId() {
@@ -50,16 +61,16 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
         mToolBarOptions.titleId = R.string.order_info_detail;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
 
-        sellingArtVo = (SellingArtVo) getIntent().getExtras().getSerializable(ArtDetailActivity.ART_KEY);
-
-        if (sellingArtVo != null)
+        sellingArtVo = (SellingArtVo) getIntent().getExtras().getSerializable(ARTINFO);
+        orderAmountVo = (OrderAmountVo) getIntent().getExtras().getSerializable(ORDERINFO);
+        if (sellingArtVo != null && orderAmountVo != null)
             initPageData();
 
         initListener();
     }
 
     public void initPageData() {
-
+        MAX_VALUE = orderAmountVo.getAmount();
         Glide.with(this).load(sellingArtVo.getImg_main_file1().getUrl()).into(mDataBinding.hotPicture);
 
         mDataBinding.name.setText(sellingArtVo.getName());
@@ -70,18 +81,23 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
 
         mDataBinding.weiPayLayout.setOnClickListener(this);
         mDataBinding.aPayLayout.setOnClickListener(this);
-
+        mDataBinding.price.setText(getString(R.string.text_buy_amount, orderAmountVo.getPrice()));
+        mDataBinding.priceTotal.setText(getString(R.string.text_buy_amount, orderAmountVo.getPrice()));
         mDataBinding.weichatPay.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked && mDataBinding.aliPay.isChecked()) {
+                payType = "wepay";
                 mDataBinding.aliPay.setChecked(false);
             }
         });
+        mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.aliPay.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
             if (isChecked && mDataBinding.weichatPay.isChecked()) {
+                payType = "alipay";
                 mDataBinding.weichatPay.setChecked(false);
             }
         });
+        mDataBinding.weiPayLayout.performClick();
     }
 
     private void initListener() {
@@ -118,10 +134,13 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
                     mDataBinding.inputAmount.setSelection(inputAmount.toPlainString().length());
                 }
                 if (TextUtils.isEmpty(mDataBinding.inputAmount.getText().toString())) {
-                    buy_amount = 3;
+                    buy_amount = MIN_VALUE;
                 } else
                     buy_amount = Integer.parseInt(mDataBinding.inputAmount.getText().toString());
                 powers_num = String.valueOf(buy_amount);
+                String price = new BigDecimal(orderAmountVo.getPrice()).multiply(new BigDecimal(powers_num)).stripTrailingZeros().toPlainString();
+                mDataBinding.price.setText(price);
+                mDataBinding.priceTotal.setText(price);
             }
         });
 
@@ -150,6 +169,39 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
             case R.id.weiPayLayout:
                 mDataBinding.weichatPay.performClick();
                 break;
+            case R.id.buy_now:
+                performOrders();
+                break;
         }
+    }
+
+    private void performOrders() {
+        showLoading(getString(R.string.progress_loading));
+        HashMap<String, String> params = new HashMap<>();
+        params.put("art_order_sn", orderAmountVo.getSn());
+        params.put("amount", powers_num);
+        params.put("order_from", "android");
+        params.put("pay_type", payType);
+        RequestManager.instance().artOrders(params, new MinerCallback<BaseResponseVo<UserVo>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
+                dismissLoading();
+                if (response.isSuccessful()) {
+
+                }
+            }
+
+            @Override
+            public void onError
+                    (Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
+                dismissLoading();
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+                dismissLoading();
+            }
+        });
+
     }
 }

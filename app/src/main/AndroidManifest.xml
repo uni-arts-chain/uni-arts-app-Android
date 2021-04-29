@@ -46,14 +46,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.ShowLiveActivity"></activity>
-        <activity android:name=".ui.activity.blindbox.BlindBoxRecordActivity" />
-        <activity android:name=".ui.activity.blindbox.BlindBoxDetailActivity" />
-        <activity android:name=".ui.activity.user.SellArtActivity" />
-        <activity android:name=".ui.activity.user.UserHomePageActivity" />
-        <activity android:name=".ui.activity.user.CreateOrderActivity" />
-        <activity android:name=".ui.activity.ExportActivity" />
-        <activity android:name=".ui.activity.SearchActivity" />
+        <activity
+            android:name=".ui.activity.ShowLiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.blindbox.BlindBoxRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.blindbox.BlindBoxDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.user.SellArtActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.user.UserHomePageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.user.CreateOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.user.CreateOrderForBlindBoxActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ExportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.user.MyOrgnazitionListActivity"
             android:screenOrientation="portrait" />

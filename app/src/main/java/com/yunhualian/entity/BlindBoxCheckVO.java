@@ -11,7 +11,7 @@ public class BlindBoxCheckVO {
 
     private String sn;
     private int total;
-    private int opened;
+    private String opened;
     private int left;
 
     public String getSn() {
@@ -30,11 +30,11 @@ public class BlindBoxCheckVO {
         this.total = total;
     }
 
-    public int getOpened() {
+    public String getOpened() {
         return opened;
     }
 
-    public void setOpened(int opened) {
+    public void setOpened(String opened) {
         this.opened = opened;
     }
 

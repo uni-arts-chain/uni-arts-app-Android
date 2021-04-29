@@ -1,6 +1,7 @@
 package com.yunhualian.adapter;
 
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -24,42 +25,16 @@ public class BlindBoxDetailCardAdapter extends BaseQuickAdapter<BlindBoxVo.CardG
         ImageView ivImage = helper.getView(R.id.hot_picture);
         Glide.with(mContext).load(item.getArt().getImg_main_file1().getUrl()).into(ivImage);
 
-//        Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
-//            @Override
-//            public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-//                int height = DisplayUtils.px2dp(mContext, bitmap.getHeight());
-//                int width = DisplayUtils.px2dp(mContext, bitmap.getWidth());
-//
-//                int imageViewWidth = DisplayUtils.px2dp(mContext, ivImage.getWidth());
-//                LogUtils.e("height =  " + height + "||width = " + width + "||imgview width = " + imageViewWidth + "||height = "
-//                        + ((int) (imageViewWidth / width)) * height);
-//                BigDecimal height_ = new BigDecimal(String.valueOf(imageViewWidth))
-//                        .divide(new BigDecimal(String.valueOf(width)), 2, RoundingMode.HALF_DOWN)
-//                        .multiply(new BigDecimal(String.valueOf(height)));
-//                LogUtils.e("height =  " + height_);
-//                ivImage.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                        DisplayUtils.dp2px(mContext, height_.floatValue())));
-//
-//                bitmap.recycle();
-//            }
-//        });
+        if (TextUtils.isEmpty(item.getArt().getLive2d_file())) {
+            helper.setVisible(R.id.live2d, false);
+        } else helper.setVisible(R.id.live2d, true);
 
-//        Glide.with(mContext)
-//                .asBitmap().load(item.getImg_main_file1().getUrl())
-//                .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-//                    @Override
-//                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-//                        //这个bitmap就是你图片url加载得到的结果
-//                        //获取bitmap信息，可赋值给外部变量操作，也可在此时行操作。
-//                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivImage.getLayoutParams();//获取你要填充图片的布局的layoutParam
-//                        layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ScreenUtils.getScreenWidth() / 2);
-//                        //因为是2列,所以宽度是屏幕的一半,高度是根据bitmap的高/宽*屏幕宽的一半
-//                        layoutParams.width = ScreenUtils.getScreenWidth() / 2;//这个是布局的宽度
-//                        ivImage.setLayoutParams(layoutParams);//容器的宽高设置好了
-//                        bitmap = zoomImg(bitmap, layoutParams.width, layoutParams.height);
-//                        // 然后在改变一下bitmap的宽高
-//                        ivImage.setImageBitmap(bitmap);
-//                    }
-//                });
+        if (TextUtils.isEmpty(item.getSpecial_attr())) {
+            helper.setVisible(R.id.seldom, false);
+        } else helper.setVisible(R.id.seldom, true);
+
+        if (item.getArt().isIs_owner()) {
+            helper.setVisible(R.id.already_have, true);
+        } else helper.setVisible(R.id.already_have, false);
     }
 }

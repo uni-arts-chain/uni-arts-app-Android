@@ -214,7 +214,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
     }
 
     public void getPopular(HashMap<String, String> params) {
-        showLoading("加载中...");
+        showLoading(getString(R.string.progress_loading));
         params.put("page", "1");
         params.put("per_page", "100");
         RequestManager.instance().querySelling(params, new MinerCallback<BaseResponseVo<List<SellingArtVo>>>() {

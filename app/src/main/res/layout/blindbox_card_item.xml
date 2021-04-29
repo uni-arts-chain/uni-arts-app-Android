@@ -12,13 +12,56 @@
         android:elevation="@dimen/dp_2"
         app:cardCornerRadius="@dimen/dp_5">
 
-        <ImageView
-            android:id="@+id/hot_picture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@mipmap/shanshui" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/hot_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@mipmap/shanshui" />
+
+            <TextView
+                android:id="@+id/seldom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@color/_101010"
+                android:drawableLeft="@mipmap/icon_daimon"
+                android:drawablePadding="@dimen/dp_5"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5"
+                android:text="稀有"
+                android:textColor="@color/_FFCC5E" />
+
+            <TextView
+                android:id="@+id/already_have"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_50"
+                android:background="@color/_101010"
+                android:drawablePadding="@dimen/dp_5"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5"
+                android:text="已拥有"
+                android:textColor="@color/_00DEBC" />
+
+            <TextView
+                android:id="@+id/live2d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/dp_76"
+                android:layout_marginBottom="@dimen/dp_30"
+                android:background="@color/_101010"
+                android:drawablePadding="@dimen/dp_5"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5"
+                android:text="Live 2D"
+                android:textColor="@color/white" />
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
 

@@ -27,5 +27,6 @@ public class ArtDetailOrderListAdapter extends BaseQuickAdapter<OrderAmountVo, B
         if (item.isIs_mine()) {
             helper.setText(R.id.action, "下架");
         } else helper.setText(R.id.action, "购买");
+        helper.addOnClickListener(R.id.action);
     }
 }

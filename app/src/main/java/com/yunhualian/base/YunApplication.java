@@ -104,6 +104,9 @@ public class YunApplication extends App {
         PushManager.getInstance().initialize(this);
         NetworkManager.instance().init();
         initOkhttpUtils();
+        if (handler == null) {
+            handler = new DemoHandler();
+        }
         LIVE2D_CACHE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + File.separator.concat("Yunhualian/live2d/");
     }
@@ -171,7 +174,7 @@ public class YunApplication extends App {
 //                            demoActivity.get().homeFragment.tvLog.append(msg.obj + "\n");
 //                        }
 //                    }
-//                    EventBus.getDefault().post(new EventBusMessageEvent(ExtraConstant.EVENT_PUSH, msg.obj));
+                    EventBus.getDefault().post(new EventBusMessageEvent(ExtraConstant.EVENT_PUSH, msg.obj));
                     break;
 
                 case RECEIVE_CLIENT_ID:  //cid通知

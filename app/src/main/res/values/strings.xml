@@ -43,6 +43,8 @@
     <string name="sign_img">证书照片</string>
     <string name="sign_amountss">签名数</string>
     <string name="progress_loading">加载中...</string>
+    <string name="blind_box_transfering_tips">链上NFT数据正在传输，请稍后再试！</string>
+    <string name="blind_box_failed_tips">链上NFT数据传输失败，已付款将原路退回，请注意查收</string>
     <string name="sign_company">签名机构</string>
     <string name="picture_name_link">《%1$s》</string>
     <string name="wallet_add">钱包地址：%1$s</string>
@@ -155,7 +157,7 @@
     <string name="art_detail">艺术品细节</string>
     <string name="add_cart">加入购物车</string>
     <string name="buy_now">立即购买</string>
-
+    <string name="go_pay">去支付</string>
     <string name="organ_profile">机构简介</string>
     <string name="organ_detail">机构详情</string>
     <string name="link_search">链查询</string>
@@ -177,7 +179,7 @@
     <string name="phone">手机号</string>
 
     <string name="wechat">微信</string>
-
+    <string name="blind_box_pay">支付</string>
     <string name="login_psw">登录密码</string>
     <string name="true_man_certify">实人认证</string>
     <string name="alipay_certify">支付宝实名认证</string>
@@ -261,7 +263,7 @@
     <string name="user_profile_desc_save">保存</string>
     <string name="blind_box_open_record">开启记录</string>
     <string name="edit_nick_name_title">修改昵称</string>
-
+    <string name="form_order">提交订单</string>
     <string name="reacquire_code">%1$d秒后可重新获取</string>
     <string name="send_code_success">发送成功</string>
 
@@ -293,7 +295,9 @@
 
     <string name="sells_amount">交易次数：%1$s</string>
 
+    <string name="blind_buy_amount">购买数量： %1$s</string>
 
+    <string name="blind_buy_price">商品总价： %1$s</string>
     <string name="text_zan_amount">%1$s喜欢</string>
     <string name="text_cai_amount">%1$s踩</string>
     <string name="text_collect_amount">收藏</string>
@@ -320,4 +324,10 @@
 2. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一张卡片。\n
 3. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏。\n
 4. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏或转卖。</string>
+
+    <string name="blindbox_open_1">开启1次</string>
+    <string name="blindbox_open_10">开启10次</string>
+
+    <string name="blindbox_open_x1">开启 x1</string>
+    <string name="blindbox_open_x10">开启 x10</string>
 </resources>

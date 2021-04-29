@@ -111,7 +111,7 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
     }
 
     public void search(String keyWords) {
-        showLoading("加载中...");
+        showLoading(getString(R.string.progress_loading));
         HashMap<String, String> params = new HashMap<>();
         params.put("q", keyWords);
         params.put("page", "1");

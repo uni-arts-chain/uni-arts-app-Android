@@ -13,6 +13,8 @@ import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.BlindBoxCheckVO;
+import com.yunhualian.entity.BlindBoxOpenVo;
+import com.yunhualian.entity.BlindBoxOrderCheck;
 import com.yunhualian.entity.BlindBoxVo;
 import com.yunhualian.entity.BoughtArtVo;
 import com.yunhualian.entity.FollowerVO;
@@ -21,6 +23,7 @@ import com.yunhualian.entity.MemberInfo;
 import com.yunhualian.entity.MessagesVo;
 import com.yunhualian.entity.NoticeVo;
 import com.yunhualian.entity.OrderAmountVo;
+import com.yunhualian.entity.PayResult;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.entity.WithDrawHistoryVo;
@@ -259,12 +262,24 @@ public interface RemoteService {
     //购买盲盒
     @POST("/api/v1/blind_box_orders")
     @FormUrlEncoded
-    Call<BaseResponseVo<UserVo>> blindBoxOrders(@FieldMap HashMap<String, String> map);
+    Call<BaseResponseVo<PayResult>> blindBoxOrders(@FieldMap HashMap<String, String> map);
+
+    //购买艺术品
+    @POST("/api/v1/art_trades")
+    @FormUrlEncoded
+    Call<BaseResponseVo<UserVo>> artOrders(@FieldMap HashMap<String, String> map);
+
 
     //check已购买盲盒
     @POST("/api/v1/blind_box_orders/check")
     @FormUrlEncoded
-    Call<BaseResponseVo<BlindBoxCheckVO>> blindBoxCheck(@FieldMap HashMap<String, String> map);
+    Call<BaseResponseVo<List<BlindBoxCheckVO>>> blindBoxCheck(@FieldMap HashMap<String, String> map);
+
+
+    //open已购买盲盒
+    @POST("/api/v1/blind_box_orders/open")
+    @FormUrlEncoded
+    Call<BaseResponseVo<List<BlindBoxOpenVo>>> blindBoxOpen(@FieldMap HashMap<String, String> map);
 
 
     //修改昵称
@@ -275,6 +290,12 @@ public interface RemoteService {
     @POST("/api/v1/members/change_user_info")
     @FormUrlEncoded
     Call<BaseResponseVo<UserVo>> changeUserInfo(@FieldMap HashMap<String, String> map);
+
+    /*是否可以下单检查*/
+    @POST("/api/v1/blind_box_orders/check_order")
+    @FormUrlEncoded
+    Call<BaseResponseVo<BlindBoxOrderCheck>> orderCheck(@FieldMap HashMap<String, String> map);
+
 
     // 新闻列表
     @GET("/api/v1/news")

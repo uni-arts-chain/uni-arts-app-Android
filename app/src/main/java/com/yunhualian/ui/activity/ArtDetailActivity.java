@@ -26,6 +26,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jelly.mango.Mango;
 import com.jelly.mango.MultiplexImage;
 import com.lljjcoder.style.citylist.Toast.ToastUtils;
@@ -62,6 +63,7 @@ import cn.woblog.android.downloader.callback.DownloadListener;
 import cn.woblog.android.downloader.callback.DownloadManager;
 import cn.woblog.android.downloader.domain.DownloadInfo;
 import cn.woblog.android.downloader.exception.DownloadException;
+import jp.co.soramitsu.feature_account_impl.presentation.pincode.PinCodeAction;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -234,6 +236,12 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 }
             }
 
+        });
+        artDetailOrderListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(CreateOrderActivity.ARTINFO, sellingArtVo);
+            bundle.putSerializable(CreateOrderActivity.ORDERINFO, artBeanList.get(position));
+            startActivity(CreateOrderActivity.class, bundle);
         });
         if (TextUtils.isEmpty(sellingArtVo.getDetails())) {
             mDataBinding.artAppreciationLayout.setVisibility(View.GONE);

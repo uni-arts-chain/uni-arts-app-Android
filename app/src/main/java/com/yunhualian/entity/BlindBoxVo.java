@@ -29,6 +29,25 @@ public class BlindBoxVo implements Serializable {
     private String start_time;
     private String end_time;
     private String special_attr;
+    private String app_cover_img_path;
+    private String app_img_path;
+
+    public String getApp_cover_img_path() {
+        return app_cover_img_path;
+    }
+
+    public void setApp_cover_img_path(String app_cover_img_path) {
+        this.app_cover_img_path = app_cover_img_path;
+    }
+
+    public String getApp_img_path() {
+        return app_img_path;
+    }
+
+    public void setApp_img_path(String app_img_path) {
+        this.app_img_path = app_img_path;
+    }
+
     private List<CardGroupsBean> onchain_card_groups;
 
     public int getId() {
@@ -135,6 +154,15 @@ public class BlindBoxVo implements Serializable {
         private int amount;
         private int remain_amount;
         private ArtBean art;
+        private String special_attr;
+
+        public String getSpecial_attr() {
+            return special_attr;
+        }
+
+        public void setSpecial_attr(String special_attr) {
+            this.special_attr = special_attr;
+        }
 
         public int getId() {
             return id;

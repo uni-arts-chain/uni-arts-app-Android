@@ -24,6 +24,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 import com.igexin.sdk.PushManager;
 import com.upbest.arouter.ArouterModelPath;
 import com.upbest.arouter.EventEntity;
@@ -35,6 +36,7 @@ import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.databinding.ActivityMainBinding;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.EventBusMessageEvent;
+import com.yunhualian.entity.ReceiverPushBean;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
@@ -46,6 +48,7 @@ import com.yunhualian.ui.fragment.MainTabFragment;
 import com.yunhualian.ui.fragment.MineFragment;
 import com.yunhualian.ui.fragment.PictureSortFragment;
 import com.yunhualian.ui.fragment.ShoppingCartFragment;
+import com.yunhualian.utils.NotificationUtil;
 import com.yunhualian.utils.SharedPreUtils;
 import com.yunhualian.utils.ToastManager;
 import com.yunhualian.utils.UserManager;
@@ -270,6 +273,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 if (null != mBottomNavigationView) {
                     mBottomNavigationView.setSelectedItemId(R.id.navigation_home);
                 }
+            } else if (TextUtils.equals(ExtraConstant.EVENT_PUSH, mEventBusMessageEvent.getmMessage())) {
+                pushNotifiction(mEventBusMessageEvent.getmValue().toString());
             }
         }
     }
@@ -474,5 +479,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
             }
         });
+    }
+
+    private void pushNotifiction(String json) {
+        Gson gson = new Gson();
+        ReceiverPushBean receiverPushBean = gson.fromJson(json, ReceiverPushBean.class);
+        NotificationUtil notificationUtil = new NotificationUtil(getApplicationContext());
+        notificationUtil.sendNotification(receiverPushBean.getTitle(), receiverPushBean.getBody());
     }
 }

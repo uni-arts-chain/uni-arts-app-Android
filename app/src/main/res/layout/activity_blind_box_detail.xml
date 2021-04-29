@@ -24,8 +24,7 @@
                 android:id="@+id/mainImag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:src="@mipmap/shanshui" />
+                android:scaleType="fitXY" />
 
             <TextView
                 android:id="@+id/box_name"
@@ -112,6 +111,7 @@
                 android:textSize="@dimen/sp_15" />
 
             <ImageView
+                android:id="@+id/bottom_background"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:layout_marginTop="@dimen/dp_15"

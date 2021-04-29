@@ -8,6 +8,8 @@ package com.yunhualian.constant;
  * Email  		intimatestranger@sina.cn
  */
 public class ExtraConstant {
+    public static final int DEFAULT_SPAN_COUNT = 2;
+    public static final String EVENT_PUSH = "push";
     public static final String CACHE_LOGIN_INFO = "CACHE_LOGIN_INFO";
     public static final String KEY_ADD_ADDRESS = "KEY_ADD_ADDRESS";
     public static final String KEY_ACCOUNT = "KEY_ACCOUNT";

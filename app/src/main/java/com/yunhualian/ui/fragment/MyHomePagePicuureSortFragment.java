@@ -3,10 +3,13 @@ package com.yunhualian.ui.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunhualian.R;
+import com.yunhualian.adapter.MyHomePageArtAdapter;
 import com.yunhualian.adapter.PicturesAdapter;
 import com.yunhualian.base.BaseFragment;
 import com.yunhualian.databinding.FragmentMyPagePictureSortBinding;
@@ -14,6 +17,7 @@ import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.user.SellArtActivity;
 import com.yunhualian.utils.MyStaggeredGridLayoutManager;
 
 import java.util.HashMap;
@@ -25,9 +29,9 @@ import retrofit2.Response;
 public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePictureSortBinding> {
     //    MyPicturesAdapter picturesAdapter;
     public static String STATE_ONLINE = "online";
-    public static String STATE_AUCTION = "bidding,auctioning";
+    public static String STATE_AUCTION = "bidding";
     public static String STATE = "state";
-    PicturesAdapter picturesAdapter;
+    MyHomePageArtAdapter picturesAdapter;
     List<SellingArtVo> artVoList;
     private String state;
     private boolean hasRefresh = false;
@@ -62,11 +66,21 @@ public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePi
     @Override
     protected void initView() {
         state = getArguments().getString(STATE);
-        picturesAdapter = new PicturesAdapter(artVoList);
+        picturesAdapter = new MyHomePageArtAdapter(artVoList);
         StaggeredGridLayoutManager sortLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mBinding.pictures.setLayoutManager(sortLayoutManager);
         picturesAdapter.setEmptyView(R.layout.layout_entrust_empty, mBinding.pictures);
         mBinding.pictures.setAdapter(picturesAdapter);
+        picturesAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            //去出售
+            SellingArtVo sellingArtVo = null;
+            if (artVoList.size() > 0) {
+                sellingArtVo = artVoList.get(position);
+            }
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(SellArtActivity.ARTINFO, sellingArtVo);
+            startActivity(SellArtActivity.class, bundle);
+        });
     }
 
 

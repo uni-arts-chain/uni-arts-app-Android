@@ -51,7 +51,7 @@ public class BlindBoxRecordActivity extends BaseActivity<ActivityBlindBoxRecordB
     public void getBoxRecord() {
         HashMap<String, String> params = new HashMap<>();
         params.put("id", String.valueOf(id));
-        showLoading("加载中...");
+        showLoading(getString(R.string.progress_loading));
         RequestManager.instance().queryBoxRecord(params, new MinerCallback<BaseResponseVo<List<SellingArtVo>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {

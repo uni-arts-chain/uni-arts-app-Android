@@ -23,9 +23,7 @@ public class HomePagePopularAdapter extends BaseQuickAdapter<SellingArtVo, BaseV
     protected void convert(BaseViewHolder helper, SellingArtVo item) {
         ImageView imageView = helper.getView(R.id.hot_picture);
         Glide.with(mContext).clear(imageView);
-        if (item.getImg_main_file1() != null)
-            Glide.with(mContext).load(item.getImg_main_file1().getUrl()).into(imageView);
-
+        Glide.with(mContext).load(item.getImg_main_file1().getUrl()).into(imageView);
         helper.setText(R.id.picture_name, item.getName());
         helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(" " + item.getPrice()));
 

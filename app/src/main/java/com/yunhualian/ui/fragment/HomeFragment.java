@@ -1,20 +1,13 @@
 package com.yunhualian.ui.fragment;
 
-import android.Manifest;
-
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,43 +23,33 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.zxing.client.android.CaptureActivity;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.yunhualian.R;
 import com.yunhualian.adapter.HomePagePopularAdapter;
 import com.yunhualian.adapter.HomePageThemeAdapter;
 import com.yunhualian.base.BaseFragment;
 import com.yunhualian.base.YunApplication;
-import com.yunhualian.constant.AppConstant;
 import com.yunhualian.databinding.FragmentHomeBinding;
 import com.yunhualian.entity.AnnouncementVo;
 import com.yunhualian.entity.ArtAuctionVo;
-import com.yunhualian.entity.ArtMaterialVo;
 import com.yunhualian.entity.ArtPriceVo;
-import com.yunhualian.entity.ArtThemeVo;
 import com.yunhualian.entity.ArtTopicVo;
 import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.SellingArtVo;
-import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
-import com.yunhualian.ui.activity.AcountActivity;
-import com.yunhualian.ui.activity.ApplyCertificateActivity;
 import com.yunhualian.ui.activity.ArtDetailActivity;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
-import com.yunhualian.ui.activity.LinkSearchActivity;
 import com.yunhualian.ui.activity.MessagesActivity;
 import com.yunhualian.ui.activity.SearchActivity;
-import com.yunhualian.utils.UserManager;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -176,13 +159,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 
         //      getArtMaterial();//获取材质
 //        getArtTheme();
+        getPrice();//获取价格区间
         getArtType();//获取类型数据
         getCategories();//获取主题
+
         getBanner();//获取banner
         getNews();//获取新闻
         getPopular();//获取流行
         getTheme();//获取主题
-        getPrize();//获取价格区间
         getUserInfo();//获取用户信息
 
     }
@@ -201,10 +185,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
             @Override
             public void onRefresh() {
                 mBinding.srlShoopingMall.setRefreshing(false);
-                getBanner();
-                getNews();
-                getPopular();
-                getTheme();
+                getArtType();//获取类型数据
+                getCategories();//获取主题
+                getBanner();//获取banner
+                getNews();//获取新闻
+                getPopular();//获取流行
+                getTheme();//获取主题
+                getPrice();//获取价格区间
+                getUserInfo();//获取用户信息
             }
         });
     }
@@ -567,9 +555,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 
 
     /*
-     * 获取主题
+     * 获取价格
      * */
-    public void getPrize() {
+    public void getPrice() {
         RequestManager.instance().queryPrize(new MinerCallback<BaseResponseVo<List<ArtPriceVo>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<ArtPriceVo>>> call, Response<BaseResponseVo<List<ArtPriceVo>>> response) {
