@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -52,11 +53,19 @@ import com.yunhualian.ui.activity.user.SettingsActivity;
 import com.yunhualian.utils.SharedPreUtils;
 
 
+import org.bouncycastle.math.ec.rfc8032.Ed25519;
+import org.bouncycastle.util.encoders.Hex;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
+import jp.co.soramitsu.fearless_utils.encrypt.EncryptionType;
+import jp.co.soramitsu.fearless_utils.encrypt.json.JsonSeedEncoder;
+import jp.co.soramitsu.fearless_utils.encrypt.model.Keypair;
+import jp.co.soramitsu.fearless_utils.ss58.SS58Encoder;
 import jp.co.soramitsu.fearless_utils.wsrpc.SocketService;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -200,12 +209,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
                 startActivity(UploadArtActivity.class);
                 break;
             case ABOUT_US:
-                if (!TextUtils.isEmpty(YunApplication.getmUserVo().getPhone_number()))
-                    startActivity(ExchangeNFTActivity.class);
-                else {
-//                    Toast.makeText(mActivity, "请先绑定手机号", Toast.LENGTH_LONG).show();
-                    ToastUtils.showShort("请先绑定手机号");
-                }
+                if (YunApplication.getmUserVo() != null)
+                    if (!TextUtils.isEmpty(YunApplication.getmUserVo().getPhone_number()))
+                        startActivity(ExchangeNFTActivity.class);
+                    else {
+                        ToastUtils.showShort("请先绑定手机号");
+                    }
                 break;
         }
     }

@@ -1,6 +1,7 @@
 package jp.co.soramitsu.feature_account_impl.data.repository
 
 import android.database.sqlite.SQLiteConstraintException
+import com.google.gson.Gson
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -36,6 +37,7 @@ import jp.co.soramitsu.feature_account_api.domain.model.WithJson
 import jp.co.soramitsu.feature_account_impl.data.network.blockchain.AccountSubstrateSource
 import jp.co.soramitsu.feature_account_impl.data.repository.datasource.AccountDataSource
 import org.bouncycastle.util.encoders.Hex
+import java.util.*
 
 class AccountRepositoryImpl(
         private val accountDataSource: AccountDataSource,
@@ -345,6 +347,7 @@ class AccountRepositoryImpl(
 
             val cryptoType = mapCryptoTypeToEncryption(account.cryptoType)
             val runtimeConfiguration = account.network.type.runtimeConfiguration
+//            val jsonSeedEncoderCustom = JsonSeedEncoderCustom(Gson(), Random(), SS58Encoder())
 
             jsonSeedEncoder.generate(
                     keypair = keypair,

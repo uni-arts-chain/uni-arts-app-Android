@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -23,6 +24,8 @@ import com.yunhualian.utils.DisplayUtils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class BlindBoxDetailCardAdapter extends BaseQuickAdapter<BlindBoxVo.CardGroupsBean, BaseViewHolder> {
 
@@ -59,7 +62,9 @@ public class BlindBoxDetailCardAdapter extends BaseQuickAdapter<BlindBoxVo.CardG
 //                imageView.setImageBitmap(bitmap);
             }
         });
-        Glide.with(mContext).load(item.getArt().getImg_main_file1().getUrl()).into(ivImage);
+        Glide.with(mContext).load(item.getArt().getImg_main_file1().getUrl())
+                .skipMemoryCache(true).transition(withCrossFade())
+                .diskCacheStrategy(DiskCacheStrategy.ALL).into(ivImage);
 
     }
 

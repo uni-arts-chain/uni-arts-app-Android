@@ -49,7 +49,6 @@ class ExportJsonPasswordViewModel(
                     Extras.keyStore = json
                     Extras.exportAddress = accountAddress
                     Extras.exportJson = json
-//                    ARouter.getInstance().build(ArouterModelPath.QC_CODE_ACTIVITY).navigation()
                     EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_EXPORT_JSON, payload))
                 }
     }

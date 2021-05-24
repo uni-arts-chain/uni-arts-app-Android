@@ -75,7 +75,6 @@ public class BlindBoxFragment extends BaseFragment<FragmentShoppingCartBinding> 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.yunhualian.utils;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ public class ParamsBuilder {
      * @param map 参数hashMap
      * @return
      */
-    public static String getParamsGroup(Map<String, String> map) {
+    public static String getParamsGroup(HashMap<String, String> map) {
         StringBuilder builder = new StringBuilder();
         builder.append("|");
 
@@ -42,7 +43,7 @@ public class ParamsBuilder {
     }
 
 
-    public static String getSign(Request request, Map<String, String> map) {
+    public static String getSign(Request request, HashMap<String, String> map) {
         StringBuilder sign = new StringBuilder(getRequestGroup(request));
         sign.append(getParamsGroup(map));
 
