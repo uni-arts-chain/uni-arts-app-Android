@@ -210,8 +210,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     @Override
     public void onResume() {
         super.onResume();
-        if (resume)
-            initRequest();
+        if (resume) {
+            getBanner();//获取banner
+            getNews();//获取新闻
+            hasUnReadMessage();//查询唯独消息
+        }
     }
 
     @Nullable
