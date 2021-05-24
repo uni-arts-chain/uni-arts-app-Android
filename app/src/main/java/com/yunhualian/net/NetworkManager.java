@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -23,7 +24,6 @@ import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.entity.BaseResponseVo;
-import com.yunhualian.utils.ToastManager;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -155,7 +155,7 @@ public class NetworkManager {
             dismissLoading(mCallBack);
             if (null != mCallBack) {
                 String mMsg = YunApplication.getInstance().getResources().getString(R.string.net_word_error);
-                ToastManager.showShort(mMsg);
+                ToastUtils.showShort(mMsg);
                 mCallBack.onFailure(mCall, new NetworkErrorException(mMsg));
             }
             return false;
@@ -178,7 +178,7 @@ public class NetworkManager {
             if (null == mCall) {
                 if (null != mCallBack) {
                     String mMsg = YunApplication.getInstance().getResources().getString(R.string.request_error);
-                    ToastManager.showShort(mMsg);
+                    ToastUtils.showShort(mMsg);
                     mCallBack.onFailure(mCall, new RuntimeException(mMsg));
                 }
                 return;
@@ -205,7 +205,7 @@ public class NetworkManager {
                                     e.printStackTrace();
                                 }
                             }
-                            ToastManager.showShort(mMsg);
+                            ToastUtils.showShort(mMsg);
                             mCallBack.onFailure(mCall, new ErrorThrowable(mErrorResponse));
                         }
                         return;
@@ -220,7 +220,7 @@ public class NetworkManager {
                         } else {
                             if (null != mBaseResponseVo.getHead()) {
                                 if (!TextUtils.isEmpty(mBaseResponseVo.getHead().getMsg())) {
-                                    ToastManager.showShort(mBaseResponseVo.getHead().getMsg());
+                                    ToastUtils.showShort(mBaseResponseVo.getHead().getMsg());
                                 }
                                 if (null != mCallBack) {
                                     mCallBack.onError(call, response);
@@ -239,7 +239,7 @@ public class NetworkManager {
                 public void onFailure(Call<T> call, Throwable t) {
                     dismissLoading(mCallBack);
                     /*if (null != t && !TextUtils.isEmpty(t.getMessage())) {
-                        ToastManager.showShort(t.getMessage());
+                        ToastUtils.showShort(t.getMessage());
                     }*/
                     if (null != t) {
                         t.printStackTrace();

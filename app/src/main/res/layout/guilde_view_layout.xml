@@ -15,14 +15,13 @@
     <FrameLayout
         android:id="@+id/rl_enter"
         android:layout_width="match_parent"
-        android:layout_height="180dip"
+        android:layout_height="280dip"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="110dp"
-        android:clickable="true"
         android:layout_marginLeft="41dp"
-        android:visibility="invisible"
         android:layout_marginRight="41dp"
-        android:focusable="true"/>
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:id="@+id/point_content"

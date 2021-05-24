@@ -16,8 +16,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.blankj.utilcode.constant.PermissionConstants;
+import com.blankj.utilcode.util.CacheDiskStaticUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.upbest.arouter.ArouterModelPath;
@@ -39,7 +41,6 @@ import com.yunhualian.ui.fragment.MineFragment;
 import com.yunhualian.ui.fragment.PictureSortFragment;
 import com.yunhualian.utils.NotificationUtil;
 import com.yunhualian.utils.SharedPreUtils;
-import com.yunhualian.utils.ToastManager;
 import com.yunhualian.utils.UserManager;
 import com.yunhualian.widget.PermissionDialog;
 import com.yunhualian.widget.UpdateDialog;
@@ -109,7 +110,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     @Override
     public void initView() {
-
+        CacheDiskStaticUtils.put(ExtraConstant.KEY_GUIDE_FLAG, "1");
         saveData();
 //        loginByAddress();
         homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("homeFragment");
@@ -259,7 +260,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             } else {
                 //监听全屏视频时返回键
                 mIsback = true;
-                ToastManager.showShort(R.string.double_click_exit);
+                ToastUtils.showShort(R.string.double_click_exit);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

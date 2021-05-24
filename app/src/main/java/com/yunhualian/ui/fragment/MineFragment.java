@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -201,7 +202,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
             case ABOUT_US:
                 if (!TextUtils.isEmpty(YunApplication.getmUserVo().getPhone_number()))
                     startActivity(ExchangeNFTActivity.class);
-                else ToastUtils.showShort("请先绑定手机号");
+                else {
+//                    Toast.makeText(mActivity, "请先绑定手机号", Toast.LENGTH_LONG).show();
+                    ToastUtils.showShort("请先绑定手机号");
+                }
                 break;
         }
     }

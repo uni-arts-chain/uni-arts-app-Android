@@ -58,7 +58,6 @@ public class GuideActivity extends BaseActivity<ActivityGuideBinding> {
 
             @Override
             public void onEnterClickListener() {
-                CacheDiskStaticUtils.put(ExtraConstant.KEY_GUIDE_FLAG, "1");
                 startActivity(RootActivity.class);
                 finish();
             }

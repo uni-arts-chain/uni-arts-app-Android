@@ -102,7 +102,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:drawableTop="@mipmap/icon_upload_img"
-                            android:drawablePadding="12dp"
+                            android:drawablePadding="5dp"
                             android:text="上传图片"
                             android:textColor="@color/_909090"
                             android:textSize="@dimen/sp_12" />

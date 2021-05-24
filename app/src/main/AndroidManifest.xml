@@ -282,6 +282,11 @@
             android:theme="@style/Theme.Soramitsu.Fearless"
             tools:ignore="WrongManifestParent"
             tools:replace="android:theme,screenOrientation" />
-    </application>
 
+
+    </application>
+    <queries>
+        <package android:name="com.eg.android.AlipayGphone" />
+        <package android:name="hk.alipay.wallet" />
+    </queries>
 </manifest>

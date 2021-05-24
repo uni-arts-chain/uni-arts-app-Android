@@ -29,6 +29,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.yunhualian.BuildConfig;
 import com.yunhualian.MainActivity;
 import com.yunhualian.R;
@@ -179,7 +180,7 @@ public class DownLoadManager {
                                     if (NetworkUtils.isConnected())
                                         DownLoadManager.this.checkPermission();
                                     else
-                                        ToastManager.showShort(R.string.net_word_error);
+                                        ToastUtils.showShort(R.string.net_word_error);
                                 }
                             });
 
@@ -197,7 +198,7 @@ public class DownLoadManager {
                                 if (NetworkUtils.isConnected())
                                     DownLoadManager.with().checkPermission();
                                 else
-                                    ToastManager.showShort(R.string.net_word_error);
+                                    ToastUtils.showShort(R.string.net_word_error);
                             }
                         });
 
@@ -219,7 +220,7 @@ public class DownLoadManager {
                                 if (NetworkUtils.isConnected())
                                     DownLoadManager.with().checkPermission();
                                 else
-                                    ToastManager.showShort(R.string.net_word_error);
+                                    ToastUtils.showShort(R.string.net_word_error);
                             }
                         });
 
@@ -237,7 +238,7 @@ public class DownLoadManager {
                             if (NetworkUtils.isConnected())
                                 DownLoadManager.with().checkPermission();
                             else
-                                ToastManager.showShort(R.string.net_word_error);
+                                ToastUtils.showShort(R.string.net_word_error);
                         }
                     });
 
@@ -343,7 +344,7 @@ public class DownLoadManager {
             e.printStackTrace();
         }
 
-        long size = FileUtils.getFileLength(file);
+        long size = FileUtils.getLength(file);
         long saveSize = SPUtils.getInstance().getInt(ExtraConstant.KEY_DOWNLOAD_SIZE, 0);
 
         if (file != null && size != 0 && saveSize != 0 && size == saveSize) {
@@ -390,7 +391,7 @@ public class DownLoadManager {
                                 if (NetworkUtils.isConnected())
                                     checkPermission();
                                 else
-                                    ToastManager.showShort(R.string.net_word_error);
+                                    ToastUtils.showShort(R.string.net_word_error);
 
                             }
                         });
@@ -468,7 +469,7 @@ public class DownLoadManager {
 
             switch (msg.what) {
                 case MSG_DOWNLOAD_ERROR:
-                    ToastManager.showShort(R.string.version_download_error);
+                    ToastUtils.showShort(R.string.version_download_error);
 
                     if (mUpdateFlag) {
                         if (!activity.isFinishing() && AppConstant.DownLoadValues.IsDownLoadDialogShow) {
@@ -484,7 +485,7 @@ public class DownLoadManager {
                                             DownLoadManager.with().deleteFile();
                                             DownLoadManager.with().checkPermission();
                                         } else {
-                                            ToastManager.showShort(R.string.net_word_error);
+                                            ToastUtils.showShort(R.string.net_word_error);
                                         }
 
                                     }
@@ -508,7 +509,7 @@ public class DownLoadManager {
                                             DownLoadManager.with().deleteFile();
                                             DownLoadManager.with().checkPermission();
                                         } else {
-                                            ToastManager.showShort(R.string.net_word_error);
+                                            ToastUtils.showShort(R.string.net_word_error);
                                         }
 
                                     }

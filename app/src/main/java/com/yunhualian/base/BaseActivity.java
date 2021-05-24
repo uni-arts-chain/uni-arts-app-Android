@@ -23,6 +23,7 @@ import androidx.databinding.ViewDataBinding;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.util.Util;
+import com.umeng.analytics.MobclickAgent;
 import com.yunhualian.R;
 import com.yunhualian.utils.StatusBarCompat;
 import com.yunhualian.widget.LoadingDialog;
@@ -45,6 +46,7 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         initContenView();
         initPresenter();
@@ -171,13 +173,14 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        MobclickAgent.onResume(this);
     }
 
     // Activity页面onResume函数重载
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

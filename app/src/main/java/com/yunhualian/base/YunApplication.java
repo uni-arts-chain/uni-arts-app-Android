@@ -152,10 +152,10 @@ public class YunApplication extends App {
         //注意: 即使您已经在AndroidManifest.xml中配置过appkey和channel值，也需要在App代码中调
         //用初始化接口（如需要使用AndroidManifest.xml中配置好的appkey和channel值，
         //UMConfigure.init调用中appkey和channel参数请置为null）。
-        UMConfigure.init(getInstance(), AppConstant.UMENG_APP_KEY, "Android", UMConfigure.DEVICE_TYPE_PHONE, "");
+        UMConfigure.init(this, AppConstant.UMENG_APP_KEY, "Android", UMConfigure.DEVICE_TYPE_PHONE, null);
         //设置组件化的Log开关
         //参数: boolean 默认为false，如需查看LOG设置为true
-        UMConfigure.setLogEnabled(false);
+        UMConfigure.setLogEnabled(true);
         // 选用LEGACY_AUTO页面采集模式
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
         // 支持在子进程中统计自定义事件
