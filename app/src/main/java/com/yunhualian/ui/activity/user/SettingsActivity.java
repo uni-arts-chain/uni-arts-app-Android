@@ -41,32 +41,22 @@ import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.ActivitySettingsBinding;
 import com.yunhualian.entity.BaseResponseVo;
-import com.yunhualian.entity.LivenessVerifyVo;
-import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.AboutUsActivity;
 import com.yunhualian.ui.activity.AdviceActivity;
 import com.yunhualian.ui.activity.VerifiedActivity;
 import com.yunhualian.utils.SharedPreUtils;
 import com.yunhualian.utils.StringUtils;
 import com.yunhualian.widget.BasePopupWindow;
 
-import org.bouncycastle.util.encoders.Hex;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
-import jp.co.soramitsu.fearless_utils.encrypt.EncryptionType;
-import jp.co.soramitsu.fearless_utils.encrypt.KeypairFactory;
-import jp.co.soramitsu.fearless_utils.encrypt.SignatureWrapper;
-import jp.co.soramitsu.fearless_utils.encrypt.Sr25519;
-import jp.co.soramitsu.fearless_utils.encrypt.model.Keypair;
-import jp.co.soramitsu.fearless_utils.ss58.SS58Encoder;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -241,7 +231,7 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding> impl
                 showPopwindow();
                 break;
             case R.id.verifiedLayout:
-                goVerified();
+//                goVerified();
                 break;
 
             case R.id.nickLayout:
@@ -257,10 +247,11 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding> impl
                 startActivity(AdviceActivity.class);
                 break;
             case R.id.loginPswLayout:
-                login();
+                startActivity(AboutUsActivity.class);
                 break;
             case R.id.phoneLayout:
-                startActivity(BindPhoneActivity.class);
+                if (TextUtils.isEmpty(YunApplication.getmUserVo().getPhone_number()))
+                    startActivity(BindPhoneActivity.class);
                 break;
         }
     }
@@ -275,16 +266,17 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding> impl
 
     private void initPageData() {
         userVo = YunApplication.getmUserVo();
-        requestOptions = new RequestOptions();
-        requestOptions.placeholder(R.mipmap.icon_default_head);
         Glide.with(this)
-                .load(userVo.getAvatar().getUrl()).apply(requestOptions).into(headImag);
+                .load(userVo.getAvatar().getUrl())
+                .apply(new RequestOptions().placeholder(R.mipmap.icon_default_head)).into(headImag);
         if (TextUtils.isEmpty(userVo.getDisplay_name())) {
             mDataBinding.nickName.setText(R.string.set_display_name_tips);
         } else mDataBinding.nickName.setText(userVo.getDisplay_name());
 
         if (!TextUtils.isEmpty(userVo.getPhone_number()) && userVo.getPhone_number().length() > 10) {
-            mDataBinding.userPhone.setText(userVo.getPhone_number());
+            String phone = userVo.getPhone_number().length() == 13 ? userVo.getPhone_number().substring(2) : userVo.getPhone_number();
+            mDataBinding.userPhone.setText(phone);
+            mDataBinding.phoneIcon.setVisibility(View.INVISIBLE);
         } else {
             mDataBinding.phoneLayout.setOnClickListener(this);
         }
@@ -356,7 +348,11 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding> impl
                     (Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
                 if (response.body().isSuccessful()) {
                     if (response.body().getBody() != null) {
-                        YunApplication.setmUserVo(response.body().getBody());
+                        String headURL = response.body().getBody().getAvatar().getUrl();
+                        if (!TextUtils.isEmpty(headURL)) {
+                            YunApplication.getmUserVo().getAvatar().setUrl(headURL);
+                            SharedPreUtils.setString(SettingsActivity.this, SharedPreUtils.KEY_HEAD_URL, headURL);
+                        }
                         initPageData();
                     }
                     ToastUtils.showLong("上传成功");

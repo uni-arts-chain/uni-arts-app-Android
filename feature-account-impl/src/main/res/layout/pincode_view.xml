@@ -13,7 +13,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="@dimen/x1"
         android:layout_marginEnd="@dimen/x1"
-        android:text="@string/pincode_enter_pin_code" />
+        android:text="@string/pincode_enter_pin_code"
+        android:textColor="@color/black" />
 
     <jp.co.soramitsu.feature_account_impl.presentation.pincode.view.DotsProgressView
         android:id="@+id/dotsProgressView"
@@ -28,8 +29,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_marginTop="48dp"
+        android:orientation="vertical"
         android:padding="8dp">
 
         <LinearLayout

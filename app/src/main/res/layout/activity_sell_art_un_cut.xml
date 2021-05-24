@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <LinearLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/mAppBarLayout_av"
+            layout="@layout/layout_generic_toolbar" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/text_normal_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_20"
+                android:paddingBottom="@dimen/dp_20"
+                android:text="@string/text_art_price_now" />
+
+            <TextView
+                android:id="@+id/price"
+                style="@style/text_normal_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/dp_15"
+
+                android:paddingTop="@dimen/dp_20"
+                android:paddingBottom="@dimen/dp_20"
+                android:text="--" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/text_normal_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_20"
+                android:paddingBottom="@dimen/dp_20"
+                android:text="@string/text_this_time_sell_price" />
+
+            <TextView
+                android:id="@+id/cut_prize"
+                style="@style/text_normal_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:paddingTop="@dimen/dp_20"
+                android:paddingBottom="@dimen/dp_20" />
+
+            <EditText
+                android:id="@+id/cutPriceInput"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/cut_prize"
+                android:gravity="center"
+                android:inputType="phone"
+                android:singleLine="true"
+                android:text="0"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                style="@style/text_normal_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/cutPriceInput"
+                android:paddingTop="@dimen/dp_20"
+                android:paddingBottom="@dimen/dp_20"
+                android:text="￥" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sellAction"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_margin="@dimen/dp_20"
+            android:background="@drawable/shape_btn_bgcolor_black">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="出售"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_17" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</layout>

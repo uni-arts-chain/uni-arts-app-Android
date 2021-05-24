@@ -1,17 +1,15 @@
 package com.yunhualian.ui.fragment;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +18,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ToastUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.igexin.sdk.PushManager;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.yunhualian.R;
 import com.yunhualian.adapter.HomePagePopularAdapter;
@@ -37,33 +37,43 @@ import com.yunhualian.entity.ArtTopicVo;
 import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.entity.NoRead;
 import com.yunhualian.entity.SellingArtVo;
+import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
-import com.yunhualian.ui.activity.ArtDetailActivity;
+import com.yunhualian.ui.activity.NoticeInfoActivity;
+import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
-import com.yunhualian.ui.activity.MessagesActivity;
+import com.yunhualian.ui.activity.user.MessagesActivity;
 import com.yunhualian.ui.activity.SearchActivity;
+import com.yunhualian.ui.x5.ExplorerWebViewActivity;
+import com.yunhualian.utils.DateUtil;
+import com.yunhualian.utils.SharedPreUtils;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
-import cn.iwgang.countdownview.CountdownView;
+import jp.co.soramitsu.fearless_utils.encrypt.EncryptionType;
+import jp.co.soramitsu.fearless_utils.encrypt.SignatureWrapper;
+import jp.co.soramitsu.fearless_utils.encrypt.Signer;
+import jp.co.soramitsu.fearless_utils.encrypt.model.Keypair;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
 
-    private static final int HANDLER_MSG_BANNER = 0x1001;
-    private static final int HANDLER_MSG_NOTICE = 0x1002;
     private HomePagePopularAdapter popularAdapter;
     private HomePageThemeAdapter themeAdapter;
     private List<BannersVo> bannersVoList;
@@ -71,10 +81,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     private List<ArtAuctionVo> artAuctionVoList;
     private List<SellingArtVo> popularList;
     private List<ArtTopicVo> themeList;
-    private int refreshIndex = 0;
     EditText searchText;
     LinearLayout messageIcon;
     LinearLayout kefuIcon;
+    TextView noReadFlag;
+    private boolean resume = false;
 
     public static BaseFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -83,15 +94,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 //        fragment.setArguments(args);
         return fragment;
     }
-
-    @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            getPopular();
-            refreshIndex++;
-        }
-    };
 
     @Override
     protected int getLayoutResource() {
@@ -120,13 +122,20 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
             mBinding.noticeFlipper.addView(view);
             final int index = i;
             tv_notice.setOnClickListener(v -> {
-                ToastUtils.showLong("click" + index);
+                goNoticeActivity(index);
             });
             tv_notice2.setOnClickListener(v -> {
-                ToastUtils.showLong("click" + (index + 1));
+                goNoticeActivity(index + 1);
             });
         }
+    }
 
+    private void goNoticeActivity(int index) {
+        if (announcementVoList.size() > 0 && announcementVoList.size() > index) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(NoticeInfoActivity.NOTIC, announcementVoList.get(index));
+            startActivity(NoticeInfoActivity.class, bundle);
+        }
     }
 
     @Override
@@ -134,14 +143,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         initRefresh();
         searchText = mBinding.titleLayout.findViewById(R.id.search_edt);
         searchText.setOnClickListener(v -> startActivity(SearchActivity.class));
+        noReadFlag = mBinding.titleLayout.findViewById(R.id.noRead);
         messageIcon = mBinding.titleLayout.findViewById(R.id.layout_menu);
         kefuIcon = mBinding.titleLayout.findViewById(R.id.layout_back);
         popularAdapter = new HomePagePopularAdapter(popularList);
-        themeAdapter = new HomePageThemeAdapter(themeList);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        themeAdapter = new HomePageThemeAdapter(themeList, mActivity);
         StaggeredGridLayoutManager hotManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//        hotManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         mBinding.hotRecycle.setLayoutManager(hotManager);
+        mBinding.scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> hotManager.invalidateSpanAssignments());
         mBinding.hotRecycle.setAdapter(popularAdapter);
         popularAdapter.setOnItemClickListener(this);
         LinearLayoutManager sortLayoutManager = new LinearLayoutManager(YunApplication.getInstance());
@@ -150,27 +159,25 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         mBinding.applyLayout.setOnClickListener(this);
         mBinding.certifySearch.setOnClickListener(this);
         mBinding.wallet.setOnClickListener(this);
-
+        LogUtils.e(DateUtil.dateToStringWith(System.currentTimeMillis()));
+        mBinding.currentTime.setText(DateUtil.dateToStringWithZh(System.currentTimeMillis()));
         messageIcon.setOnClickListener(v -> startActivity(MessagesActivity.class));
         kefuIcon.setOnClickListener(v -> startActivity(CustomerServiceActivity.class));
 
-//        getAuctionMeet();//获取拍卖
+        loginByAddress();
+    }
 
-
-        //      getArtMaterial();//获取材质
-//        getArtTheme();
+    private void initRequest() {
         getPrice();//获取价格区间
         getArtType();//获取类型数据
         getCategories();//获取主题
-
         getBanner();//获取banner
         getNews();//获取新闻
         getPopular();//获取流行
         getTheme();//获取主题
         getUserInfo();//获取用户信息
-
+        hasUnReadMessage();//查询唯独消息
     }
-
 
     @Override
     public void onPause() {
@@ -178,28 +185,33 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         mBinding.banner.pause();
     }
 
+
+    /*
+    *
+    *   getArtType();//获取类型数据
+            getCategories();//获取主题
+            getBanner();//获取banner
+            getNews();//获取新闻
+            getPopular();//获取流行
+            getTheme();//获取主题
+            getPrice();//获取价格区间
+            getUserInfo();//获取用户信息
+            hasUnReadMessage();//查询唯独消息
+    * */
     private void initRefresh() {
         mBinding.srlShoopingMall.setColorSchemeResources(R.color.colorAccent);
         mBinding.srlShoopingMall.setDistanceToTriggerSync(500);
-        mBinding.srlShoopingMall.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mBinding.srlShoopingMall.setRefreshing(false);
-                getArtType();//获取类型数据
-                getCategories();//获取主题
-                getBanner();//获取banner
-                getNews();//获取新闻
-                getPopular();//获取流行
-                getTheme();//获取主题
-                getPrice();//获取价格区间
-                getUserInfo();//获取用户信息
-            }
+        mBinding.srlShoopingMall.setOnRefreshListener(() -> {
+            mBinding.srlShoopingMall.setRefreshing(false);
+            loginByAddress();
         });
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if (resume)
+            initRequest();
     }
 
     @Nullable
@@ -226,6 +238,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ArtDetailActivity.ART_KEY, popularList.get(position));
+        bundle.putInt(ArtDetailActivity.ART_ID, popularList.get(position).getId());
         startActivity(ArtDetailActivity.class, bundle);
     }
 
@@ -234,74 +247,86 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 
     }
 
-    public static class BannerViewHolder implements MZViewHolder<String> {
+    public static class BannerViewHolder implements MZViewHolder<BannersVo> {
         private ImageView mImageView;
 
         @Override
         public View createView(Context context) {
             View view = LayoutInflater.from(context).inflate(R.layout.banner_item, null);
-            mImageView = (ImageView) view.findViewById(R.id.banner_image);
+            mImageView = view.findViewById(R.id.banner_image);
             return view;
         }
 
         @Override
-        public void onBind(Context context, int position, String data) {
-            Glide.with(context).load(data).into(mImageView);
+        public void onBind(Context context, int position, BannersVo data) {
+            Glide.with(context).clear(mImageView);
+            Glide.with(context).load(data.getImg_middle()).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .transition(withCrossFade()).into(mImageView);
             mImageView.setOnClickListener(v -> {
-                ToastUtils.showLong("click" + position);
+                if (!TextUtils.isEmpty(data.getUrl())) {
+                    Bundle bundle = new Bundle();
+                    String title = TextUtils.isEmpty(data.getTitle()) ? context.getString(R.string.explore_page) : data.getTitle();
+                    bundle.putString(ExplorerWebViewActivity.TITLE, title);
+                    bundle.putString(ExplorerWebViewActivity.URL, data.getUrl());
+                    Intent intent = new Intent(context, ExplorerWebViewActivity.class);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+
             });
         }
     }
 
-    public static class AuctionViewHolder implements MZViewHolder<ArtAuctionVo> {
-        private ImageView mImageView;
-        private TextView auctionTime;
-        private TextView artAmount;
-        private TextView button;
-        private TextView artMeetName;
-        private TextView title;
-        private CountdownView countdownView;
-        SimpleDateFormat simpleDateFormat;
-
-        @Override
-        public View createView(Context context) {
-            View view = LayoutInflater.from(context).inflate(R.layout.adapter_home_banner_image, null);
-            mImageView = (ImageView) view.findViewById(R.id.artist_pic);
-            auctionTime = (TextView) view.findViewById(R.id.artist_time);
-            artAmount = (TextView) view.findViewById(R.id.artist_amount);
-            artMeetName = (TextView) view.findViewById(R.id.artist_name);
-            title = view.findViewById(R.id.title);
-            button = (TextView) view.findViewById(R.id.come_in);
-            countdownView = (CountdownView) view.findViewById(R.id.countDown);
-            simpleDateFormat = new SimpleDateFormat("MM/dd HH:mm");
-            return view;
-        }
-
-        @Override
-        public void onBind(Context context, int position, ArtAuctionVo data) {
-            Glide.with(context).load(data.getImg_file().getUrl()).into(mImageView);
-            long current = System.currentTimeMillis();
-            long last = Long.parseLong(data.getStart_at()) * 1000 - current;
-            if (last > 0) {
-                countdownView.start(last);
-                title.setText(R.string.auction_time_start);
-            } else if ((Long.parseLong(data.getEnd_at()) * 1000 - current) > 0) {
-                countdownView.start(Long.parseLong(data.getEnd_at()) * 1000 - current);
-                title.setText(R.string.auction_time_end);
-            } else {
-                title.setText(R.string.auction_time_end);
-                countdownView.start(0);
-            }
-            Date date = new Date(Long.parseLong(data.getStart_at()) * 1000);
-            Date endDate = new Date(Long.parseLong(data.getEnd_at()) * 1000);
-            auctionTime.setText(simpleDateFormat.format(date) + " - " + simpleDateFormat.format(endDate));
-            artAmount.setText(String.valueOf(data.getArt_size()).concat("件"));
-            artMeetName.setText(data.getDesc());
-            button.setOnClickListener(v -> {
-                ToastUtils.showLong("click" + position);
-            });
-        }
-    }
+//    public static class AuctionViewHolder implements MZViewHolder<ArtAuctionVo> {
+//        private ImageView mImageView;
+//        private TextView auctionTime;
+//        private TextView artAmount;
+//        private TextView button;
+//        private TextView artMeetName;
+//        private TextView title;
+//        private CountdownView countdownView;
+//        @SuppressLint("SimpleDateFormat")
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd HH:mm");
+//
+//        @Override
+//        public View createView(Context context) {
+//            View view = LayoutInflater.from(context).inflate(R.layout.adapter_home_banner_image, null);
+//            mImageView = view.findViewById(R.id.artist_pic);
+//            auctionTime = view.findViewById(R.id.artist_time);
+//            artAmount = view.findViewById(R.id.artist_amount);
+//            artMeetName = view.findViewById(R.id.artist_name);
+//            title = view.findViewById(R.id.title);
+//            button = view.findViewById(R.id.come_in);
+//            countdownView = view.findViewById(R.id.countDown);
+//            return view;
+//        }
+//
+//        @Override
+//        public void onBind(Context context, int position, ArtAuctionVo data) {
+//            Glide.with(context).clear(mImageView);
+//            Glide.with(context).load(data.getImg_file().getUrl()).into(mImageView);
+//            long current = System.currentTimeMillis();
+//            long last = Long.parseLong(data.getStart_at()) * 1000 - current;
+//            if (last > 0) {
+//                countdownView.start(last);
+//                title.setText(R.string.auction_time_start);
+//            } else if ((Long.parseLong(data.getEnd_at()) * 1000 - current) > 0) {
+//                countdownView.start(Long.parseLong(data.getEnd_at()) * 1000 - current);
+//                title.setText(R.string.auction_time_end);
+//            } else {
+//                title.setText(R.string.auction_time_end);
+//                countdownView.start(0);
+//            }
+//            Date date = new Date(Long.parseLong(data.getStart_at()) * 1000);
+//            Date endDate = new Date(Long.parseLong(data.getEnd_at()) * 1000);
+//            auctionTime.setText(simpleDateFormat.format(date) + " - " + simpleDateFormat.format(endDate));
+//            artAmount.setText(String.valueOf(data.getArt_size()).concat("件"));
+//            artMeetName.setText(data.getDesc());
+//            button.setOnClickListener(v -> {
+//                ToastUtils.showLong("click" + position);
+//            });
+//        }
+//    }
 
     /*
      * 获取banner
@@ -311,14 +336,16 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
             @Override
             public void onSuccess(Call<BaseResponseVo<List<BannersVo>>> call, Response<BaseResponseVo<List<BannersVo>>> response) {
                 if (response.isSuccessful()) {
-                    bannersVoList = response.body().getBody();
-                    if (bannersVoList.size() > 0) {
+                    if (response.body() == null) return;
+                    if (response.body().getBody() != null)
+                        bannersVoList = response.body().getBody();
+                    if (bannersVoList != null && bannersVoList.size() > 0) {
                         List<String> lists = new ArrayList<>();
 
                         for (BannersVo bannersVo : bannersVoList) {
                             lists.add(bannersVo.getImg_middle());
                         }
-                        mBinding.banner.setPages(lists, BannerViewHolder::new);
+                        mBinding.banner.setPages(bannersVoList, BannerViewHolder::new);
                         mBinding.banner.start();
                     }
                 }
@@ -370,7 +397,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     /*
      * 获取拍卖会列表
      * */
-    public void getAuctionMeet() {
+   /* public void getAuctionMeet() {
         RequestManager.instance().queryAuction(new MinerCallback<BaseResponseVo<List<ArtAuctionVo>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<ArtAuctionVo>>> call, Response<BaseResponseVo<List<ArtAuctionVo>>> response) {
@@ -378,7 +405,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
                     artAuctionVoList = response.body().getBody();
                     if (artAuctionVoList.size() > 0) {
                         mBinding.auctionList.setIndicatorRes(R.mipmap.icon_time_p, R.mipmap.icon_art_amount);
-                        mBinding.auctionList.setPages(artAuctionVoList, AuctionViewHolder::new);
+//                        mBinding.auctionList.setPages(artAuctionVoList, AuctionViewHolder::new);
                     }
                 }
             }
@@ -394,7 +421,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
             }
         });
     }
-
+    */
 
     /*
      * 获取新闻
@@ -404,12 +431,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
             @Override
             public void onSuccess(Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
                 if (response.isSuccessful()) {
-                    popularList = response.body().getBody();
+                    if (response.body() == null) return;
+                    if (response.body().getBody() != null)
+                        popularList = response.body().getBody();
 
-                    if (popularList.size() > 0) {
+                    if (popularList != null && popularList.size() > 0) {
                         popularAdapter.setNewData(popularList);
-                        if (refreshIndex == 0)
-                            handler.sendEmptyMessageDelayed(0, 300);
                     }
                 }
             }
@@ -436,6 +463,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         RequestManager.instance().queryTheme(new MinerCallback<BaseResponseVo<List<ArtTopicVo>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<ArtTopicVo>>> call, Response<BaseResponseVo<List<ArtTopicVo>>> response) {
+                dismissLoading();
                 if (response.isSuccessful()) {
                     themeList = response.body().getBody();
 
@@ -449,12 +477,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
             @Override
             public void onError
                     (Call<BaseResponseVo<List<ArtTopicVo>>> call, Response<BaseResponseVo<List<ArtTopicVo>>> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
 
@@ -487,6 +515,28 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
             }
         });
 
+    }
+
+    private void hasUnReadMessage() {
+        RequestManager.instance().queryHasUnReadMessage(new MinerCallback<BaseResponseVo<NoRead>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<NoRead>> call, Response<BaseResponseVo<NoRead>> response) {
+                if (response.isSuccessful())
+                    if (response.body().getBody().getHas_unread() > BigDecimal.ZERO.intValue()) {
+                        noReadFlag.setVisibility(View.VISIBLE);
+                    } else noReadFlag.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<NoRead>> call, Response<BaseResponseVo<NoRead>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
     }
 
 
@@ -588,10 +638,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
             @Override
             public void onSuccess(Call<BaseResponseVo<List<ArtTypeVo>>> call, Response<BaseResponseVo<List<ArtTypeVo>>> response) {
                 if (response.isSuccessful()) {
-                    List<ArtTypeVo> typeVoList = response.body().getBody();
-                    if (typeVoList.size() > 0) {
-                        YunApplication.setArtThemeVoList(typeVoList);
-                    }
+                    if (response.body() != null)
+                        if (response.body().getBody() != null) {
+                            List<ArtTypeVo> typeVoList = response.body().getBody();
+                            if (typeVoList.size() > 0) {
+                                YunApplication.setArtThemeVoList(typeVoList);
+                            }
+                        }
                 }
             }
 
@@ -627,4 +680,50 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 //            }
 //        });
     }
+
+    public void loginByAddress() {
+        String privateKey = SharedPreUtils.getString(mActivity, SharedPreUtils.KEY_PRIVATE);
+        String publicKey = SharedPreUtils.getString(mActivity, SharedPreUtils.KEY_PUBLICKEY);
+        String nonce = SharedPreUtils.getString(mActivity, SharedPreUtils.KEY_NONCE);
+        String Address = SharedPreUtils.getString(mActivity, SharedPreUtils.KEY_ADDRESS);
+        LogUtils.e(privateKey + "|" + publicKey + "|" + nonce);
+        Keypair keypair = new Keypair(Hex.decode(privateKey), Hex.decode(publicKey), Hex.decode(nonce.substring(2)));
+        Signer signer = new Signer();
+        SignatureWrapper signatureWrapper = signer.sign(EncryptionType.SR25519, Address.getBytes(), keypair);
+        String singStr2 = Hex.toHexString(signatureWrapper.getSignature());
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("address", Address);
+        hashMap.put("message", Address);
+        hashMap.put("signature", singStr2);
+        hashMap.put("cid", PushManager.getInstance().getClientid(mActivity));
+        hashMap.put("os", "android");
+        RequestManager.instance().addressLogin(hashMap, new MinerCallback<BaseResponseVo<UserVo>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null)
+                        if (response.body().getBody() != null) {
+//                        ToastUtils.showLong("登录成功");
+                            UserVo userVo = response.body().getBody();
+                            YunApplication.setmUserVo(userVo);
+                            YunApplication.setToken(userVo.getToken());
+                            resume = true;
+                            initRequest();
+                        }
+                }
+            }
+
+            @Override
+            public void onError
+                    (Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
 }

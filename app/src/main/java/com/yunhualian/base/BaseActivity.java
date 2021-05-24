@@ -27,6 +27,7 @@ import com.yunhualian.R;
 import com.yunhualian.utils.StatusBarCompat;
 import com.yunhualian.widget.LoadingDialog;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 
 

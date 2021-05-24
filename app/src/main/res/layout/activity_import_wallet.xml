@@ -12,25 +12,9 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/dp_10">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_back_24dp" />
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/black" />
-
-
-        </RelativeLayout>
+        <include
+            android:id="@+id/mAppBarLayout_av"
+            layout="@layout/layout_generic_toolbar" />
 
 
         <com.shizhefei.view.indicator.ScrollIndicatorView

@@ -13,13 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SortAdapter extends BaseQuickAdapter<ArtTypeVo, BaseViewHolder> {
-    //    public HashMap<Integer, Integer> hashMap;
     public onSelectedListener onSelectedListener;
     int clickPosition = 999;
 
     public SortAdapter(List<ArtTypeVo> data) {
         super(R.layout.fragment_sort_item, data);
-//        hashMap = new HashMap<>();
 
     }
 
@@ -29,9 +27,7 @@ public class SortAdapter extends BaseQuickAdapter<ArtTypeVo, BaseViewHolder> {
 
     @Override
     protected void convert(final BaseViewHolder helper, ArtTypeVo item) {
-//        helper.setText(R.id.name, item);
         final TextView textView = helper.getView(R.id.name);
-//        hashMap.put(helper.getPosition(), 0);
         textView.setText(item.getTitle());
         textView.setOnClickListener(view -> {
 
@@ -45,29 +41,15 @@ public class SortAdapter extends BaseQuickAdapter<ArtTypeVo, BaseViewHolder> {
                     onSelectedListener.onSelected(helper.getPosition());
             }
 
-
-//                if (hashMap.get(helper.getPosition()) == 0) {
-//                    hashMap.put(helper.getPosition(), 1);
-//                    textView.setTextColor(mContext.getResources().getColor(R.color.white));
-//                    textView.setBackgroundColor(mContext.getResources().getColor(R.color.picture_name_color));
-//                    if (null != onSelectedListener)
-//                        onSelectedListener.onSelected(helper.getPosition());
-//                } else {
-//                    hashMap.put(helper.getPosition(), 0);
-//                    textView.setTextColor(mContext.getResources().getColor(R.color.picture_name_color));
-//                    textView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-//                    if (null != onSelectedListener)
-//                        onSelectedListener.onUnSelected(helper.getPosition());
-//                }
         });
 
 
         if (clickPosition == helper.getPosition()) {
             textView.setTextColor(mContext.getResources().getColor(R.color.white));
-            textView.setBackgroundColor(mContext.getResources().getColor(R.color.picture_name_color));
+            textView.setBackground(mContext.getDrawable(R.drawable.shape_sort_type_without_stroke));
 
         } else {
-            textView.setTextColor(mContext.getResources().getColor(R.color.picture_name_color));
+            textView.setTextColor(mContext.getResources().getColor(R.color._101010));
             textView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
 
         }

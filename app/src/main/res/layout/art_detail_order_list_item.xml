@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/dp_5"
+    android:paddingBottom="@dimen/dp_5">
 
     <TextView
         android:id="@+id/seller"
@@ -28,7 +30,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="单价"
-        android:textColor="@color/red"
+        android:textColor="@color/picture_prize_color"
         android:textSize="@dimen/sp_14" />
 
     <TextView

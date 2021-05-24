@@ -37,7 +37,7 @@ public class MyOrgnazitionListActivity extends BaseActivity<ActivityMyOrgnazitio
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleId = R.string.my_orgnaziton;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
-        List<String> list = Arrays.asList(getResources().getStringArray(R.array.country_codes));
+        List<String> list = Arrays.asList(getResources().getStringArray(R.array.my_page_tabs));
         listAdapter = new OrgnazationListAdapter(list, this);
         mDataBinding.organList.setLayoutManager(new LinearLayoutManager(this));
         mDataBinding.organList.setAdapter(listAdapter);

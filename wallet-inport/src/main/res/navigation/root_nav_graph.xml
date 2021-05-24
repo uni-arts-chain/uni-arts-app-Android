@@ -64,13 +64,6 @@
         tools:layout="@layout/fragment_pincode" />
 
     <fragment
-        android:id="@+id/mainTabFragment"
-        android:name="jp.co.soramitsu.app.root.presentation.tab.MainTabFragment"
-        android:label="maintab"
-        tools:layout="@layout/fragment_main_tab">
-
-    </fragment>
-    <fragment
         android:id="@+id/mainFragment"
         android:name="jp.co.soramitsu.app.root.presentation.main.MainFragment"
         android:label="fragment_profile"

@@ -42,6 +42,7 @@
                 android:textSize="@dimen/sp_12" />
 
             <RelativeLayout
+                android:id="@+id/goMainPage"
                 android:layout_width="156dp"
                 android:layout_height="39dp"
                 android:layout_above="@+id/tips"

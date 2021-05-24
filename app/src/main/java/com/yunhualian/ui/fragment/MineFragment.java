@@ -1,6 +1,12 @@
 package com.yunhualian.ui.fragment;
 
 
+import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -12,32 +18,45 @@ import android.widget.Button;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
+import com.neovisionaries.ws.client.WebSocketFactory;
+import com.upbest.arouter.Extras;
 import com.yunhualian.R;
 import com.yunhualian.adapter.MineActionAdapter;
 import com.yunhualian.base.BaseFragment;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.FragmentMineBinding;
+import com.yunhualian.entity.ArtBean;
+import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.entity.SellingArtVo;
+import com.yunhualian.entity.StdoutLogger;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.ExchangeNFTActivity;
+import com.yunhualian.ui.activity.wallet.AcountActivity;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
-import com.yunhualian.ui.activity.UploadArtActivity;
+import com.yunhualian.ui.activity.user.UploadArtActivity;
 import com.yunhualian.ui.activity.user.FollowAndFansActivity;
-import com.yunhualian.ui.activity.MessagesActivity;
+import com.yunhualian.ui.activity.user.MessagesActivity;
 import com.yunhualian.ui.activity.user.MyCollectActivity;
 import com.yunhualian.ui.activity.user.MyHomePageActivity;
 import com.yunhualian.ui.activity.order.SellAndBuyActivity;
-import com.yunhualian.ui.activity.user.SellArtActivity;
 import com.yunhualian.ui.activity.user.SettingsActivity;
+import com.yunhualian.utils.SharedPreUtils;
 
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
 
+import jp.co.soramitsu.fearless_utils.wsrpc.SocketService;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -54,6 +73,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
     public static final int ABOUT_US = 5;
     public static final int NEWS = 6;
     public static final int SERVICE = 7;
+    SocketService socketService;
 
     public static BaseFragment newInstance() {
         MineFragment fragment = new MineFragment();
@@ -73,11 +93,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
     @Override
     protected void initView() {
         initList();
-//        initNick();
         mBinding.setting.setOnClickListener(this);
         mBinding.follow.setOnClickListener(this);
         mBinding.fans.setOnClickListener(this);
-
+        mBinding.walletLayout.setOnClickListener(this);
+        mBinding.mineTitleImg.setOnClickListener(this);
+        socketService = new SocketService(new Gson(), new StdoutLogger(), new WebSocketFactory(), i -> 0);
+        socketService.start(YunApplication.RPC);
     }
 
     public void initList() {
@@ -89,30 +111,21 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
         mineActionAdapter.setOnItemClickListener(this);
     }
 
-    public void initNick() {
-
-        String abc = "hello";
-        String bcd = "aaaaaafsfsfsdfsworld";
-
-        SpannableString spannableString = new SpannableString(bcd);
-        SpannableString spannableString2 = new SpannableString(abc);
-        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color._00D121));
-        spannableString.setSpan(foregroundColorSpan, 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        mBinding.nickName.setText("" + bcd.indexOf("wo"));
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        LogUtils.e("MinFragment onResume...");
         getUserInfo();
+        getBalance();
     }
 
+    @SuppressLint("CheckResult")
     private void initPageData() {
         UserVo userVo = YunApplication.getmUserVo();
+        if (userVo == null) return;
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.mipmap.icon_default_head);
-        Glide.with(getContext())
+        Glide.with(YunApplication.getInstance())
                 .load(userVo.getAvatar().getUrl())
                 .apply(requestOptions).into(mBinding.mineTitleImg);
         mBinding.follow.setText(
@@ -132,12 +145,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-
-    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.setting:
@@ -153,7 +160,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
                 bundle2.putString("from", FollowAndFansActivity.FANS);
                 startActivity(FollowAndFansActivity.class, bundle2);
                 break;
-
+            case R.id.walletLayout:
+                startActivity(AcountActivity.class);
+                break;
+            case R.id.mine_title_img:
+                startActivity(MyHomePageActivity.class);
+                break;
         }
     }
 
@@ -186,19 +198,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
             case UPGRADE_ARTS:
                 startActivity(UploadArtActivity.class);
                 break;
-//            case ADDRESS:
-//                if (YunApplication.isLaunch) {
-//                    startActivity(MyOrgnazitionListActivity.class);
-//                } else
-//                    startActivity(MyOrgnazitionAddActivity.class);
-//                break;
-//            case LAUNCH_AUCTION:
-//                break;
-//            case ADVICE:
-//                startActivity(ShowLiveActivity.class);
-//                break;
             case ABOUT_US:
-                startActivity(SellArtActivity.class);
+                if (!TextUtils.isEmpty(YunApplication.getmUserVo().getPhone_number()))
+                    startActivity(ExchangeNFTActivity.class);
+                else ToastUtils.showShort("请先绑定手机号");
                 break;
         }
     }
@@ -223,5 +226,32 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
 
             }
         });
+    }
+
+    private void getBalance() {
+        new getDesc().execute(socketService);
+    }
+
+
+    public class getDesc extends AsyncTask<SocketService, Integer, String> {
+        @Override
+        protected String doInBackground(SocketService... socketServices) {
+            SendIntegrationTest sendIntegrationTest = new SendIntegrationTest();
+            String balance = sendIntegrationTest.getBalance(socketServices[0], SharedPreUtils.getString(mActivity, SharedPreUtils.KEY_ADDRESS));
+            String balanceStr;
+            if (TextUtils.isEmpty(balance)) {
+                balanceStr = "0";
+            } else {
+                balanceStr = new BigDecimal(balance).setScale(4, RoundingMode.DOWN).stripTrailingZeros().toPlainString();
+            }
+            return balanceStr;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Extras.balance = s;
+            mBinding.mineCount.setText(getString(R.string.mine_acount, s));
+        }
     }
 }

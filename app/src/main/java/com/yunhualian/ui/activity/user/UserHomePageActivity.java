@@ -1,9 +1,12 @@
 package com.yunhualian.ui.activity.user;
 
 
+import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -20,6 +23,7 @@ import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.utils.StringUtils;
 
 import java.util.HashMap;
@@ -29,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBinding> {
-
+    public static final String UID = "uid";
     List<SellingArtVo> artBeanList;
     UserHomePagePicturesAdapter adapter;
     int uid;
@@ -51,12 +55,26 @@ public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBindi
         mToolBarOptions.titleId = R.string.text_user_home_page;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
 
-        uid = getIntent().getIntExtra("uid", 0);
+        uid = getIntent().getIntExtra(UID, 0);
 //        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
         mDataBinding.artList.setLayoutManager(layoutManager);
         adapter = new UserHomePagePicturesAdapter(artBeanList);
+        adapter.setEmptyView(R.layout.layout_entrust_empty_for_homepage, mDataBinding.artList);
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ArtDetailActivity.ART_KEY, artBeanList.get(position));
+            bundle.putInt(ArtDetailActivity.ART_ID, artBeanList.get(position).getId());
+            startActivity(ArtDetailActivity.class, bundle);
+        });
+        mDataBinding.artList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                layoutManager.invalidateSpanAssignments();
+            }
+        });
         mDataBinding.artList.setAdapter(adapter);
         getPopular(String.valueOf(uid));
         getMemberInfo(String.valueOf(uid));
@@ -64,17 +82,19 @@ public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBindi
 
     public void initPageData() {
         if (null == memberInfo) return;
-
-        mDataBinding.name.setText(memberInfo.getDisplay_name());
+        if (TextUtils.isEmpty(memberInfo.getDisplay_name())) {
+            mDataBinding.name.setText(getString(R.string.no_display_name));
+        } else
+            mDataBinding.name.setText(memberInfo.getDisplay_name());
         RequestOptions requestOptions = new RequestOptions().placeholder(R.mipmap.icon_default_head);
         Glide.with(this).load(memberInfo.getAvatar().getUrl()).apply(requestOptions).into(mDataBinding.mineTitleImg);
 
         if (memberInfo.isFollow_by_me()) {
             mDataBinding.follow.setBackgroundColor(getColor(R.color._C5C5C5));
-            mDataBinding.follow.setText("取消关注");
+            mDataBinding.follow.setText(getString(R.string.canel_follow));
         } else {
             mDataBinding.follow.setBackgroundColor(getColor(R.color._101010));
-            mDataBinding.follow.setText("关注");
+            mDataBinding.follow.setText(getString(R.string.text_follow));
         }
         mDataBinding.follow.setOnClickListener(v -> {
             if (memberInfo.isFollow_by_me()) {
@@ -83,11 +103,11 @@ public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBindi
                 follow();
             }
         });
-        if (TextUtils.isEmpty(memberInfo.getArtist_desc())) {
+        if (TextUtils.isEmpty(memberInfo.getDesc())) {
             mDataBinding.artDesc.setText(R.string.set_desc_tips);
-            mDataBinding.artDesc.setOnClickListener(v -> startActivity(UserDescActivity.class));
+//            mDataBinding.artDesc.setOnClickListener(v -> startActivity(UserDescActivity.class));
         } else
-            mDataBinding.artDesc.setText(memberInfo.getArtist_desc());
+            mDataBinding.artDesc.setText(memberInfo.getDesc());
     }
 
     public void getPopular(String uid) {
@@ -147,7 +167,7 @@ public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBindi
             public void onSuccess(Call<BaseResponseVo<MemberInfo>> call, Response<BaseResponseVo<MemberInfo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
-                        ToastUtils.showShort("关注成功");
+                        ToastUtils.showShort(getString(R.string.text_follow_success));
                         memberInfo = response.body().getBody();
                         initPageData();
                     }
@@ -175,7 +195,7 @@ public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBindi
             public void onSuccess(Call<BaseResponseVo<MemberInfo>> call, Response<BaseResponseVo<MemberInfo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
-                        ToastUtils.showShort("取消关注成功");
+                        ToastUtils.showShort(getString(R.string.text_cancle_follow_success));
                         memberInfo = response.body().getBody();
                         initPageData();
                     }

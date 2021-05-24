@@ -1,13 +1,16 @@
 package com.yunhualian.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
+import com.upbest.arouter.Extras;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseFragment;
 import com.yunhualian.databinding.FragmentDeriveKeystoreQrcodeBinding;
 import com.yunhualian.utils.ZxingEncodingUtils;
 
+import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 import io.reactivex.Single;
 
 
@@ -32,16 +35,19 @@ public class ExportKeystoreQRCodeFragment extends BaseFragment<FragmentDeriveKey
 
     public void configViews() {
 
-        mBinding.ivKeystore.setOnClickListener(new View.OnClickListener() {
+        mBinding.sellAction.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("CheckResult")
             @Override
             public void onClick(View view) {
                 Single.fromCallable(
                         () -> {
-//                            return QRCodeEncoder.syncEncodeQRCode(walletKeystore, BGAQRCodeUtil.dp2px(YunApplication.getInstance()
-//                                    , 240), Color.parseColor("#000000"));
-                            return ZxingEncodingUtils.createQRCodeNative(walletKeystore, 340, 340, null);
+                            return QRCodeEncoder.syncEncodeQRCode(walletKeystore, 340);
                         }
-                ).subscribe(bitmap -> mBinding.ivKeystore.setImageBitmap(bitmap));// GlideImageLoader.loadBmpImage(mBinding.ivKeystore, bitmap, -1)
+                ).subscribe(bitmap -> {
+                    mBinding.ivKeystore.setVisibility(View.VISIBLE);
+                    mBinding.ivKeystore.setImageBitmap(bitmap);
+                    mBinding.coverLayout.setVisibility(View.INVISIBLE);
+                });// GlideImageLoader.loadBmpImage(mBinding.ivKeystore, bitmap, -1)
 
             }
         });

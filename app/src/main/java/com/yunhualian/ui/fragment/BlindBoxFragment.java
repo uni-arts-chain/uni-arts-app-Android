@@ -55,6 +55,7 @@ public class BlindBoxFragment extends BaseFragment<FragmentShoppingCartBinding> 
         mBinding.txtTitle.setText(R.string.tab_assets);
         adapter = new BlindBoxAdapter(popularList);
         mBinding.blindBoxList.setLayoutManager(new LinearLayoutManager(getContext()));
+
         mBinding.blindBoxList.setAdapter(adapter);
 
         mBinding.swipeRefresh.setOnRefreshListener(() -> {
@@ -88,10 +89,11 @@ public class BlindBoxFragment extends BaseFragment<FragmentShoppingCartBinding> 
     }
 
     private void queryBindBox() {
-
+        showLoading(getString(R.string.progress_loading));
         RequestManager.instance().queryBlindBoxes(new MinerCallback<BaseResponseVo<List<BlindBoxVo>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<BlindBoxVo>>> call, Response<BaseResponseVo<List<BlindBoxVo>>> response) {
+                dismissLoading();
                 if (response.isSuccessful()) {
                     popularList = response.body().getBody();
 
@@ -105,12 +107,12 @@ public class BlindBoxFragment extends BaseFragment<FragmentShoppingCartBinding> 
             @Override
             public void onError
                     (Call<BaseResponseVo<List<BlindBoxVo>>> call, Response<BaseResponseVo<List<BlindBoxVo>>> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
 

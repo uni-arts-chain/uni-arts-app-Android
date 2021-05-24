@@ -7,8 +7,6 @@ import dagger.multibindings.IntoMap
 import jp.co.soramitsu.app.App
 import jp.co.soramitsu.app.root.di.RootApi
 import jp.co.soramitsu.app.root.di.RootFeatureHolder
-import jp.co.soramitsu.app.root.presentation.tab.MainTabFeatureApi
-import jp.co.soramitsu.app.root.presentation.tab.MainTabFeatureHolder
 import jp.co.soramitsu.common.di.FeatureApiHolder
 import jp.co.soramitsu.common.di.FeatureContainer
 import jp.co.soramitsu.common.di.scope.ApplicationScope
@@ -37,12 +35,6 @@ interface ComponentHolderModule {
     @ClassKey(SplashFeatureApi::class)
     @IntoMap
     fun provideSplashFeatureHolder(splashFeatureHolder: SplashFeatureHolder): FeatureApiHolder
-
-    @ApplicationScope
-    @Binds
-    @ClassKey(MainTabFeatureApi::class)
-    @IntoMap
-    fun provideMainTabFeatureHolder(mainTabFeatureHolder: MainTabFeatureHolder):FeatureApiHolder
 
     @ApplicationScope
     @Binds

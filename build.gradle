@@ -8,9 +8,9 @@ buildscript {
         versionCode = 7
 
         // SDK and tools
-        compileSdkVersion = 29
+        compileSdkVersion = 28
         minSdkVersion = 23
-        targetSdkVersion = 29
+        targetSdkVersion = 30
 
         kotlinVersion = '1.4.21'
 
@@ -132,7 +132,7 @@ buildscript {
         classpath "com.github.triplet.gradle:play-publisher:$playPublisherVersion"
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
-
+        classpath 'cn.leo.plugin:magic-plugin:1.0.0' //防止重复点击
         classpath 'com.github.zcweng:switch-button:0.0.3@aar'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

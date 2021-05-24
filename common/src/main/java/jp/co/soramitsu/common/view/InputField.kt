@@ -21,9 +21,9 @@ class InputField @JvmOverloads constructor(
     init {
         View.inflate(context, R.layout.view_input_field, this)
 
-        content.background = context.getDrawable(R.drawable.mnemonic_backup_alert_dialog_bg)
+//        content.background = context.getDrawable(R.drawable.mnemonic_backup_alert_dialog_bg)
 
-//        attrs?.let(::applyAttributes)
+        attrs?.let(::applyAttributes)
     }
 
     private fun applyAttributes(attributeSet: AttributeSet) {

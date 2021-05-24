@@ -56,9 +56,9 @@ class NodeListingProvider(
 
     private fun transformNode(node: Node): NodeModel {
         val networkModelType = when (node.networkType) {
-            Node.NetworkType.KUSAMA -> NetworkModel.NetworkTypeUI.Kusama
+//            Node.NetworkType.KUSAMA -> NetworkModel.NetworkTypeUI.Kusama
             Node.NetworkType.POLKADOT -> NetworkModel.NetworkTypeUI.Polkadot
-            Node.NetworkType.WESTEND -> NetworkModel.NetworkTypeUI.Westend
+//            Node.NetworkType.WESTEND -> NetworkModel.NetworkTypeUI.Westend
         }
         return NodeModel(node.id, node.name, node.link, networkModelType, node.isDefault)
     }

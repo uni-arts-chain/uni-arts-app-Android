@@ -13,12 +13,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.google.zxing.client.android.CaptureActivity;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.databinding.ActivityLinkSearchBinding;
+
+import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder;
+import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 
 public class LinkSearchActivity extends BaseActivity<ActivityLinkSearchBinding> {
 
@@ -60,9 +62,8 @@ public class LinkSearchActivity extends BaseActivity<ActivityLinkSearchBinding> 
             return;
         }
         // 二维码扫码
-        Intent intent = new Intent(this, CaptureActivity.class);
+        Intent intent = new Intent(this, QrScanActivity.class);
         startActivityForResult(intent, AppConstant.REQ_QR_CODE);
-
     }
 
     @Override

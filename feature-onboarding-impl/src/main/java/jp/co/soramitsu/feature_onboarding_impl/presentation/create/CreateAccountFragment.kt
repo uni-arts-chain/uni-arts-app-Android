@@ -40,7 +40,7 @@ class CreateAccountFragment : BaseFragment<CreateAccountViewModel>() {
 
         nextBtn.setOnClickListener {
             accountNameInput.hideSoftKeyboard()
-            viewModel.nextClicked("acountName")
+            viewModel.nextClicked("walletName")
         }
         nextBtn.performClick()
         accountNameInput.onTextChanged {

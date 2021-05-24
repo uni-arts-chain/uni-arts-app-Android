@@ -54,7 +54,7 @@ class MnemonicWordView @JvmOverloads constructor(
 
             ColorMode.DARK -> {
                 wordTv.setBackgroundResource(R.drawable.bg_mnemonic_word_dark)
-                wordTv.setTextColor(resources.getColor(R.color.black))
+                wordTv.setTextColor(resources.getColor(R.color.white))
             }
         }
 

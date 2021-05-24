@@ -18,7 +18,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class MD5Encrypt {
 
-    public static String HMACSHA256(String data, String key) {
+    public  String HMACSHA256(String data, String key) {
         if (TextUtils.isEmpty(data) || TextUtils.isEmpty(key))
             return "";
 
@@ -37,7 +37,7 @@ public class MD5Encrypt {
         return "";
     }
 
-    public static String byte2hex(byte[] b) {
+    public  String byte2hex(byte[] b) {
         StringBuilder hs = new StringBuilder();
         String stmp;
         for (int n = 0; b != null && n < b.length; n++) {
@@ -55,7 +55,7 @@ public class MD5Encrypt {
      * @param hashMap
      * @return
      */
-    public static HashMap orderByASC(HashMap<String, String> hashMap) {
+    public  HashMap orderByASC(HashMap<String, String> hashMap) {
         LinkedHashMap<String, String> order = new LinkedHashMap<>();
 
         if (null == hashMap)

@@ -16,18 +16,18 @@ class Token(
             val networkType: Node.NetworkType,
             val mantissa: Int = DEFAULT_MANTISSA
     ) {
-        KSM("KSM", Node.NetworkType.KUSAMA),
-        DOT("DOT", Node.NetworkType.POLKADOT),
-        WND("WND", Node.NetworkType.WESTEND);
+//        KSM("KSM", Node.NetworkType.KUSAMA),
+        DOT("DOT", Node.NetworkType.POLKADOT);
+//        WND("WND", Node.NetworkType.WESTEND);
 
         val maximumPrecision = mantissa - 1
 
         companion object {
             fun fromNetworkType(networkType: Node.NetworkType): Type {
                 return when (networkType) {
-                    Node.NetworkType.KUSAMA -> KSM
+//                    Node.NetworkType.KUSAMA -> KSM
                     Node.NetworkType.POLKADOT -> DOT
-                    Node.NetworkType.WESTEND -> WND
+//                    Node.NetworkType.WESTEND -> WND
                 }
             }
         }

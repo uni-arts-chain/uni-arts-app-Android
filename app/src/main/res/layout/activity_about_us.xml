@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/mAppBarLayout_av"
+            layout="@layout/layout_generic_toolbar" />
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mAppBarLayout_av"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:src="@mipmap/icon_group_logo" />
+
+        <TextView
+            android:id="@+id/groupDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:text="@string/text_group_desc"
+            android:textColor="@color/_101010"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/group_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/groupDesc"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/text_group_desc2"
+            android:textColor="@color/_101010"
+            android:textSize="@dimen/sp_13" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="@dimen/dp_50"
+            android:gravity="center"
+            android:lineHeight="@dimen/dp_20"
+            android:text="@string/text_group_copright"
+            android:textColor="@color/_999999"
+            android:textSize="@dimen/sp_13" />
+    </RelativeLayout>
+</layout>

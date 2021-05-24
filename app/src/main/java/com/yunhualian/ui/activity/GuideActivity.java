@@ -8,7 +8,8 @@ import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.databinding.ActivityGuideBinding;
 import com.yunhualian.widget.GuideView;
 
-import static com.blankj.utilcode.util.ActivityUtils.startActivity;
+import jp.co.soramitsu.app.root.presentation.RootActivity;
+
 
 /**
  * @Description: 引导页
@@ -58,7 +59,7 @@ public class GuideActivity extends BaseActivity<ActivityGuideBinding> {
             @Override
             public void onEnterClickListener() {
                 CacheDiskStaticUtils.put(ExtraConstant.KEY_GUIDE_FLAG, "1");
-                startActivity(MainActivity.class);
+                startActivity(RootActivity.class);
                 finish();
             }
         });

@@ -9,9 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include
+            android:id="@+id/mAppBarLayout_av"
+            layout="@layout/layout_generic_toolbar" />
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/uploadImage"
+            android:layout_below="@+id/mAppBarLayout_av"
             tools:context=".ui.activity.user.MyHomePageActivity">
 
             <com.google.android.material.appbar.AppBarLayout
@@ -30,7 +36,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_40"
+                        android:layout_marginTop="@dimen/dp_30"
                         android:fitsSystemWindows="true"
                         android:orientation="vertical"
                         android:scaleType="centerInside"
@@ -40,7 +46,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
                             android:background="@drawable/img_bg_circle_">
 
                             <RelativeLayout
@@ -67,7 +72,8 @@
                             android:layout_marginTop="@dimen/dp_10"
                             android:text="刘亦菲"
                             android:textColor="@color/text_black_dark"
-                            android:textSize="@dimen/sp_15" />
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold" />
 
 
                         <TextView
@@ -76,9 +82,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="@dimen/dp_40"
-                            android:layout_marginTop="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_40"
                             android:gravity="center"
+                            android:lineSpacingExtra="@dimen/dp_10"
                             android:padding="@dimen/dp_15"
                             android:text="师从xxx当代名家"
                             android:textColor="@color/text_black_dark"
@@ -87,35 +93,6 @@
 
                     </LinearLayout>
 
-                    <include
-                        android:id="@+id/mAppBarLayout_av"
-                        layout="@layout/layout_generic_toolbar"
-                        app:layout_collapseMode="pin" />
-
-                    <!--<RelativeLayout
-                        android:id="@+id/titleLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_40"
-                        android:background="@color/white"
-                        app:layout_collapseMode="pin">
-
-                        <ImageView
-                            android:id="@+id/back"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:padding="@dimen/dp_15"
-                            android:src="@mipmap/icon_back_dark" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_centerInParent="true"
-                            android:padding="@dimen/dp_10"
-                            android:text="主页"
-                            android:textColor="@color/_212121"
-                            android:textSize="@dimen/sp_17" />
-                    </RelativeLayout>-->
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -123,7 +100,6 @@
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_20"
                     app:tabIndicatorColor="@color/_101010"
                     app:tabIndicatorFullWidth="false"
                     app:tabSelectedTextColor="@color/_101010"

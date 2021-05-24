@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.upbest.arouter.ArouterModelPath;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
+import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.databinding.ActivityLoginBinding;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.net.MinerCallback;
@@ -23,6 +24,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
     private boolean isLogin = false;
 
     private CountDownTimer mCountDownTimer;
+    private static int defaultTimes = 60 * ExtraConstant.DEFAULT_TIME_EPLI;
+    private static int timeStep = ExtraConstant.DEFAULT_TIME_EPLI;
 
     @Override
     public int getLayoutId() {
@@ -35,7 +38,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
     }
 
     private void initCountDownTimer() {
-        mCountDownTimer = new CountDownTimer(60000, 1000) {
+        mCountDownTimer = new CountDownTimer(defaultTimes, timeStep) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mDataBinding.getCode.setText(getString(R.string.reacquire_code, millisUntilFinished / 1000));

@@ -12,6 +12,8 @@ import jp.co.soramitsu.common.utils.Event
 import jp.co.soramitsu.common.utils.plusAssign
 import jp.co.soramitsu.feature_account_api.domain.interfaces.AccountInteractor
 import jp.co.soramitsu.feature_account_api.domain.model.CryptoType
+import jp.co.soramitsu.feature_account_api.domain.model.Network
+import jp.co.soramitsu.feature_account_api.domain.model.Node
 import jp.co.soramitsu.feature_account_impl.presentation.AccountRouter
 import jp.co.soramitsu.feature_account_impl.presentation.common.mixin.api.CryptoTypeChooserMixin
 import jp.co.soramitsu.feature_account_impl.presentation.common.mixin.api.NetworkChooserMixin
@@ -48,7 +50,7 @@ class BackupMnemonicViewModel(
 
     fun nextClicked(derivationPath: String) {
         val cryptoTypeModel = CryptoType.SR25519
-        val selectedNetwork = selectedNetworkLiveData.value ?: return
+        val selectedNetwork = Node.NetworkType.POLKADOT
         val mnemonicWords = mnemonicLiveData.value ?: return
 
         val mnemonic = mnemonicWords.map(MnemonicWordModel::word)
@@ -58,7 +60,7 @@ class BackupMnemonicViewModel(
                 CreateExtras(
                         accountName,
                         cryptoTypeModel,
-                        selectedNetwork.networkTypeUI.networkType,
+                        selectedNetwork,
                         derivationPath
                 )
         )

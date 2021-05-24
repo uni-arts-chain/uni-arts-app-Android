@@ -9,15 +9,17 @@
     android:orientation="vertical">
 
     <View
+        android:id="@+id/noData"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        android:background="@color/white" />
+        android:background="@color/white"
+        android:visibility="gone" />
 
     <jp.co.soramitsu.common.view.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:iconRight="@drawable/ic_refresh_white_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +49,7 @@
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/tiptitle" />
 
-    <jp.co.soramitsu.feature_account_impl.presentation.mnemonic.confirm.view.MnemonicContainerView2
+    <jp.co.soramitsu.feature_account_impl.presentation.mnemonic.confirm.view.MnemonicContainerView
         android:id="@+id/confirmationMnemonicView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,7 +64,6 @@
 
     <TextView
         android:id="@+id/textView2"
-        style="@style/TextAppearance.Soramitsu.Body0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -117,7 +118,7 @@
         android:background="@drawable/shape_sign_blue_rounder"
         android:enabled="false"
         android:gravity="center"
-        android:text="@string/common_next"
+        android:text="确认"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

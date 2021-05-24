@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -15,23 +16,14 @@ import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
-import com.yunhualian.constant.AppConstant;
-import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.databinding.ActivityEditNickNameBinding;
-import com.yunhualian.entity.ArtPriceVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.UserVo;
-import com.yunhualian.net.HttpRequestUtils;
 import com.yunhualian.net.MinerCallback;
-import com.yunhualian.net.MvpNetCallback;
 import com.yunhualian.net.RequestManager;
-import com.zhy.http.okhttp.callback.Callback;
 
-import org.web3j.crypto.Hash;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -61,8 +53,14 @@ public class EditNickNameActivity extends BaseActivity<ActivityEditNickNameBindi
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleId = R.string.edit_nick_name_title;
         mToolBarOptions.rightTextString = R.string.user_profile_desc_save;
-        mDataBinding.mAppBarLayoutAv.mToolbar.findViewById(R.id.txt_right).setOnClickListener(v -> save());
+        TextView rightTx = mDataBinding.mAppBarLayoutAv.mToolbar.findViewById(R.id.txt_right);
+        rightTx.setOnClickListener(v -> save());
+        rightTx.setTextColor(getResources().getColor(R.color.blue_txt_color));
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
+        if (!TextUtils.isEmpty(YunApplication.getmUserVo().getDisplay_name())) {
+            mDataBinding.nickName.setText(YunApplication.getmUserVo().getDisplay_name());
+            mDataBinding.nickName.setSelection(YunApplication.getmUserVo().getDisplay_name().length());
+        }
         mDataBinding.nickName.addTextChangedListener(new TextWatcher() {
             private CharSequence wordNum;
             private int selectionStart;
@@ -100,6 +98,7 @@ public class EditNickNameActivity extends BaseActivity<ActivityEditNickNameBindi
     }
 
     public void save() {
+        showLoading(getString(R.string.progress_loading));
         if (TextUtils.isEmpty(mDataBinding.nickName.getText().toString())) {
             ToastUtils.showLong("昵称不能为空");
             return;
@@ -109,8 +108,10 @@ public class EditNickNameActivity extends BaseActivity<ActivityEditNickNameBindi
         RequestManager.instance().changeUserInfo(param, new MinerCallback<BaseResponseVo<UserVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
+                dismissLoading();
                 if (response.isSuccessful()) {
-                    YunApplication.setmUserVo(response.body().getBody());
+//                    YunApplication.setmUserVo(response.body().getBody());
+                    YunApplication.getmUserVo().setDisplay_name(mDataBinding.nickName.getText().toString());
                     ToastUtils.showLong("修改成功");
                     finish();
                 }
@@ -119,12 +120,12 @@ public class EditNickNameActivity extends BaseActivity<ActivityEditNickNameBindi
             @Override
             public void onError
                     (Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
     }

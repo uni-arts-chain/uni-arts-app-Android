@@ -2,6 +2,8 @@ package jp.co.soramitsu.feature_account_impl.presentation.mnemonic.confirm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.upbest.arouter.EventBusMessageEvent
+import com.upbest.arouter.EventEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import jp.co.soramitsu.common.base.BaseViewModel
@@ -13,6 +15,7 @@ import jp.co.soramitsu.common.utils.sendEvent
 import jp.co.soramitsu.common.vibration.DeviceVibrator
 import jp.co.soramitsu.feature_account_api.domain.interfaces.AccountInteractor
 import jp.co.soramitsu.feature_account_impl.presentation.AccountRouter
+import org.greenrobot.eventbus.EventBus
 
 class ConfirmMnemonicViewModel(
         private val interactor: AccountInteractor,
@@ -96,13 +99,13 @@ class ConfirmMnemonicViewModel(
 
         if (createExtras != null)
             createAccount(createExtras)
-//        } else {
-//            finishConfirmGame()
-//        }
+        else {
+            finishConfirmGame()
+        }
     }
 
     private fun finishConfirmGame() {
-        router.back()
+        EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_BACKUP_SUCCESS, ""))
     }
 
     private fun createAccount(extras: ConfirmMnemonicPayload.CreateExtras) {

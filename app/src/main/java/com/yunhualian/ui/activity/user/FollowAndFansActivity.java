@@ -1,6 +1,7 @@
 package com.yunhualian.ui.activity.user;
 
 
+import android.os.Bundle;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,12 +18,9 @@ import com.yunhualian.databinding.ActivityFollowBinding;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.FollowerVO;
 import com.yunhualian.entity.MemberInfo;
-import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,7 +32,7 @@ public class FollowAndFansActivity extends BaseActivity<ActivityFollowBinding> {
     FollowAdapter messagesAdapter;
     List<FollowerVO> followerVOList;
     String from;
-
+    int clickPosition = 0;
     public static final String FOLLOW = "follor";
     public static final String FANS = "fans";
 
@@ -62,22 +60,25 @@ public class FollowAndFansActivity extends BaseActivity<ActivityFollowBinding> {
         messagesAdapter.setEmptyView(R.layout.layout_entrust_empty, mDataBinding.messageList);
         mDataBinding.messageList.setAdapter(messagesAdapter);
         messagesAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            clickPosition = position;
             if (followerVOList.get(position).isFollow_by_me()) {
-                unFollow(followerVOList.get(position).getId());
+                unFollow(position);
             } else {
-                follow(followerVOList.get(position).getId());
+                follow(position);
             }
         });
-        mDataBinding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (from.equals(FOLLOW)) {
-                    queryFollowing();
-                } else {
-                    queryFollowers();
-                }
-                mDataBinding.swipeRefresh.setRefreshing(false);
+        messagesAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Bundle bundle1 = new Bundle();
+            bundle1.putInt(UserHomePageActivity.UID, followerVOList.get(position).getId());
+            startActivity(UserHomePageActivity.class, bundle1);
+        });
+        mDataBinding.swipeRefresh.setOnRefreshListener(() -> {
+            if (from.equals(FOLLOW)) {
+                queryFollowing();
+            } else {
+                queryFollowers();
             }
+            mDataBinding.swipeRefresh.setRefreshing(false);
         });
     }
 
@@ -150,20 +151,22 @@ public class FollowAndFansActivity extends BaseActivity<ActivityFollowBinding> {
         });
     }
 
-    public void follow(int uid) {
+    public void follow(int position) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("id", String.valueOf(uid));
-        RequestManager.instance().followAction(uid, params, new MinerCallback<BaseResponseVo<MemberInfo>>() {
+        params.put("id", String.valueOf(followerVOList.get(position).getId()));
+        RequestManager.instance().followAction(followerVOList.get(position).getId(), params, new MinerCallback<BaseResponseVo<MemberInfo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<MemberInfo>> call, Response<BaseResponseVo<MemberInfo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
                         ToastUtils.showShort("关注成功");
-                        if (from.equals(FOLLOW)) {
-                            queryFollowing();
-                        } else {
-                            queryFollowers();
-                        }
+                        followerVOList.get(position).setFollow_by_me(true);
+                        messagesAdapter.setNewData(followerVOList);
+//                        if (from.equals(FOLLOW)) {
+//                            queryFollowing();
+//                        } else {
+//                            queryFollowers();
+//                        }
                     }
                 }
             }
@@ -181,20 +184,22 @@ public class FollowAndFansActivity extends BaseActivity<ActivityFollowBinding> {
         });
     }
 
-    public void unFollow(int uid) {
+    public void unFollow(int position) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("id", String.valueOf(uid));
-        RequestManager.instance().unFollow(uid, params, new MinerCallback<BaseResponseVo<MemberInfo>>() {
+        params.put("id", String.valueOf(followerVOList.get(position).getId()));
+        RequestManager.instance().unFollow(followerVOList.get(position).getId(), params, new MinerCallback<BaseResponseVo<MemberInfo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<MemberInfo>> call, Response<BaseResponseVo<MemberInfo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
                         ToastUtils.showShort("取消关注成功");
-                        if (from.equals(FOLLOW)) {
-                            queryFollowing();
-                        } else {
-                            queryFollowers();
-                        }
+                        followerVOList.get(position).setFollow_by_me(false);
+                        messagesAdapter.setNewData(followerVOList);
+//                        if (from.equals(FOLLOW)) {
+//                            queryFollowing();
+//                        } else {
+//                            queryFollowers();
+//                        }
                     }
                 }
             }

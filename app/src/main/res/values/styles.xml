@@ -8,14 +8,28 @@
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
-        <!--        <item name="android:windowBackground">@mipmap/splash</item>-->
+        <item name="android:windowBackground">@drawable/page_launch</item>
         <item name="android:windowNoTitle">true</item> <!-- 设置无标题 -->
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
+    <style name="mProgress_horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
+        <item name="android:minHeight">3dip</item>
+        <item name="android:maxHeight">20dip</item>
+    </style>
+    <style name="AppTheme.Launcher">
 
+            <item name="android:windowBackground">@null</item>
+
+            <item name="android:windowDisablePreview">true</item>
+
+    </style>
     <declare-styleable name="BannerIndicator">
         <!-- 圆点的颜色 -->
         <attr name="selectColor" format="color" />
@@ -38,6 +52,7 @@
         <!--        <item name="android:layout_marginBottom">@dimen/dp_10</item>-->
         <!--        <item name="android:layout_marginTop">@dimen/dp_10</item>-->
     </style>
+
     <style name="text_normal_dark">
 
         <item name="android:textSize">@dimen/sp_16</item>
@@ -47,6 +62,7 @@
         <!--        <item name="android:layout_marginBottom">@dimen/dp_10</item>-->
         <!--        <item name="android:layout_marginTop">@dimen/dp_10</item>-->
     </style>
+
     <style name="mToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <!-- Toolbar 标题文字颜色 包括navigation search等icon颜色-->
         <item name="android:textColorPrimary">@color/black</item>
@@ -55,12 +71,12 @@
     <!--没有选中的样式-->
     <style name="bottom_normal_text">
         <item name="android:textColor">@color/_666666</item>
-        <item name="android:textSize">9sp</item>
+        <item name="android:textSize">11sp</item>
     </style>
     <!--选中的样式-->
     <style name="bottom_selected_text">
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textSize">9sp</item>
+        <item name="android:textColor">@color/_101010</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="dialog" parent="@android:style/Theme.Dialog">

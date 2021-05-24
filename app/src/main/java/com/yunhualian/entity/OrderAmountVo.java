@@ -19,6 +19,24 @@ public class OrderAmountVo implements Serializable {
     private String price;
     private int amount;
     private int total_amount;
+    private String seller_id;
+    private Boolean need_royalty;
+
+    public Boolean getNeed_royalty() {
+        return need_royalty;
+    }
+
+    public void setNeed_royalty(Boolean need_royalty) {
+        this.need_royalty = need_royalty;
+    }
+
+    public String getSeller_id() {
+        return seller_id;
+    }
+
+    public void setSeller_id(String seller_id) {
+        this.seller_id = seller_id;
+    }
 
     public String getSn() {
         return sn;

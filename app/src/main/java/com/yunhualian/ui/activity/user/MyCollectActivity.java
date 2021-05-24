@@ -3,10 +3,13 @@ package com.yunhualian.ui.activity.user;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -14,14 +17,17 @@ import com.blankj.utilcode.util.LogUtils;
 import com.igexin.sdk.PushManager;
 import com.upbest.arouter.Extras;
 import com.yunhualian.R;
+import com.yunhualian.adapter.CollectionAdapter;
 import com.yunhualian.adapter.HomePagePopularAdapter;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.databinding.ActivityMyCollectBinding;
 import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.entity.CollectArtVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.utils.SharedPreUtils;
 
 import org.bouncycastle.util.encoders.Hex;
@@ -35,7 +41,6 @@ import jp.co.soramitsu.fearless_utils.encrypt.EncryptionType;
 import jp.co.soramitsu.fearless_utils.encrypt.SignatureWrapper;
 import jp.co.soramitsu.fearless_utils.encrypt.Signer;
 import jp.co.soramitsu.fearless_utils.encrypt.model.Keypair;
-import jp.co.soramitsu.fearless_utils.ss58.SS58Encoder;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -45,9 +50,9 @@ import retrofit2.Response;
  * */
 public class MyCollectActivity extends BaseActivity<ActivityMyCollectBinding> {
 
-    private HomePagePopularAdapter popularAdapter;
+    private CollectionAdapter popularAdapter;
     private int page = 1;
-    private List<SellingArtVo> collectList;
+    private List<CollectArtVo> collectList;
 
     private String PREFS_SECURITY_SOURCE_MASK = "security_source_%s";
 
@@ -69,27 +74,37 @@ public class MyCollectActivity extends BaseActivity<ActivityMyCollectBinding> {
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleId = R.string.my_collect_title;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
-        List<String> list = Arrays.asList(getResources().getStringArray(R.array.country_codes));
         collectList = new ArrayList<>();
-        popularAdapter = new HomePagePopularAdapter(collectList);
+        popularAdapter = new CollectionAdapter(collectList);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mDataBinding.messageList.setLayoutManager(layoutManager);
-
+        mDataBinding.messageList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                layoutManager.invalidateSpanAssignments();
+            }
+        });
         popularAdapter.setEmptyView(R.layout.layout_entrust_empty, mDataBinding.messageList);
         mDataBinding.messageList.setAdapter(popularAdapter);
-
+        popularAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Bundle bundle = new Bundle();
+//            bundle.putSerializable(ArtDetailActivity.ART_KEY, collectList.get(position));
+            bundle.putInt(ArtDetailActivity.ART_ID, collectList.get(position).getFavoritable().getId());
+            startActivity(ArtDetailActivity.class, bundle);
+        });
         mDataBinding.swipeRefresh.setOnRefreshListener(() -> {
             getPopular();
             mDataBinding.swipeRefresh.setRefreshing(false);
         });
-//        getPopular();
-        getRaw();
+        getPopular();
+//        getRaw();
     }
 
     public void getPopular() {
-        RequestManager.instance().queryCollect(page, 10, new MinerCallback<BaseResponseVo<List<SellingArtVo>>>() {
+        RequestManager.instance().queryCollect(page, 20, new MinerCallback<BaseResponseVo<List<CollectArtVo>>>() {
             @Override
-            public void onSuccess(Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
+            public void onSuccess(Call<BaseResponseVo<List<CollectArtVo>>> call, Response<BaseResponseVo<List<CollectArtVo>>> response) {
                 if (response.isSuccessful()) {
                     collectList = response.body().getBody();
                     if (collectList.size() > 0) {
@@ -100,7 +115,7 @@ public class MyCollectActivity extends BaseActivity<ActivityMyCollectBinding> {
 
             @Override
             public void onError
-                    (Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
+                    (Call<BaseResponseVo<List<CollectArtVo>>> call, Response<BaseResponseVo<List<CollectArtVo>>> response) {
 
             }
 

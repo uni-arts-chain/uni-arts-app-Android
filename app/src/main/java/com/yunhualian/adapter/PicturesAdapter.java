@@ -1,11 +1,19 @@
 package com.yunhualian.adapter;
 
 
+import android.graphics.Bitmap;
+import android.text.TextUtils;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -18,7 +26,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-import static com.yunhualian.utils.DensityUtils.zoomImg;
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 
 public class PicturesAdapter extends BaseQuickAdapter<SellingArtVo, BaseViewHolder> {
 
@@ -29,49 +38,40 @@ public class PicturesAdapter extends BaseQuickAdapter<SellingArtVo, BaseViewHold
     @Override
     protected void convert(BaseViewHolder helper, SellingArtVo item) {
         ImageView ivImage = helper.getView(R.id.hot_picture);
-        Glide.with(mContext).clear(ivImage);
-        Glide.with(mContext).load(item.getImg_main_file1().getUrl()).into(ivImage);
         helper.setText(R.id.picture_name, item.getName());
 
         helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(" " + item.getPrice()));
+        if (TextUtils.isEmpty(item.getLive2d_file())) {
+            helper.setVisible(R.id.live2d, false);
+        } else helper.setVisible(R.id.live2d, true);
 
+        Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                int height = DisplayUtils.px2dp(mContext, bitmap.getHeight());
+                int width = DisplayUtils.px2dp(mContext, bitmap.getWidth());
 
-//        Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
-//            @Override
-//            public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-//                int height = DisplayUtils.px2dp(mContext, bitmap.getHeight());
-//                int width = DisplayUtils.px2dp(mContext, bitmap.getWidth());
-//
-//                int imageViewWidth = DisplayUtils.px2dp(mContext, ivImage.getWidth());
-//                LogUtils.e("height =  " + height + "||width = " + width + "||imgview width = " + imageViewWidth + "||height = "
-//                        + ((int) (imageViewWidth / width)) * height);
-//                BigDecimal height_ = new BigDecimal(String.valueOf(imageViewWidth))
-//                        .divide(new BigDecimal(String.valueOf(width)), 2, RoundingMode.HALF_DOWN)
-//                        .multiply(new BigDecimal(String.valueOf(height)));
-//                LogUtils.e("height =  " + height_);
-//                ivImage.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                        DisplayUtils.dp2px(mContext, height_.floatValue())));
-//
-//                bitmap.recycle();
-//            }
-//        });
+                float realWidth = ScreenUtils.getScreenWidth() / 2f - 30;
+                int imageViewWidth = DisplayUtils.px2dp(mContext, (int) realWidth);
+                BigDecimal height_ = new BigDecimal(String.valueOf(imageViewWidth))
+                        .divide(new BigDecimal(String.valueOf(width)), 2, RoundingMode.HALF_DOWN)
+                        .multiply(new BigDecimal(String.valueOf(height)));
+                ivImage.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        DisplayUtils.dp2px(mContext, height_.floatValue())));
+            }
+        });
+        Glide.with(mContext)
+                .load(item.getImg_main_file1().getUrl())
+                .skipMemoryCache(true).transition(withCrossFade())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(ivImage);
+    }
 
-//        Glide.with(mContext)
-//                .asBitmap().load(item.getImg_main_file1().getUrl())
-//                .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-//                    @Override
-//                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-//                        //这个bitmap就是你图片url加载得到的结果
-//                        //获取bitmap信息，可赋值给外部变量操作，也可在此时行操作。
-//                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivImage.getLayoutParams();//获取你要填充图片的布局的layoutParam
-//                        layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ScreenUtils.getScreenWidth() / 2);
-//                        //因为是2列,所以宽度是屏幕的一半,高度是根据bitmap的高/宽*屏幕宽的一半
-//                        layoutParams.width = ScreenUtils.getScreenWidth() / 2;//这个是布局的宽度
-//                        ivImage.setLayoutParams(layoutParams);//容器的宽高设置好了
-//                        bitmap = zoomImg(bitmap, layoutParams.width, layoutParams.height);
-//                        // 然后在改变一下bitmap的宽高
-//                        ivImage.setImageBitmap(bitmap);
-//                    }
-//                });
+    @Override
+    public void onViewRecycled(@NonNull BaseViewHolder holder) {
+        super.onViewRecycled(holder);
+        ImageView imageView = holder.getView(R.id.hot_picture);
+        if (imageView != null)
+            Glide.with(mContext).clear(imageView);
     }
 }

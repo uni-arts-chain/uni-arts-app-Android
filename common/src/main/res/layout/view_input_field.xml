@@ -3,17 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/text_gray"
     tools:parentTag="com.google.android.material.textfield.TextInputLayout">
 
     <EditText
         android:id="@+id/inputField"
         android:layout_width="match_parent"
         android:layout_height="52dp"
+        android:textSize="15sp"
         android:background="@null"
-        android:hint="@string/create_wallet_name_hint"
-        android:includeFontPadding="false"
-        android:textColor="@color/black"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="end|center_vertical"
         android:inputType="text"
-        android:maxLength="64" />
+        android:singleLine="true"
+        android:textColor="@color/black" />
 
 </merge>

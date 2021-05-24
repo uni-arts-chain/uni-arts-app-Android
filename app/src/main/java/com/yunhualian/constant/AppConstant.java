@@ -20,16 +20,17 @@ public class AppConstant {
     public static final int INTENT_EXTRA_KEY_QR_SCAN = 4;
     public static final String TOKEN_FAILURE = "10002";
     //接口地址
-    private static final String IPADDRESS_RELEASE = "tatmasglobal.com";
+    private static final String IPADDRESS_RELEASE = "uniarts.senmeo.tech";
     private static final String IPADDRESS_DEBUG = "app.uniarts.me";
+
     //    public static final String ADDRESS = (BuildConfig.DEBUG ? "http" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
-    public static final String ADDRESS = (BuildConfig.DEBUG ? "https" : "http") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_DEBUG);
+    public static final String ADDRESS = (BuildConfig.DEBUG ? "https" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_RELEASE : IPADDRESS_RELEASE);
 
     // 服务器固定参数
     public static final String MD5_KEY = "h0r9,cf@5Ae;aB,0";
     public static final String HOME_CURRENT_ITEM_ID = "HOME_CURRENT_ITEM_ID";
     public static final String APP_CACHE_WEBVIEW_DIRNAME = "APP_CACHE_WEBVIEW_DIRNAME";
-    public static final String UMENG_APP_KEY = "5f058cc1dbc2ec083e6724f4";
+    public static final String UMENG_APP_KEY = "60a258b1c9aacd3bd4d7fe8d";
 
     public static final String URL_DOWNLOAD_ALICLOUD_APP = "http://otp.aliyun.com/m/";
 

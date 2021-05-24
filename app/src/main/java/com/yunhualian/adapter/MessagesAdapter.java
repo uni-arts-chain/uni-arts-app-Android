@@ -5,7 +5,9 @@ import android.content.Context;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.upbest.arouter.Extras;
 import com.yunhualian.R;
+import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.entity.MessagesVo;
 import com.yunhualian.utils.DateUtil;
 
@@ -19,8 +21,8 @@ public class MessagesAdapter extends BaseQuickAdapter<MessagesVo, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, MessagesVo item) {
-        helper.setText(R.id.title, item.getBody());
-        helper.setText(R.id.time, DateUtil.dateToStringWith(item.getCreated_at() * 1000));
+        helper.setText(R.id.title, item.getTitle());
+        helper.setText(R.id.time, DateUtil.dateToStringWith(item.getCreated_at() * ExtraConstant.DEFAULT_TIME_EPLI));
         if (item.isRead()) {
             helper.setVisible(R.id.noRead, false);
         } else {

@@ -42,30 +42,15 @@ public class PrizeAdapter extends BaseQuickAdapter<ArtPriceVo, BaseViewHolder> {
                 if (null != onSelectedListener)
                     onSelectedListener.onSelected(helper.getPosition());
             }
-
-
-//                if (hashMap.get(helper.getPosition()) == 0) {
-//                    hashMap.put(helper.getPosition(), 1);
-//                    textView.setTextColor(mContext.getResources().getColor(R.color.white));
-//                    textView.setBackgroundColor(mContext.getResources().getColor(R.color.picture_name_color));
-//                    if (null != onSelectedListener)
-//                        onSelectedListener.onSelected(helper.getPosition());
-//                } else {
-//                    hashMap.put(helper.getPosition(), 0);
-//                    textView.setTextColor(mContext.getResources().getColor(R.color.picture_name_color));
-//                    textView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-//                    if (null != onSelectedListener)
-//                        onSelectedListener.onUnSelected(helper.getPosition());
-//                }
         });
 
 
         if (clickPosition == helper.getPosition()) {
             textView.setTextColor(mContext.getResources().getColor(R.color.white));
-            textView.setBackgroundColor(mContext.getResources().getColor(R.color.picture_name_color));
+            textView.setBackground(mContext.getResources().getDrawable(R.drawable.shape_sort_type_without_stroke));
 
         } else {
-            textView.setTextColor(mContext.getResources().getColor(R.color.picture_name_color));
+            textView.setTextColor(mContext.getResources().getColor(R.color._101010));
             textView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
 
         }

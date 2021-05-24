@@ -7,11 +7,15 @@
     <color name="_4593E6">#4593E6</color>
     <color name="_33D7EE">#33D7EE</color>
 
+    <color name="discovery_application_text_color">#292929</color>
+    <color name="dialog_know_btn_bg_color">#fa6a74</color>
     <color name="default_bg_color">#1b2227</color>
     <color name="_DBE6EE">#ffdbe6ee</color>
     <color name="_D2D5DB">#D2D5DB</color>
     <color name="_EFEFEF">#EFEFEF</color>
+    <color name="colorWhite_tD">#D8FFFFFF</color>
 
+    <color name="colorWhite_t8">#8FFF</color>
     <color name="black_color2">#ffdedede</color>
     <color name="black">#333333</color>
     <color name="_FD6E5F">#fd6e5f</color>

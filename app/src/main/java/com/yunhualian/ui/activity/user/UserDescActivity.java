@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yunhualian.R;
@@ -51,7 +52,9 @@ public class UserDescActivity extends BaseActivity<ActivityUserDescBinding> {
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleId = R.string.user_profile_desc;
         mToolBarOptions.rightTextString = R.string.user_profile_desc_save;
-        mDataBinding.mAppBarLayoutAv.mToolbar.findViewById(R.id.txt_right).setOnClickListener(v -> save());
+        TextView rightTx = mDataBinding.mAppBarLayoutAv.mToolbar.findViewById(R.id.txt_right);
+        rightTx.setOnClickListener(v -> save());
+        rightTx.setTextColor(getResources().getColor(R.color.blue_txt_color));
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
 
         mDataBinding.advice.addTextChangedListener(new TextWatcher() {
@@ -88,8 +91,13 @@ public class UserDescActivity extends BaseActivity<ActivityUserDescBinding> {
                 }
             }
         });
-        if (!TextUtils.isEmpty(defaultDesc))
+        if (!TextUtils.isEmpty(defaultDesc)) {
             mDataBinding.advice.setText(defaultDesc);
+            mDataBinding.advice.setSelection(defaultDesc.length());
+        } else if (!TextUtils.isEmpty(YunApplication.getmUserVo().getDesc())) {
+            mDataBinding.advice.setText(YunApplication.getmUserVo().getDesc());
+            mDataBinding.advice.setSelection(YunApplication.getmUserVo().getDesc().length());
+        }
         String addr = SharedPreUtils.getString(this, SharedPreUtils.KEY_ADDRESS);
         String seed = SharedPreUtils.getString(this, SharedPreUtils.KEY_SEED);
         String publicKey = SharedPreUtils.getString(this, SharedPreUtils.KEY_PUBLICKEY);
@@ -101,13 +109,16 @@ public class UserDescActivity extends BaseActivity<ActivityUserDescBinding> {
             ToastUtils.showLong("描述内容不能为空");
             return;
         }
+        showLoading(getString(R.string.progress_loading));
         HashMap<String, String> param = new HashMap<>();
         param.put("desc", mDataBinding.advice.getText().toString());
         RequestManager.instance().changeUserInfo(param, new MinerCallback<BaseResponseVo<UserVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
+                dismissLoading();
                 if (response.isSuccessful()) {
-                    YunApplication.setmUserVo(response.body().getBody());
+//                    YunApplication.setmUserVo(response.body().getBody());
+                    YunApplication.getmUserVo().setDesc(mDataBinding.advice.getText().toString());
                     ToastUtils.showLong("修改成功");
                     finish();
                 }
@@ -116,12 +127,12 @@ public class UserDescActivity extends BaseActivity<ActivityUserDescBinding> {
             @Override
             public void onError
                     (Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
     }

@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import java.math.BigDecimal
 
-private val TOKEN_TYPE = Token.Type.WND
+private val TOKEN_TYPE = Token.Type.DOT
 private val EXISTENTIAL_DEPOSIT = TOKEN_TYPE.networkType.runtimeConfiguration.existentialDeposit.setScale(10)
 
 @Suppress("UnnecessaryVariable")

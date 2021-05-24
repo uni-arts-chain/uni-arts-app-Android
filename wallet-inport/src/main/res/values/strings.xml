@@ -86,29 +86,6 @@
         <item>我卖出的</item>
 
     </string-array>
-    <string-array name="sorts">
-        <item>油画</item>
-        <item>水彩</item>
-        <item>国画</item>
-        <item>速写</item>
-        <item>简笔</item>
-        <item>抽象</item>
-        <item>现代</item>
-
-
-    </string-array>
-    <string-array name="popular">
-        <item>油画</item>
-        <item>水彩</item>
-        <item>国画</item>
-        <item>速写</item>
-        <item>简笔</item>
-        <item>抽象</item>
-        <item>现代</item>
-        <item>简笔</item>
-        <item>抽象</item>
-        <item>现代</item>
-    </string-array>
 
     <string-array name="mine_actions">
         <item>买入订单</item>

@@ -88,7 +88,7 @@ class PinCodeView @JvmOverloads constructor(
     }
 
     private fun pinNumberAdded(number: String) {
-        if (inputCode.length > DotsProgressView.MAX_PROGRESS) {
+        if (inputCode.length >= DotsProgressView.MAX_PROGRESS) {
             return
         } else {
             inputCode += number
@@ -96,6 +96,7 @@ class PinCodeView @JvmOverloads constructor(
         }
         if (inputCode.length == DotsProgressView.MAX_PROGRESS) {
             pinCodeEnteredListener(inputCode)
+
         }
     }
 

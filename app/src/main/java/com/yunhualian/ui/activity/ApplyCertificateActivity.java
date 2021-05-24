@@ -2,18 +2,17 @@ package com.yunhualian.ui.activity;
 
 
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yunhualian.R;
 import com.yunhualian.adapter.MineCertifyArtsAdapter;
 import com.yunhualian.adapter.SignCompanysAdapter;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.databinding.ActivityApplyCertificateBinding;
+import com.yunhualian.ui.activity.art.ArtDetailActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,6 +83,6 @@ public class ApplyCertificateActivity extends BaseActivity<ActivityApplyCertific
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        startActivity(ArtDetailActivity.class);
+//        startActivity(ArtDetailActivity.class);
     }
 }

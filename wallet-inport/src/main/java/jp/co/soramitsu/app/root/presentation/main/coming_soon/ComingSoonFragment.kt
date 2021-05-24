@@ -10,14 +10,13 @@ import jp.co.soramitsu.common.base.BaseFragment
 import jp.co.soramitsu.common.di.FeatureUtils
 import jp.co.soramitsu.common.utils.showBrowser
 import jp.co.soramitsu.inport.R
-import kotlinx.android.synthetic.main.fragment_coming_soon.comingSoonDevStatus
-import kotlinx.android.synthetic.main.fragment_coming_soon.comingSoonRoadmap
+import kotlinx.android.synthetic.main.fragment_coming_soon.*
 
 class ComingSoonFragment : BaseFragment<ComingSoonViewModel>() {
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return layoutInflater.inflate(R.layout.fragment_coming_soon, container, false)
     }
@@ -29,9 +28,9 @@ class ComingSoonFragment : BaseFragment<ComingSoonViewModel>() {
 
     override fun inject() {
         FeatureUtils.getFeature<RootComponent>(this, RootApi::class.java)
-            .comingSoonComponentFactory()
-            .create(this)
-            .inject(this)
+                .comingSoonComponentFactory()
+                .create(this)
+                .inject(this)
     }
 
     override fun subscribe(viewModel: ComingSoonViewModel) {

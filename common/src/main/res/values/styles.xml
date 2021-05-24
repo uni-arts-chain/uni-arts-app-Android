@@ -64,7 +64,7 @@
         <item name="android:background">@drawable/bg_button_primary_selector</item>
     </style>
 
-    <style  name="Widget.Fearless.Button.Outline">
+    <style name="Widget.Fearless.Button.Outline">
         <item name="android:background">@drawable/bg_button_outline_selector</item>
     </style>
 
@@ -83,7 +83,7 @@
         <item name="hintTextColor">@color/colorHint</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
-        <item name="boxCollapsedPaddingTop">@dimen/x1</item>
+        <item name="boxCollapsedPaddingTop">0dp</item>
     </style>
 
     <style name="Widget.Fearless.Input.Primary.Internal" parent="Base.Widget.AppCompat.EditText">

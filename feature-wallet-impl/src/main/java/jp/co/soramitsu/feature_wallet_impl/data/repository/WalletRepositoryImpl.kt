@@ -164,7 +164,6 @@ class WalletRepositoryImpl(
         val stakingUpdates = substrateSource.listenStakingLedger(account.address)
                 .flatMapCompletable { stakingLedger ->
                     substrateSource.getActiveEra().flatMapCompletable { era ->
-                        Log.e("updateAssetStaking","updateAssetStaking")
                         updateAssetStaking(account, stakingLedger, era)
                     }
                 }

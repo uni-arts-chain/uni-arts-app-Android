@@ -11,6 +11,6 @@
         android:layout_margin="@dimen/dp_10"
         android:paddingLeft="@dimen/dp_5"
         android:paddingRight="@dimen/dp_5"
-        android:textColor="@color/_606060"
+        android:textColor="@color/_101010"
         android:textSize="@dimen/sp_14" />
 </RelativeLayout>

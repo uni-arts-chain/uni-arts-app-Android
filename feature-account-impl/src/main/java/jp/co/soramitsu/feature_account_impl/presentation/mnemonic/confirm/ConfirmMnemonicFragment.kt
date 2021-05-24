@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import com.upbest.arouter.EventBusMessageEvent
+import com.upbest.arouter.EventEntity
+import com.upbest.arouter.Extras
 import jp.co.soramitsu.common.base.BaseFragment
 import jp.co.soramitsu.common.di.FeatureUtils
+import jp.co.soramitsu.common.utils.Event
 import jp.co.soramitsu.common.utils.doOnGlobalLayout
 import jp.co.soramitsu.common.utils.setVisible
 import jp.co.soramitsu.feature_account_api.di.AccountFeatureApi
@@ -15,10 +19,8 @@ import jp.co.soramitsu.feature_account_impl.R
 import jp.co.soramitsu.feature_account_impl.di.AccountFeatureComponent
 import jp.co.soramitsu.feature_account_impl.presentation.mnemonic.confirm.view.MnemonicWordView
 import kotlinx.android.synthetic.main.fragment_backup_mnemonic.toolbar
-import kotlinx.android.synthetic.main.fragment_confirm_mnemonic.confirmationMnemonicView
-import kotlinx.android.synthetic.main.fragment_confirm_mnemonic.conformMnemonicSkip
-import kotlinx.android.synthetic.main.fragment_confirm_mnemonic.nextBtn
-import kotlinx.android.synthetic.main.fragment_confirm_mnemonic.wordsMnemonicView
+import kotlinx.android.synthetic.main.fragment_confirm_mnemonic.*
+import org.greenrobot.eventbus.EventBus
 
 class ConfirmMnemonicFragment : BaseFragment<ConfirmMnemonicViewModel>() {
 
@@ -60,7 +62,7 @@ class ConfirmMnemonicFragment : BaseFragment<ConfirmMnemonicViewModel>() {
         conformMnemonicSkip.setOnClickListener {
             viewModel.skipClicked()
         }
-
+        noData.setVisible(!Extras.isShow)
     }
 
     override fun inject() {
@@ -94,9 +96,12 @@ class ConfirmMnemonicFragment : BaseFragment<ConfirmMnemonicViewModel>() {
         }
 
         viewModel.matchingMnemonicErrorAnimationEvent.observeEvent {
+            textView2.setVisible(true)
+            textView2.text = "助记词不正确"
             playMatchingMnemonicErrorAnimation()
         }
-        conformMnemonicSkip.performClick()
+        if (!Extras.isShow)
+            conformMnemonicSkip.performClick()
     }
 
     private fun populateMnemonicContainer(mnemonicWords: List<String>) {

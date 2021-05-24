@@ -28,18 +28,18 @@ public class FollowAdapter extends BaseQuickAdapter<FollowerVO, BaseViewHolder> 
             Glide.with(mContext).load(item.getAvatar().getUrl()).apply(requestOptions)
                     .into((ImageView) helper.getView(R.id.mine_title_img));
         if (TextUtils.isEmpty(item.getDisplay_name()))
-            helper.setText(R.id.nick_name, "未设置昵称");
+            helper.setText(R.id.nick_name, mContext.getString(R.string.no_display_name));
         else
             helper.setText(R.id.nick_name, item.getDisplay_name());
         helper.setText(R.id.follow, mContext.getString(R.string.arts_num, String.valueOf(item.getArt_size())));
         if (item.isFollow_by_me()) {
             helper.setBackgroundRes(R.id.focus, R.drawable.shape_bg_black);
             helper.setTextColor(R.id.focus, mContext.getResources().getColor(R.color._101010));
-            helper.setText(R.id.focus, "取消关注");
+            helper.setText(R.id.focus, mContext.getString(R.string.canel_follow));
         } else {
             helper.setBackgroundRes(R.id.focus, R.drawable.shape_btn_bgcolor_black);
             helper.setTextColor(R.id.focus, mContext.getResources().getColor(R.color.white));
-            helper.setText(R.id.focus, "关注");
+            helper.setText(R.id.focus, mContext.getString(R.string.text_follow));
         }
         helper.addOnClickListener(R.id.focus);
     }

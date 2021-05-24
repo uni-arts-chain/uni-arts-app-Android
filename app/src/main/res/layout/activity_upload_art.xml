@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:context="com.yunhualian.ui.activity.UploadArtActivity">
+            tools:context="com.yunhualian.ui.activity.user.UploadArtActivity">
 
             <include
                 android:id="@+id/mAppBarLayout_av"
@@ -42,9 +42,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dp_15"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginBottom="@dimen/dp_5"
+                android:fontFamily="sans-serif-medium"
                 android:text="上传三张作品高清图片"
-                android:textColor="@color/text_black_dark"
+                android:textColor="@color/_101010"
                 android:textSize="@dimen/sp_15" />
 
             <LinearLayout
@@ -102,7 +105,7 @@
                             android:drawablePadding="12dp"
                             android:text="上传图片"
                             android:textColor="@color/_909090"
-                            android:textSize="@dimen/sp_15" />
+                            android:textSize="@dimen/sp_12" />
                     </RelativeLayout>
 
                 </RelativeLayout>
@@ -249,6 +252,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/imgEg1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -256,6 +260,7 @@
 
 
                     <ImageView
+                        android:id="@+id/imgEg2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -263,6 +268,7 @@
 
 
                     <ImageView
+                        android:id="@+id/imgEg3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -474,7 +480,7 @@
                 android:textColor="@color/text_black_dark"
                 android:textSize="@dimen/sp_15" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="190dp"
                 android:layout_marginLeft="@dimen/dp_15"
@@ -486,6 +492,7 @@
                     android:id="@+id/advice"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:background="@null"
                     android:gravity="top"
                     android:hint="请输入你对作品的整体评析..."
@@ -494,15 +501,14 @@
 
                 <TextView
                     android:id="@+id/textNum"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="end"
-                    android:layout_margin="@dimen/dp_15"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:gravity="end"
                     android:text="0/200"
                     android:textColor="@color/_909090" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -651,7 +657,8 @@
                     android:drawablePadding="@dimen/dp_5"
                     android:paddingTop="@dimen/dp_20"
                     android:paddingBottom="@dimen/dp_20"
-                    android:text="请选择" />
+                    android:text="请选择"
+                    android:textColor="@color/_999999" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -737,7 +744,7 @@
                     android:gravity="center"
                     android:inputType="phone"
                     android:singleLine="true"
-                    android:text="1000"
+                    android:text=""
                     android:textSize="@dimen/sp_16" />
 
                 <TextView
@@ -794,6 +801,84 @@
                     android:paddingTop="@dimen/dp_20"
                     android:paddingBottom="@dimen/dp_20"
                     android:text="￥" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/royaltyLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/text_normal_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/dp_20"
+                    android:paddingBottom="@dimen/dp_20"
+                    android:text="@string/text_set_rolaty_rate" />
+
+                <TextView
+                    android:id="@+id/art_royalty"
+                    style="@style/text_normal_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:paddingTop="@dimen/dp_20"
+                    android:paddingBottom="@dimen/dp_20"
+                    android:text="" />
+
+                <EditText
+                    android:id="@+id/artRoyaltyInput"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/rateSymple"
+                    android:digits="1234567890"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/rateSymple"
+                    style="@style/text_normal_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:paddingTop="@dimen/dp_20"
+                    android:paddingBottom="@dimen/dp_20"
+                    android:text="%" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/timeSelect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/text_normal_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/dp_20"
+                    android:paddingBottom="@dimen/dp_20"
+                    android:text="@string/text_set_date" />
+
+                <TextView
+                    android:id="@+id/selectDateTv"
+                    style="@style/text_normal_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:drawableRight="@mipmap/icon_arrow_right"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:paddingTop="@dimen/dp_20"
+                    android:paddingBottom="@dimen/dp_20"
+                    android:text="请选择"
+                    android:textColor="@color/_999999" />
             </RelativeLayout>
 
             <Button

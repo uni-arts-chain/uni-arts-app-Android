@@ -3,22 +3,34 @@ package com.yunhualian.ui.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunhualian.R;
 import com.yunhualian.adapter.MyHomePageArtAdapter;
-import com.yunhualian.adapter.PicturesAdapter;
 import com.yunhualian.base.BaseFragment;
+import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.databinding.FragmentMyPagePictureSortBinding;
 import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.entity.EventBusMessageEvent;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.CustomerServiceActivity;
+import com.yunhualian.ui.activity.TransferActivity;
+import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.ui.activity.user.SellArtActivity;
-import com.yunhualian.utils.MyStaggeredGridLayoutManager;
+import com.yunhualian.ui.activity.user.SellArtUnCutActivity;
+import com.yunhualian.widget.UploadSuccessPopUpWindow;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +43,10 @@ public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePi
     public static String STATE_ONLINE = "online";
     public static String STATE_AUCTION = "bidding";
     public static String STATE = "state";
+    public static int CUT_MODE = 3;
     MyHomePageArtAdapter picturesAdapter;
+
+    UploadSuccessPopUpWindow uploadSuccessPopUpWindow;
     List<SellingArtVo> artVoList;
     private String state;
     private boolean hasRefresh = false;
@@ -65,24 +80,76 @@ public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePi
 
     @Override
     protected void initView() {
+        EventBus.getDefault().register(this);
         state = getArguments().getString(STATE);
         picturesAdapter = new MyHomePageArtAdapter(artVoList);
         StaggeredGridLayoutManager sortLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mBinding.pictures.setLayoutManager(sortLayoutManager);
-        picturesAdapter.setEmptyView(R.layout.layout_entrust_empty, mBinding.pictures);
+        picturesAdapter.setEmptyView(R.layout.layout_entrust_empty_for_homepage, mBinding.pictures);
+        mBinding.pictures.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                sortLayoutManager.invalidateSpanAssignments();
+            }
+        });
         mBinding.pictures.setAdapter(picturesAdapter);
+        picturesAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ArtDetailActivity.ART_KEY, artVoList.get(position));
+            bundle.putInt(ArtDetailActivity.ART_ID, artVoList.get(position).getId());
+            startActivity(ArtDetailActivity.class, bundle);
+        });
         picturesAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             //去出售
             SellingArtVo sellingArtVo = null;
             if (artVoList.size() > 0) {
                 sellingArtVo = artVoList.get(position);
             }
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(SellArtActivity.ARTINFO, sellingArtVo);
-            startActivity(SellArtActivity.class, bundle);
+            if (view.getId() == R.id.sellAction) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(SellArtActivity.ARTINFO, sellingArtVo);
+                if (sellingArtVo.getCollection_mode() == CUT_MODE) {
+                    startActivity(SellArtActivity.class, bundle);
+                } else
+                    startActivity(SellArtUnCutActivity.class, bundle);
+            } else if (view.getId() == R.id.transferAction) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(SellArtActivity.ARTINFO, sellingArtVo);
+                startActivity(TransferActivity.class, bundle);
+            }
         });
+        mBinding.swipeRefresh.setOnRefreshListener(this::queryArts);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(EventBusMessageEvent mEventBusMessageEvent) {
+        if (null != mEventBusMessageEvent && !TextUtils.isEmpty(mEventBusMessageEvent.getmMessage())) {
+            if (TextUtils.equals(ExtraConstant.EVENT_SELL_SUCCESS, mEventBusMessageEvent.getmMessage())) {
+                showPopWindow();
+            }
+        }
+    }
+
+    private void showPopWindow() {
+        if (mActivity != null)
+            uploadSuccessPopUpWindow = new UploadSuccessPopUpWindow(mActivity, new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
+                @Override
+                public void onCancleClick() {
+                    uploadSuccessPopUpWindow.dismiss();
+                }
+
+                @Override
+                public void onPerformClick() {
+                    uploadSuccessPopUpWindow.dismiss();
+                    startActivity(CustomerServiceActivity.class);
+                }
+            });
+        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.text_call_service));
+        uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
+        uploadSuccessPopUpWindow.showAtLocation(mBinding.swipeRefresh, Gravity.CENTER, 0, 0);
+        EventBus.getDefault().removeAllStickyEvents();
+    }
 
     @Override
     public void onResume() {
@@ -98,10 +165,14 @@ public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePi
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 
     private void queryArts() {
+        if (mBinding.swipeRefresh.isRefreshing()) {
+            mBinding.swipeRefresh.setRefreshing(false);
+        }
         showLoading("");
         HashMap<String, String> param = new HashMap<>();
         param.put("aasm_state", state);
@@ -118,8 +189,6 @@ public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePi
                     if (artVoList.size() > 0) {
                         picturesAdapter.setNewData(artVoList);
                         dismissLoading();
-                        if (!hasRefresh)
-                            handler.sendEmptyMessageDelayed(0, 300);
                     }
                 }
             }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data></data>
@@ -7,27 +8,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50">
+            android:layout_height="62dp"
+            android:layout_marginTop="@dimen/dp_20">
 
-            <com.yunhualian.widget.CircleImageView
-                android:id="@+id/mine_title_img"
-                android:layout_width="@dimen/dp_50"
-                android:layout_height="@dimen/dp_50"
-                android:layout_alignParentLeft="true"
+            <RelativeLayout
+                android:id="@+id/picturLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
-                android:src="@mipmap/img_default_head" />
+                android:background="@drawable/img_bg_circle_mine_head">
+
+                <com.yunhualian.widget.CircleImageView
+                    android:id="@+id/mine_title_img"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/dp_3"
+                    android:src="@mipmap/icon_default_head" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_toLeftOf="@+id/setting"
-                android:layout_toRightOf="@+id/mine_title_img"
+                android:layout_toRightOf="@+id/picturLayout"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -42,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/mine_title_img"
-                        android:text="nickname"
+                        android:text=""
                         android:textColor="@color/picture_name_color"
                         android:textSize="@dimen/sp_18"
                         android:textStyle="bold" />
@@ -56,7 +68,8 @@
                         android:layout_marginLeft="@dimen/dp_10"
                         android:layout_marginRight="@dimen/dp_10"
                         android:layout_toRightOf="@+id/nick_name"
-                        android:src="@mipmap/icon_yirenzheng" />
+                        android:src="@mipmap/icon_yirenzheng"
+                        android:visibility="gone" />
 
 
                 </LinearLayout>
@@ -114,10 +127,11 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/walletLayout"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_marginLeft="@dimen/dp_15"
-            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginTop="25dp"
             android:layout_marginRight="@dimen/dp_15"
             android:background="@mipmap/bg_wode">
 
@@ -154,7 +168,7 @@
             android:id="@+id/my_action_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_15" />
+            android:layout_margin="@dimen/dp_20" />
 
     </LinearLayout>
 </layout>

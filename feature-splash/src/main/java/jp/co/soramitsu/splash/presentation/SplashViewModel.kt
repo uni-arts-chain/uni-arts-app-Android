@@ -30,7 +30,7 @@ class SplashViewModel(
 
                 if (isSelected) {
                     if (repository.isCodeSet()) {
-                        router.openInitialCheckPincode()
+                        router.openMainTab()
                     } else {
                         router.openCreatePincode()
                     }

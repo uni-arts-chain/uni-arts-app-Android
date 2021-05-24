@@ -1,0 +1,131 @@
+package com.yunhualian.ui.activity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import android.os.Bundle;
+
+import com.github.chrisbanes.photoview.PhotoView;
+import com.yunhualian.R;
+import com.yunhualian.widget.ZoomImageView;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+
+public class ShowBigImgActivity extends Activity implements ViewPager.OnPageChangeListener {
+
+    /**
+     * 用于管理图片的滑动
+     */
+    private ViewPager viewPager;
+    private int position;
+    /**
+     * 显示当前图片的页数
+     */
+    private TextView pageText;
+    private int[] image = {R.mipmap.img_eg1, R.mipmap.img_eg2, R.mipmap.img_eg3};
+    private List<Map<String, Integer>> list = new ArrayList<Map<String, Integer>>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        position = getIntent().getIntExtra("index", 0);
+        setContentView(R.layout.activity_show_big_img);
+        pageText = (TextView) findViewById(R.id.page_text);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        for (int i = 0; i < image.length; i++) {
+            Map<String, Integer> map = new HashMap<String, Integer>();
+            map.put("image", image[i]);
+            list.add(map);
+        }
+        ViewPagerAdapter adapter = new ViewPagerAdapter(ShowBigImgActivity.this, list);
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(position - 1);
+        viewPager.setOnPageChangeListener(this);
+        viewPager.setEnabled(false);
+        // 设定当前的页数和总页数
+        pageText.setText(position + "/" + image.length);
+
+        ImageView imageView = findViewById(R.id.close);
+        imageView.setOnClickListener(v -> finish());
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int arg0) {
+
+    }
+
+    @Override
+    public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+    }
+
+    @Override
+    public void onPageSelected(int arg0) {
+        // 每当页数发生改变时重新设定一遍当前的页数和总页数
+        pageText.setText((arg0 + 1) + "/" + image.length);
+    }
+
+    /**
+     * ViewPager的适配器
+     *
+     * @author guolin
+     */
+    class ViewPagerAdapter extends PagerAdapter {
+        List<Map<String, Integer>> list;
+        private Context context;
+
+        public ViewPagerAdapter(Context context, List<Map<String, Integer>> lists) {
+            this.context = context;
+            this.list = lists;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), list.get(position).get("image"));
+            if (bitmap == null) {
+                bitmap = BitmapFactory.decodeResource(getResources(),
+                        R.mipmap.icon_empty);
+            }
+            View view = LayoutInflater.from(ShowBigImgActivity.this).inflate(
+                    R.layout.zoom_image_layout, null);
+            PhotoView zoomImageView = view
+                    .findViewById(R.id.photo_view);
+            zoomImageView.setImageBitmap(bitmap);
+            container.addView(view);
+            return view;
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View arg0, Object arg1) {
+            return arg0 == arg1;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            View view = (View) object;
+            container.removeView(view);
+        }
+
+    }
+}

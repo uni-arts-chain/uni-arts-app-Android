@@ -5,7 +5,7 @@ ext{
             compileSdkVersion    : 28,
             buildToolsVersion    : "28.0.3",
             minSdkVersion        : 23,
-            targetSdkVersion     : 28,
+            targetSdkVersion     : 30,
             androidSupportVersion: "28.+",
     ]
 

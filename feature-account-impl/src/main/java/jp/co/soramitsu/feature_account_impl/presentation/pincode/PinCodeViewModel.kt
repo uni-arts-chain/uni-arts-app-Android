@@ -3,6 +3,7 @@ package jp.co.soramitsu.feature_account_impl.presentation.pincode
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.upbest.arouter.Extras
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import jp.co.soramitsu.common.base.BaseViewModel
@@ -91,6 +92,7 @@ class PinCodeViewModel(
 
     private fun matchPinCodeWithCodeToConfirm(pinCode: String, codeToConfirm: String) {
         if (codeToConfirm == pinCode) {
+            Extras.pinCode = pinCode
             registerPinCode(pinCode)
         } else {
             deviceVibrator.makeShortVibration()

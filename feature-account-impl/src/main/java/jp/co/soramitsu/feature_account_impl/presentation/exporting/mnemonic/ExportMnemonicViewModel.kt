@@ -1,5 +1,7 @@
 package jp.co.soramitsu.feature_account_impl.presentation.exporting.mnemonic
 
+import com.upbest.arouter.EventBusMessageEvent
+import com.upbest.arouter.EventEntity
 import jp.co.soramitsu.common.account.mnemonicViewer.mapMnemonicToMnemonicWords
 import jp.co.soramitsu.common.resources.ResourceManager
 import jp.co.soramitsu.common.utils.map
@@ -10,12 +12,13 @@ import jp.co.soramitsu.feature_account_impl.R
 import jp.co.soramitsu.feature_account_impl.presentation.AccountRouter
 import jp.co.soramitsu.feature_account_impl.presentation.exporting.ExportSource
 import jp.co.soramitsu.feature_account_impl.presentation.exporting.ExportViewModel
+import org.greenrobot.eventbus.EventBus
 
 class ExportMnemonicViewModel(
-    private val router: AccountRouter,
-    resourceManager: ResourceManager,
-    accountInteractor: AccountInteractor,
-    accountAddress: String
+        private val router: AccountRouter,
+        resourceManager: ResourceManager,
+        accountInteractor: AccountInteractor,
+        accountAddress: String
 ) : ExportViewModel(accountInteractor, accountAddress, resourceManager, ExportSource.Mnemonic) {
 
     private val mnemonicSourceLiveData = securityTypeLiveData.map { it as WithMnemonic }
@@ -55,6 +58,7 @@ class ExportMnemonicViewModel(
     fun openConfirmMnemonic() {
         val mnemonicSource = mnemonicSourceLiveData.value ?: return
 
-        router.openConfirmMnemonicOnExport(mnemonicSource.mnemonicWords())
+//        router.openConfirmMnemonicOnExport(mnemonicSource.mnemonicWords())
+        EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_BACKUP_MNEMONIC, mnemonicSource.mnemonicWords()))
     }
 }

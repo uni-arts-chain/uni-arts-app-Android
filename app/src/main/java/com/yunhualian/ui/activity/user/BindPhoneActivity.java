@@ -10,6 +10,7 @@ import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
+import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.databinding.ActivityBindPhoneBinding;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.SellingArtVo;
@@ -30,6 +31,8 @@ public class BindPhoneActivity extends BaseActivity<ActivityBindPhoneBinding> {
     private String acount;
 
     private String codeMsg;
+    private static int defaultTimes = 60 * ExtraConstant.DEFAULT_TIME_EPLI;
+    private static int timeStep = ExtraConstant.DEFAULT_TIME_EPLI;
 
     @Override
     public int getLayoutId() {
@@ -66,15 +69,14 @@ public class BindPhoneActivity extends BaseActivity<ActivityBindPhoneBinding> {
         //756845
         if (!TextUtils.isEmpty(mDataBinding.registerCode.getText())) {
             String cd = mDataBinding.registerCode.getText().toString();
-            Log.e("TAG", "size" + cd.length());
             if (mDataBinding.registerCode.getText().length() == 6) {
                 codeMsg = mDataBinding.registerCode.getText().toString();
             } else {
-                ToastUtils.showShortToast(this, "请输入正确验证码");
+                ToastUtils.showShortToast(this, getString(R.string.register_currently_code));
                 return false;
             }
         } else {
-            ToastUtils.showShortToast(this, "请输入验证码");
+            ToastUtils.showShortToast(this, getString(R.string.register_hint_code));
             return false;
         }
         return true;
@@ -89,11 +91,11 @@ public class BindPhoneActivity extends BaseActivity<ActivityBindPhoneBinding> {
             if (CheckStringUtils.isPhone(mDataBinding.registerPhone.getText().toString())) {
                 acount = mDataBinding.registerPhone.getText().toString();
             } else {
-                ToastUtils.showShortToast(this, "请输入正确手机号");
+                ToastUtils.showShortToast(this, getString(R.string.input_current_phone_no));
                 return false;
             }
         } else {
-            ToastUtils.showShortToast(this, "请输入手机号");
+            ToastUtils.showShortToast(this, getString(R.string.please_input_phone_no));
             return false;
         }
 
@@ -112,7 +114,7 @@ public class BindPhoneActivity extends BaseActivity<ActivityBindPhoneBinding> {
             @Override
             public void onSuccess(Call<BaseResponseVo> call, Response<BaseResponseVo> response) {
                 if (response.isSuccessful()) {
-                    ToastUtils.showShortToast(BindPhoneActivity.this, "已发送");
+                    ToastUtils.showShortToast(BindPhoneActivity.this, getString(R.string.send_success));
                     startCountDownTimer();
                 }
             }
@@ -131,26 +133,26 @@ public class BindPhoneActivity extends BaseActivity<ActivityBindPhoneBinding> {
 
     private void bindPhone() {
 
+        showLoading(getString(R.string.progress_loading));
         RequestManager.instance().bindPhone(acount, codeMsg, new MinerCallback<BaseResponseVo>() {
             @Override
             public void onSuccess(Call<BaseResponseVo> call, Response<BaseResponseVo> response) {
+                dismissLoading();
                 if (response.isSuccessful()) {
-                    ToastUtils.showShortToast(BindPhoneActivity.this, "绑定成功");
-                    UserVo userVo = YunApplication.getmUserVo();
-                    userVo.setPhone_number(acount);
-                    YunApplication.setmUserVo(userVo);
+                    ToastUtils.showShortToast(BindPhoneActivity.this, getString(R.string.bind_success));
+                    YunApplication.getmUserVo().setPhone_number(acount);
                     finish();
                 }
             }
 
             @Override
             public void onError(Call<BaseResponseVo> call, Response<BaseResponseVo> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
     }
@@ -167,7 +169,7 @@ public class BindPhoneActivity extends BaseActivity<ActivityBindPhoneBinding> {
     }
 
     private void initCountDownTimer() {
-        mCountDownTimer = new CountDownTimer(60000, 1000) {
+        mCountDownTimer = new CountDownTimer(defaultTimes, timeStep) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mDataBinding.getCode.setText(getString(R.string.reacquire_code, millisUntilFinished / 1000));

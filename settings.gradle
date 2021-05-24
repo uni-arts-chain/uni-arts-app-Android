@@ -1,8 +1,6 @@
-include ':pickerview'
-include ':wheelview'
+include ':mango'
 include ':app'
 rootProject.name = "YunHuaLian"
-include ':zxing'
 include ':wallet-inport'
 include ':feature-wallet-impl'
 include ':feature-wallet-api'

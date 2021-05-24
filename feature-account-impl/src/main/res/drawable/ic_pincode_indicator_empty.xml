@@ -4,7 +4,7 @@
 
     <stroke
         android:width="@dimen/dot_stroke_width"
-        android:color="@color/white" />
+        android:color="@color/black" />
 
     <solid android:color="@android:color/transparent" />
 

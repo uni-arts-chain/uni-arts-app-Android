@@ -1,16 +1,22 @@
 package jp.co.soramitsu.feature_wallet_impl.presentation.balance.list
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.EventLog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.alibaba.android.arouter.launcher.ARouter
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.upbest.arouter.ArouterModelPath
 import com.upbest.arouter.EventBusMessageEvent
 import com.upbest.arouter.EventEntity
+import com.upbest.arouter.Extras
 import jp.co.soramitsu.common.base.BaseFragment
 import jp.co.soramitsu.common.di.FeatureUtils
+import jp.co.soramitsu.common.utils.setVisible
 import jp.co.soramitsu.feature_wallet_api.di.WalletFeatureApi
 import jp.co.soramitsu.feature_wallet_impl.R
 import jp.co.soramitsu.feature_wallet_impl.di.WalletFeatureComponent
@@ -25,7 +31,6 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class BalanceListFragment : BaseFragment<BalanceListViewModel>(), BalanceListAdapter.ItemAssetHandler {
-
     private lateinit var adapter: BalanceListAdapter
     var address: String = ""
     override fun onCreateView(
@@ -47,6 +52,8 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(), BalanceListAda
     }
 
     override fun initViews() {
+
+        noLayut.setVisible(!Extras.isShow)
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this)
         adapter = BalanceListAdapter(this)
@@ -57,8 +64,17 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(), BalanceListAda
         transfersContainer.setScrollingListener(viewModel::scrolled)
 
         headLayout.setOnClickListener {
-            EventBus.getDefault().postSticky(EventBusMessageEvent("", addr))
-            viewModel.headClicked()
+//            EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_ADDRESS_COPY, addr))
+//            viewModel.headClicked()
+
+            ARouter.getInstance().build(ArouterModelPath.EDIT_WALLET).navigation()
+        }
+        addr.setOnClickListener {
+//            EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_ADDRESS_COPY, addr.text))
+        }
+        copyAddress.setOnClickListener { EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_ADDRESS_COPY, addr.text)) }
+        showQr.setOnClickListener {
+            EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_SHOW_QR, addr.text))
         }
         pointLayout.setOnClickListener { viewModel.sendClicked() }
         transfersContainer.setSlidingStateListener(this::setRefreshEnabled)
@@ -84,6 +100,10 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(), BalanceListAda
         balanceListAvatar.setOnClickListener {
             viewModel.avatarClicked()
         }
+        if (!TextUtils.isEmpty(Extras.balance))
+            balance.text = Extras.balance
+        if (!TextUtils.isEmpty(Extras.headUrl))
+            Glide.with(this).load(Extras.headUrl).into(imageview)
     }
 
     private fun setRefreshEnabled(bottomSheetState: Int) {
@@ -114,9 +134,7 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(), BalanceListAda
         viewModel.balanceLiveData.observe {
             adapter.submitList(it.assetModels)
             balanceListTotalAmount.text = it.totalBalance.formatAsCurrency()
-            balance.text = it.assetModels[0].total.format()
-
-//            EventBus.getDefault().post(EventBusMessageEvent(EventEntity.EVENT_BLLANCE_REFRESH, it.totalBalance.formatAsCurrency()))
+//            balance.text = it.assetModels[0].total.format()
         }
 
         viewModel.currentAddressModelLiveData.observe {

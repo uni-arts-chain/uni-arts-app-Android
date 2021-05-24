@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/lin_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="MissingDefaultResource">
+
+
+        <include
+            android:id="@+id/mAppBarLayout"
+            layout="@layout/layout_generic_toolbar" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.yunhualian.ui.x5.X5WebView
+                android:id="@+id/wbv_x5"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+
+            <ProgressBar
+                android:id="@+id/mProgressBar"
+                style="@style/mProgress_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="3dip"
+                android:background="@android:color/transparent"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

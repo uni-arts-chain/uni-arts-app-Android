@@ -20,8 +20,7 @@
                 android:id="@+id/hot_picture"
                 android:layout_width="match_parent"
                 android:layout_height="166dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/shanshui" />
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/picture_name"
@@ -31,7 +30,10 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
                 android:layout_toLeftOf="@+id/picture_prize"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="向日葵"
                 android:textColor="@color/picture_name_color"
                 android:textSize="@dimen/sp_16"
@@ -46,7 +48,7 @@
                 android:layout_marginRight="@dimen/dp_5"
                 android:layout_toLeftOf="@+id/c"
                 android:text="¥8000"
-                android:textColor="@color/deep_red"
+                android:textColor="@color/picture_prize_color"
                 android:textSize="@dimen/sp_14" />
 
             <TextView
@@ -71,7 +73,8 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:text="哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏或转卖"
+                android:gravity="center_vertical"
+                android:text=""
                 android:textColor="@color/_999999"
                 android:textSize="@dimen/sp_12" />
 

@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/white"
     android:fitsSystemWindows="true">
 
     <jp.co.soramitsu.common.view.Toolbar
@@ -13,6 +13,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15"
+        android:text="@string/wallet_tips_pincode"
+        android:textColor="#B25F00"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <jp.co.soramitsu.feature_account_impl.presentation.pincode.view.PinCodeView
         android:id="@+id/pinCodeView"

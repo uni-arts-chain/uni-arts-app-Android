@@ -14,6 +14,8 @@ import com.yunhualian.entity.SellingArtVo;
 
 import java.util.List;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 public class BlindBoxAdapter extends BaseQuickAdapter<BlindBoxVo, BaseViewHolder> {
 
     public BlindBoxAdapter(List<BlindBoxVo> data) {
@@ -24,7 +26,7 @@ public class BlindBoxAdapter extends BaseQuickAdapter<BlindBoxVo, BaseViewHolder
     protected void convert(BaseViewHolder helper, BlindBoxVo item) {
         ImageView ivImage = helper.getView(R.id.hot_picture);
         Glide.with(mContext).clear(ivImage);
-        Glide.with(mContext).load(item.getImg_path()).into(ivImage);
+        Glide.with(mContext).load(item.getApp_img_path()).transition(withCrossFade()).into(ivImage);
         helper.setText(R.id.picture_name, item.getTitle());
         helper.setText(R.id.desc, Html.fromHtml(item.getDesc()));
         helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(" " + item.getPrice()));

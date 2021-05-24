@@ -16,7 +16,34 @@ public class MessagesVo {
     private String body;
     private boolean read;
     private long created_at;
-    private String updated_at;
+    private long updated_at;
+    private String resource_type;
+    private String resource_id;
+    private String action_str;
+
+    public String getResource_type() {
+        return resource_type;
+    }
+
+    public void setResource_type(String resource_type) {
+        this.resource_type = resource_type;
+    }
+
+    public String getResource_id() {
+        return resource_id;
+    }
+
+    public void setResource_id(String resource_id) {
+        this.resource_id = resource_id;
+    }
+
+    public String getAction_str() {
+        return action_str;
+    }
+
+    public void setAction_str(String action_str) {
+        this.action_str = action_str;
+    }
 
     public int getId() {
         return id;
@@ -58,11 +85,11 @@ public class MessagesVo {
         this.created_at = created_at;
     }
 
-    public String getUpdated_at() {
+    public long getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(String updated_at) {
+    public void setUpdated_at(long updated_at) {
         this.updated_at = updated_at;
     }
 }

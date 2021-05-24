@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">YunHuaLian</string>
-
+    <string name="app_name">饭团密画</string>
     <!--tab-->
     <string name="tab_home">首页</string>
     <string name="tab_mall">市场</string>
@@ -13,6 +12,13 @@
     <string name="mine_acount">区块链积分：%1$s</string>
     <string name="centify_addr">证书地址：%1$s</string>
     <string name="sign_amounts">交易次数：%1$s次</string>
+    <string name="create_amount">发行份数：%1$s份</string>
+    <string name="text_contain_royalty">(含版税:￥%1$s)</string>
+    <string name="royalty_rate">版税比例：%1$s</string>
+    <string name="royalty">版税</string>
+    <string name="royalty_date">版税有效期：%1$s</string>
+
+    <string name="royalty_rate_value">(%1$s)</string>
     <string name="centify_time">签名时间：%1$s</string>
     <string name="sign_cost">签名费用：%1$s</string>
     <string name="sign_amount">已签名：%1$s</string>
@@ -23,13 +29,17 @@
     <string name="picture_cailiao">材料：%1$s</string>
     <string name="picture_type">作品类型：%1$s</string>
     <string name="upload_img">上传作品</string>
+    <string name="explore_page">浏览器</string>
     <string name="picture_creator">创作者：%1$s</string>
     <string name="picture_owner">拥有者：%1$s</string>
     <string name="picture_time">创作时间：%1$s</string>
-
+    <string name="last_amount_">(剩余%1$s)</string>
+    <string name="order_sell">实收款:</string>
+    <string name="order_bought">实付款:</string>
     <string name="derive_with_keystore">Keystore</string>
     <string name="derive_with_qrcode">二维码</string>
     <string name="derive_keystore_title">导出Keystore</string>
+    <string name="set_key_store_psw">设置KeyStore密码</string>
     <string name="sign_certify">签名证书</string>
     <string name="derive_keystore_tip_title">离线保存</string>
     <string name="derive_keystore_tip_title4">仅供直接扫描</string>
@@ -38,11 +48,12 @@
     <string name="derive_keystore_tip5">请在确保四周无人及无摄像头的情况下使用。二维码一旦被人获取将造成不可挽回的资产损失。</string>
     <string name="derive_keystore_tip">请复制粘贴Keystore文件到安全、离线的地方保存。切勿保存至邮箱、记事本、网盘、聊天工具等，非常危险</string>
     <string name="derive_keystore_tip_title2">请勿使用网络传输</string>
-
+    <string name="derive_private_key_copy_btn">复制</string>
     <string name="derive_private_key_already_copy_btn">已复制</string>
     <string name="sign_img">证书照片</string>
     <string name="sign_amountss">签名数</string>
     <string name="progress_loading">加载中...</string>
+    <string name="text_input_amount_null_tips">请设置本次出售价格</string>
     <string name="blind_box_transfering_tips">链上NFT数据正在传输，请稍后再试！</string>
     <string name="blind_box_failed_tips">链上NFT数据传输失败，已付款将原路退回，请注意查收</string>
     <string name="sign_company">签名机构</string>
@@ -79,20 +90,28 @@
 
     <string name="permissions_alert">请在系统设置-应用管理-权限管理设置-允许%1$s</string>
     <string name="canel">取消</string>
-
+    <string name="canel_follow">取消关注</string>
     <string name="determine">确定</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-
+    <string name="edit_wallet">编辑钱包</string>
+    <string name="user_agreement">隐私协议</string>
     <string name="login_txt">登陆</string>
     <string name="register_txt">注册</string>
     <string name="hint_phone">手机号</string>
     <string name="hint_psw">密码</string>
-
+    <string name="text_follow">关注</string>
+    <string name="text_follow_success">关注成功</string>
+    <string name="text_cancle_follow_success">取消关注成功</string>
+    <string name="no_order_sn">未找到订单编号</string>
+    <string name="copy_order_sn">订单编号已编制</string>
     <string name="register_hint_phone">手机号</string>
     <string name="register_hint_psw">请输入6-18位数字与祖母组合</string>
     <string name="register_hint_code">请输入验证码</string>
+    <string name="register_currently_code">请输入正确验证码</string>
     <string name="register_txt_code">获取验证码</string>
+    <string name="input_current_phone_no">请输入正确的手机号</string>
+    <string name="please_input_phone_no">请输入手机号</string>
     <!--分类模块-->
     <string name="sort">分类</string>
     <string name="thpe_theme">主题</string>
@@ -100,18 +119,30 @@
     <string name="prize">价格</string>
     <string name="new_goods">最新上架</string>
     <string name="sort_prize">价格排序</string>
+    <string name="send_success">已发送</string>
 
+    <string name="derive_private_key_alert">安全警告：私钥未经加密，导出存在风险，建议使用助记词和keystore进行备份</string>
+    <string name="mnemonic_backup_alert_title">请勿截图</string>
+    <string name="input_your_pin">请输入密码</string>
+    <string name="back_up_mnemonic_title">备份助记词</string>
+    <string name="input_your_pin_again">请再次输入密码</string>
+    <string name="error_pin">密码错误</string>
+    <string name="correct_pin">密码正确</string>
+    <string name="set_pin_complete">密码设置完成</string>
+    <string name="pin_not_complare">两次密码不一致</string>
     <!--首页-->
     <string name="certify_search">证书查询</string>
     <string name="certify_search_find">查询</string>
     <string name="certify_apply">申请证书</string>
     <string name="count_bage">积分钱包</string>
+
     <string name="count_point">积分</string>
     <string name="point_profile">积分说明</string>
     <string name="hot">热门原创</string>
     <string name="auction">限时拍卖</string>
     <string name="theme">主题推荐/THEME</string>
     <string name="bind_phone">绑定手机号</string>
+    <string name="bind_success">绑定成功</string>
     <string name="auction_time_start">距离开始还有</string>
 
     <string name="auction_time_end">距离结束还有</string>
@@ -119,6 +150,7 @@
     <string name="buy_in">买入订单</string>
     <string name="sell_out">卖出订单</string>
     <string name="message">消息</string>
+    <string name="all_read_message">全部已读</string>
     <string name="service">客服</string>
     <string name="my_page">我的主页</string>
     <string name="upgrade_art">上传作品</string>
@@ -134,7 +166,7 @@
     <string name="id_number">证件号码</string>
     <string name="hint_input_id_number">请输入证件号</string>
     <string name="physical_authentication">实人认证</string>
-    <string name="my_collect_title">我的收藏</string>
+    <string name="my_collect_title">作品收藏</string>
     <string name="follw_title">关注的人</string>
     <string name="sell_title">卖出订单</string>
     <string name="buy_title">买入订单</string>
@@ -152,7 +184,8 @@
     <string name="creator_profile">创作者简介</string>
     <string name="platform_push">平台推荐</string>
     <string name="after_push">往期平台推荐</string>
-    <string name="art_info">艺术品信息</string>
+    <string name="after_artist_push">往期平台推荐</string>
+    <string name="art_info">作品信息</string>
     <string name="art_appreciation">艺术品评析</string>
     <string name="art_detail">艺术品细节</string>
     <string name="add_cart">加入购物车</string>
@@ -166,7 +199,7 @@
     <string name="ever_up">未上架</string>
     <string name="my_buy_in">我买入的</string>
     <string name="my_sell_out">我卖出的</string>
-
+    <string name="no_display_name">未设置昵称</string>
     <!--    设置-->
     <string name="settings">设置</string>
 
@@ -188,6 +221,13 @@
     <string name="certified">已认证</string>
     <string name="i_see">我知道了</string>
     <string name="quite_login">退出登陆</string>
+    <string name="title_sell">出售</string>
+    <string name="cancle_sell">下架</string>
+    <string name="text_call_service">联系客服</string>
+    <string name="text_downloading">正在下载...</string>
+    <string name="text_download_success">下载完成</string>
+    <string name="text_sell_tips">检测到您已提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。</string>
+    <string name="balance_zero_tips">当前积分为0，无法进行操作\n（购买NFT卡片可获得积分）</string>
     <!--选择作品-->
     <string name="confirm_tips">请选择作品后确认</string>
     <string-array name="my_page_tabs">
@@ -196,19 +236,11 @@
         <item>出售的NFT</item>
 
     </string-array>
-    <string-array name="sorts">
-        <item>油画</item>
-        <item>水彩</item>
-        <item>国画</item>
-        <item>速写</item>
-        <item>简笔</item>
-        <item>抽象</item>
-        <item>现代</item>
-    </string-array>
     <string-array name="cut_amount">
         <item>10份</item>
         <item>100份</item>
         <item>1000份</item>
+        <item>10000份</item>
     </string-array>
     <string-array name="popular">
         <item>油画</item>
@@ -229,7 +261,7 @@
         <item>买入订单</item>
         <item>卖出订单</item>
         <item>作品收藏</item>
-        <item>关于我们</item>
+        <item>兑换NFT</item>
         <item>消息</item>
         <item>客服</item>
     </string-array>
@@ -250,6 +282,7 @@
     <string name="fans_num">粉丝 %1$s</string>
     <string name="arts_num">%1$s个作品</string>
     <string name="advice_title">意见反馈</string>
+    <string name="art_tansfer">转让</string>
     <string name="my_orgnaziton">我的机构</string>
     <string name="upload_tips">注意：信息通过审核后无法修改，请谨慎操作</string>
 
@@ -266,7 +299,7 @@
     <string name="form_order">提交订单</string>
     <string name="reacquire_code">%1$d秒后可重新获取</string>
     <string name="send_code_success">发送成功</string>
-
+    <string name="transfer_last_amount">(余额%1$d)</string>
     <!--TEST-->
     <string name="action_settings">Settings</string>
 
@@ -297,25 +330,28 @@
 
     <string name="blind_buy_amount">购买数量： %1$s</string>
 
-    <string name="blind_buy_price">商品总价： %1$s</string>
+    <string name="blind_buy_price">商品总价： </string>
     <string name="text_zan_amount">%1$s喜欢</string>
     <string name="text_cai_amount">%1$s踩</string>
     <string name="text_collect_amount">收藏</string>
     <string name="title_detail">详情</string>
     <string name="buy_amount">购买数量</string>
     <string name="art_total_price">商品总价</string>
-
+    <string name="art_price">商品价格</string>
     <string name="text_buy_amount">￥%1$s</string>
-
+    <string name="text_art_price_now">当前价格</string>
+    <string name="text_this_time_sell_price">本次出售价格</string>
     <string name="text_art_last">作品库存</string>
     <string name="text_art_amount">本次出售份数</string>
     <string name="text_is_cut">是否拆开售卖</string>
     <string name="text_cut_price">每份价格:</string>
     <string name="text_set_art_price">设置作品价格:</string>
+    <string name="text_set_rolaty_rate">设置版税比例</string>
+    <string name="text_set_date">设置版税有效期</string>
     <string name="text_cut_theme">作品所属主题</string>
     <string name="text_cut_amount">拆分数量</string>
     <string name="text_user_home_page">主页</string>
-    <string name="set_display_name_tips">请设置昵称</string>
+    <string name="set_display_name_tips">未设置昵称</string>
     <string name="set_desc_tips">请输入描述</string>
     <string name="upload_art_success">作品已上传，请等待审核\n可在"我的主页"中查看审核进度</string>
     <string name="btn_open_once">开启 x1</string>
@@ -330,4 +366,21 @@
 
     <string name="blindbox_open_x1">开启 x1</string>
     <string name="blindbox_open_x10">开启 x10</string>
+
+    <string name="text_group_desc">电影/游戏/艺术领域</string>
+    <string name="text_group_desc2">基于NFT技术的数字化宣发和衍生品交易服务</string>
+    <string name="title_exchange_nft">兑换NFT</string>
+    <string name="title_exchange_action">兑换</string>
+    <string name="text_group_copright">Copyright©2020-2021\n
+饭团密画版权所有\n
+UniArts提供技术支持</string>
+
+    <string name="text_exchange_code_null_tips">请输入兑换码</string>
+
+    <string name="text_sell_amount_null">请输入本次出售份数</string>
+    <string name="text_sell_cut_price_tips">请设置每份价格</string>
+    <string name="text_sell_price_tips">请设置本次出售价格</string>
+    <string name="pay_result_success">订单支付成功</string>
+    <string name="pay_result_fail">订单支付失败</string>
+    <string name="pay_result_cancle">订单支付未完成</string>
 </resources>

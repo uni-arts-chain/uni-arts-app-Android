@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <data></data>
+
+    <LinearLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context="com.yunhualian.ui.activity.TransferActivity">
+
+        <include
+            android:id="@+id/mAppBarLayout_av"
+            layout="@layout/layout_generic_toolbar" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/transTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:text="转让地址"
+                android:textColor="@color/_101010"
+                android:textSize="@dimen/sp_15" />
+
+            <ImageView
+                android:id="@+id/iconScan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/dp_10"
+                android:src="@mipmap/icon_scan" />
+
+            <EditText
+                android:id="@+id/adressInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iconScan"
+                android:layout_toRightOf="@+id/transTv"
+                android:background="@null"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:hint="请输入转让地址"
+                android:singleLine="true"
+                android:textSize="@dimen/sp_15" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10">
+
+            <TextView
+                android:id="@+id/transAmountTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:text="转让数量"
+                android:textColor="@color/_101010"
+                android:textSize="@dimen/sp_15" />
+
+            <TextView
+                android:id="@+id/last_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/transAmountTv"
+                android:layout_toRightOf="@+id/transAmountTv"
+                android:text="@string/transfer_last_amount"
+                android:textColor="@color/_666666"
+                android:textSize="@dimen/sp_12" />
+
+            <RelativeLayout
+                android:id="@+id/amountLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_10">
+
+                <RelativeLayout
+                    android:id="@+id/add"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:background="@drawable/bg_market_block_unselected">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="+"
+                        android:textColor="@color/_333333"
+                        android:textSize="@dimen/sp_13" />
+                </RelativeLayout>
+
+
+                <EditText
+                    android:id="@+id/input_amount"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/add"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:text="1"
+                    android:textColor="@color/_333333"
+                    android:textSize="@dimen/sp_13" />
+
+                <RelativeLayout
+                    android:id="@+id/cut"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/input_amount"
+                    android:background="@drawable/bg_market_block_unselected">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="-"
+                        android:textColor="@color/_333333"
+                        android:textSize="@dimen/sp_13" />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/transferAction"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_margin="@dimen/dp_20"
+            android:background="@drawable/shape_btn_bgcolor_black"
+            android:text="转让"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15" />
+    </LinearLayout>
+</layout>

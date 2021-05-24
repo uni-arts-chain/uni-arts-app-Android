@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.BindsInstance
 import dagger.Subcomponent
 import jp.co.soramitsu.app.root.presentation.RootActivity
-import jp.co.soramitsu.app.root.presentation.VpActivity
 import jp.co.soramitsu.common.di.scope.ScreenScope
 
 @Subcomponent(
@@ -25,5 +24,4 @@ interface RootActivityComponent {
 
     fun inject(rootActivity: RootActivity)
 
-    fun injets(vpActivity: VpActivity)
 }

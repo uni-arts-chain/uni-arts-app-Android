@@ -35,9 +35,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:hint="请输入电话/微信"
                 android:maxLines="1"
                 android:padding="@dimen/dp_10"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textSize="@dimen/sp_13" />
 
         </LinearLayout>
 

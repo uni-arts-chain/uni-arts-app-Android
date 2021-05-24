@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/walletContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -14,12 +15,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <!--            <jp.co.soramitsu.common.view.Toolbar-->
-            <!--                android:id="@+id/toolbar"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                app:titleText="@string/account_wallet" />-->
 
             <RelativeLayout
                 android:id="@+id/headLayout"
@@ -34,7 +29,7 @@
                     android:layout_height="60dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="40dp"
-                    android:src="@drawable/bg_wallet_head"
+                    android:src="@drawable/icon_default_head"
                     circleimageview:civ_border_color="@color/white"
                     circleimageview:civ_border_overlay="false"
                     circleimageview:civ_border_width="3dp"
@@ -53,7 +48,7 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/name"
                     android:layout_centerHorizontal="true"
@@ -72,14 +67,35 @@
 
                     <TextView
                         android:id="@+id/addr"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="middle"
                         android:singleLine="true"
+                        android:gravity="center"
                         android:text="@string/account_address"
                         android:textColor="@color/white"
                         android:textSize="13sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/copyAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/icon_copy"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/showQr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/icon_qr"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:textColor="@color/white" />
                 </LinearLayout>
 
 
@@ -228,10 +244,33 @@
                 android:drawablePadding="6dp"
                 android:text="积分说明"
                 android:textColor="@color/text_gray"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/noLayut"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:visibility="gone">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/page_launch">
+
+                <ImageView
+                    android:id="@+id/splash_bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="120dp"
+                    android:src="@drawable/img_launch_title"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+        </RelativeLayout>
     </FrameLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

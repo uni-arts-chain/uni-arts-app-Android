@@ -3,6 +3,8 @@ package jp.co.soramitsu.feature_wallet_impl.presentation.balance.list
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.alibaba.android.arouter.launcher.ARouter
+import com.upbest.arouter.ArouterModelPath
 import com.upbest.arouter.EventBusMessageEvent
 import com.upbest.arouter.EventEntity
 import com.upbest.arouter.Extras
@@ -102,7 +104,9 @@ class BalanceListViewModel(
     }
 
     fun sendClicked() {
-        router.openChooseRecipient()
+//        router.openChooseRecipient()
+//        ARouter.getInstance().build(ArouterModelPath.EDIT_WALLET).navigation()
+//        headClicked()
     }
 
     fun openSeed() {

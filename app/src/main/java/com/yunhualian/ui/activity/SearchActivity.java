@@ -1,16 +1,18 @@
 package com.yunhualian.ui.activity;
 
 
+import android.content.Intent;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -20,18 +22,12 @@ import com.yunhualian.base.BaseActivity;
 import com.yunhualian.databinding.ActivitySearchBinding;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.SellingArtVo;
-import com.yunhualian.net.DTRequest;
 import com.yunhualian.net.MinerCallback;
-import com.yunhualian.net.OnResultListener;
 import com.yunhualian.net.RequestManager;
-import com.yunhualian.service.API;
-import com.yunhualian.service.AsynCommon;
-import com.yunhualian.service.Head;
-import com.yunhualian.service.MarketService;
+import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.utils.SharedPreUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -86,14 +82,38 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
-                    search(s.toString());
+//                    search(s.toString());
                 }
+            }
+        });
+        mDataBinding.searchEx.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String searchText = mDataBinding.searchEx.getText().toString();
+                    if (!TextUtils.isEmpty(searchText))
+                        search(searchText);
+                    return true;
+                }
+
+                return false;
             }
         });
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         picturesAdapter = new PicturesAdapter(artList);
         mDataBinding.resultList.setLayoutManager(layoutManager);
         mDataBinding.resultList.setAdapter(picturesAdapter);
+        picturesAdapter.setEmptyView(R.layout.layout_entrust_empty, mDataBinding.resultList);
+        picturesAdapter.setOnItemClickListener((adapter, view, position) -> {
+
+            if (artList != null && artList.size() > 0) {
+                Intent intent = new Intent(this, ArtDetailActivity.class);
+                intent.putExtra(ArtDetailActivity.ART_ID, artList.get(position).getId());
+                startActivity(intent);
+            }
+
+        });
         initRefresh();
         mDataBinding.clearHistory.setOnClickListener(v -> {
             SharedPreUtils.clearAll(this);
@@ -108,6 +128,7 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
             search(mDataBinding.searchEx.getText().toString());
             mDataBinding.srlShoopingMall.setRefreshing(false);
         });
+
     }
 
     public void search(String keyWords) {
@@ -121,12 +142,12 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
             public void onSuccess(Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
                 dismissLoading();
                 if (response.isSuccessful()) {
+                    SharedPreUtils.saveSearchHistory(SearchActivity.this, mDataBinding.searchEx.getText().toString());
                     artList = response.body().getBody();
+                    mDataBinding.searchHistoryLayout.setVisibility(View.GONE);
                     if (artList.size() > 0) {
-                        SharedPreUtils.saveSearchHistory(SearchActivity.this, mDataBinding.searchEx.getText().toString());
                         picturesAdapter.setNewData(artList);
-                        mDataBinding.searchHistoryLayout.setVisibility(View.GONE);
-                    } else mDataBinding.searchHistoryLayout.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 

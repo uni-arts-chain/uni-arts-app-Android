@@ -1,6 +1,7 @@
 package com.yunhualian.widget;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,13 @@ public class UploadSuccessPopUpWindow extends BasePopupWindow {
         });
     }
 
+    public void setOneKey(boolean status) {
+        if (status) {
+            mBinding.cancle.setVisibility(View.GONE);
+            mBinding.line1.setVisibility(View.GONE);
+        }
+    }
+
     public interface OnPopItemClickListener {
         void onPopItemClick(View view, int position);
     }
@@ -86,4 +94,13 @@ public class UploadSuccessPopUpWindow extends BasePopupWindow {
         mBinding.content.setText(str);
     }
 
+    public void setCancleText(String string) {
+        if (!TextUtils.isEmpty(string))
+            mBinding.cancle.setText(string);
+    }
+
+    public void setConfirmText(String string) {
+        if (!TextUtils.isEmpty(string))
+            mBinding.confirm.setText(string);
+    }
 }

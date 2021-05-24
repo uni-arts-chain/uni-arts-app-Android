@@ -56,7 +56,7 @@ class LabeledTextView @JvmOverloads constructor(
             actionIcon?.let(::setActionIcon)
 
             singleLine = typedArray.getBoolean(R.styleable.LabeledTextView_android_singleLine, true)
-            labeledTextText.isSingleLine = singleLine
+//            labeledTextText.isSingleLine = singleLine
 
             typedArray.recycle()
         }

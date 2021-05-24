@@ -83,9 +83,11 @@ public class RemoteParametersManager {
 
     public void disposeHeader(Request.Builder mRequestBuilder, Request request) throws IOException {
 //        mRequestBuilder.header("Accept-Language", getmLocalLanguage());
-        String mToken;
+        String mToken = "";
+        if (YunApplication.getmUserVo() != null)
+            mToken = YunApplication.getmUserVo().getToken();
         mParamsWithToken.clear();
-        if (!TextUtils.isEmpty(mToken = YunApplication.getToken())) {
+        if (!TextUtils.isEmpty(mToken)) {
             mRequestBuilder.header("Authorization", mToken);
             String currentTime = DateUtil.getCurrentSecondTime();
             if (request.method().equalsIgnoreCase("post")) {
@@ -104,14 +106,11 @@ public class RemoteParametersManager {
                     Map<String, String> params = new HashMap<>();
                     Map<String, String> files = new HashMap<>();
                     for (MultipartBody.Part part : body.parts()) {
-                        LogUtils.e("body parts===================");
                         RequestBody body1 = part.body();
                         Headers headers = part.headers();
                         if (headers != null && headers.size() > 0) {
-                            LogUtils.e("split===================");
                             String[] split = headers.value(0).replace(" ", "").replace("\"", "").split(";");
                             if (split.length == 2) {
-                                LogUtils.e("文本===================" + split.toString());
                                 //文本
                                 String[] keys = split[1].split("=");
                                 if (keys.length > 1 && body1.contentLength() < 1024) {
@@ -122,11 +121,8 @@ public class RemoteParametersManager {
                                     value = buffer.readUtf8();
                                     params.put(key, value);
                                     mParamsWithToken.put(key, value);
-                                    LogUtils.e("key===================" + key);
-                                    LogUtils.e("value===================" + value);
                                 }
                             } else if (split.length == 3) {
-                                LogUtils.e("文件===================");
                                 //文件
                                 String fileKey = "";
                                 String fileName = "";
@@ -140,28 +136,6 @@ public class RemoteParametersManager {
                         }
 
                     }
-//                    System.out.println("文本参数-->" + params);
-//                    System.out.println("文件参数-->" + files);
-
-//                    MultipartBody multipartBody = (MultipartBody) request.body();
-//                    multipartBody.part(0).headers().get("name");
-//                    if (multipartBody.parts().size() > 1) {
-//                        Map<String, List<String>> header = new HashMap<>();
-//                        for (int i = 0; i < multipartBody.parts().size(); i++) {
-//                            MultipartBody.Part multipart = multipartBody.part(i);
-//
-//                            Set<String> names = multipart.headers().names();
-//                            LogUtils.e(names.toString());
-//                            List<String> value = multipart.headers().values(names.toString());
-//                            header = multipart.headers().toMultimap();
-//                            List<String> values = header.get("content-disposition");
-//                            LogUtils.e(values.get(0));
-//                            if (i == 1) {
-//                                String[] parms = values.get(0).split(";");
-//
-//                            }
-//                        }
-//                    }
                 }
             } else {
                 HttpUrl.Builder urlBuilder = request.url().newBuilder();
@@ -171,19 +145,21 @@ public class RemoteParametersManager {
                 Set<String> paramKeys = httpUrl.queryParameterNames();
                 for (String key : paramKeys) {
                     String value = httpUrl.queryParameter(key);
-                    Log.d("TEST", key + " " + value);
                     mParamsWithToken.put(key, value);
                 }
             }
-
+            MD5Encrypt md5Encrypt = new MD5Encrypt();
             mParamsWithToken.put(StringUtils.formatLowerCase("Tonce"), currentTime);
-            mParamsWithToken = MD5Encrypt.orderByASC(mParamsWithToken);
+            mParamsWithToken = md5Encrypt.orderByASC(mParamsWithToken);
             String signStr = ParamsBuilder.getSign(request, mParamsWithToken);
             LogUtils.e("signStr" + signStr);
-            String sha256str = MD5Encrypt.HMACSHA256(signStr, YunApplication.getmUserVo().getExpire_at());
-            LogUtils.e("signStr");
-            mRequestBuilder.header("Sign",
-                    sha256str);
+            String sha256str = null;
+            if (YunApplication.getmUserVo() != null)
+                if (!TextUtils.isEmpty(YunApplication.getmUserVo().getExpire_at())) {
+                    sha256str = md5Encrypt.HMACSHA256(signStr, YunApplication.getmUserVo().getExpire_at());
+                    mRequestBuilder.header("Sign",
+                            sha256str);
+                }
             mRequestBuilder.header("Tonce", currentTime);
         }
     }

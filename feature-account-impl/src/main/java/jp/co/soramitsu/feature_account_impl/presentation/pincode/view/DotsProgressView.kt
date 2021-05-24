@@ -9,9 +9,9 @@ import androidx.core.content.ContextCompat
 import jp.co.soramitsu.feature_account_impl.R
 
 class DotsProgressView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyle: Int = 0
 ) : LinearLayout(context, attrs, defStyle) {
 
     companion object {

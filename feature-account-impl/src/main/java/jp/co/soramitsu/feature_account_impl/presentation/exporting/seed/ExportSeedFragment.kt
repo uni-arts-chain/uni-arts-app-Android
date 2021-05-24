@@ -1,10 +1,10 @@
 package jp.co.soramitsu.feature_account_impl.presentation.exporting.seed
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.alibaba.android.arouter.launcher.ARouter
 import com.upbest.arouter.ArouterModelPath
 import com.upbest.arouter.EventBusMessageEvent
@@ -16,12 +16,7 @@ import jp.co.soramitsu.feature_account_impl.R
 import jp.co.soramitsu.feature_account_impl.di.AccountFeatureComponent
 import jp.co.soramitsu.feature_account_impl.presentation.exporting.ExportFragment
 import jp.co.soramitsu.feature_account_impl.presentation.view.advanced.AdvancedBlockView.FieldState
-import kotlinx.android.synthetic.main.fragment_export_seed.exportSeedAdvanced
-import kotlinx.android.synthetic.main.fragment_export_seed.exportSeedExport
-import kotlinx.android.synthetic.main.fragment_export_seed.exportSeedToolbar
-import kotlinx.android.synthetic.main.fragment_export_seed.exportSeedType
-import kotlinx.android.synthetic.main.fragment_export_seed.exportSeedValue
-import kotlinx.android.synthetic.main.item_account.*
+import kotlinx.android.synthetic.main.fragment_export_seed.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -91,12 +86,14 @@ class ExportSeedFragment : ExportFragment<ExportSeedViewModel>() {
         }
 
         viewModel.seedLiveData.observe {
-
-            EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_BLLANCE_REFRESH, it))
             Extras.seed = it
-            ARouter.getInstance().build(ArouterModelPath.MAIN).navigation()
+            EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_BLLANCE_REFRESH, it))
             exportSeedValue.setMessage(it)
-            viewModel.openMain()
+
+            ARouter.getInstance().build(ArouterModelPath.MAIN).navigation()
+            EventBus.getDefault().post(EventBusMessageEvent(EventEntity.EVENT_FINISH, ""))
+            activity?.finish()
+//            viewModel.openMain()
         }
 
         viewModel.cryptoTypeLiveData.observe {

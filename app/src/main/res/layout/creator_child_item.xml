@@ -1,47 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="@dimen/dp_130"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_marginRight="@dimen/dp_20">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/picture_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_110"
-        app:cardCornerRadius="@dimen/dp_5">
 
-        <ImageView
-            android:id="@+id/picture"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@mipmap/shanshui"
-            android:scaleType="centerCrop" />
-    </androidx.cardview.widget.CardView>
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY" />
 
 
     <TextView
-        android:id="@+id/picture_prize"
+        android:id="@+id/picture_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/picture_layout"
+        android:layout_below="@+id/picture"
         android:layout_alignParentLeft="true"
+        android:ellipsize="end"
         android:paddingTop="5dp"
+        android:singleLine="true"
         android:text="向日葵"
         android:textColor="@color/picture_name_color"
-        android:textSize="@dimen/sp_15"
-        android:textStyle="bold" />
+        android:textSize="@dimen/sp_15" />
 
     <TextView
         android:id="@+id/picture_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/picture_prize"
+        android:layout_below="@+id/picture_price"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="@dimen/dp_10"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="油画"
         android:textColor="@color/picture_name_color"
-        android:textSize="@dimen/sp_13" />
+        android:textSize="@dimen/sp_15" />
 
     <TextView
         android:id="@+id/certify_add"
@@ -54,6 +49,7 @@
         android:maxLines="1"
         android:text="证书地址:908bberjfag09vjaljfjslksj"
         android:textColor="@color/picture_profile"
-        android:textSize="@dimen/sp_13" />
+        android:textSize="@dimen/sp_13"
+        android:visibility="gone" />
 
 </RelativeLayout>

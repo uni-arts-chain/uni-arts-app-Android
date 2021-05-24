@@ -1,17 +1,28 @@
 package com.yunhualian.ui.activity.blindbox;
 
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 
+import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.yunhualian.R;
 import com.yunhualian.adapter.BlindBoxDetailCardAdapter;
 import com.yunhualian.base.BaseActivity;
@@ -28,6 +39,7 @@ import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.user.CreateOrderForBlindBoxActivity;
+import com.yunhualian.ui.activity.user.MyHomePageActivity;
 import com.yunhualian.widget.BlindBoxOpenPop;
 
 import java.math.BigDecimal;
@@ -64,25 +76,51 @@ public class BlindBoxDetailActivity extends BaseActivity<ActivityBlindBoxDetailB
     }
 
     @Override
-    public void initView() {
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    private void initPage() {
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
-        mToolBarOptions.titleId = R.string.title_detail;
+        mToolBarOptions.titleString = blindBoxVo.getTitle() != null ? blindBoxVo.getTitle() : getString(R.string.title_detail);
         mToolBarOptions.rightTextString = R.string.blind_box_open_record;
-        blindBoxVo = (BlindBoxVo) getIntent().getSerializableExtra(BOX);
         check();
+        if (blindBoxVo.getBackground_color() == BigDecimal.ONE.intValue())
+            initTextColor();
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
 
         mDataBinding.mAppBarLayoutAv.mToolbar
                 .findViewById(R.id.txt_right)
                 .setOnClickListener(v -> openHistory());
 
+        if (!TextUtils.isEmpty(blindBoxVo.getApp_background_img_path())) {
+            setBackground(blindBoxVo.getApp_background_img_path());
+        }
+
+        if (!TextUtils.isEmpty(blindBoxVo.getApp_background_1x_img_path())) {
+            set1xBackground(blindBoxVo.getApp_background_1x_img_path());
+        }
+        if (!TextUtils.isEmpty(blindBoxVo.getApp_background_10x_img_path())) {
+            set10xBackground(blindBoxVo.getApp_background_10x_img_path());
+        }
         adapter = new BlindBoxDetailCardAdapter(sellingArtVoList);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(ExtraConstant.DEFAULT_SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
         mDataBinding.itemList.setLayoutManager(staggeredGridLayoutManager);
+        mDataBinding.parentLayout.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            staggeredGridLayoutManager.invalidateSpanAssignments();
+        });
+//        mDataBinding.itemList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//
+//            }
+//        });
         mDataBinding.itemList.setAdapter(adapter);
-//        getPopular(new HashMap<>());
         blindBoxOpenPop = new BlindBoxOpenPop(this, null, (view, position) -> {
-
+            blindBoxOpenPop.dismiss();
+            startActivity(MyHomePageActivity.class);
         });
         blindBoxOpenPop.setBackgroundDrawable(null);
         blindBoxOpenPop.setFocusable(false);
@@ -102,6 +140,59 @@ public class BlindBoxDetailActivity extends BaseActivity<ActivityBlindBoxDetailB
 
         });
         initPageData();
+    }
+
+    @Override
+    public void initView() {
+        blindBoxVo = (BlindBoxVo) getIntent().getSerializableExtra(BOX);
+        if (blindBoxVo != null)
+            initPage();
+        else {
+            String id = getIntent().getStringExtra("id");
+            if (!TextUtils.isEmpty(id))
+                blindBoxDetail(id);
+        }
+    }
+
+    private void setBackground(String url) {
+        Glide.with(BlindBoxDetailActivity.this).asBitmap().load(url).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                Drawable drawable = new BitmapDrawable(bitmap);
+                mDataBinding.parentLayout.setBackground(drawable);
+            }
+        });
+    }
+
+    private void set1xBackground(String url) {
+        Glide.with(BlindBoxDetailActivity.this).asBitmap().load(url).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                Drawable drawable = new BitmapDrawable(bitmap);
+                mDataBinding.openOnce.setBackground(drawable);
+            }
+        });
+    }
+
+    private void set10xBackground(String url) {
+        Glide.with(BlindBoxDetailActivity.this).asBitmap().load(url).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                Drawable drawable = new BitmapDrawable(bitmap);
+                mDataBinding.openTen.setBackground(drawable);
+            }
+        });
+    }
+
+    private void initTextColor() {
+        mDataBinding.boxName.setTextColor(getColor(R.color._101010));
+        mDataBinding.boxDesc.setTextColor(getColor(R.color._101010));
+
+        mDataBinding.awardTitle.setTextColor(getColor(R.color._101010));
+
+        mDataBinding.ruleProfile.setTextColor(getColor(R.color._101010));
+
+        mDataBinding.ruleTitle.setTextColor(getColor(R.color._101010));
     }
 
     /*去支付*/
@@ -144,6 +235,31 @@ public class BlindBoxDetailActivity extends BaseActivity<ActivityBlindBoxDetailB
         });
     }
 
+    private void blindBoxDetail(String id) {
+        showLoading(getString(R.string.progress_loading));
+        RequestManager.instance().blindBoxDetail(id, new MinerCallback<BaseResponseVo<BlindBoxVo>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<BlindBoxVo>> call, Response<BaseResponseVo<BlindBoxVo>> response) {
+                dismissLoading();
+                if (response.isSuccessful()) {
+                    blindBoxVo = response.body().getBody();
+                    initPage();
+                }
+            }
+
+            @Override
+            public void onError
+                    (Call<BaseResponseVo<BlindBoxVo>> call, Response<BaseResponseVo<BlindBoxVo>> response) {
+                dismissLoading();
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+                dismissLoading();
+            }
+        });
+    }
+
     private void initPageData() {
         if (blindBoxVo == null) return;
         sellingArtVoList = blindBoxVo.getCard_groups();
@@ -154,6 +270,7 @@ public class BlindBoxDetailActivity extends BaseActivity<ActivityBlindBoxDetailB
         mDataBinding.boxDesc.setText(Html.fromHtml(blindBoxVo.getDesc()));
         adapter.setNewData(sellingArtVoList);
         mDataBinding.ruleProfile.setText(Html.fromHtml(blindBoxVo.getRule()));
+        showLoading(getString(R.string.progress_loading));
     }
 
     private void openHistory() {
@@ -182,7 +299,7 @@ public class BlindBoxDetailActivity extends BaseActivity<ActivityBlindBoxDetailB
     private void openBlindBox(String sn) {
         showLoading(getString(R.string.progress_loading));
         HashMap<String, String> params = new HashMap<>();
-        params.put("sn", String.valueOf(blindBoxVo.getId()));
+        params.put("sn", sn);
         RequestManager.instance().openBlindBoxs(params, new MinerCallback<BaseResponseVo<List<BlindBoxOpenVo>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<BlindBoxOpenVo>>> call, Response<BaseResponseVo<List<BlindBoxOpenVo>>> response) {
@@ -193,6 +310,7 @@ public class BlindBoxDetailActivity extends BaseActivity<ActivityBlindBoxDetailB
                             if (response.body().getBody().size() != 0) {
                                 blindBoxOpenPop.setLists(response.body().getBody());
                                 blindBoxOpenPop.showAtLocation(mDataBinding.getRoot(), Gravity.CENTER, BigDecimal.ZERO.intValue(), BigDecimal.ZERO.intValue());
+                                check();
                             }
                         } else ToastUtils.showShort(getString(R.string.blind_box_failed_tips));
                     } else
@@ -227,6 +345,8 @@ public class BlindBoxDetailActivity extends BaseActivity<ActivityBlindBoxDetailB
                     if (response.body() != null)
                         hasBuyedBoxes = response.body().getBody();
                     if (hasBuyedBoxes == null || hasBuyedBoxes.size() == 0) {
+                        hasOneBlindBox = false;
+                        hasTenBlindBox = false;
                         mDataBinding.openOnce.setText(R.string.blindbox_open_1);
                         mDataBinding.openTen.setText(R.string.blindbox_open_10);
                     } else {

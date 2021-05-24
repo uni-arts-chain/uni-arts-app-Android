@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.firebase.appdistribution'
 apply plugin: "com.github.triplet.play"
 apply from: "../scripts/versions.gradle"
+apply plugin: 'cn.leo.plugin.magic'
 android {
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion "30.0.1"
@@ -16,11 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "LOG_DEBUG", "false" //不显示log
-//        kapt {
-//            arguments {
-//                arg("AROUTER_MODULE_NAME", project.getName())
-//            }
-//        }
+        multiDexEnabled true
         externalNativeBuild {
             ndk {
                 abiFilters = []
@@ -36,9 +32,9 @@ android {
         multiDexEnabled true
         manifestPlaceholders = [
                 //个推应用参数，请填写您申请的 GETUI_APP_ID，GETUI_APP_KEY，GETUI_APP_SECRET 值
-                GETUI_APP_ID : "Xrjp8d1qa075gs20Yh7qC",
-                GETUI_APP_KEY : "YCUQxPEuhM9if6Pa6BdjO7",
-                GETUI_APP_SECRET : "YCUQxPEuhM9if6Pa6BdjO7",
+                GETUI_APP_ID    : "1vgAkon7Yu78ofjf5Ng5r9",
+                GETUI_APP_KEY   : "wsbCt4mpXa56dAKUxueNs7",
+                GETUI_APP_SECRET: "YffOF4Agzt90M95RytW0j4",
         ]
     }
     externalNativeBuild {
@@ -76,6 +72,12 @@ android {
         assets.srcDir "../../CubismSdkForNative-4-r.2/Samples/Resources"
     }
     ndkVersion '22.1.7171670'
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
 }
 play {
     serviceAccountCredentials = file(System.env.CI_PLAY_KEY ?: "../key/fake.json")
@@ -89,7 +91,8 @@ repositories {
 }
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    compile (name: 'alipaysdk-15.8.02.210308182128', ext: 'aar')
+    implementation files('libs/tbs_sdk_thirdapp_v4.3.0.39_43939.jar')
+    compile(name: 'alipaysdk-15.8.02.210308182128', ext: 'aar')
     compile 'com.github.zcweng:switch-button:0.0.3@aar'
 
     api 'com.ixuea:AndroidDownloader:1.0.1'
@@ -106,35 +109,34 @@ dependencies {
     compile 'com.github.iwgang:countdownview:2.1.6'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     // 圆点Indicator
-    implementation 'com.youth.banner:banner:1.4.10'
-    implementation project(path: ':zxing')
-
-//    implementation project(':pickerview')
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'pub.devrel:easypermissions:1.0.1'
     implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.3.6'
-//    implementation project(path: ':liveness-lib')
-//    compile(name: 'alipaySdk-15.7.9-20200727142846', ext: 'aar')
+    implementation 'com.youth.banner:banner:1.4.10'
+
+//    implementation project(path: ':pininputview')
+//    implementation project(':pickerview')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.zxy.android:tiny:1.1.0'
     implementation 'com.zhy:okhttputils:2.6.2'
-    api 'com.jelly:mango:1.3.3'
-//    compile('com.jelly:mango:1.3.0') {
-//        exclude group: 'com.github.chrisbanes.photoview'
-//        exclude group: 'com.github.bumptech.glide'
-//        exclude group: 'com.squareup.okhttp3'
-//    }
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.17'
+    implementation 'com.android.support:multidex:1.0.3'
+//    api 'com.jelly:mango:1.3.3'
 // dagger2针对Android的库，如果你使用Android的开发方式，仅依赖这三个库。
-    implementation 'com.google.dagger:dagger-android:2.17'
-    implementation 'com.google.dagger:dagger-android-support:2.17'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.17'
-
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation project(path: ':library-arouter')
     implementation "com.alibaba:arouter-api:1.5.0"
-
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.umeng.umsdk:common:9.1.0'// (必选)
+    implementation 'com.umeng.umsdk:asms:1.1.3' // asms包依赖(必选)
+    implementation 'com.umeng.umsdk:crash:0.0.4' // native crash包依赖(必选)
+    //友盟统计 oaid 采集库
+//    implementation 'com.umeng.umsdk:oaid_lenovo:1.0.0' // (可选)
+//    implementation 'com.umeng.umsdk:oaid_mi:1.0.0' // (可选)
+//    implementation 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
+//    implementation 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':core-db')
@@ -149,40 +151,16 @@ dependencies {
 
     implementation project(':feature-wallet-api')
     implementation project(':feature-wallet-impl')
-
+    implementation 'com.github.zyyoona7:wheelview:1.0.7'
+    implementation 'com.github.zyyoona7:pickerview:1.0.9'
     implementation 'com.getui:sdk:2.14.2.0'
     implementation kotlinDep
 
-    implementation androidDep
-    implementation constraintDep
-
     implementation zXingEmbeddedDep
 
-    implementation navigationFragmentDep
-    implementation navigationUiDep
     implementation web3jDep
-    implementation rxJavaDep
-    implementation rxAndroidDep
 
-    implementation ed25519Dep
-    implementation roomDep
-
-    implementation spoungyCastleBcPixDep
-    implementation spoungyCastleBcPgDep
     implementation fearlessLibDep
-
-//    api daggerDep
-//    annotationProcessor daggerKapt
-
-    implementation lifecycleDep
-//    kapt lifecycleKapt
-
-    implementation bouncyCastleDep
-    implementation retrofitDep
-    implementation gsonConvertedDep
-    implementation rxCallAdapterDep
-
-    implementation gifDep
 
     compileOnly wsDep
 

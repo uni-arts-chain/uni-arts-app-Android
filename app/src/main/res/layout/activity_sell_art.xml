@@ -6,8 +6,10 @@
     <data></data>
 
     <LinearLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <include
@@ -28,12 +30,12 @@
                 android:text="@string/text_art_last" />
 
             <TextView
+                android:id="@+id/art_balance"
                 style="@style/text_normal_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="@dimen/dp_15"
-
                 android:paddingTop="@dimen/dp_20"
                 android:paddingBottom="@dimen/dp_20"
                 android:text="@string/text_art_last" />
@@ -65,13 +67,14 @@
 
             <EditText
                 android:id="@+id/amountInput"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/dp_40"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/cut"
+                android:gravity="center"
                 android:inputType="phone"
                 android:singleLine="true"
-                android:text="1000"
+                android:text="0"
                 android:textSize="@dimen/sp_16" />
         </RelativeLayout>
 
@@ -122,13 +125,14 @@
 
             <EditText
                 android:id="@+id/cutPriceInput"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/cut_prize"
+                android:gravity="center"
                 android:inputType="phone"
                 android:singleLine="true"
-                android:text="1000"
+                android:text="0"
                 android:textSize="@dimen/sp_16" />
 
             <TextView

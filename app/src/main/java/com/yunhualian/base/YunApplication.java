@@ -11,6 +11,11 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.LogUtils;
 import com.igexin.sdk.PushManager;
+import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.TbsListener;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
+import com.yunhualian.constant.AppConstant;
 import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.entity.ArtMaterialVo;
 import com.yunhualian.entity.ArtPriceVo;
@@ -45,12 +50,13 @@ public class YunApplication extends App {
     public static List<ArtTypeVo> artTypelist;
     public static List<ArtTypeVo> artThemeVoList;
     public static List<ArtPriceVo> artPriceVoList;
-    public static String PAY_CURRENCY = "UART";
+    public static String PAY_CURRENCY = "￥";
     private static DemoHandler handler;
     private static String Token;
     private int DEFAULT_TIMEOUT = 20000;
     public static String LIVE2D_CACHE_PATH;
     public static final String MODEL_PATH = ".model3.json";
+    public static final String RPC = "wss://mainnet.uniarts.vip:9443";
 
     public static String getToken() {
         return Token;
@@ -99,16 +105,61 @@ public class YunApplication extends App {
     public void onCreate() {
         super.onCreate();
         mYunApplicaion = this;
-        ARouter.openDebug();
         ARouter.init(this);
         PushManager.getInstance().initialize(this);
         NetworkManager.instance().init();
-        initOkhttpUtils();
+        initX5();
+        initUMeng();
+//        initOkhttpUtils();
         if (handler == null) {
             handler = new DemoHandler();
         }
         LIVE2D_CACHE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + File.separator.concat("Yunhualian/live2d/");
+    }
+
+    private void initX5() {
+        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
+
+            @Override
+            public void onViewInitFinished(boolean arg0) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onCoreInitFinished() {
+                // TODO Auto-generated method stub
+
+            }
+        };
+        QbSdk.setTbsListener(new TbsListener() {
+            @Override
+            public void onDownloadFinish(int i) {
+            }
+
+            @Override
+            public void onInstallFinish(int i) {
+            }
+
+            @Override
+            public void onDownloadProgress(int i) {
+            }
+        });
+        QbSdk.initX5Environment(this, cb);
+    }
+
+    private void initUMeng() {
+        //注意: 即使您已经在AndroidManifest.xml中配置过appkey和channel值，也需要在App代码中调
+        //用初始化接口（如需要使用AndroidManifest.xml中配置好的appkey和channel值，
+        //UMConfigure.init调用中appkey和channel参数请置为null）。
+        UMConfigure.init(getInstance(), AppConstant.UMENG_APP_KEY, "Android", UMConfigure.DEVICE_TYPE_PHONE, "");
+        //设置组件化的Log开关
+        //参数: boolean 默认为false，如需查看LOG设置为true
+        UMConfigure.setLogEnabled(false);
+        // 选用LEGACY_AUTO页面采集模式
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
+        // 支持在子进程中统计自定义事件
+        UMConfigure.setProcessEvent(true);
     }
 
     public static void setmUserVo(UserVo mUserVo) {

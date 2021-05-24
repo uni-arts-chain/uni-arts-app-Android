@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -57,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/dp_10"
-                        android:text="刘亦菲"
+                        android:text=""
                         android:textColor="@color/text_black_dark"
                         android:textSize="@dimen/sp_15"
                         android:textStyle="bold" />
@@ -68,11 +69,11 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/dp_40"
-                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginRight="@dimen/dp_40"
+                        android:lineSpacingExtra="@dimen/dp_10"
                         android:gravity="center"
                         android:padding="@dimen/dp_15"
-                        android:text="师从xxx当代名家"
+                        android:text=""
                         android:textColor="@color/text_black_dark"
                         android:textSize="@dimen/sp_13" />
 
@@ -87,28 +88,44 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:background="@color/white">
 
+                    <View
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_2"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/title_text"
+                        android:background="@color/line_color" />
+
                     <TextView
+                        android:id="@+id/title_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:padding="@dimen/dp_10"
-                        android:text="TA 出售的NFT" />
+                        android:text="TA出售的NFT"
+                        android:textColor="@color/picture_name_color"
+                        android:textSize="@dimen/sp_17" />
+
+                    <View
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_2"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/title_text"
+                        android:background="@color/line_color" />
 
                 </RelativeLayout>
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/artList"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/tabLayout"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                    android:layout_height="match_parent" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_50"
-                    android:layout_below="@+id/artList"
                     android:background="@color/white" />
-
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -118,7 +135,7 @@
             android:layout_height="47dp"
             android:layout_alignParentBottom="true"
             android:background="@color/_101010"
-            android:text="关注"
+            android:text="@string/text_follow"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_17" />
     </RelativeLayout>

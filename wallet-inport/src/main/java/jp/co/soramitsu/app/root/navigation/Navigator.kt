@@ -74,7 +74,7 @@ class Navigator : SplashRouter, OnboardingRouter, AccountRouter, WalletRouter, R
 //        val bundle = PincodeFragment.getPinCodeBundle(action)
 //        navController?.navigate(R.id.action_pin_to_main, bundle)
 //        openMain()
-        navController?.navigate(R.id.action_pin_to_main)
+        navController?.navigate(R.id.action_open_main)
     }
 
     override fun openCreateAccount(selectedNetworkType: Node.NetworkType?) {

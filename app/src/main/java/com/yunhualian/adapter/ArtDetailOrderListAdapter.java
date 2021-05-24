@@ -1,15 +1,11 @@
 package com.yunhualian.adapter;
 
 
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunhualian.R;
-import com.yunhualian.base.YunApplication;
 import com.yunhualian.entity.OrderAmountVo;
-import com.yunhualian.entity.SellingArtVo;
 
 import java.util.List;
 

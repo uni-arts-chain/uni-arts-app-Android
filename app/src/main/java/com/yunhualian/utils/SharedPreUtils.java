@@ -49,12 +49,12 @@ public class SharedPreUtils {
     public static final String KEY_GUIDE_FLAG = "GuideFlag";
     public static final String FIRST = "first";
     public static final String KEY_ADDRESS = "address";
-
+    public static final String KEY_HEAD_URL = "head_url";
     public static final String KEY_SEED = "seed";
     public static final String KEY_NONCE = "nonce";
     public static final String KEY_PRIVATE = "private_key";
     public static final String KEY_PUBLICKEY = "public_key";
-
+    public static final String KEY_PIN = "pin";
 
     /**
      * 序列化对象

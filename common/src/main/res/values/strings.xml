@@ -15,7 +15,7 @@
 
     <string name="common_address">Address</string>
 
-    <string name="pincode_confirm_your_pin_code_v1_0_1">Confirm pin code</string>
+    <string name="pincode_confirm_your_pin_code_v1_0_1">请再次输入密码</string>
     <string name="pincode_title_create">Setup pin code</string>
 
     <string name="common_share">Share</string>
@@ -86,8 +86,8 @@
     <string name="onboarding_terms_and_conditions_1">I have read and agreed to Terms and Conditions and Privacy Policy</string>
     <string name="onboarding_terms_and_conditions_2">Terms and Conditions</string>
     <string name="onboarding_privacy_policy">Privacy Policy</string>
-    <string name="pincode_enter_pin_code">Enter pin code</string>
-    <string name="pincode_confirm_your_pin_code">Confirm your pin code</string>
+    <string name="pincode_enter_pin_code">请输入密码</string>
+    <string name="pincode_confirm_your_pin_code">请再次输入密码</string>
     <string name="recovery_passphrase">Mnemonic passphrase</string>
     <string name="tabbar_wallet_title">Wallet</string>
     <string name="tabbar_staking_title">Staking</string>
@@ -100,7 +100,8 @@
     <string name="about_privacy">Privacy policy</string>
     <string name="about_terms">Terms and conditions</string>
     <string name="onboarding_create_account">创建钱包</string>
-
+    <string name="wallet_tips_pincode">友情提醒：饭团密画所有收藏品权益均绑定用户区块链地址和私钥，饭团密画官方无权触碰用户藏品，也永远不会询问用户密码和私钥。
+</string>
 
     <string name="username_setup_choose_title">Name</string>
     <string name="username_setup_hint">The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.</string>

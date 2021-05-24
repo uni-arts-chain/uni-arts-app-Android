@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="278dp"
+    android:layout_height="230dp"
+    android:layout_gravity="center"
+    android:background="@drawable/mnemonic_backup_alert_dialog_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/lly_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/icon_close" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:text="导出私钥"
+        android:textColor="@color/discovery_application_text_color"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_private_key"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_alert"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/derive_private_key_content_bg"
+        android:lines="2"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp"
+        android:textColor="@color/_101010"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_derive_tip"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_private_key"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginRight="12dp"
+        android:paddingLeft="6dp"
+        android:paddingTop="6dp"
+        android:paddingRight="6dp"
+        android:paddingBottom="6dp"
+        android:text="@string/derive_private_key_alert"
+        android:textColor="@color/picture_prize_color"
+        android:textSize="12sp" />
+
+
+    <TextView
+        android:id="@+id/btn_copy"
+        android:layout_width="239dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/tv_derive_tip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/create_wallet_btn_bg_selector"
+        android:gravity="center"
+        android:text="@string/derive_private_key_copy_btn"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+
+</RelativeLayout>

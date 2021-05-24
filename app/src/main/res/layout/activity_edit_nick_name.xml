@@ -31,7 +31,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginRight="@dimen/dp_15"
-            android:background="@color/gray_line" />
+            android:background="@color/_101010" />
 
         <TextView
             android:id="@+id/textNum"

@@ -55,11 +55,11 @@ public class UploadNormalPopUpWindow extends BasePopupWindow {
         setContentView(mBinding.getRoot());
         adapter = new PopWindowListAdapter(lists);
         mBinding.setHandlers(new ClickHandlers());
-        mBinding.lists.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
             listener.onPopItemClick(view, position);
         });
-        mBinding.lists.setAdapter(adapter);
+        mBinding.lists.setLayoutManager(new LinearLayoutManager(mContext));
+        mBinding.lists.setAdapter(adapter);// 可循环滚动
         mBinding.relRootView.setOnTouchListener((v, event) -> {
             dismiss();
             return false;

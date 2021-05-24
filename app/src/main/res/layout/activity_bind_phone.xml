@@ -92,6 +92,7 @@
                     style="@style/ClearEditTextView"
                     android:layout_width="0dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/dp_15"
                     android:layout_weight="1"
                     android:background="@null"
                     android:drawableLeft="@mipmap/icon_code"

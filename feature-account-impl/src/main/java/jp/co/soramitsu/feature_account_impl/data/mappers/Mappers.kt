@@ -14,8 +14,8 @@ import jp.co.soramitsu.feature_account_impl.presentation.view.advanced.network.m
 fun mapNetworkTypeToNetworkModel(networkType: Node.NetworkType): NetworkModel {
     val type = when (networkType) {
         Node.NetworkType.POLKADOT -> NetworkModel.NetworkTypeUI.Polkadot
-        Node.NetworkType.KUSAMA -> NetworkModel.NetworkTypeUI.Kusama
-        Node.NetworkType.WESTEND -> NetworkModel.NetworkTypeUI.Westend
+//        Node.NetworkType.KUSAMA -> NetworkModel.NetworkTypeUI.Kusama
+//        Node.NetworkType.WESTEND -> NetworkModel.NetworkTypeUI.Westend
     }
 
     return NetworkModel(networkType.readableName, type)
@@ -67,9 +67,9 @@ fun mapAccountToAccountModel(
 
 fun mapNodeToNodeModel(node: Node): NodeModel {
     val networkModelType = when (node.networkType) {
-        Node.NetworkType.KUSAMA -> NetworkModel.NetworkTypeUI.Kusama
+//        Node.NetworkType.KUSAMA -> NetworkModel.NetworkTypeUI.Kusama
         Node.NetworkType.POLKADOT -> NetworkModel.NetworkTypeUI.Polkadot
-        Node.NetworkType.WESTEND -> NetworkModel.NetworkTypeUI.Westend
+//        Node.NetworkType.WESTEND -> NetworkModel.NetworkTypeUI.Westend
     }
 
     return with(node) {

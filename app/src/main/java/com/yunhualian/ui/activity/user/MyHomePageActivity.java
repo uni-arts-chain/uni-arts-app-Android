@@ -1,21 +1,14 @@
 package com.yunhualian.ui.activity.user;
 
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.yunhualian.R;
 import com.yunhualian.adapter.MyHomePageAdapter;
@@ -24,8 +17,9 @@ import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.ActivityMyHomePageBinding;
 import com.yunhualian.entity.UserVo;
-import com.yunhualian.ui.activity.UploadArtActivity;
 import com.yunhualian.ui.fragment.MyHomePagePicuureSortFragment;
+import com.yunhualian.ui.fragment.MyHomePagePicuureSortSellingFragment;
+import com.yunhualian.widget.UploadSuccessPopUpWindow;
 
 import java.util.Arrays;
 
@@ -75,19 +69,23 @@ public class MyHomePageActivity extends BaseActivity<ActivityMyHomePageBinding> 
     public void initPageData() {
         if (YunApplication.getmUserVo() == null) return;
         UserVo userVo = YunApplication.getmUserVo();
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(R.mipmap.icon_default_head);
-        Glide.with(this).load(userVo.getAvatar().getUrl()).apply(requestOptions).into(mDataBinding.mineTitleImg);
+        Glide.with(this)
+                .load(userVo.getAvatar().getUrl())
+                .apply(new RequestOptions().placeholder(R.mipmap.icon_default_head))
+                .into(mDataBinding.mineTitleImg);
         if (TextUtils.isEmpty(userVo.getDisplay_name())) {
             mDataBinding.name.setText(R.string.set_display_name_tips);
-            mDataBinding.name.setOnClickListener(v -> startActivity(EditNickNameActivity.class));
+
         } else
             mDataBinding.name.setText(userVo.getDisplay_name());
-        if (TextUtils.isEmpty(userVo.getArtist_desc())) {
+        mDataBinding.name.setOnClickListener(v -> startActivity(EditNickNameActivity.class));
+        if (TextUtils.isEmpty(userVo.getDesc())) {
             mDataBinding.artDesc.setText(R.string.set_desc_tips);
-            mDataBinding.artDesc.setOnClickListener(v -> startActivity(UserDescActivity.class));
         } else
             mDataBinding.artDesc.setText(userVo.getDesc());
+
+        mDataBinding.artDesc.setOnClickListener(v -> startActivity(UserDescActivity.class));
+        mDataBinding.mineTitleImg.setOnClickListener(v -> startActivity(SettingsActivity.class));
     }
 
     @Override
@@ -95,6 +93,6 @@ public class MyHomePageActivity extends BaseActivity<ActivityMyHomePageBinding> 
         if (position == 0)
             return MyHomePagePicuureSortFragment.newInstance(MyHomePagePicuureSortFragment.STATE_ONLINE);
         else
-            return MyHomePagePicuureSortFragment.newInstance(MyHomePagePicuureSortFragment.STATE_AUCTION);
+            return MyHomePagePicuureSortSellingFragment.newInstance(MyHomePagePicuureSortSellingFragment.STATE_AUCTION);
     }
 }

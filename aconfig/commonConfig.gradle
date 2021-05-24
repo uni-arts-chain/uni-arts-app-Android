@@ -2,11 +2,10 @@ def deps = [:]
 
 def common_libs(DependencyHandler handler, String mode = "implementation") {
     handler.add(mode, 'com.google.android.material:material:1.1.0')
-    handler.add(mode, 'androidx.legacy:legacy-support-v4:1.0.0')
 
     //glider 网络图片加载库
-//    handler.add(mode, 'com.github.bumptech.glide:glide:4.11.0')
-//    handler.add(mode, 'jp.wasabeef:glide-transformations:2.0.1')
+    handler.add(mode, 'com.github.bumptech.glide:glide:4.12.0')
+    handler.add(mode, 'jp.wasabeef:glide-transformations:2.0.1')
     //eventbus
     //utils 类 比较全的工具三方库。
     // 具体使用教程https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/README-CN.md。其中还有一个子类。一般用不到。

@@ -3,11 +3,12 @@ package com.yunhualian.ui.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -22,14 +23,14 @@ import com.yunhualian.adapter.TypeAdapter;
 import com.yunhualian.base.BaseFragment;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.FragmentPictureSortBinding;
-import com.yunhualian.entity.ArtMaterialVo;
 import com.yunhualian.entity.ArtPriceVo;
 import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.SellingArtVo;
+import com.yunhualian.net.GetBaseData;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
-import com.yunhualian.ui.activity.ArtDetailActivity;
+import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.ui.activity.SearchActivity;
 
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding> implements BaseQuickAdapter.OnItemClickListener {
-    private List<String> prizeList, pictureList;
     private SortAdapter sortAdapter;
     private TypeAdapter typeAdapter;
     private PrizeAdapter prizeAdapter;
@@ -54,6 +54,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
     HashMap<String, String> param = new HashMap<>();
     EditText searchText;
     private int refreshIndex = 0;
+    StaggeredGridLayoutManager layoutManager;
 
     public static BaseFragment newInstance() {
         PictureSortFragment fragment = new PictureSortFragment();
@@ -83,26 +84,30 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
     @Override
     protected void initView() {
         typeList = YunApplication.getArtTypelist() != null ?
-                YunApplication.getArtTypelist() : new ArrayList<>();
+                YunApplication.getArtTypelist() : queryTypeList();
         materialVos = YunApplication.getArtThemeVoList() != null ?
-                YunApplication.getArtThemeVoList() : new ArrayList<>();
+                YunApplication.getArtThemeVoList() : queryThmeList();
         priceVos = YunApplication.getArtPriceVoList() != null ?
-                YunApplication.getArtPriceVoList() : new ArrayList<>();
+                YunApplication.getArtPriceVoList() : queryPriceList();
         initRefresh();
         mBinding.searchEdt.setOnClickListener(v -> startActivity(SearchActivity.class));
-        prizeList = new ArrayList<>();
-        prizeList = Arrays.asList(getResources().getStringArray(R.array.sorts));
-        pictureList = Arrays.asList(getResources().getStringArray(R.array.sorts));
         sortAdapter = new SortAdapter(materialVos);
         typeAdapter = new TypeAdapter(typeList);
         prizeAdapter = new PrizeAdapter(priceVos);
         picturesAdapter = new PicturesAdapter(artBeanList);
-
         initSelectedListener();
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        //防止Item切换
-//        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
+
+        mBinding.pictures.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                layoutManager.invalidateSpanAssignments();
+            }
+        });
         mBinding.pictures.setLayoutManager(layoutManager);
+        picturesAdapter.setEmptyView(R.layout.layout_entrust_empty, mBinding.pictures);
         mBinding.pictures.setAdapter(picturesAdapter);
         picturesAdapter.setOnItemClickListener(this);
         LinearLayoutManager sortLayoutManager = new LinearLayoutManager(YunApplication.getInstance());
@@ -124,7 +129,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         sortAdapter.addSelectedListener(new SortAdapter.onSelectedListener() {
             @Override
             public void onSelected(int selectPosition) {
-                param.put("category_id", String.valueOf(typeList.get(selectPosition).getId()));
+                param.put("category_id", String.valueOf(materialVos.get(selectPosition).getId()));
                 getPopular(param);
                 sortAdapter.notifyDataSetChanged();
             }
@@ -141,15 +146,15 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         typeAdapter.addSelectedListener(new TypeAdapter.onSelectedListener() {
             @Override
             public void onSelected(int selectPosition) {
-                param.put("theme_id", String.valueOf(materialVos.get(selectPosition).getId()));
+                param.put("resource_type", String.valueOf(typeList.get(selectPosition).getId()));
                 getPopular(param);
                 typeAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onUnSelected(int selectPosition) {
-                if (param.containsKey("theme_id")) {
-                    param.remove("theme_id");
+                if (param.containsKey("resource_type")) {
+                    param.remove("resource_type");
                     getPopular(param);
                     typeAdapter.notifyDataSetChanged();
                 }
@@ -209,6 +214,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         if (artBeanList != null && artBeanList.size() > position) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(ArtDetailActivity.ART_KEY, artBeanList.get(position));
+            bundle.putInt(ArtDetailActivity.ART_ID, artBeanList.get(position).getId());
             startActivity(ArtDetailActivity.class, bundle);
         }
     }
@@ -224,7 +230,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
                     artBeanList = response.body().getBody();
 //                    if (artBeanList.size() > 0)
                     picturesAdapter.setNewData(artBeanList);
-                    handler.sendEmptyMessageDelayed(0, 500);
+//                    handler.sendEmptyMessageDelayed(0, 500);
                     dismissLoading();
                 }
             }
@@ -242,4 +248,31 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         });
 
     }
+
+    private List<ArtTypeVo> queryTypeList() {
+        GetBaseData.getArtType(() -> {
+            if (YunApplication.getArtTypelist() != null) {
+                typeList = YunApplication.getArtTypelist();
+                typeAdapter.setNewData(typeList);
+            }
+        });
+        return new ArrayList<>();
+    }
+
+    private List<ArtTypeVo> queryThmeList() {
+        GetBaseData.getCategories(() -> {
+            materialVos = YunApplication.getArtThemeVoList();
+            sortAdapter.setNewData(materialVos);
+        });
+        return new ArrayList<>();
+    }
+
+    private List<ArtPriceVo> queryPriceList() {
+        GetBaseData.getPrice(() -> {
+            priceVos = YunApplication.getArtPriceVoList();
+            prizeAdapter.setNewData(priceVos);
+        });
+        return new ArrayList<>();
+    }
+
 }

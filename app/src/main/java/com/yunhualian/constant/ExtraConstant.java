@@ -9,7 +9,10 @@ package com.yunhualian.constant;
  */
 public class ExtraConstant {
     public static final int DEFAULT_SPAN_COUNT = 2;
+    public static final int DEFAULT_TIME_EPLI = 1000;
+    public static final int DEFAULT_TIME_ = 500;
     public static final String EVENT_PUSH = "push";
+    public static final String EVENT_MORE_PICTUR_SELECT = "tab_select";
     public static final String CACHE_LOGIN_INFO = "CACHE_LOGIN_INFO";
     public static final String KEY_ADD_ADDRESS = "KEY_ADD_ADDRESS";
     public static final String KEY_ACCOUNT = "KEY_ACCOUNT";
@@ -53,5 +56,5 @@ public class ExtraConstant {
     //质押成功
     public static final String EVENT_PLEDGE_SUCCESS = "EVENT_PLEDGE_SUCCESS";
 
-
+    public static final String EVENT_SELL_SUCCESS = "sell_success";
 }

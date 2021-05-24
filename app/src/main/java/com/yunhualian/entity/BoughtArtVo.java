@@ -30,6 +30,15 @@ public class BoughtArtVo implements Serializable {
     private ArtBean art;
     private BuyerBean buyer;
     private SellerBean seller;
+    private String royalty;
+
+    public String getRoyalty() {
+        return royalty;
+    }
+
+    public void setRoyalty(String royalty) {
+        this.royalty = royalty;
+    }
 
     public int getId() {
         return id;

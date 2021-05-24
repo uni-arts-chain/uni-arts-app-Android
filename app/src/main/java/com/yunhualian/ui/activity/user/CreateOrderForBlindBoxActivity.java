@@ -3,13 +3,16 @@ package com.yunhualian.ui.activity.user;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
+import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.ActivityCreateOrderBlindBoxBinding;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.BlindBoxVo;
@@ -17,6 +20,9 @@ import com.yunhualian.entity.PayResult;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.x5.WebViewActivity;
+import com.yunhualian.ui.x5.X5WebViewActivity;
+import com.yunhualian.ui.x5.X5WebViewForAliPayActivity;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -66,15 +72,15 @@ public class CreateOrderForBlindBoxActivity extends BaseActivity<ActivityCreateO
 
     public void initPageData() {
 
-        Glide.with(this).load(sellingArtVo.getImg_path()).into(mDataBinding.hotPicture);
+        Glide.with(this).load(sellingArtVo.getApp_img_path()).into(mDataBinding.hotPicture);
 
         mDataBinding.name.setText(sellingArtVo.getTitle());
 
-        mDataBinding.artAmount.setText(buy_amount);
+        mDataBinding.artAmount.setText(getString(R.string.blind_buy_amount, buy_amount));
         if (new BigDecimal(buy_amount).compareTo(BigDecimal.ONE) > 0) {
             totalPay = new BigDecimal(buy_amount).multiply(new BigDecimal(sellingArtVo.getPrice())).stripTrailingZeros().toPlainString();
         } else totalPay = (sellingArtVo.getPrice());
-        mDataBinding.price.setText(getString(R.string.blind_buy_price, "￥".concat(totalPay)));
+        mDataBinding.priceValue.setText(YunApplication.PAY_CURRENCY.concat(totalPay));
         mDataBinding.priceTotal.setText(getString(R.string.text_buy_amount, totalPay));
         mDataBinding.weiPayLayout.setOnClickListener(this);
         mDataBinding.aPayLayout.setOnClickListener(this);
@@ -123,11 +129,19 @@ public class CreateOrderForBlindBoxActivity extends BaseActivity<ActivityCreateO
                 dismissLoading();
                 if (response.isSuccessful()) {
 
-                    if (!TextUtils.isEmpty(response.body().getBody().getUrl())) {
-                        Uri uri = Uri.parse(response.body().getBody().getUrl());
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(intent);
-                    }
+                    String url = response.body().getBody().getUrl();
+                    String title = "支付";
+                    Bundle bundle = new Bundle();
+                    bundle.putString(WebViewActivity.TITLE, title);
+                    bundle.putString(WebViewActivity.URL, url);
+                    bundle.putString(WebViewActivity.TYPE, payType);
+                    if (!TextUtils.isEmpty(url)) {
+                        if (payType.equals(X5WebViewActivity.WECHAT)) {
+                            startActivity(X5WebViewActivity.class, bundle);
+                        } else startActivity(X5WebViewForAliPayActivity.class, bundle);
+                        finish();
+                    } else
+                        ToastUtils.showShort("出错了");
 
                 }
             }

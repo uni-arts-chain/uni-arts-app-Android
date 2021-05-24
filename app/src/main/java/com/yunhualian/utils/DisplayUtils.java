@@ -1,6 +1,16 @@
 package com.yunhualian.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.text.TextUtils;
+
+import androidx.annotation.Nullable;
+
+import com.blankj.utilcode.util.ThreadUtils;
+import com.yunhualian.R;
+import com.yunhualian.ui.activity.art.ArtDetailActivity;
+
+import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 
 public class DisplayUtils {
     /**
@@ -24,6 +34,35 @@ public class DisplayUtils {
         return (int) (dipValue * scale + 0.5f);
     }
 
+    private void createQrcode(String mUrl, Context context) {
+        if (TextUtils.isEmpty(mUrl)) return;
+        ThreadUtils.executeByCached(new ThreadUtils.SimpleTask<Bitmap>() {
+            @Nullable
+            @Override
+            public Bitmap doInBackground() throws Throwable {
+
+                return QRCodeEncoder.syncEncodeQRCode(mUrl, 300);
+            }
+
+            @Override
+            public void onSuccess(@Nullable Bitmap result) {
+                if (null != result)
+                    DialogManager.showImgDialog(context, result, (dialog, which) -> {
+
+                    });
+            }
+
+            @Override
+            public void onCancel() {
+                super.onCancel();
+            }
+
+            @Override
+            public void onFail(Throwable t) {
+                super.onFail(t);
+            }
+        });
+    }
 
     /**
      * convert px to its equivalent sp

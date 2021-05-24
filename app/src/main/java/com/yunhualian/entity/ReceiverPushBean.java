@@ -1,6 +1,8 @@
 package com.yunhualian.entity;
 
-public class ReceiverPushBean {
+import java.io.Serializable;
+
+public class ReceiverPushBean implements Serializable {
     private String coinId;
     private String from;
     private String to;
@@ -9,6 +11,15 @@ public class ReceiverPushBean {
     private String hash;
     private String body;
     private String title;
+    private String payload;
+
+    public String getPayload() {
+        return payload;
+    }
+
+    public void setPayload(String payload) {
+        this.payload = payload;
+    }
 
     public String getBody() {
         return body;

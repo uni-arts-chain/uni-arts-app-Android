@@ -17,7 +17,6 @@ import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 
-import org.web3j.crypto.Hash;
 
 import java.util.HashMap;
 
@@ -92,12 +91,14 @@ public class AdviceActivity extends BaseActivity<ActivityAdviceBinding> {
     }
 
     private void feedBack() {
+        showLoading(getString(R.string.progress_loading));
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("advise", mDataBinding.advice.getText().toString());
         hashMap.put("contact", mDataBinding.phone.getText().toString());
         RequestManager.instance().feedBack(hashMap, new MinerCallback<BaseResponseVo<UserVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
+                dismissLoading();
                 if (response.isSuccessful()) {
                     ToastUtils.showLong("提交成功");
                     finish();
@@ -106,12 +107,12 @@ public class AdviceActivity extends BaseActivity<ActivityAdviceBinding> {
 
             @Override
             public void onError(Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
     }

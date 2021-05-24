@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:621183184145:android:2b0172d9e8fe674b0730b0",
         "android_client_info": {
-          "package_name": "jp.co.soramitsu.fearless.dev"
+          "package_name": "jp.co.soramitsu.inport"
         }
       },
       "oauth_client": [
@@ -35,7 +35,7 @@
               "client_id": "621183184145-oglaa8naq0vf2u61je4hcat2jatqnstn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "jp.co.soramitsu.fearless.dev"
+                "bundle_id": "jp.co.soramitsu.inport"
               }
             }
           ]

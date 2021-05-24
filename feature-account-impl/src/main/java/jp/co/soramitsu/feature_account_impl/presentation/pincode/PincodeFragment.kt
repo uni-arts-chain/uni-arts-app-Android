@@ -54,7 +54,7 @@ class PincodeFragment : BaseFragment<PinCodeViewModel>() {
     override fun initViews() {
         requireActivity().onBackPressedDispatcher.addCallback(this, backCallback)
         toolbar.setHomeButtonListener { viewModel.backPressed() }
-        viewModel.fingerprintScannerAvailable(fingerprintWrapper.isAuthReady())
+//        viewModel.fingerprintScannerAvailable(fingerprintWrapper.isAuthReady())
 
         with(pinCodeView) {
             pinCodeEnteredListener = { viewModel.pinCodeEntered(it) }
@@ -74,7 +74,7 @@ class PincodeFragment : BaseFragment<PinCodeViewModel>() {
         }
 
         viewModel.biometricSwitchDialogLiveData.observeEvent {
-            showAuthWithBiometryDialog()
+//            showAuthWithBiometryDialog()
         }
 
         viewModel.showFingerPrintEvent.observeEvent {

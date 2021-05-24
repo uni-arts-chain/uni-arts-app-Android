@@ -310,10 +310,10 @@ class WssSubstrateSource(
     ): EncodableStruct<Call> {
         return Call { call ->
             call[Call.callIndex] = networkType.runtimeConfiguration.pallets.transfers.transfer.index
-            call[Call.args] = TransferArgs { args ->
-                args[TransferArgs.recipientId] = sS58Encoder.decode(recipientAddress)
-                args[TransferArgs.amount] = amount
-            }
+//            call[Call.args] = TransferArgs { args ->
+//                args[TransferArgs.recipientId] = sS58Encoder.decode(recipientAddress)
+//                args[TransferArgs.amount] = amount
+//            }
         }
     }
 
@@ -328,12 +328,10 @@ class WssSubstrateSource(
             call[Call2.callIndex] = networkType.runtimeConfiguration.pallets.transfers.transfer.index
 
             call[Call2.args2] = OrderArgs { args ->
-                args[OrderArgs.collectionId] = collectionId
                 args[OrderArgs.itemId] = itemId
 
                 args[OrderArgs.value] = value
 
-                args[OrderArgs.price] = price
 
             }
 

@@ -59,7 +59,7 @@
                             android:id="@+id/hot_picture"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="fitXY" />
                     </androidx.cardview.widget.CardView>
 
                     <LinearLayout
@@ -86,19 +86,40 @@
                             android:gravity="center"
                             android:text="@string/blind_buy_amount"
                             android:textColor="@color/_212121"
-                            android:textSize="@dimen/sp_15" />
+                            android:textSize="@dimen/sp_14" />
 
-                        <TextView
-                            android:id="@+id/price"
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:ellipsize="end"
-                            android:gravity="bottom"
-                            android:singleLine="true"
-                            android:text="@string/blind_buy_price"
-                            android:textColor="@color/_101010"
-                            android:textSize="@dimen/sp_13" />
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:gravity="bottom"
+                                android:singleLine="true"
+                                android:text="@string/blind_buy_price"
+                                android:textColor="@color/_101010"
+                                android:textSize="@dimen/sp_14" />
+
+                            <TextView
+                                android:id="@+id/price_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_toRightOf="@id/price"
+                                android:ellipsize="end"
+                                android:gravity="bottom"
+                                android:singleLine="true"
+                                android:textColor="@color/red"
+                                android:textSize="@dimen/sp_14" />
+
+
+                        </RelativeLayout>
+
+
                     </LinearLayout>
 
                 </LinearLayout>

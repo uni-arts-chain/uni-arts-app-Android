@@ -2,6 +2,7 @@ package jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct
 
 import jp.co.soramitsu.fearless_utils.extensions.toHexString
 import jp.co.soramitsu.fearless_utils.scale.*
+import jp.co.soramitsu.fearless_utils.scale.dataType.uint
 import jp.co.soramitsu.fearless_utils.scale.dataType.uint8
 import org.bouncycastle.crypto.digests.Blake2bDigest
 import org.bouncycastle.jcajce.provider.digest.BCMessageDigest
@@ -60,7 +61,7 @@ object Call : Schema<Call>() {
     val callIndex by pair(uint8, uint8)
 
 
-    val args by schema(TransferArgs)
+    val args by schema(OrderArgs)
 
 }
 
@@ -83,20 +84,20 @@ object TransferArgs : Schema<TransferArgs>() {
 }
 
 object OrderArgs : Schema<OrderArgs>() {
+    val recipientId by sizedByteArray(32)
     val collectionId by uint64()
     val itemId by uint64()
     val value by uint64()
-    val price by uint64()
 }
 
 object ExtrinsicPayloadValue : Schema<ExtrinsicPayloadValue>() {
     val call by schema(Call)
 
-//    val era by custom(EraType, default = Era.Immortal)
+    val era by custom(EraType, default = Era.Immortal)
 
     val nonce by compactInt()
 
-//    val tip by compactInt(default = TIP)
+    val tip by compactInt(default = TIP)
 
     val specVersion by uint32()
     val transactionVersion by uint32()

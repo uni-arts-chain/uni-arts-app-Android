@@ -31,6 +31,59 @@ public class BlindBoxVo implements Serializable {
     private String special_attr;
     private String app_cover_img_path;
     private String app_img_path;
+    private String app_background_img_path;
+    private String app_background_1x_img_path;
+    private String app_background_10x_img_path;
+    private String app_body_background_img_path;
+    private int background_color;
+
+    public String getApp_background_1x_img_path() {
+        return app_background_1x_img_path;
+    }
+
+    public void setApp_background_1x_img_path(String app_background_1x_img_path) {
+        this.app_background_1x_img_path = app_background_1x_img_path;
+    }
+
+    public String getApp_background_10x_img_path() {
+        return app_background_10x_img_path;
+    }
+
+    public void setApp_background_10x_img_path(String app_background_10x_img_path) {
+        this.app_background_10x_img_path = app_background_10x_img_path;
+    }
+
+    public String getApp_body_background_img_path() {
+        return app_body_background_img_path;
+    }
+
+    public void setApp_body_background_img_path(String app_body_background_img_path) {
+        this.app_body_background_img_path = app_body_background_img_path;
+    }
+
+    public int getBackground_color() {
+        return background_color;
+    }
+
+    public void setBackground_color(int background_color) {
+        this.background_color = background_color;
+    }
+
+    public List<CardGroupsBean> getOnchain_card_groups() {
+        return onchain_card_groups;
+    }
+
+    public void setOnchain_card_groups(List<CardGroupsBean> onchain_card_groups) {
+        this.onchain_card_groups = onchain_card_groups;
+    }
+
+    public String getApp_background_img_path() {
+        return app_background_img_path;
+    }
+
+    public void setApp_background_img_path(String app_background_img_path) {
+        this.app_background_img_path = app_background_img_path;
+    }
 
     public String getApp_cover_img_path() {
         return app_cover_img_path;

@@ -1,6 +1,7 @@
 package com.yunhualian.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class SellingArtVo implements Serializable {
     /**
@@ -109,8 +110,8 @@ public class SellingArtVo implements Serializable {
     private int dislike_count;
     private int favorite_count;
     private int signature_count;
-    private String royalty;
-    private int royalty_expired_at;
+    private BigDecimal royalty;
+    private long royalty_expired_at;
     private boolean has_royalty;
     private String live2d_file;
     private String live2d_ipfs_url;
@@ -129,7 +130,7 @@ public class SellingArtVo implements Serializable {
 
     private int has_amount;
     private boolean is_owner;
-    private String selling_amount;
+    private int selling_amount;
     private AuthorBean author;
 
     public String getLive2d_ipfs_zip_url() {
@@ -460,19 +461,19 @@ public class SellingArtVo implements Serializable {
         this.signature_count = signature_count;
     }
 
-    public String getRoyalty() {
+    public BigDecimal getRoyalty() {
         return royalty;
     }
 
-    public void setRoyalty(String royalty) {
+    public void setRoyalty(BigDecimal royalty) {
         this.royalty = royalty;
     }
 
-    public int getRoyalty_expired_at() {
+    public long getRoyalty_expired_at() {
         return royalty_expired_at;
     }
 
-    public void setRoyalty_expired_at(int royalty_expired_at) {
+    public void setRoyalty_expired_at(long royalty_expired_at) {
         this.royalty_expired_at = royalty_expired_at;
     }
 
@@ -532,11 +533,11 @@ public class SellingArtVo implements Serializable {
         this.is_owner = is_owner;
     }
 
-    public String getSelling_amount() {
+    public int getSelling_amount() {
         return selling_amount;
     }
 
-    public void setSelling_amount(String selling_amount) {
+    public void setSelling_amount(int selling_amount) {
         this.selling_amount = selling_amount;
     }
 

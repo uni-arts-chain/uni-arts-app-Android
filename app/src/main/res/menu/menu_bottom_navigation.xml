@@ -11,18 +11,16 @@
         android:icon="@drawable/icon_mail_selector"
         android:title="@string/tab_mall" />
 
-    <!--    <item-->
-    <!--        android:id="@+id/navigation_creator"-->
-    <!--        android:icon="@drawable/icon_miner_selector"-->
-    <!--        android:title="@string/tab_purchased_miner" />-->
-
 
     <item
         android:id="@+id/navigation_shop_cart"
         android:icon="@drawable/icon_assets_selector"
         android:title="@string/tab_assets" />
 
-
+    <item
+        android:id="@+id/navigation_creator"
+        android:icon="@drawable/icon_miner_selector"
+        android:title="@string/tab_purchased_miner" />
     <item
         android:id="@+id/navigation_mine"
         android:icon="@drawable/icon_mine_selector"

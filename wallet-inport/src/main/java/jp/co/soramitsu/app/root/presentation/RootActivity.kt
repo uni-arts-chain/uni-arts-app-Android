@@ -2,7 +2,6 @@ package jp.co.soramitsu.app.root.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MotionEvent
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -10,7 +9,6 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.upbest.arouter.ArouterModelPath
 import com.upbest.arouter.EventBusMessageEvent
 import com.upbest.arouter.EventEntity
-import com.upbest.arouter.Extras
 import jp.co.soramitsu.app.root.di.RootApi
 import jp.co.soramitsu.app.root.di.RootComponent
 import jp.co.soramitsu.app.root.navigation.Navigator
@@ -22,7 +20,6 @@ import jp.co.soramitsu.common.utils.showToast
 import jp.co.soramitsu.common.utils.updatePadding
 import jp.co.soramitsu.inport.R
 import jp.co.soramitsu.splash.presentation.SplashBackgroundHolder
-import kotlinx.android.synthetic.main.activity_root.mainView
 import kotlinx.android.synthetic.main.activity_root.rootNetworkBar
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -62,7 +59,6 @@ class RootActivity : BaseActivity<RootViewModel>(), SplashBackgroundHolder {
         }
 
         intent?.let(::processIntent)
-//        processJsonOpenIntent()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -114,7 +110,6 @@ class RootActivity : BaseActivity<RootViewModel>(), SplashBackgroundHolder {
     }
 
     override fun removeSplashBackground() {
-//        mainView.setBackgroundResource(R.color.blue_)
     }
 
     override fun changeLanguage() {
@@ -122,7 +117,6 @@ class RootActivity : BaseActivity<RootViewModel>(), SplashBackgroundHolder {
 
         recreate()
 
-//        restartAfterLanguageChange(this)
     }
 
     private fun processIntent(intent: Intent) {
@@ -131,15 +125,6 @@ class RootActivity : BaseActivity<RootViewModel>(), SplashBackgroundHolder {
         uri?.let { viewModel.externalUrlOpened(uri) }
     }
 
-//    private fun processJsonOpenIntent() {
-//        if (Intent.ACTION_VIEW == intent.action && intent.type != null) {
-//            if ("application/json" == intent.type) {
-//                val file = this.contentResolver.openInputStream(intent.data!!)
-//                val content = file?.reader(Charsets.UTF_8)?.readText()
-//                viewModel.jsonFileOpened(content)
-//            }
-//        }
-//    }
 
     private val navController: NavController by lazy {
         val navHostFragment =
