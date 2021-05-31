@@ -18,7 +18,8 @@ import java.util.Locale;
 public class AppConstant {
     public static final int REQ_PERM_CAMERA = 2;
     public static final int INTENT_EXTRA_KEY_QR_SCAN = 4;
-    public static final String TOKEN_FAILURE = "10002";
+    public static final String TOKEN_FAILURE = "1032";
+    public static final String TOKEN_MISS = "1070";
     //接口地址
     private static final String IPADDRESS_RELEASE = "uniarts.senmeo.tech";
     private static final String IPADDRESS_DEBUG = "app.uniarts.me";

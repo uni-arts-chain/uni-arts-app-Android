@@ -9,11 +9,13 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunhualian.R;
 import com.yunhualian.adapter.PicturesAdapter;
@@ -33,6 +35,7 @@ import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.ui.activity.SearchActivity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -55,21 +58,16 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
     EditText searchText;
     private int refreshIndex = 0;
     StaggeredGridLayoutManager layoutManager;
+    int perpage = 20;
+    int page = 1;
+
+    long lastRefreshTime = 0;
+    int timeFlag = 3 * 1000;
 
     public static BaseFragment newInstance() {
         PictureSortFragment fragment = new PictureSortFragment();
         return fragment;
     }
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (refreshIndex > 0) return;
-            getPopular(new HashMap<>());
-            refreshIndex++;
-        }
-    };
 
     @Override
     protected int getLayoutResource() {
@@ -83,6 +81,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
 
     @Override
     protected void initView() {
+        artBeanList = new ArrayList<>();
         typeList = YunApplication.getArtTypelist() != null ?
                 YunApplication.getArtTypelist() : queryTypeList();
         materialVos = YunApplication.getArtThemeVoList() != null ?
@@ -99,15 +98,22 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
 
-        mBinding.pictures.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                layoutManager.invalidateSpanAssignments();
+        mBinding.scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            layoutManager.invalidateSpanAssignments();
+            if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+                //滑动到底部
+                if (System.currentTimeMillis() - lastRefreshTime > timeFlag) {
+                    lastRefreshTime = System.currentTimeMillis();
+                    getPopular(param);
+                }
             }
         });
+
         mBinding.pictures.setLayoutManager(layoutManager);
         picturesAdapter.setEmptyView(R.layout.layout_entrust_empty, mBinding.pictures);
+        picturesAdapter.setOnLoadMoreListener(() -> {
+
+        }, mBinding.pictures);
         mBinding.pictures.setAdapter(picturesAdapter);
         picturesAdapter.setOnItemClickListener(this);
         LinearLayoutManager sortLayoutManager = new LinearLayoutManager(YunApplication.getInstance());
@@ -129,6 +135,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         sortAdapter.addSelectedListener(new SortAdapter.onSelectedListener() {
             @Override
             public void onSelected(int selectPosition) {
+                page = 1;
                 param.put("category_id", String.valueOf(materialVos.get(selectPosition).getId()));
                 getPopular(param);
                 sortAdapter.notifyDataSetChanged();
@@ -137,6 +144,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
             @Override
             public void onUnSelected(int selectPosition) {
                 if (param.containsKey("category_id")) {
+                    page = 1;
                     param.remove("category_id");
                     getPopular(param);
                     sortAdapter.notifyDataSetChanged();
@@ -146,6 +154,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         typeAdapter.addSelectedListener(new TypeAdapter.onSelectedListener() {
             @Override
             public void onSelected(int selectPosition) {
+                page = 1;
                 param.put("resource_type", String.valueOf(typeList.get(selectPosition).getId()));
                 getPopular(param);
                 typeAdapter.notifyDataSetChanged();
@@ -153,7 +162,9 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
 
             @Override
             public void onUnSelected(int selectPosition) {
+
                 if (param.containsKey("resource_type")) {
+                    page = 1;
                     param.remove("resource_type");
                     getPopular(param);
                     typeAdapter.notifyDataSetChanged();
@@ -163,6 +174,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         prizeAdapter.addSelectedListener(new PrizeAdapter.onSelectedListener() {
             @Override
             public void onSelected(int selectPosition) {
+                page = 1;
                 param.put("price_sort", String.valueOf(priceVos.get(selectPosition).getId()));
                 getPopular(param);
                 prizeAdapter.notifyDataSetChanged();
@@ -171,6 +183,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
             @Override
             public void onUnSelected(int selectPosition) {
                 if (param.containsKey("price_sort")) {
+                    page = 1;
                     param.remove("price_sort");
                     getPopular(param);
                     prizeAdapter.notifyDataSetChanged();
@@ -182,13 +195,11 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
     private void initRefresh() {
         mBinding.srlShoopingMall.setColorSchemeResources(R.color.colorAccent);
         mBinding.srlShoopingMall.setDistanceToTriggerSync(500);
-        mBinding.srlShoopingMall.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                param = param == null ? new HashMap<>() : param;
-                getPopular(param);
-                mBinding.srlShoopingMall.setRefreshing(false);
-            }
+        mBinding.srlShoopingMall.setOnRefreshListener(() -> {
+            page = BigDecimal.ONE.intValue();
+            param = param == null ? new HashMap<>() : param;
+            getPopular(param);
+            mBinding.srlShoopingMall.setRefreshing(false);
         });
     }
 
@@ -221,29 +232,42 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
 
     public void getPopular(HashMap<String, String> params) {
         showLoading(getString(R.string.progress_loading));
-        params.put("page", "1");
-        params.put("per_page", "100");
+        params.put("page", String.valueOf(page));
+        params.put("per_page", String.valueOf(perpage));
         RequestManager.instance().querySelling(params, new MinerCallback<BaseResponseVo<List<SellingArtVo>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
+                dismissLoading();
                 if (response.isSuccessful()) {
-                    artBeanList = response.body().getBody();
-//                    if (artBeanList.size() > 0)
-                    picturesAdapter.setNewData(artBeanList);
-//                    handler.sendEmptyMessageDelayed(0, 500);
-                    dismissLoading();
+                    if (response.body() != null && response.body().getBody() != null) {
+                        if (response.body().getBody().size() == 0) return;
+                        if (page == BigDecimal.ONE.intValue()) {
+                            artBeanList.clear();
+                            artBeanList = response.body().getBody();
+                            picturesAdapter.setNewData(artBeanList);
+                        } else if (page > BigDecimal.ONE.intValue() && artBeanList.size() > BigDecimal.ZERO.intValue()) {
+                            artBeanList.addAll(response.body().getBody());
+                            picturesAdapter.notifyItemRangeChanged(artBeanList.size() - 1, response.body().getBody().size());
+                        }
+
+//                        if (page > BigDecimal.ONE.intValue()) {
+                        picturesAdapter.loadMoreEnd();
+//                        }
+                        page++;
+                    }
+
                 }
             }
 
             @Override
             public void onError
                     (Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
 

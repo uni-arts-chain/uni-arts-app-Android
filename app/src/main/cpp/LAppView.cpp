@@ -192,7 +192,7 @@ void LAppView::Render()
 {
     _back->Render();
 //    _gear->Render();
-    _close->Render();
+
 
     if(_changeModel)
     {
@@ -233,6 +233,7 @@ void LAppView::Render()
             }
         }
     }
+    _close->Render();
 }
 
 void LAppView::OnTouchesBegan(float pointX, float pointY) const

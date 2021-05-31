@@ -267,7 +267,7 @@ public class YunApplication extends App {
                     .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                     .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                     .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
-                    .addInterceptor(new TokenInterceptor(this))
+                    .addInterceptor(new TokenInterceptor())
                     .addInterceptor(new LogInterceptor())
                     .addInterceptor(new HeaderIntercepter())
                     .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)

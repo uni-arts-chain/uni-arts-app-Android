@@ -47,6 +47,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import com.yunhualian.BuildConfig;
+import com.yunhualian.service.TokenInterceptor;
 
 public class NetworkManager {
     private static final int HTTP_CONNECT_TIMEOUT = 30;
@@ -73,7 +74,7 @@ public class NetworkManager {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 
                 .addInterceptor(new LoggingInterceptor())
-
+                .addInterceptor(new TokenInterceptor())
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE))
                 .connectTimeout(HTTP_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(HTTP_READ_TIMEOUT, TimeUnit.SECONDS)

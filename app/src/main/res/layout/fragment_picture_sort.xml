@@ -33,13 +33,13 @@
                 android:layout_height="31dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_5"
-                android:paddingLeft="10dp"
                 android:background="@null"
                 android:drawableLeft="@mipmap/icon_search"
                 android:drawablePadding="6dp"
                 android:editable="false"
                 android:gravity="center_vertical"
                 android:hint="@string/edit_hint"
+                android:paddingLeft="10dp"
                 android:paddingTop="@dimen/dp_5"
                 android:paddingBottom="@dimen/dp_5"
                 android:textSize="13sp" />
@@ -52,6 +52,7 @@
             android:layout_height="match_parent">
 
             <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:focusableInTouchMode="true">

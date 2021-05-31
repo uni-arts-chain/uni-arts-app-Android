@@ -5,6 +5,8 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.lljjcoder.Constant;
+import com.upbest.arouter.EventBusMessageEvent;
+import com.upbest.arouter.EventEntity;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.entity.ProtocolResultMsg;
 import com.yunhualian.utils.LoginOutEvent;
@@ -27,12 +29,10 @@ import okio.BufferedSource;
  */
 
 public class TokenInterceptor implements Interceptor {
-    private Context mcontext;
     private Gson mGson = new Gson();
     private ProtocolResultMsg ss = null;
 
-    public TokenInterceptor(Context context) {
-        this.mcontext = context;
+    public TokenInterceptor() {
     }
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
@@ -74,7 +74,7 @@ public class TokenInterceptor implements Interceptor {
      */
     private boolean isTokenExpired(String code) {
         try {
-            if (!TextUtils.isEmpty(code) && code.equals(AppConstant.TOKEN_FAILURE)) {
+            if (!TextUtils.isEmpty(code) && (code.equals(AppConstant.TOKEN_FAILURE) || code.equals(AppConstant.TOKEN_MISS))) {
                 return true;
             }
         } catch (Exception e) {
@@ -89,10 +89,7 @@ public class TokenInterceptor implements Interceptor {
      */
     public void LoginOut() {
         try {
-            EventBus.getDefault().post(new LoginOutEvent());
-//            Intent intent = new Intent(mcontext, LoginActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            mcontext.startActivity(intent);
+            EventBus.getDefault().post(new EventBusMessageEvent(EventEntity.EVENT_REFRESH_TOKEN, ""));
         } catch (Exception e) {
             e.printStackTrace();
         }

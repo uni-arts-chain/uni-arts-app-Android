@@ -88,7 +88,7 @@ public class MessagesActivity extends BaseActivity<ActivityMessagesBinding> {
                 startActivity(BlindBoxDetailActivity.class, bundle);
             }
         });
-        messagesAdapter.setOnLoadMoreListener(this::queryMessage);
+        messagesAdapter.setOnLoadMoreListener(this::queryMessage, mDataBinding.messageList);
         mDataBinding.swipeRefresh.setOnRefreshListener(() -> {
             page = 1;
             queryMessage();

@@ -24,6 +24,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.igexin.sdk.PushManager;
 import com.upbest.arouter.EventBusMessageEvent;
+import com.upbest.arouter.EventEntity;
 import com.yunhualian.R;
 import com.yunhualian.adapter.HomePagePopularAdapter;
 import com.yunhualian.adapter.HomePageThemeAdapter;
@@ -164,7 +165,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         messageIcon.setOnClickListener(v -> startActivity(MessagesActivity.class));
         kefuIcon.setOnClickListener(v -> startActivity(CustomerServiceActivity.class));
 
-        loginByAddress();
+        loginByAddress(false);
     }
 
     private void initRequest() {
@@ -203,7 +204,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         mBinding.srlShoopingMall.setDistanceToTriggerSync(500);
         mBinding.srlShoopingMall.setOnRefreshListener(() -> {
             mBinding.srlShoopingMall.setRefreshing(false);
-            loginByAddress();
+            loginByAddress(false);
         });
     }
 
@@ -227,7 +228,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventBusMessageEvent eventBusMessageEvent) {
         if (eventBusMessageEvent != null) {
-//            ToastUtils.showLong("s" + eventBusMessageEvent.getmValue());
+            if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_REFRESH_TOKEN)) {
+                //refresh token
+                loginByAddress(true);
+            }
         }
     }
 
@@ -684,7 +688,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 //        });
     }
 
-    public void loginByAddress() {
+    public void loginByAddress(boolean refreshToken) {
         String privateKey = SharedPreUtils.getString(mActivity, SharedPreUtils.KEY_PRIVATE);
         String publicKey = SharedPreUtils.getString(mActivity, SharedPreUtils.KEY_PUBLICKEY);
         String nonce = SharedPreUtils.getString(mActivity, SharedPreUtils.KEY_NONCE);
@@ -706,12 +710,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
                 if (response.isSuccessful()) {
                     if (response.body() != null)
                         if (response.body().getBody() != null) {
-//                        ToastUtils.showLong("登录成功");
                             UserVo userVo = response.body().getBody();
                             YunApplication.setmUserVo(userVo);
                             YunApplication.setToken(userVo.getToken());
                             resume = true;
-                            initRequest();
+                            if (!refreshToken)
+                                initRequest();
                         }
                 }
             }

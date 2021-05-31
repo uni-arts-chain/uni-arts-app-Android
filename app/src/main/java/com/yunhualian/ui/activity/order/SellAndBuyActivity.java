@@ -16,7 +16,6 @@ import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 
 
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +68,7 @@ public class SellAndBuyActivity extends BaseActivity<ActivityMessagesBinding> {
             bundle.putInt(OrderDetailActivity.ORDER_TYPE, from.equals(SELL) ? sell : bought);
             startActivity(OrderDetailActivity.class, bundle);
         });
-        messagesAdapter.setOnLoadMoreListener(isSold ? this::querySold : this::queryBought);
+        messagesAdapter.setOnLoadMoreListener(isSold ? this::querySold : this::queryBought, mDataBinding.messageList);
         mDataBinding.swipeRefresh.setOnRefreshListener(() -> {
             mDataBinding.swipeRefresh.setRefreshing(false);
             page = BigDecimal.ONE.intValue();

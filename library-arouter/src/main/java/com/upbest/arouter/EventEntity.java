@@ -24,5 +24,6 @@ public class EventEntity {
     public static final String EVENT_BACKUP_SUCCESS = "back_success";
 
     public static final String EVENT_EXPORT_JSON = "export";
+    public static final String EVENT_REFRESH_TOKEN = "refresh_token";
 
 }
