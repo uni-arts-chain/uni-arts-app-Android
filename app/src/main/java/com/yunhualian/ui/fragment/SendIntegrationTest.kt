@@ -40,12 +40,12 @@ class SendIntegrationTest {
     private val sS58Encoder = SS58Encoder()
 
 
-    public fun shouldfee(receiveAddress: String, amount: Int, collectId: Int, item_id: Int, privateKey: String, publicKey: String, nonceStr: String, rxWebSocket: SocketService, signer: Signer): EncodableStruct<SubmittableExtrinsic> {
+    public fun shouldfee(receiveAddress: String, amount: Int, collectId: Int, item_id: Int, privateKey: String, publicKey: String, nonceStr: String, rxWebSocket: SocketService, signer: Signer, hash: String): EncodableStruct<SubmittableExtrinsic> {
 
 //        val keyPair = KeypairFactory().generate(EncryptionType.ECDSA, seed, "")
         val keypair = Keypair(Hex.decode(privateKey), Hex.decode(publicKey), Hex.decode(nonceStr))
         val accountId = Hex.decode(publicKey)
-        val genesis = Node.NetworkType.POLKADOT.runtimeConfiguration.genesisHash
+        val genesis = hash
         val genesisBytes = Hex.decode(genesis)
 
 

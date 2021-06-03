@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,18 +21,21 @@ import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+import com.igexin.sdk.PushManager;
 import com.upbest.arouter.ArouterModelPath;
 import com.upbest.arouter.EventEntity;
 import com.upbest.arouter.Extras;
 import com.yunhualian.base.BaseActivity;
+import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.databinding.ActivityMainBinding;
+import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.EventBusMessageEvent;
 import com.yunhualian.entity.ReceiverPushBean;
-import com.yunhualian.ui.activity.blindbox.BlindBoxDetailActivity;
-import com.yunhualian.ui.activity.order.SellAndBuyActivity;
-import com.yunhualian.ui.activity.user.MyHomePageActivity;
+import com.yunhualian.entity.UserVo;
+import com.yunhualian.net.MinerCallback;
+import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.fragment.BlindBoxFragment;
 import com.yunhualian.ui.fragment.CreatorFragment;
 import com.yunhualian.ui.fragment.HomeFragment;
@@ -45,20 +47,26 @@ import com.yunhualian.utils.UserManager;
 import com.yunhualian.widget.PermissionDialog;
 import com.yunhualian.widget.UpdateDialog;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 
+import jp.co.soramitsu.fearless_utils.encrypt.EncryptionType;
+import jp.co.soramitsu.fearless_utils.encrypt.SignatureWrapper;
+import jp.co.soramitsu.fearless_utils.encrypt.Signer;
 import jp.co.soramitsu.fearless_utils.encrypt.model.Keypair;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
+import retrofit2.Call;
+import retrofit2.Response;
 
 @Route(path = ArouterModelPath.MAIN)
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
@@ -74,9 +82,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private BottomNavigationView mBottomNavigationView;
     public UpdateDialog mDialog;
     public UpdateDialog mForceDialog;
-    public static final String ART = "art";
-    public static final String TRADE = "trade";
-    public static final String BLINDBOX = "blind_box";
     public static final String JUMP_PAGE = "jump_page";
 
 
@@ -105,7 +110,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 }
             }).request();
         }
-        // DownLoadManager.with().init(this);
     }
 
     @Override
@@ -225,6 +229,65 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(com.upbest.arouter.EventBusMessageEvent eventBusMessageEvent) {
+        if (eventBusMessageEvent != null) {
+            if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_REFRESH_TOKEN)) {
+                //refresh token
+                LogUtils.e("refresh token===");
+                loginByAddress();
+            }
+        }
+    }
+
+    public void loginByAddress() {
+        String privateKey = SharedPreUtils.getString(this, SharedPreUtils.KEY_PRIVATE);
+        String publicKey = SharedPreUtils.getString(this, SharedPreUtils.KEY_PUBLICKEY);
+        String nonce = SharedPreUtils.getString(this, SharedPreUtils.KEY_NONCE);
+        String Address = SharedPreUtils.getString(this, SharedPreUtils.KEY_ADDRESS);
+        LogUtils.e(privateKey + "|" + publicKey + "|" + nonce);
+        Keypair keypair = new Keypair(Hex.decode(privateKey), Hex.decode(publicKey), Hex.decode(nonce.substring(2)));
+        Signer signer = new Signer();
+        SignatureWrapper signatureWrapper = signer.sign(EncryptionType.SR25519, Address.getBytes(), keypair);
+        String singStr2 = Hex.toHexString(signatureWrapper.getSignature());
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("address", Address);
+        hashMap.put("message", Address);
+        hashMap.put("signature", singStr2);
+        hashMap.put("cid", PushManager.getInstance().getClientid(this));
+        hashMap.put("os", "android");
+        RequestManager.instance().addressLogin(hashMap, new MinerCallback<BaseResponseVo<UserVo>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null)
+                        if (response.body().getBody() != null) {
+                            UserVo userVo = response.body().getBody();
+                            YunApplication.setmUserVo(userVo);
+                            YunApplication.setToken(userVo.getToken());
+                        }
+                }
+            }
+
+            @Override
+            public void onError
+                    (Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(AppConstant.HOME_CURRENT_ITEM_ID, mCurrentItemId);
@@ -286,11 +349,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         if (null == mIntent.getStringExtra(JUMP_PAGE)) {
             return;
         }
-//        Uri data = mIntent.getData();
-//        String jumpPage = data.getQueryParameter("");
-//        if (TextUtils.isEmpty(jumpPage)) {
-//            return;
-//        }
         String jumpPage = mIntent.getStringExtra(JUMP_PAGE);
         switch (jumpPage) {
             case "0":
@@ -302,23 +360,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 if (null != mBottomNavigationView) {
                     mBottomNavigationView.setSelectedItemId(R.id.navigation_art_sort);
                 }
-//                String parameters = data.getQueryParameter("parameters");
-//                if (TextUtils.isEmpty(parameters)) {
-//                    break;
-//                }
-//                try {
-//                    JSONObject mJsonObject = new JSONObject(parameters);
-//                    String hotLabel = mJsonObject.optString("hotLabel");
-//                    String generalSort = mJsonObject.optString("generalSort");
-//                    String quotaSort = mJsonObject.optString("quotaSort");
-//                    String cycleSort = mJsonObject.optString("cycleSort");
-//
-////                    if (null != mLoanFragment) {
-////                        mLoanFragment.skipFilterProduct(hotLabel, generalSort, quotaSort, cycleSort);
-////                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
                 break;
             case "2":
                 if (null != mBottomNavigationView) {
@@ -334,11 +375,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     protected void onResume() {
         super.onResume();
         UserManager.isLogin(false);
-//        boolean isGoPage = getIntent().getBooleanExtra(NotificationUtil.KEY, false);
-//        ReceiverPushBean receiverPushBean = (ReceiverPushBean) getIntent().getSerializableExtra(NotificationUtil.DATA);
-//        if (isGoPage && !hasJump) {
-//            goPage(receiverPushBean);
-//        }
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")
@@ -372,22 +408,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         permissionDialog.show();
     }
 
-    public void signerKey(Keypair keypari) {
-        try {
-            Class<?> clz = Class.forName("jp.co.soramitsu.fearless_utils.encrypt.Signer");
-            //获取object实例，即AppInfo实例，这里会调用无参构造方法
-            Object obj = clz.newInstance();
-            //调用方法setAppName，传入String 类型的参数
-            Method mothod1 = clz.getMethod("signSr25519", String.class);
-            //执行该方法，实参为"hhhhh"，obj为要操作的对象
-            String str = mothod1.invoke(obj, "", keypari).toString();
-            //调用getAppName 方法，不需要传参
-            LogUtils.e(str);
-        } catch (Exception e) {
-        }
-
-    }
-
     private void saveData() {
 
         if (!TextUtils.isEmpty(Extras.Address)) {
@@ -408,10 +428,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         if (!TextUtils.isEmpty(Extras.pinCode)) {
             SharedPreUtils.setString(this, SharedPreUtils.KEY_PIN, Extras.pinCode);
         }
-//        if (!TextUtils.isEmpty(Extras.privateKey)
-//                && !TextUtils.isEmpty(Extras.publicKey) && !TextUtils.isEmpty(Extras.nonce) && !TextUtils.isEmpty(Extras.Address)) {
-//            loginByAddress(Extras.privateKey, Extras.nonce, Extras.nonce, Extras.Address);
-//        }
     }
 
     ReceiverPushBean receiverPushBean;
@@ -425,29 +441,4 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         notificationUtil.sendNotification(receiverPushBean);
     }
 
-    private void goPage(ReceiverPushBean receiverPushBean) {
-        hasJump = true;
-        if (receiverPushBean != null) {
-            String[] parms = receiverPushBean.getPayload().split("#");
-            if (parms.length > 2) {
-                String resource = parms[2];
-                switch (resource) {
-                    case ART:
-                        startActivity(MyHomePageActivity.class);
-                        break;
-                    case TRADE:
-                        Bundle sell = new Bundle();
-                        sell.putString("from", SellAndBuyActivity.SELL);
-                        startActivity(SellAndBuyActivity.class, sell);
-                        break;
-                    case BLINDBOX:
-                        String blindBoxId = parms[3];
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", blindBoxId);
-                        startActivity(BlindBoxDetailActivity.class, bundle);
-                        break;
-                }
-            }
-        }
-    }
 }

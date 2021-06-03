@@ -1,22 +1,17 @@
 package com.yunhualian.ui.activity.blindbox;
 
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 
-import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -34,8 +29,6 @@ import com.yunhualian.entity.BlindBoxCheckVO;
 import com.yunhualian.entity.BlindBoxOpenVo;
 import com.yunhualian.entity.BlindBoxOrderCheck;
 import com.yunhualian.entity.BlindBoxVo;
-import com.yunhualian.entity.SellingArtVo;
-import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.user.CreateOrderForBlindBoxActivity;
@@ -43,10 +36,10 @@ import com.yunhualian.ui.activity.user.MyHomePageActivity;
 import com.yunhualian.widget.BlindBoxOpenPop;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import jp.co.soramitsu.feature_account_impl.presentation.pincode.PinCodeAction;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -82,6 +75,7 @@ public class BlindBoxDetailActivity extends BaseActivity<ActivityBlindBoxDetailB
     }
 
     private void initPage() {
+        sellingArtVoList = new ArrayList<>();
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleString = blindBoxVo.getTitle() != null ? blindBoxVo.getTitle() : getString(R.string.title_detail);
         mToolBarOptions.rightTextString = R.string.blind_box_open_record;
@@ -110,13 +104,6 @@ public class BlindBoxDetailActivity extends BaseActivity<ActivityBlindBoxDetailB
         mDataBinding.parentLayout.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             staggeredGridLayoutManager.invalidateSpanAssignments();
         });
-//        mDataBinding.itemList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//
-//            }
-//        });
         mDataBinding.itemList.setAdapter(adapter);
         blindBoxOpenPop = new BlindBoxOpenPop(this, null, (view, position) -> {
             blindBoxOpenPop.dismiss();
@@ -270,7 +257,6 @@ public class BlindBoxDetailActivity extends BaseActivity<ActivityBlindBoxDetailB
         mDataBinding.boxDesc.setText(Html.fromHtml(blindBoxVo.getDesc()));
         adapter.setNewData(sellingArtVoList);
         mDataBinding.ruleProfile.setText(Html.fromHtml(blindBoxVo.getRule()));
-        showLoading(getString(R.string.progress_loading));
     }
 
     private void openHistory() {

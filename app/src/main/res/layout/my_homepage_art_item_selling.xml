@@ -69,6 +69,20 @@
                     android:textSize="@dimen/sp_15" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/live2d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/textLayout"
+                android:layout_marginBottom="@dimen/dp_15"
+                android:background="@color/_101010"
+                android:drawablePadding="@dimen/dp_5"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5"
+                android:text="Live 2D"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_10" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

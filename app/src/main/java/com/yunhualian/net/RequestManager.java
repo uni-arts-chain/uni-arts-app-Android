@@ -32,6 +32,7 @@ import com.yunhualian.entity.OrderAmountVo;
 import com.yunhualian.entity.PayResult;
 import com.yunhualian.entity.PayResyltVo;
 import com.yunhualian.entity.SellingArtVo;
+import com.yunhualian.entity.UploadLive2dVo;
 import com.yunhualian.entity.UserAggrementVo;
 import com.yunhualian.entity.UserVo;
 
@@ -449,6 +450,13 @@ public class RequestManager {
      * 上传艺术品*/
     public void uploadArt(RequestBody mRequestBody, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
         Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().uploadArts(mRequestBody);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 上传Live2d*/
+    public void uploadLive2d(RequestBody mRequestBody, MinerCallback<BaseResponseVo<UploadLive2dVo>> mCallBack) {
+        Call<BaseResponseVo<UploadLive2dVo>> mCall = NetworkManager.instance().getmRemoteService().uploadLive2d(mRequestBody);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 

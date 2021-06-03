@@ -44,6 +44,10 @@ public class MyHomePageArtAdapter extends BaseQuickAdapter<SellingArtVo, BaseVie
         else
             helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(" " + item.getPrice()));
         LogUtils.e("convert = ");
+
+        if (TextUtils.isEmpty(item.getLive2d_file())) {
+            helper.setVisible(R.id.live2d, false);
+        } else helper.setVisible(R.id.live2d, true);
         helper.addOnClickListener(R.id.sellAction);
         helper.addOnClickListener(R.id.transferAction);
         Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {

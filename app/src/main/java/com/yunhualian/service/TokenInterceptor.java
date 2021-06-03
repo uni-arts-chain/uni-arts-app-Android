@@ -53,14 +53,13 @@ public class TokenInterceptor implements Interceptor {
                 charset = contentType.charset(UTF8);
             }
             String bodyString = buffer.clone().readString(charset);
-            String jsonString = bodyString;
-            if (!TextUtils.isEmpty(jsonString) && response.code() == 200) {
-                ss = mGson.fromJson(jsonString, ProtocolResultMsg.class);
+            if (!TextUtils.isEmpty(bodyString) && response.code() == 400) {
+                ss = mGson.fromJson(bodyString, ProtocolResultMsg.class);
             }
         } catch (Exception e) {
         }
 
-        if (ss != null && isTokenExpired(ss.getCode())) {//根据和服务端的约定判断token过期
+        if (ss != null && isTokenExpired(String.valueOf(ss.getHead().getCode()))) {//根据和服务端的约定判断token过期
             LoginOut();
         }
         return response;

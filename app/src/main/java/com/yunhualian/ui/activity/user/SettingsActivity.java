@@ -81,7 +81,6 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding> impl
     private static final int MIN_CLICK_DELAY_TIME = 1000;
     private static long lastClickTime = 0;
     private List<String> mLackedPermission = new ArrayList<>();
-    ImageView headImag;
     UserVo userVo;
     RequestOptions requestOptions;
 
@@ -219,7 +218,6 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding> impl
         mDataBinding.decsLayout.setOnClickListener(this);
         mDataBinding.wechatLayout.setOnClickListener(this);
         mDataBinding.loginPswLayout.setOnClickListener(this);
-        headImag = mDataBinding.headLayout.findViewById(R.id.mine_title_img);
 
     }
 
@@ -268,7 +266,7 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding> impl
         userVo = YunApplication.getmUserVo();
         Glide.with(this)
                 .load(userVo.getAvatar().getUrl())
-                .apply(new RequestOptions().placeholder(R.mipmap.icon_default_head)).into(headImag);
+                .apply(new RequestOptions().placeholder(R.mipmap.icon_default_head)).into(mDataBinding.mineTitleImg);
         if (TextUtils.isEmpty(userVo.getDisplay_name())) {
             mDataBinding.nickName.setText(R.string.set_display_name_tips);
         } else mDataBinding.nickName.setText(userVo.getDisplay_name());

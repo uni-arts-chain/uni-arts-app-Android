@@ -15,6 +15,7 @@ import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
+import com.yunhualian.constant.AppConstant;
 import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.databinding.ActivitySellArtBinding;
 import com.yunhualian.databinding.ActivitySellArtUnCutBinding;
@@ -75,7 +76,7 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
         }
 
         rxWebSocket = new SocketService(new Gson(), new StdoutLogger(), new WebSocketFactory(), i -> 0);
-        rxWebSocket.start(YunApplication.RPC);
+        rxWebSocket.start(AppConstant.RPC);
         mDataBinding.sellAction.setOnClickListener(v -> startActivityForResult(PinCodeKtActivity.class, 0));
         new getDesc().execute(rxWebSocket);
 //        balance = getBalance();
@@ -152,7 +153,7 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
                 receiveAddress.substring(2),
                 1,
                 sellingArtVo.getCollection_id(),
-                sellingArtVo.getItem_id(), privateKey, publicKey, nonce.substring(2), rxWebSocket, signer);
+                sellingArtVo.getItem_id(), privateKey, publicKey, nonce.substring(2), rxWebSocket, signer, AppConstant.genesisHash);
         String hexStr = ToHexKt.toHex(sigStr);
         return hexStr;
     }

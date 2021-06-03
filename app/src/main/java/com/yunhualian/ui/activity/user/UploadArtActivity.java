@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
@@ -36,6 +37,8 @@ import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
+import com.upbest.arouter.EventBusMessageEvent;
+import com.upbest.arouter.EventEntity;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
@@ -43,17 +46,26 @@ import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.ActivityUploadArtBinding;
 import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.entity.UploadLive2dVo;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.ShowBigImgActivity;
+import com.yunhualian.ui.activity.ZipFileSelectActivity;
+import com.yunhualian.ui.activity.art.ArtDetailActivity;
+import com.yunhualian.ui.activity.art.ShowLiveActivity;
 import com.yunhualian.utils.DateUtil;
+import com.yunhualian.utils.FileHelper;
 import com.yunhualian.utils.StringUtils;
 import com.yunhualian.widget.BasePopupWindow;
 import com.yunhualian.widget.UploadDateSelectPopUpWindow;
 import com.yunhualian.widget.UploadNormalPopUpWindow;
 import com.yunhualian.widget.UploadSelectorPopUpWindow;
 import com.yunhualian.widget.UploadSuccessPopUpWindow;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -65,6 +77,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import jp.co.soramitsu.common.utils.Event;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -85,6 +98,8 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     Button takePhotoBtn;
     Button selectPhoto;
     Button cancle;
+    Button live2d;
+    Button gifType;
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     File file;
@@ -110,6 +125,8 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     int MAX_SIZE = 5 * 1024;
     String from;
     UploadSuccessPopUpWindow uploadSuccessPopUpWindow;
+    private boolean isLive2d = false;
+    UploadLive2dVo uploadLive2dVo;
 
     @Override
     public int getLayoutId() {
@@ -245,9 +262,9 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
             case R.id.selectCreateTime:
                 pvTime.show(mDataBinding.selectCreateTime);
                 break;
-            case R.id.art_detail:
-                showPopwindow();
-                break;
+//            case R.id.art_detail:
+//                showPopwindow();
+//                break;
             case R.id.themeSelect:
                 themeClick = true;
 //                uploadNormalPopUpWindow.setLists(themeNameList);
@@ -288,15 +305,20 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 updateUI();
                 break;
             case R.id.performLayout1:
+                live2d.setVisibility(View.VISIBLE);
                 showPopwindow();
                 break;
             case R.id.performLayout2:
-                showPopwindow();
-                break;
             case R.id.performLayout3:
+                live2d.setVisibility(View.GONE);
+                if (isLive2d) {
+                    takePhotoBtn.setVisibility(View.GONE);
+                    selectPhoto.setVisibility(View.GONE);
+                }
                 showPopwindow();
                 break;
             case R.id.uploadAction:
+
                 performUpload();
                 break;
             case R.id.imgEg1:
@@ -337,6 +359,12 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     public void takeSuccess(TResult result) {
         if (result != null) {
             File file = new File(result.getImages().get(0).getOriginalPath());
+            if (isLive2d) {
+                if (!file.getName().toLowerCase().contains("gif")) {
+                    ToastUtils.showShort("只能选择Gif");
+                    return;
+                }
+            }
             fileList.add(file);
             buttonStateListener();//改变按钮状态
             updateUI();
@@ -488,10 +516,12 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         mDataBinding.imageParent2.setVisibility(View.VISIBLE);
         mDataBinding.img2.setVisibility(View.VISIBLE);
         Glide.with(this).load(fileList.get(1).getAbsolutePath()).into(mDataBinding.img2);
-        mDataBinding.fileLayout3.setVisibility(View.VISIBLE);
-        mDataBinding.performLayout3.setVisibility(View.VISIBLE);
-        mDataBinding.imageParent3.setVisibility(View.GONE);
-        mDataBinding.img3.setVisibility(View.GONE);
+        if (!isLive2d) {
+            mDataBinding.fileLayout3.setVisibility(View.VISIBLE);
+            mDataBinding.performLayout3.setVisibility(View.VISIBLE);
+            mDataBinding.imageParent3.setVisibility(View.GONE);
+            mDataBinding.img3.setVisibility(View.GONE);
+        }
     }
 
     private void performThreeFile() {
@@ -527,7 +557,30 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     @Override
     public void onCreate(Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventBusMessageEvent eventBusMessageEvent) {
+        if (eventBusMessageEvent != null) {
+            if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_SCREEN_SHORT)) {
+                //refresh token
+                if (eventBusMessageEvent.getmValue() != null) {
+                    String path = (String) eventBusMessageEvent.getmValue();
+                    fileList.add(new File(path));
+                    Glide.with(this).load(path).into(mDataBinding.img1);
+                    buttonStateListener();//改变按钮状态
+                    updateUI();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -551,6 +604,47 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         getTakePhoto().onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == BigDecimal.ZERO.intValue()) {
+            String path = data.getStringExtra("scan_result");
+            if (!TextUtils.isEmpty(path)) {
+                verfyZip(path);
+            }
+        }
+
+    }
+
+    private void openLive2dActivity(String dir, String modelName) {
+        String path = dir.concat("/");
+        Bundle bundle = new Bundle();
+        bundle.putString(ShowLiveActivity.PATH, path);
+        bundle.putString(ShowLiveActivity.MODEL_NAME, modelName);
+        startActivity(ShowLiveActivity.class, bundle);
+    }
+
+    private String live2DPath;
+
+    private void verfyZip(String path) {
+        String dir = YunApplication.LIVE2D_CACHE_PATH.concat(String.valueOf(System.currentTimeMillis()));
+        String modelName = "";
+        boolean hasFile = false;
+        if (FileHelper.unzip(path, dir)) {
+//            ToastUtils.showShort("解压成功");
+            List<File> fileList = FileUtils.listFilesInDir(dir);
+            for (File file :
+                    fileList) {
+                if (file.getName().contains("model3.json")) {
+                    modelName = file.getName();
+                    hasFile = true;
+                }
+            }
+            if (hasFile) {
+                live2DPath = path;
+                isLive2d = true;
+                openLive2dActivity(dir, modelName);
+            } else ToastUtils.showShort("文件格式错误");
+        } else {
+            ToastUtils.showShort("文件格式错误");
+        }
     }
 
     @Override
@@ -564,13 +658,17 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
 
     public void initPopWindow() {
         contentView = LayoutInflater.from(UploadArtActivity.this).inflate(
-                R.layout.layout_pop_selector, null);
+                R.layout.layout_file_pop_selector, null);
         takePhotoBtn = contentView.findViewById(R.id.take_photo);
         selectPhoto = contentView.findViewById(R.id.select_photo);
         cancle = contentView.findViewById(R.id.cancle);
+        live2d = contentView.findViewById(R.id.live2d);
+        gifType = contentView.findViewById(R.id.gifType);
         takePhotoBtn.setOnClickListener(popClick);
         selectPhoto.setOnClickListener(popClick);
+        live2d.setOnClickListener(popClick);
         cancle.setOnClickListener(popClick);
+        gifType.setOnClickListener(popClick);
         popupWindow = new BasePopupWindow(this);
         popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setContentView(contentView);
@@ -604,6 +702,12 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 case R.id.cancle:
                     popupWindow.dismiss();
                     break;
+                case R.id.live2d:
+                    startActivityForResult(ZipFileSelectActivity.class, 0);
+                    break;
+                case R.id.gifType:
+                    takePhoto.onPickFromGallery();
+                    break;
             }
         }
     };
@@ -612,8 +716,10 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         showLoading("正在上传...");
         MultipartBody.Builder multipartBody = new MultipartBody.Builder();
         multipartBody.setType(MultipartBody.FORM);
-
         int resourceType = BigDecimal.ONE.intValue();
+        if (isLive2d && fileList.size() > BigDecimal.ONE.intValue()) {
+            fileList.remove(0);
+        }
         for (File file : fileList) {
             RequestBody requestFrontFile = RequestBody.create(MediaType.parse("image/*"), file);
             multipartBody.addFormDataPart("img_main_file" + (fileList.indexOf(file) + 1), StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
@@ -640,6 +746,13 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
             multipartBody.addFormDataPart("royalty_expired_at", String.valueOf(date));
         if (!TextUtils.isEmpty(mDataBinding.artRoyaltyInput.getText().toString()))
             multipartBody.addFormDataPart("royalty", new BigDecimal(mDataBinding.artRoyaltyInput.getText().toString()).divide(new BigDecimal("100")).stripTrailingZeros().toPlainString());
+
+        if (isLive2d && uploadLive2dVo != null) {
+            multipartBody.addFormDataPart("live2d_file", uploadLive2dVo.getLive2d_file());
+            multipartBody.addFormDataPart("live2d_ipfs_hash", uploadLive2dVo.getLive2d_ipfs_hash());
+            multipartBody.addFormDataPart("live2d_ipfs_url", uploadLive2dVo.getLive2d_ipfs_url());
+            multipartBody.addFormDataPart("live2d_ipfs_zip_hash", uploadLive2dVo.getLive2d_ipfs_zip_hash());
+        }
 
         RequestBody mRequestBody = multipartBody
                 .build();
@@ -712,31 +825,46 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 return;
             }
         }
-        upload();
+        if (isLive2d)
+            uploadlive2d();
+        else
+            upload();
     }
 
-//    private void initPicker() {
-//        Calendar selectedDate = Calendar.getInstance();
-//        Calendar startDate = Calendar.getInstance();
-//        startDate.set(2013, 0, 23);
-//        Calendar endDate = Calendar.getInstance();
-//        endDate.set(2029, 11, 28);
-//        //时间选择器
-//        pvTime = new TimePickerView.Builder(this, (date, v) -> {//选中事件回调
-//            // 这里回调过来的v,就是show()方法里面所添加的 View 参数，如果show的时候没有添加参数，v则为null
-//            TextView btn = (TextView) v;
-//            btn.setText(getTimes(date));
-//        })
-//                //年月日时分秒 的显示与否，不设置则默认全部显示
-//                .setType(new boolean[]{true, true, false, false, false, false})
-//                .setLabel("年", "月", "日", "时", "分", "秒")
-//                .isCenterLabel(true)
-//                .setDividerColor(Color.DKGRAY)
-//                .setContentSize(16)//字号
-//                .setDate(selectedDate)
-//                .setRangDate(startDate, endDate)
-//                .setDecorView(null)
-//                .isCyclic(true)
-//                .build();
-//    }
+    private void uploadlive2d() {
+        showLoading("正在上传");
+        MultipartBody.Builder multipartBody = new MultipartBody.Builder();
+        multipartBody.setType(MultipartBody.FORM);
+        File file = new File(live2DPath);
+        RequestBody requestFrontFile = RequestBody.create(MediaType.parse("application/zip"), file);
+        multipartBody.addFormDataPart("live2d_file", StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
+        multipartBody.addFormDataPart("resource_type", String.valueOf(3));
+
+        RequestBody mRequestBody = multipartBody
+                .build();
+        RequestManager.instance().uploadLive2d(mRequestBody, new MinerCallback<BaseResponseVo<UploadLive2dVo>>() {
+            @Override
+            public void onSuccess
+                    (Call<BaseResponseVo<UploadLive2dVo>> call, Response<BaseResponseVo<UploadLive2dVo>> response) {
+                dismissLoading();
+                if (response.isSuccessful()) {
+                    uploadLive2dVo = response.body().getBody();
+                    upload();
+                }
+            }
+
+            @Override
+            public void onError
+                    (Call<BaseResponseVo<UploadLive2dVo>> call, Response<BaseResponseVo<UploadLive2dVo>> response) {
+                dismissLoading();
+                ToastUtils.showShort("出错了");
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+                dismissLoading();
+                ToastUtils.showShort("上传失败");
+            }
+        });
+    }
 }

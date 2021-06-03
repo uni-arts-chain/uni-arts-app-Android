@@ -7,31 +7,67 @@ package com.yunhualian.entity;
  */
 public class ProtocolResultMsg {
 
-    private String code;
-    private String msg;
 
-    public String getMsg() {
-        return msg;
+    /**
+     * head : {"code":1070,"msg":"签名无效","detail":""}
+     * body : {}
+     */
+
+    private HeadBean head;
+    private BodyBean body;
+
+    public HeadBean getHead() {
+        return head;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setHead(HeadBean head) {
+        this.head = head;
     }
 
-
-    public String getCode() {
-        return code;
+    public BodyBean getBody() {
+        return body;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setBody(BodyBean body) {
+        this.body = body;
     }
 
-    @Override
-    public String toString() {
-        return "ProtocolResultMsg{" +
-                "code='" + code + '\'' +
-                ", msg='" + msg + '\'' +
-                '}';
+    public static class HeadBean {
+        /**
+         * code : 1070
+         * msg : 签名无效
+         * detail :
+         */
+
+        private int code;
+        private String msg;
+        private String detail;
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
+        public String getDetail() {
+            return detail;
+        }
+
+        public void setDetail(String detail) {
+            this.detail = detail;
+        }
+    }
+
+    public static class BodyBean {
     }
 }

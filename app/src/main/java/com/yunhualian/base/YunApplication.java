@@ -1,11 +1,9 @@
 package com.yunhualian.base;
 
-import android.app.Application;
 import android.content.res.AssetManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -17,9 +15,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.constant.ExtraConstant;
-import com.yunhualian.entity.ArtMaterialVo;
 import com.yunhualian.entity.ArtPriceVo;
-import com.yunhualian.entity.ArtThemeVo;
 import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.EventBusMessageEvent;
 import com.yunhualian.entity.UserVo;
@@ -31,7 +27,6 @@ import com.yunhualian.utils.UserManager;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.https.HttpsUtils;
 
-import net.sourceforge.pinyin4j.PinyinHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -56,7 +51,7 @@ public class YunApplication extends App {
     private int DEFAULT_TIMEOUT = 20000;
     public static String LIVE2D_CACHE_PATH;
     public static final String MODEL_PATH = ".model3.json";
-    public static final String RPC = "wss://mainnet.uniarts.vip:9443";
+    public static String path = "";
 
     public static String getToken() {
         return Token;

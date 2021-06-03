@@ -93,7 +93,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_15"
-                android:layout_marginRight="@dimen/dp_15" />
+                android:layout_marginRight="@dimen/dp_15"
+                android:nestedScrollingEnabled="false" />
 
             <TextView
                 android:id="@+id/rule_title"

@@ -9,7 +9,7 @@ import jp.co.soramitsu.feature_account_api.domain.model.Node
 class DefaultNodes {
     private val POLKADOT_PARITY = NodeLocal(
             "Polkadot Parity Node",
-            "wss://mainnet.uniarts.vip:9443",
+            "wss://testnet.uniarts.me",
             Node.NetworkType.POLKADOT.ordinal,
             true
     )

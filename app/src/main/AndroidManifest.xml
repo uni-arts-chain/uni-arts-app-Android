@@ -38,6 +38,11 @@
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
 
+    <queries>
+        <package android:name="com.eg.android.AlipayGphone" />
+        <package android:name="hk.alipay.wallet" />
+    </queries>
+
     <application
         android:name=".base.YunApplication"
         android:allowBackup="true"
@@ -46,6 +51,13 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.activity.ScreenShotActivity"></activity>
+        <activity android:name=".ui.activity.ZipFileSelectActivity" />
+        <activity
+            android:name=".ui.activity.video.VideoPlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeFullscreen" />
         <activity
             android:name=".ui.activity.QrScanActivity"
             android:screenOrientation="portrait" />
@@ -78,8 +90,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ShowNetBigImgActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ShowBigImgActivity"
             android:screenOrientation="portrait" />
@@ -157,8 +168,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.wallet.AcountActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.user.SettingsActivity"
             android:screenOrientation="portrait" />
@@ -266,9 +276,7 @@
             android:name="jp.co.soramitsu.app.root.presentation.RootActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Soramitsu.Fearless"
-            android:windowSoftInputMode="adjustResize">
-
-        </activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <receiver
             android:name="jp.co.soramitsu.feature_account_impl.presentation.exporting.json.confirm.ShareCompletedReceiver"
@@ -282,11 +290,6 @@
             android:theme="@style/Theme.Soramitsu.Fearless"
             tools:ignore="WrongManifestParent"
             tools:replace="android:theme,screenOrientation" />
-
-
     </application>
-    <queries>
-        <package android:name="com.eg.android.AlipayGphone" />
-        <package android:name="hk.alipay.wallet" />
-    </queries>
+
 </manifest>

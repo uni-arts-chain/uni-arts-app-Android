@@ -2,6 +2,7 @@ package com.yunhualian.adapter;
 
 
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -40,6 +41,10 @@ public class MyHomePageArtSellingAdapter extends BaseQuickAdapter<SellingArtVo, 
         if (item.getHas_amount() - item.getSelling_amount() > 0)
             helper.setVisible(R.id.transferAction, true);
         else helper.setGone(R.id.transferAction, false);
+
+        if (TextUtils.isEmpty(item.getLive2d_file())) {
+            helper.setVisible(R.id.live2d, false);
+        } else helper.setVisible(R.id.live2d, true);
         Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {

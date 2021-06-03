@@ -25,5 +25,7 @@ public class EventEntity {
 
     public static final String EVENT_EXPORT_JSON = "export";
     public static final String EVENT_REFRESH_TOKEN = "refresh_token";
+    public static final String EVENT_SCREEN_SHORT = "screen_shot";
+    public static final String EVENT_LIVE_CLOSE = "live_close";
 
 }

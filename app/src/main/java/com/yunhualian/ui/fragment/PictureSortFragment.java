@@ -240,7 +240,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
                 dismissLoading();
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getBody() != null) {
-                        if (response.body().getBody().size() == 0) return;
+//                        if (response.body().getBody().size() == 0) return;
                         if (page == BigDecimal.ONE.intValue()) {
                             artBeanList.clear();
                             artBeanList = response.body().getBody();

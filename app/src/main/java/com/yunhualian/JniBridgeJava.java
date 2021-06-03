@@ -9,7 +9,16 @@ package com.yunhualian;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Environment;
+
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ScreenUtils;
+import com.upbest.arouter.EventBusMessageEvent;
+import com.upbest.arouter.EventEntity;
+import com.yunhualian.base.YunApplication;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -111,6 +120,7 @@ public class JniBridgeJava {
     }
 
     public static void MoveTaskToBack() {
+//        EventBus.getDefault().post(new EventBusMessageEvent(EventEntity.EVENT_LIVE_CLOSE, null));
         _activityInstance.finish();
 //        _activityInstance.moveTaskToBack(true);
     }

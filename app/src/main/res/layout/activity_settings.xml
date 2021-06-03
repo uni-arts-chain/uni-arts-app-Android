@@ -52,7 +52,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/dp_20"
-                    android:src="@mipmap/img_default_head" />
+                    android:src="@mipmap/icon_default_head" />
 
             </RelativeLayout>
 

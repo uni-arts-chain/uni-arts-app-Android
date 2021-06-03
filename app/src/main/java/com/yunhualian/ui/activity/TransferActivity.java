@@ -95,7 +95,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding> {
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         mDataBinding.iconScan.setOnClickListener(v -> scan());
         rxWebSocket = new SocketService(new Gson(), new StdoutLogger(), new WebSocketFactory(), i -> 0);
-        rxWebSocket.start(YunApplication.RPC);
+        rxWebSocket.start(AppConstant.RPC);
         sendIntegrationTest = new SendIntegrationTest();
         mDataBinding.transferAction.setOnClickListener(v -> {
 
@@ -288,7 +288,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding> {
                 receiveAddress,
                 amount,
                 sellingArtVo.getCollection_id(),
-                sellingArtVo.getItem_id(), privateKey, publicKey, nonce.substring(2), rxWebSocket, signer);
+                sellingArtVo.getItem_id(), privateKey, publicKey, nonce.substring(2), rxWebSocket, signer, AppConstant.genesisHash);
         String hexStr = ToHexKt.toHex(sigStr);
         return sigStr;
     }

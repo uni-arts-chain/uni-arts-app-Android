@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ClickUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
@@ -31,6 +32,7 @@ import com.yunhualian.R;
 import com.yunhualian.adapter.MineActionAdapter;
 import com.yunhualian.base.BaseFragment;
 import com.yunhualian.base.YunApplication;
+import com.yunhualian.constant.AppConstant;
 import com.yunhualian.databinding.FragmentMineBinding;
 import com.yunhualian.entity.ArtBean;
 import com.yunhualian.entity.ArtTypeVo;
@@ -41,6 +43,7 @@ import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.ExchangeNFTActivity;
+import com.yunhualian.ui.activity.video.VideoPlayerActivity;
 import com.yunhualian.ui.activity.wallet.AcountActivity;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
 import com.yunhualian.ui.activity.user.UploadArtActivity;
@@ -84,6 +87,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
     public static final int NEWS = 6;
     public static final int SERVICE = 7;
     SocketService socketService;
+    long lastClickTime = 0;
+    private long time_space = 1000 * 1;
 
     public static BaseFragment newInstance() {
         MineFragment fragment = new MineFragment();
@@ -103,13 +108,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
     @Override
     protected void initView() {
         initList();
-        mBinding.setting.setOnClickListener(this);
-        mBinding.follow.setOnClickListener(this);
-        mBinding.fans.setOnClickListener(this);
-        mBinding.walletLayout.setOnClickListener(this);
-        mBinding.mineTitleImg.setOnClickListener(this);
+        View[] views = {mBinding.setting, mBinding.fans, mBinding.follow, mBinding.walletLayout, mBinding.mineTitleImg};
+        ClickUtils.applyGlobalDebouncing(views, this);
         socketService = new SocketService(new Gson(), new StdoutLogger(), new WebSocketFactory(), i -> 0);
-        socketService.start(YunApplication.RPC);
+        socketService.start(AppConstant.RPC);
     }
 
     public void initList() {
@@ -133,11 +135,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
     private void initPageData() {
         UserVo userVo = YunApplication.getmUserVo();
         if (userVo == null) return;
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(R.mipmap.icon_default_head);
         Glide.with(YunApplication.getInstance())
                 .load(userVo.getAvatar().getUrl())
-                .apply(requestOptions).into(mBinding.mineTitleImg);
+                .apply(new RequestOptions().placeholder(R.mipmap.icon_default_head)).into(mBinding.mineTitleImg);
         mBinding.follow.setText(
                 getString(R.string.follow_num,
                         String.valueOf(userVo.getFollowing_user_size())));
@@ -182,6 +182,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        long currentTime = System.currentTimeMillis();
+        if ((System.currentTimeMillis() - lastClickTime) < time_space) {
+            return;
+        }
+        lastClickTime = currentTime;
         switch (position) {
             case BUY_IN:
                 Bundle buy = new Bundle();
@@ -207,6 +212,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
                 break;
             case UPGRADE_ARTS:
                 startActivity(UploadArtActivity.class);
+//                startActivity(VideoPlayerActivity.class);
                 break;
             case ABOUT_US:
                 if (YunApplication.getmUserVo() != null)

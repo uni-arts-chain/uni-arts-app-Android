@@ -74,8 +74,7 @@
                             android:id="@+id/img1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@mipmap/shanshui"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="fitCenter" />
                     </androidx.cardview.widget.CardView>
 
                     <ImageView
@@ -129,8 +128,7 @@
                             android:id="@+id/img2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@mipmap/shanshui"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="fitCenter" />
                     </androidx.cardview.widget.CardView>
 
                     <ImageView
@@ -157,10 +155,10 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:drawableTop="@mipmap/icon_upload_img"
-                            android:drawablePadding="12dp"
+                            android:drawablePadding="5dp"
                             android:text="上传图片"
                             android:textColor="@color/_909090"
-                            android:textSize="@dimen/sp_15" />
+                            android:textSize="@dimen/sp_12" />
                     </RelativeLayout>
                 </RelativeLayout>
 
@@ -183,8 +181,7 @@
                             android:id="@+id/img3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@mipmap/shanshui"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="fitCenter" />
                     </androidx.cardview.widget.CardView>
 
                     <ImageView
@@ -211,10 +208,10 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:drawableTop="@mipmap/icon_upload_img"
-                            android:drawablePadding="12dp"
+                            android:drawablePadding="5dp"
                             android:text="上传图片"
                             android:textColor="@color/_909090"
-                            android:textSize="@dimen/sp_15" />
+                            android:textSize="@dimen/sp_12" />
                     </RelativeLayout>
 
                 </RelativeLayout>
@@ -256,6 +253,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:scaleType="centerInside"
                         android:src="@mipmap/img_eg1" />
 
 

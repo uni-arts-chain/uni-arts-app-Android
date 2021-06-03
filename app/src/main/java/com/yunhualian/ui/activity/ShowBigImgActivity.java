@@ -1,6 +1,5 @@
 package com.yunhualian.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -8,7 +7,6 @@ import android.os.Bundle;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.yunhualian.R;
-import com.yunhualian.widget.ZoomImageView;
 
 import android.view.LayoutInflater;
 import android.view.View;

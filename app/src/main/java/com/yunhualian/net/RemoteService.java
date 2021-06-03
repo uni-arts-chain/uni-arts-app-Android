@@ -30,6 +30,7 @@ import com.yunhualian.entity.OrderAmountVo;
 import com.yunhualian.entity.PayResult;
 import com.yunhualian.entity.PayResyltVo;
 import com.yunhualian.entity.SellingArtVo;
+import com.yunhualian.entity.UploadLive2dVo;
 import com.yunhualian.entity.UserAggrementVo;
 import com.yunhualian.entity.UserVo;
 
@@ -261,6 +262,9 @@ public interface RemoteService {
 
     @POST("/api/v2/arts")
     Call<BaseResponseVo<UserVo>> uploadArts(@Body RequestBody mRequestBody);
+
+    @POST("/api/v2/arts/upload_live2d_file")
+    Call<BaseResponseVo<UploadLive2dVo>> uploadLive2d(@Body RequestBody mRequestBody);
 
 
     //检测更新

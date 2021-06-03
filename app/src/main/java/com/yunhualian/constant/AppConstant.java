@@ -25,8 +25,14 @@ public class AppConstant {
     private static final String IPADDRESS_DEBUG = "app.uniarts.me";
 
     //    public static final String ADDRESS = (BuildConfig.DEBUG ? "http" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
-    public static final String ADDRESS = (BuildConfig.DEBUG ? "https" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_RELEASE : IPADDRESS_RELEASE);
+    public static final String ADDRESS = (BuildConfig.DEBUG ? "https" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
 
+    private static final String RPC_DEBUG = "wss://testnet.uniarts.me";
+    private static final String RPC_RELEASE = "wss://mainnet.uniarts.vip:9443";
+    private static final String GenesisHash_DEBUG = "55940785b92be6342ba1007488a3f46fdbef213cd1b412d35236b03528079aaa";
+    private static final String GenesisHash_RELEASE = "bc20e8f3a4a9340f31bcf5be6288a98e064d84f67a94e41ed9e65d10e15e0077";
+    public static final String RPC = BuildConfig.DEBUG ? RPC_DEBUG : RPC_RELEASE;
+    public static final String genesisHash = BuildConfig.DEBUG ? GenesisHash_DEBUG : GenesisHash_RELEASE;
     // 服务器固定参数
     public static final String MD5_KEY = "h0r9,cf@5Ae;aB,0";
     public static final String HOME_CURRENT_ITEM_ID = "HOME_CURRENT_ITEM_ID";

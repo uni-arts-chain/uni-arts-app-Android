@@ -31,8 +31,7 @@ public class CreatorParentAdapter extends BaseQuickAdapter<ArtistListVo, BaseVie
     @Override
     protected void convert(BaseViewHolder helper, ArtistListVo item) {
         Glide.with(mContext)
-                .load(item.getMember().getAvatar().getUrl())
-                .transition(withCrossFade())
+                .load(item.getMember().getAvatar().getUrl()).dontAnimate()
                 .apply(new RequestOptions().placeholder(R.mipmap.icon_default_head))
                 .into((ImageView) helper.getView(R.id.picture));
         helper.setText(R.id.name, item.getMember().getDisplay_name());
