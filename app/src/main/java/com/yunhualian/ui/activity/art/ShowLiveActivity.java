@@ -25,12 +25,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.androidyuan.lib.screenshot.Shooter;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.util.TouchEventUtil;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.upbest.arouter.EventEntity;
 import com.yunhualian.GLRenderer;
@@ -38,7 +40,11 @@ import com.yunhualian.JniBridgeJava;
 import com.yunhualian.base.YunApplication;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.w3c.dom.Text;
 
+import jp.co.soramitsu.common.utils.Event;
 
 
 public class ShowLiveActivity extends Activity {
@@ -64,6 +70,7 @@ public class ShowLiveActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         path = getIntent().getStringExtra(PATH);
         modelName = getIntent().getStringExtra(MODEL_NAME);
         JniBridgeJava.SetActivityInstance(this);
@@ -95,14 +102,24 @@ public class ShowLiveActivity extends Activity {
         JniBridgeJava.nativeOnStart();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(com.upbest.arouter.EventBusMessageEvent eventBusMessageEvent) {
+        if (eventBusMessageEvent != null) {
+            if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_LIVE_CLOSE)) {
+                //refresh token
+                if (!hasScreenShot)
+                    handler.sendEmptyMessage(0);
+            }
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         LogUtils.e("onResume");
         _glSurfaceView.onResume();
         JniBridgeJava.loadModelFile(path, modelName);
-        if (!hasScreenShot)
-            handler.sendEmptyMessageDelayed(0, 500);
+
     }
 
     @Override
@@ -125,6 +142,7 @@ public class ShowLiveActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         JniBridgeJava.nativeOnDestroy();
     }
 
@@ -148,6 +166,8 @@ public class ShowLiveActivity extends Activity {
                             hasScreenShot = true;
                             EventBus.getDefault().post(new EventBusMessageEvent(EventEntity.EVENT_SCREEN_SHORT, path));
 //                            YunApplication.path = path;
+                            if (!TextUtils.isEmpty(path))
+                                finish();
                         }
 
                         @Override

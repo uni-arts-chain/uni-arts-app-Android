@@ -120,8 +120,8 @@ public class JniBridgeJava {
     }
 
     public static void MoveTaskToBack() {
-//        EventBus.getDefault().post(new EventBusMessageEvent(EventEntity.EVENT_LIVE_CLOSE, null));
-        _activityInstance.finish();
+        EventBus.getDefault().post(new EventBusMessageEvent(EventEntity.EVENT_LIVE_CLOSE, null));
+//        _activityInstance.finish();
 //        _activityInstance.moveTaskToBack(true);
     }
 

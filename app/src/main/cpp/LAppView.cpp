@@ -276,6 +276,7 @@ void LAppView::OnTouchesEnded(float pointX, float pointY)
         // 電源ボタンにタップしたか
         if (_close->IsHit(pointX, pointY))
         {
+            _close->ReSize(-x, -y, 30, 30);
             LAppDelegate::GetInstance()->DeActivateApp();
         }
     }
