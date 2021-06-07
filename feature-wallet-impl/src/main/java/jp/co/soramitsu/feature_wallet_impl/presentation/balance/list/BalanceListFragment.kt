@@ -76,6 +76,9 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(), BalanceListAda
         showQr.setOnClickListener {
             EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_SHOW_QR, addr.text))
         }
+        importWallet.setOnClickListener {
+            EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_IMPORT_WALLET, addr.text))
+        }
         pointLayout.setOnClickListener { viewModel.sendClicked() }
         transfersContainer.setSlidingStateListener(this::setRefreshEnabled)
 

@@ -51,8 +51,12 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.ScreenShotActivity"></activity>
-        <activity android:name=".ui.activity.ZipFileSelectActivity" />
+        <activity
+            android:name=".ui.activity.ZipFileSelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.wallet.ImportWalletActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.video.VideoPlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -90,11 +94,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ShowNetBigImgActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeFullscreen" />
         <activity
             android:name=".ui.activity.ShowBigImgActivity"
-            android:theme="@style/AppThemeFullscreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeFullscreen" />
         <activity
             android:name=".ui.activity.ExchangeNFTActivity"
             android:screenOrientation="portrait" />

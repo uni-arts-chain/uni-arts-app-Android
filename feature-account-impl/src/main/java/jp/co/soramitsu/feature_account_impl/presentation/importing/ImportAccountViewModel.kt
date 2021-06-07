@@ -3,6 +3,8 @@ package jp.co.soramitsu.feature_account_impl.presentation.importing
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.upbest.arouter.EventBusMessageEvent
+import com.upbest.arouter.EventEntity
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -30,18 +32,19 @@ import jp.co.soramitsu.feature_account_impl.presentation.importing.source.model.
 import jp.co.soramitsu.feature_account_impl.presentation.importing.source.model.JsonImportSource
 import jp.co.soramitsu.feature_account_impl.presentation.importing.source.model.MnemonicImportSource
 import jp.co.soramitsu.feature_account_impl.presentation.importing.source.model.RawSeedImportSource
+import org.greenrobot.eventbus.EventBus
 
 class ImportAccountViewModel(
-    private val interactor: AccountInteractor,
-    private val router: AccountRouter,
-    private val resourceManager: ResourceManager,
-    private val cryptoTypeChooserMixin: CryptoTypeChooserMixin,
-    private val networkChooserMixin: NetworkChooserMixin,
-    private val clipboardManager: ClipboardManager,
-    private val fileReader: FileReader
+        private val interactor: AccountInteractor,
+        private val router: AccountRouter,
+        private val resourceManager: ResourceManager,
+        private val cryptoTypeChooserMixin: CryptoTypeChooserMixin,
+        private val networkChooserMixin: NetworkChooserMixin,
+        private val clipboardManager: ClipboardManager,
+        private val fileReader: FileReader
 ) : BaseViewModel(),
-    CryptoTypeChooserMixin by cryptoTypeChooserMixin,
-    NetworkChooserMixin by networkChooserMixin {
+        CryptoTypeChooserMixin by cryptoTypeChooserMixin,
+        NetworkChooserMixin by networkChooserMixin {
 
     val nameLiveData = MutableLiveData<String>()
 
@@ -116,10 +119,10 @@ class ImportAccountViewModel(
         val importObservable = constructImportObservable(sourceType, name, derivationPath, cryptoType, networkType)
 
         disposables += importObservable
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doFinally { importInProgressLiveData.value = false }
-            .subscribe(::continueBasedOnCodeStatus, ::handleCreateAccountError)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally { importInProgressLiveData.value = false }
+                .subscribe(::continueBasedOnCodeStatus, ::handleCreateAccountError)
     }
 
     fun systemCallResultReceived(requestCode: Int, intent: Intent) {
@@ -136,7 +139,9 @@ class ImportAccountViewModel(
 
     private fun continueBasedOnCodeStatus() {
         if (interactor.isCodeSet()) {
-            router.openMain()
+//            router.openMain()
+            EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_IMPORT_SUCCESS, null))
+
         } else {
             router.openCreatePincode()
         }
@@ -148,8 +153,8 @@ class ImportAccountViewModel(
         if (errorMessage == null) {
             errorMessage = when (throwable) {
                 is AccountAlreadyExistsException -> ImportError(
-                    titleRes = R.string.import_account_exists_title,
-                    messageRes = R.string.error_try_another_one
+                        titleRes = R.string.import_account_exists_title,
+                        messageRes = R.string.error_try_another_one
                 )
                 else -> ImportError()
             }
@@ -163,48 +168,48 @@ class ImportAccountViewModel(
 
     private fun provideSourceType(): List<ImportSource> {
         return listOf(
-            MnemonicImportSource(),
-            JsonImportSource(
-                networkChooserMixin.selectedNetworkLiveData,
-                nameLiveData,
-                cryptoTypeChooserMixin.selectedEncryptionTypeLiveData,
-                interactor,
-                resourceManager,
-                clipboardManager,
-                fileReader,
-                disposables
-            ),
-            RawSeedImportSource()
+                MnemonicImportSource(),
+//                JsonImportSource(
+//                        networkChooserMixin.selectedNetworkLiveData,
+//                        nameLiveData,
+//                        cryptoTypeChooserMixin.selectedEncryptionTypeLiveData,
+//                        interactor,
+//                        resourceManager,
+//                        clipboardManager,
+//                        fileReader,
+//                        disposables
+//                ),
+                RawSeedImportSource()
         )
     }
 
     private fun constructImportObservable(
-        sourceType: ImportSource,
-        name: String,
-        derivationPath: String,
-        cryptoType: CryptoType,
-        networkType: Node.NetworkType
+            sourceType: ImportSource,
+            name: String,
+            derivationPath: String,
+            cryptoType: CryptoType,
+            networkType: Node.NetworkType
     ): Completable {
         return when (sourceType) {
             is MnemonicImportSource -> interactor.importFromMnemonic(
-                sourceType.mnemonicContentLiveData.value!!,
-                name,
-                derivationPath,
-                cryptoType,
-                networkType
+                    sourceType.mnemonicContentLiveData.value!!,
+                    name,
+                    derivationPath,
+                    cryptoType,
+                    networkType
             )
             is RawSeedImportSource -> interactor.importFromSeed(
-                sourceType.rawSeedLiveData.value!!,
-                name,
-                derivationPath,
-                cryptoType,
-                networkType
+                    sourceType.rawSeedLiveData.value!!,
+                    name,
+                    derivationPath,
+                    cryptoType,
+                    networkType
             )
             is JsonImportSource -> interactor.importFromJson(
-                sourceType.jsonContentLiveData.value!!,
-                sourceType.passwordLiveData.value!!,
-                networkType,
-                name
+                    sourceType.jsonContentLiveData.value!!,
+                    sourceType.passwordLiveData.value!!,
+                    networkType,
+                    name
             )
         }
     }

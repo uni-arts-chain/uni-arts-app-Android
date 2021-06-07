@@ -35,23 +35,23 @@ import kotlinx.android.synthetic.main.fragment_import_account.toolbar
 
 class ImportAccountFragment : BaseFragment<ImportAccountViewModel>() {
 
-    companion object {
-        private const val KEY_NETWORK_TYPE = "network_type"
-
-        fun getBundle(networkType: Node.NetworkType?): Bundle {
-
-            return Bundle().apply {
-                putSerializable(KEY_NETWORK_TYPE, networkType)
-            }
-        }
-    }
+//    companion object {
+//        private const val KEY_NETWORK_TYPE = "network_type"
+//
+//        fun getBundle(networkType: Node.NetworkType?): Bundle {
+//
+//            return Bundle().apply {
+//                putSerializable(KEY_NETWORK_TYPE, networkType)
+//            }
+//        }
+//    }
 
     private var sourceViews: List<View>? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_import_account, container, false)
     }
@@ -75,15 +75,15 @@ class ImportAccountFragment : BaseFragment<ImportAccountViewModel>() {
     }
 
     override fun inject() {
-        val networkType = argument<Node.NetworkType?>(KEY_NETWORK_TYPE)
+        val networkType = Node.NetworkType.POLKADOT
 
         FeatureUtils.getFeature<AccountFeatureComponent>(
-            requireContext(),
-            AccountFeatureApi::class.java
+                requireContext(),
+                AccountFeatureApi::class.java
         )
-            .importAccountComponentFactory()
-            .create(this, networkType)
-            .inject(this)
+                .importAccountComponentFactory()
+                .create(this, networkType)
+                .inject(this)
     }
 
     override fun subscribe(viewModel: ImportAccountViewModel) {
@@ -114,11 +114,11 @@ class ImportAccountFragment : BaseFragment<ImportAccountViewModel>() {
 
         viewModel.encryptionTypeChooserEvent.observeEvent {
             EncryptionTypeChooserBottomSheetDialog(
-                requireActivity(),
-                it,
-                viewModel.selectedEncryptionTypeLiveData::setValue
+                    requireActivity(),
+                    it,
+                    viewModel.selectedEncryptionTypeLiveData::setValue
             )
-                .show()
+                    .show()
         }
 
         viewModel.selectedEncryptionTypeLiveData.observe {
@@ -127,9 +127,9 @@ class ImportAccountFragment : BaseFragment<ImportAccountViewModel>() {
 
         viewModel.networkChooserEvent.observeEvent {
             NetworkChooserBottomSheetDialog(
-                requireActivity(),
-                it,
-                viewModel.selectedNetworkLiveData::setValue
+                    requireActivity(),
+                    it,
+                    viewModel.selectedNetworkLiveData::setValue
             ).show()
         }
 
@@ -179,7 +179,7 @@ class ImportAccountFragment : BaseFragment<ImportAccountViewModel>() {
 
     private fun showTypeChooser(it: Payload<ImportSource>) {
         SourceTypeChooserBottomSheetDialog(requireActivity(), it, viewModel::sourceTypeChanged)
-            .show()
+                .show()
     }
 
     private fun openFilePicker(it: RequestCode) {

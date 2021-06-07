@@ -9,7 +9,6 @@
 
     <jp.co.soramitsu.common.view.InputField
         android:id="@+id/importSeedUsernameInput"
-        style="@style/Widget.Fearless.Input.Primary.External"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/username_setup_choose_title"
@@ -20,7 +19,6 @@
 
     <TextView
         android:id="@+id/usernameHintTv"
-        style="@style/TextAppearance.Soramitsu.Body2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -41,7 +39,6 @@
 
         <TextView
             android:id="@+id/importSeedTitle"
-            style="@style/TextAppearance.Soramitsu.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

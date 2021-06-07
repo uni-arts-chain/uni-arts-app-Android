@@ -20,7 +20,8 @@ public class EventEntity {
     public static final String EVENT_BACKUP = "back";
     public static final String EVENT_PROTOCAL = "protocal";
     public static final String EVENT_BACKUP_MNEMONIC = "mnemonic";
-
+    public static final String EVENT_IMPORT_WALLET = "import_wallet";
+    public static final String EVENT_IMPORT_SUCCESS = "import_success";
     public static final String EVENT_BACKUP_SUCCESS = "back_success";
 
     public static final String EVENT_EXPORT_JSON = "export";

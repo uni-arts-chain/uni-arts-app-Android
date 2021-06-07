@@ -130,7 +130,7 @@ class Navigator : SplashRouter, OnboardingRouter, AccountRouter, WalletRouter, R
     }
 
     override fun openImportAccountScreen(selectedNetworkType: Node.NetworkType?) {
-        navController?.navigate(R.id.importAction, ImportAccountFragment.getBundle(selectedNetworkType))
+        navController?.navigate(R.id.importAction)
     }
 
     override fun openMnemonicScreen(accountName: String, selectedNetworkType: Node.NetworkType?) {

@@ -12,6 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -59,8 +60,8 @@
                 android:id="@+id/advancedBlockView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:layout_marginTop="@dimen/x2" />
+                android:layout_marginTop="@dimen/x2"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
@@ -77,7 +78,7 @@
         android:background="@drawable/shape_sign_blue_rounder"
         android:enabled="false"
         android:gravity="center"
-        android:text="@string/common_next"
+        android:text="导入"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

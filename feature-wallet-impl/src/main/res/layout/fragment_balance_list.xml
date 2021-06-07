@@ -70,8 +70,8 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="middle"
-                        android:singleLine="true"
                         android:gravity="center"
+                        android:singleLine="true"
                         android:text="@string/account_address"
                         android:textColor="@color/white"
                         android:textSize="13sp"
@@ -235,17 +235,17 @@
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             <TextView
+                android:id="@+id/importWallet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="25dp"
-                android:drawableRight="@drawable/icon_qa"
                 android:drawablePadding="6dp"
-                android:text="积分说明"
-                android:textColor="@color/text_gray"
-                android:textSize="14sp"
-                android:visibility="gone" />
+                android:text="导入钱包"
+                android:textColor="@color/transfer_advanced_setting_help_text_color"
+                android:textSize="17sp"
+                android:visibility="visible" />
 
         </RelativeLayout>
 

@@ -64,6 +64,8 @@ public class AcountActivity extends BaseActivity<ActivityAcountBinding> {
                 }
             } else if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_SHOW_QR)) {
                 createQrcode(eventBusMessageEvent.getmValue().toString());
+            } else if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_IMPORT_WALLET)) {
+                startActivity(ImportWalletActivity.class);
             }
         }
     }

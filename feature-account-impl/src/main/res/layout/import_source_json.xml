@@ -20,7 +20,6 @@
 
     <TextView
         android:id="@+id/importJsonNoNetworkInfo"
-        style="@style/TextAppearance.Soramitsu.Body1"
         android:layout_width="0dp"
         android:visibility="gone"
         tools:visibility="visible"
@@ -38,7 +37,6 @@
 
     <jp.co.soramitsu.common.view.InputField
         android:id="@+id/importJsonUsernameInput"
-        style="@style/Widget.Fearless.Input.Primary.External"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x2"
@@ -53,7 +51,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x2"
         android:hint="@string/account_import_password_placeholder"
-        style="@style/Widget.Fearless.Input.Primary.External"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

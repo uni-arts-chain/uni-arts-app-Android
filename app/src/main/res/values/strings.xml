@@ -41,6 +41,7 @@
     <string name="derive_keystore_title">导出Keystore</string>
     <string name="set_key_store_psw">设置KeyStore密码</string>
     <string name="sign_certify">签名证书</string>
+    <string name="import_wallet">导入钱包</string>
     <string name="derive_keystore_tip_title">离线保存</string>
     <string name="derive_keystore_tip_title4">仅供直接扫描</string>
     <string name="derive_keystore_tip4">二维码禁止保存、截图、以及拍照、仅供用户在安全环境下直接扫描来方便的导入钱包。</string>

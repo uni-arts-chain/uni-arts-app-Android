@@ -2,6 +2,7 @@ package jp.co.soramitsu.feature_account_impl.data.repository
 
 import android.database.sqlite.SQLiteConstraintException
 import com.google.gson.Gson
+import com.upbest.arouter.Extras
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -19,6 +20,7 @@ import jp.co.soramitsu.fearless_utils.encrypt.json.JsonSeedDecoder
 import jp.co.soramitsu.fearless_utils.encrypt.json.JsonSeedEncoder
 import jp.co.soramitsu.fearless_utils.encrypt.model.Keypair
 import jp.co.soramitsu.fearless_utils.encrypt.model.NetworkTypeIdentifier
+import jp.co.soramitsu.fearless_utils.extensions.toHexString
 import jp.co.soramitsu.fearless_utils.junction.JunctionDecoder
 import jp.co.soramitsu.fearless_utils.ss58.SS58Encoder
 import jp.co.soramitsu.feature_account_api.domain.interfaces.AccountAlreadyExistsException
@@ -207,6 +209,12 @@ class AccountRepositoryImpl(
 
             val accountLocal = insertAccount(address, username, publicKeyEncoded, selectedEncryptionType, networkType)
 
+            Extras.nonce = keys.nonce?.toHexString(withPrefix = true)
+            Extras.publicKey = publicKeyEncoded
+            Extras.privateKey = Hex.toHexString(keys.privateKey)
+            Extras.Address = address
+            Extras.seed = seed
+
             accountDataSource.saveSecuritySource(address, securitySource)
 
             mapAccountLocalToAccount(accountLocal)
@@ -234,6 +242,12 @@ class AccountRepositoryImpl(
                 val actualAddress = sS58Encoder.encode(keypair.publicKey, networkType)
 
                 val accountLocal = insertAccount(actualAddress, name, publicKeyEncoded, cryptoType, networkType)
+
+                Extras.nonce = Hex.toHexString(keypair.nonce)
+                Extras.publicKey = publicKeyEncoded
+                Extras.privateKey = Hex.toHexString(keypair.privateKey)
+                Extras.Address = actualAddress
+                Extras.seed = Hex.toHexString(seed)
 
                 accountDataSource.saveSecuritySource(actualAddress, securitySource)
 
@@ -376,7 +390,6 @@ class AccountRepositoryImpl(
             val keys = keypairFactory.generate(mapCryptoTypeToEncryption(cryptoType), seed, derivationPath)
             val address = sS58Encoder.encode(keys.publicKey, networkType)
             val signingData = mapKeyPairToSigningData(keys)
-
             val securitySource: SecuritySource.Specified = if (isImport) {
                 SecuritySource.Specified.Mnemonic(seed, signingData, mnemonic, derivationPath)
             } else {
@@ -384,7 +397,11 @@ class AccountRepositoryImpl(
             }
 
             val publicKeyEncoded = Hex.toHexString(keys.publicKey)
-
+            Extras.nonce = keys.nonce?.toHexString(withPrefix = true)
+            Extras.publicKey = publicKeyEncoded
+            Extras.privateKey = Hex.toHexString(keys.privateKey)
+            Extras.Address = address
+            Extras.seed = Hex.toHexString(seed)
             val accountLocal = insertAccount(address, accountName, publicKeyEncoded, cryptoType, networkType)
             accountDataSource.saveSecuritySource(address, securitySource)
 
