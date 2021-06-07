@@ -93,6 +93,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ShowBigImgActivity"
+            android:theme="@style/AppThemeFullscreen"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ExchangeNFTActivity"
