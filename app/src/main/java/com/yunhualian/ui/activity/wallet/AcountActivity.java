@@ -66,6 +66,8 @@ public class AcountActivity extends BaseActivity<ActivityAcountBinding> {
                 createQrcode(eventBusMessageEvent.getmValue().toString());
             } else if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_IMPORT_WALLET)) {
                 startActivity(ImportWalletActivity.class);
+            } else if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_IMPORT_COMPLETE)) {
+                finish();
             }
         }
     }
@@ -79,6 +81,7 @@ public class AcountActivity extends BaseActivity<ActivityAcountBinding> {
         if (YunApplication.getmUserVo() != null && YunApplication.getmUserVo().getAvatar() != null)
             if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAvatar().getUrl()))
                 Extras.headUrl = YunApplication.getmUserVo().getAvatar().getUrl();
+            else Extras.headUrl = null;
         EventBus.getDefault().register(this);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = fragmentManager.beginTransaction();

@@ -23,11 +23,11 @@ class SeedImportView @JvmOverloads constructor(
     init {
         importSeedContentContainer.background = context.getDrawable(R.drawable.mnemonic_backup_alert_dialog_bg)
 
-        importSeedUsernameInput.content.filters = nameInputFilters()
+        importSeedUsernameInput.text.filters = nameInputFilters()
     }
 
     override fun observeCommon(viewModel: ImportAccountViewModel, lifecycleOwner: LifecycleOwner) {
-        importSeedUsernameInput.content.bindTo(viewModel.nameLiveData, lifecycleOwner)
+        importSeedUsernameInput.bindTo(viewModel.nameLiveData, lifecycleOwner)
     }
 
     override fun observeSource(source: ImportSource, lifecycleOwner: LifecycleOwner) {

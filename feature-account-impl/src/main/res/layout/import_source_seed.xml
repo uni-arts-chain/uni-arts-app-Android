@@ -7,15 +7,44 @@
     tools:background="@color/white"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <jp.co.soramitsu.common.view.InputField
-        android:id="@+id/importSeedUsernameInput"
-        android:layout_width="0dp"
+    <RelativeLayout
+        android:id="@+id/walletName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/username_setup_choose_title"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+        <TextView
+            android:id="@+id/walletNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="钱包名称"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/importSeedUsernameInput"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/walletNameTitle"
+            android:background="@null"
+            android:ellipsize="middle"
+            android:gravity="end|center_vertical"
+            android:hint="@string/username_setup_choose_title"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray1"
+        app:layout_constraintTop_toBottomOf="@+id/walletName" />
 
     <TextView
         android:id="@+id/usernameHintTv"
@@ -25,7 +54,7 @@
         android:layout_weight="1"
         android:text="@string/username_setup_hint"
         android:textColor="@color/gray1"
-        app:layout_constraintTop_toBottomOf="@+id/importSeedUsernameInput" />
+        app:layout_constraintTop_toBottomOf="@+id/walletName" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/importSeedContentContainer"
@@ -44,7 +73,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/recovery_raw_seed"
+            android:text="请输入私钥"
             android:textColor="@color/text_more_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

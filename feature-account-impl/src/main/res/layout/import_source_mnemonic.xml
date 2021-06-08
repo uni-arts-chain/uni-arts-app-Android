@@ -7,21 +7,43 @@
     tools:background="@color/white"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <EditText
-        android:id="@+id/importMnemonicUsernameInput"
-        android:layout_width="0dp"
-        android:layout_height="46dp"
-        android:background="@drawable/mnemonic_backup_alert_dialog_bg"
-        android:hint="@string/username_setup_choose_title"
-        android:visibility="visible"
-        android:paddingLeft="10dp"
-        android:textColor="@color/black"
-        android:textCursorDrawable="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <RelativeLayout
+        android:id="@+id/walletName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
 
-    </EditText>
+        <TextView
+            android:id="@+id/walletNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="钱包名称"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/importMnemonicUsernameInput"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/walletNameTitle"
+            android:background="@null"
+            android:ellipsize="middle"
+            android:gravity="end|center_vertical"
+            android:hint="@string/username_setup_choose_title"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray1"
+        app:layout_constraintTop_toBottomOf="@+id/walletName" />
 
     <TextView
         android:id="@+id/usernameHintTv"
@@ -29,9 +51,11 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
+        android:drawableLeft="@drawable/icon_wallet_import_notice"
+        android:drawablePadding="5dp"
         android:text="@string/username_setup_hint"
         android:textColor="@color/text_gray"
-        app:layout_constraintTop_toBottomOf="@+id/importMnemonicUsernameInput" />
+        app:layout_constraintTop_toBottomOf="@+id/walletName" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/importMnemonicContentContainer"
@@ -50,8 +74,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/recovery_passphrase"
+            android:text="请输入助记词,按空格分隔"
             android:textColor="@color/text_more_gray"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -62,15 +87,16 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:background="@null"
-            android:textCursorDrawable="@null"
             android:gravity="top"
             android:inputType="textMultiLine|textVisiblePassword"
             android:minLines="5"
             android:padding="0dp"
             android:textColor="@color/black"
+            android:textCursorDrawable="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/importMnemonicTitle"
             app:layout_constraintStart_toStartOf="@+id/importMnemonicTitle"
             app:layout_constraintTop_toBottomOf="@+id/importMnemonicTitle" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </merge>

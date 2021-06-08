@@ -605,6 +605,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         getTakePhoto().onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == BigDecimal.ZERO.intValue()) {
+            if (data == null) return;
             String path = data.getStringExtra("scan_result");
             if (!TextUtils.isEmpty(path)) {
                 verfyZip(path);

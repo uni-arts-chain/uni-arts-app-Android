@@ -508,11 +508,15 @@ class AccountRepositoryImpl(
                 position = positionInGroup
         )
 
+//        accountDao.remove(address)
         accountDao.insert(account)
-
         account
     } catch (e: SQLiteConstraintException) {
         throw AccountAlreadyExistsException()
+    } finally {
+        val network = getNetworkForType(networkType)
+        switchToAccount(account = Account(address, accountName, publicKeyEncoded,
+                cryptoType, accountDao.getNextPosition(), network))
     }
 
     private fun getNetworkForType(networkType: Node.NetworkType): Network {

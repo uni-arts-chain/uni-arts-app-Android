@@ -1,6 +1,6 @@
 package com.yunhualian.ui.activity.wallet;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.text.TextUtils;
 
 import androidx.fragment.app.FragmentManager;
@@ -21,6 +21,7 @@ import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.PinCodeKtActivity;
 import com.yunhualian.utils.SharedPreUtils;
 
 import org.bouncycastle.util.encoders.Hex;
@@ -35,12 +36,12 @@ import jp.co.soramitsu.fearless_utils.encrypt.EncryptionType;
 import jp.co.soramitsu.fearless_utils.encrypt.SignatureWrapper;
 import jp.co.soramitsu.fearless_utils.encrypt.Signer;
 import jp.co.soramitsu.fearless_utils.encrypt.model.Keypair;
-import jp.co.soramitsu.feature_account_api.domain.model.Network;
-import jp.co.soramitsu.feature_account_api.domain.model.Node;
-import jp.co.soramitsu.feature_account_impl.presentation.exporting.mnemonic.ExportMnemonicFragment;
 import jp.co.soramitsu.feature_account_impl.presentation.importing.ImportAccountFragment;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.yunhualian.ui.activity.wallet.WalletEditActivity.RESUME_CER;
+import static com.yunhualian.ui.activity.wallet.WalletEditActivity.SET_CER;
 
 public class ImportWalletActivity extends BaseActivity<ActivityAcountBinding> {
     private ArrayList<String> mnemonicList;
@@ -113,6 +114,11 @@ public class ImportWalletActivity extends BaseActivity<ActivityAcountBinding> {
                             YunApplication.setmUserVo(userVo);
                             YunApplication.setToken(userVo.getToken());
                             ToastUtils.showShort("导入成功");
+                            Intent intent = new Intent(ImportWalletActivity.this, PinCodeKtActivity.class);
+                            intent.putExtra(RESUME_CER, true);
+                            intent.putExtra(SET_CER, true);
+                            startActivity(intent);
+                            EventBus.getDefault().post(new EventBusMessageEvent(EventEntity.EVENT_IMPORT_COMPLETE, null));
                             finish();
                         }
                 }

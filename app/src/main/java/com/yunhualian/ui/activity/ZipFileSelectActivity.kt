@@ -7,6 +7,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.yunhualian.R
 import com.yunhualian.adapter.FileListAdapter
 import com.yunhualian.base.BaseActivity
+import com.yunhualian.base.ToolBarOptions
 import com.yunhualian.databinding.ActivityZipSelectBinding
 import com.zp.z_file.async.ZFileAsyncImpl
 import com.zp.z_file.content.ZFileBean
@@ -23,6 +24,9 @@ class ZipFileSelectActivity : BaseActivity<ActivityZipSelectBinding>() {
     }
 
     override fun initView() {
+        val mToolBarOptions = ToolBarOptions()
+        mToolBarOptions.titleString = "请选择需要上传的文件"
+        setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions)
         showFileList()
     }
 

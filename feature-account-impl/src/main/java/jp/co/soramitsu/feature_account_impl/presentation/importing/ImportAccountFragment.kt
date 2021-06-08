@@ -27,11 +27,7 @@ import jp.co.soramitsu.feature_account_impl.presentation.importing.source.view.S
 import jp.co.soramitsu.feature_account_impl.presentation.view.advanced.AdvancedBlockView.FieldState
 import jp.co.soramitsu.feature_account_impl.presentation.view.advanced.encryption.EncryptionTypeChooserBottomSheetDialog
 import jp.co.soramitsu.feature_account_impl.presentation.view.advanced.network.NetworkChooserBottomSheetDialog
-import kotlinx.android.synthetic.main.fragment_import_account.advancedBlockView
-import kotlinx.android.synthetic.main.fragment_import_account.nextBtn
-import kotlinx.android.synthetic.main.fragment_import_account.sourceTypeContainer
-import kotlinx.android.synthetic.main.fragment_import_account.sourceTypeInput
-import kotlinx.android.synthetic.main.fragment_import_account.toolbar
+import kotlinx.android.synthetic.main.fragment_import_account.*
 
 class ImportAccountFragment : BaseFragment<ImportAccountViewModel>() {
 
@@ -59,8 +55,8 @@ class ImportAccountFragment : BaseFragment<ImportAccountViewModel>() {
     override fun initViews() {
         toolbar.setHomeButtonListener { viewModel.homeButtonClicked() }
 
-        sourceTypeInput.setWholeClickListener { viewModel.openSourceChooserClicked() }
-
+//        sourceTypeInput.setWholeClickListener { viewModel.openSourceChooserClicked() }
+        sourceType.setOnClickListener { viewModel.openSourceChooserClicked() }
         advancedBlockView.setOnEncryptionTypeClickListener {
             viewModel.chooseEncryptionClicked()
         }
@@ -109,7 +105,8 @@ class ImportAccountFragment : BaseFragment<ImportAccountViewModel>() {
             sourceTypeContainer.removeAllViews()
             sourceTypeContainer.addView(sourceViews!![index])
 
-            sourceTypeInput.setMessage(it.nameRes)
+//            sourceTypeInput.setMessage(it.nameRes)
+            selectType.setText(it.nameRes)
         }
 
         viewModel.encryptionTypeChooserEvent.observeEvent {

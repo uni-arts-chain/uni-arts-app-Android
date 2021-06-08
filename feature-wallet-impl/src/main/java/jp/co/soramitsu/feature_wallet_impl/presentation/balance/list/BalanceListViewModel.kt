@@ -59,7 +59,7 @@ class BalanceListViewModel(
     val showAccountChooser: LiveData<Event<Payload<AddressModel>>> = _showAccountChooser
 
     private val errorHandler: ErrorHandler = {
-        showError(it.message!!)
+//        showError(it.message!!)
 
         transactionsRefreshFinished()
         balanceRefreshFinished()

@@ -38,6 +38,7 @@ public class WalletEditActivity extends BaseActivity<ActivityAcountBinding> {
 
     public static int KEY_STORE = 0;
     public static final String RESUME_CER = "resume";
+    public static final String SET_CER = "set";
     public static int KEY_PRIVATE = 1;
     public static int KEY_PSW = 2;
     public static int KEY_PSW_CONFIRM = 3;
