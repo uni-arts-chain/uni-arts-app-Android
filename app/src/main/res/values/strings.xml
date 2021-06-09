@@ -355,6 +355,9 @@
     <string name="set_display_name_tips">未设置昵称</string>
     <string name="set_desc_tips">请输入描述</string>
     <string name="upload_art_success">作品已上传，请等待审核\n可在"我的主页"中查看审核进度</string>
+    <string name="import_wallet_tips">重新导入钱包后，当前钱包将被覆盖，请先备份好当前钱包助记词
+</string>
+    <string name="confirm_import">继续导入</string>
     <string name="btn_open_once">开启 x1</string>
     <string name="btn_open_ten">开启10次</string>
     <string name="rule_tips">1. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权\n

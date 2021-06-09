@@ -43,7 +43,6 @@ public class WalletEditActivity extends BaseActivity<ActivityAcountBinding> {
     public static int KEY_PSW = 2;
     public static int KEY_PSW_CONFIRM = 3;
     public static int KEY_BACKUP = 4;
-    private PrivateKeyDerivetDialog privateKeyDerivetDialog;
 
     @Override
     public int getLayoutId() {
@@ -104,7 +103,7 @@ public class WalletEditActivity extends BaseActivity<ActivityAcountBinding> {
         if (privateKey.charAt(0) != '0' && privateKey.charAt(1) != 'x') {
             privateKey = "0x".concat(privateKey);
         }
-        privateKeyDerivetDialog = new PrivateKeyDerivetDialog(this);
+        PrivateKeyDerivetDialog privateKeyDerivetDialog = new PrivateKeyDerivetDialog(this);
         privateKeyDerivetDialog.show();
         privateKeyDerivetDialog.setPrivateKey(privateKey);
     }

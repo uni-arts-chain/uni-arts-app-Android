@@ -24,10 +24,13 @@ import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.ActivityAcountBinding;
+import com.yunhualian.ui.activity.user.MyHomePageActivity;
+import com.yunhualian.ui.activity.user.UploadArtActivity;
 import com.yunhualian.utils.DialogManager;
 import com.yunhualian.utils.SharedPreUtils;
 import com.yunhualian.utils.ZxingEncodingUtils;
 import com.yunhualian.widget.QrPopUpWindow;
+import com.yunhualian.widget.UploadSuccessPopUpWindow;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,6 +41,7 @@ import jp.co.soramitsu.feature_wallet_impl.presentation.balance.list.BalanceList
 
 public class AcountActivity extends BaseActivity<ActivityAcountBinding> {
     QrPopUpWindow qrPopUpWindow;
+    UploadSuccessPopUpWindow uploadSuccessPopUpWindow;
 
     @Override
     public int getLayoutId() {
@@ -65,12 +69,33 @@ public class AcountActivity extends BaseActivity<ActivityAcountBinding> {
             } else if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_SHOW_QR)) {
                 createQrcode(eventBusMessageEvent.getmValue().toString());
             } else if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_IMPORT_WALLET)) {
-                startActivity(ImportWalletActivity.class);
+                showConfirmDialog();
             } else if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_IMPORT_COMPLETE)) {
                 finish();
             }
         }
     }
+
+    private void showConfirmDialog() {
+        uploadSuccessPopUpWindow = new UploadSuccessPopUpWindow(AcountActivity.this, clickListener);
+        uploadSuccessPopUpWindow.setContent(getString(R.string.import_wallet_tips));
+        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.confirm_import));
+        uploadSuccessPopUpWindow.showAtLocation(mDataBinding.parent, Gravity.CENTER, 0, 0);
+
+    }
+
+    private UploadSuccessPopUpWindow.OnBottomTextviewClickListener clickListener = new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
+        @Override
+        public void onCancleClick() {
+            if (uploadSuccessPopUpWindow.isShowing()) uploadSuccessPopUpWindow.dismiss();
+        }
+
+        @Override
+        public void onPerformClick() {
+            startActivity(ImportWalletActivity.class);
+            finish();
+        }
+    };
 
     @Override
     public void initView() {
