@@ -101,6 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_weight="1"
+                        android:fontFamily="@font/fonts"
                         android:gravity="center"
                         android:padding="@dimen/dp_10"
                         android:text="TA出售的NFT"

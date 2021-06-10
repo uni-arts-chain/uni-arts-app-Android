@@ -34,7 +34,7 @@ data class Node(
                                 transfers = PredefinedPalettes.Transfers(13U)
                         ),
                         addressByte = 42,
-                        genesisHash = "55940785b92be6342ba1007488a3f46fdbef213cd1b412d35236b03528079aaa",
+                        genesisHash = "bc20e8f3a4a9340f31bcf5be6288a98e064d84f67a94e41ed9e65d10e15e0077",
                         existentialDeposit = BigDecimal("1")
                 )
         );

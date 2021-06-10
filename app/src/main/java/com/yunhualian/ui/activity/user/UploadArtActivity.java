@@ -721,11 +721,25 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         if (isLive2d && fileList.size() > BigDecimal.ONE.intValue()) {
             fileList.remove(0);
         }
-        for (File file : fileList) {
-            RequestBody requestFrontFile = RequestBody.create(MediaType.parse("image/*"), file);
-            multipartBody.addFormDataPart("img_main_file" + (fileList.indexOf(file) + 1), StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
+        String fileName;
+        File fileCopy = null;
+
+        for (int i = 0; i < fileList.size(); i++) {
+            File file = fileList.get(i);
             if (file.getName().toLowerCase().contains("gif")) {
+                fileCopy = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".gif");
                 resourceType = GIF;
+                FileUtils.copy(file, fileCopy);
+            }
+            if (fileCopy != null) {
+                RequestBody requestFrontFile = RequestBody.create(MediaType.parse("image/*"), fileCopy);
+                multipartBody.addFormDataPart("img_main_file" + (i + 1),
+                        StringUtils.getFileNameNoEx(fileCopy.getName()), requestFrontFile);
+                fileCopy = null;
+            } else {
+                RequestBody requestFrontFile = RequestBody.create(MediaType.parse("image/*"), file);
+                multipartBody.addFormDataPart("img_main_file" + (i + 1),
+                        StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
             }
         }
         multipartBody.addFormDataPart("name", mDataBinding.artTitle.getText().toString());

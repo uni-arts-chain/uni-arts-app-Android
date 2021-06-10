@@ -23,6 +23,6 @@ public class CreatorTopAdapter extends BaseQuickAdapter<ArtistVo, BaseViewHolder
     protected void convert(BaseViewHolder helper, ArtistVo item) {
         Glide.with(mContext).load(item.getRecommend_image().getUrl()).transition(withCrossFade()).into((ImageView) helper.getView(R.id.artist_pic));
         helper.setText(R.id.artist_name, item.getDisplay_name());
-        helper.setVisible(R.id.platform_push, helper.getPosition() == 0);
+//        helper.setVisible(R.id.platform_push, helper.getPosition() == 0);
     }
 }
