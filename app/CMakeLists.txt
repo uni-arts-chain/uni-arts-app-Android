@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 # Set app name.
 set(APP_NAME Demo)
 # Set directory paths.
-set(SDK_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../CubismSdkForNative-4-r.2)
+set(SDK_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../CubismSdkForNative-4-r.2)
 set(CORE_PATH ${SDK_ROOT_PATH}/Core)
 set(FRAMEWORK_PATH ${SDK_ROOT_PATH}/Framework)
 set(THIRD_PARTY_PATH ${SDK_ROOT_PATH}/Samples/OpenGL/thirdParty)

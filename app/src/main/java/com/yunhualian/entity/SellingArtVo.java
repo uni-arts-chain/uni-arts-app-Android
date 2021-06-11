@@ -15,6 +15,8 @@ public class SellingArtVo implements Serializable {
      * size_width : 123.0
      * details :
      * img_main_file1 : {"url":"https://miner-pool.oss-cn-hongkong.aliyuncs.com/miner_pool/art/img_main_file1/87/db2a72cf-e509-4ea8-a338-846e5eb35c0d.mp4"}
+     * https://miner-pool.oss-cn-hongkong.aliyuncs.com/miner_pool/art/img_main_file1/87/db2a72cf-e509-4ea8-a338-846e5eb35c0d.mp4
+     * https://miner-pool.oss-cn-hongkong.aliyuncs.com/miner_pool/art/img_main_file1/430/5da8551f-9aee-40f5-bac8-acee104a1764.mp4
      * img_main_file2 : {"url":null}
      * img_main_file3 : {"url":null}
      * img_detail_file1 : {"url":null}

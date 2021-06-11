@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -52,10 +54,13 @@ import com.yunhualian.ui.activity.user.CreateOrderActivity;
 import com.yunhualian.ui.activity.user.MyHomePageActivity;
 import com.yunhualian.ui.activity.user.SellArtActivity;
 import com.yunhualian.ui.activity.user.SellArtUnCutActivity;
+import com.yunhualian.ui.activity.user.UploadArtActivity;
 import com.yunhualian.ui.activity.user.UserHomePageActivity;
+import com.yunhualian.ui.activity.video.VideoPlayerActivity;
 import com.yunhualian.utils.DateUtil;
 import com.yunhualian.utils.DisplayUtils;
 import com.yunhualian.utils.FileHelper;
+import com.yunhualian.widget.BasePopupWindow;
 import com.yunhualian.widget.UploadSuccessPopUpWindow;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
@@ -79,6 +84,8 @@ import cn.woblog.android.downloader.domain.DownloadInfo;
 import cn.woblog.android.downloader.exception.DownloadException;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 
 public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> implements View.OnClickListener {
@@ -105,6 +112,12 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
     boolean isSell = true;
     boolean fistLoad = false;
     private int clickPosition = 0;
+    private PopupWindow mZhengshuPopwinow;
+    private TextView mNftNameTv;
+    private TextView mNftThemeTv;
+    private TextView mNftCountTv;
+    private TextView mNftAddressTv;
+    private RelativeLayout mNftCloseBtn;
 
     @Override
     public int getLayoutId() {
@@ -124,12 +137,29 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         mToolBarOptions.titleId = R.string.title_detail;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         sellingArtVo = (SellingArtVo) getIntent().getExtras().getSerializable(ART_KEY);
+        if (sellingArtVo != null) {
+            if (sellingArtVo.getImg_main_file1().getUrl().endsWith("mp4")) {
+                mDataBinding.imgPlay.setOnClickListener(this);
+                mDataBinding.layoutVideo.setVisibility(View.VISIBLE);
+                mDataBinding.layoutBanner.setVisibility(View.GONE);
+                Glide.with(this)
+                        .load(sellingArtVo.getImg_main_file1().getUrl())
+                        .skipMemoryCache(true).transition(withCrossFade())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(mDataBinding.imgVideo);
+            } else {
+                mDataBinding.layoutVideo.setVisibility(View.GONE);
+                mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
+            }
+        }
         request_art_id = String.valueOf(getIntent().getIntExtra(ART_ID, 0));
         mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.zan.setOnClickListener(this);
         mDataBinding.cai.setOnClickListener(this);
         mDataBinding.collect.setOnClickListener(this);
         mDataBinding.goHomePage.setOnClickListener(this);
+        mDataBinding.imgZhengshu.setOnClickListener(this);
+        initZhengShuPopwindow();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -158,6 +188,38 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
         uploadSuccessPopUpWindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
         EventBus.getDefault().removeAllStickyEvents();
+    }
+
+    private void initZhengShuPopwindow() {
+        View contentView = LayoutInflater.from(this).inflate(
+                R.layout.pop_zhengshu_layout, null);
+        mNftNameTv = contentView.findViewById(R.id.tv_nft_name);
+        mNftThemeTv = contentView.findViewById(R.id.tv_nft_theme);
+        mNftCountTv = contentView.findViewById(R.id.tv_nft_count);
+        mNftAddressTv = contentView.findViewById(R.id.tv_nft_address);
+        mNftCloseBtn = contentView.findViewById(R.id.layout_close);
+        mNftNameTv.setText(getString(R.string.nft_name, sellingArtVo.getName()));
+        if (!YunApplication.getArtThemeVoList().isEmpty()) {
+            for (int i = 0; i < YunApplication.getArtThemeVoList().size(); i++) {
+                if (YunApplication.getArtThemeVoList().get(i).getId() == sellingArtVo.getCategory_id()) {
+                    mNftThemeTv.setText(getString(R.string.nft_theme, YunApplication.getArtThemeVoList().get(i).getTitle()));
+                }
+            }
+        }
+        mNftCountTv.setText(getString(R.string.nft_count, String.valueOf(sellingArtVo.getTotal_amount())));
+        mNftAddressTv.setText(sellingArtVo.getItem_hash());
+        mZhengshuPopwinow = new BasePopupWindow(this);
+        mZhengshuPopwinow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mZhengshuPopwinow.setContentView(contentView);
+        mZhengshuPopwinow.setOutsideTouchable(false);
+        mZhengshuPopwinow.setTouchable(true);
+        mZhengshuPopwinow.setAnimationStyle(R.style.mypopwindow_anim_style);
+        mNftCloseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mZhengshuPopwinow.dismiss();
+            }
+        });
     }
 
     public void initBanner() {
@@ -419,6 +481,17 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 }
                 break;
 
+            case R.id.img_zhengshu:
+                mZhengshuPopwinow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
+                break;
+
+            case R.id.img_play:
+                if(sellingArtVo.getImg_main_file1().getUrl().endsWith("mp4")){
+                    Intent videoIntent = new Intent(ArtDetailActivity.this, VideoPlayerActivity.class);
+                    videoIntent.putExtra("art_video_path", sellingArtVo.getImg_main_file1().getUrl());
+                    startActivity(videoIntent);
+                }
+                break;
         }
 
     }

@@ -38,8 +38,15 @@ public class BlindBoxDetailCardAdapter extends BaseQuickAdapter<BlindBoxVo.CardG
         ImageView ivImage = helper.getView(R.id.hot_picture);
         if (TextUtils.isEmpty(item.getArt().getLive2d_file())) {
             helper.setVisible(R.id.live2d, false);
-        } else helper.setVisible(R.id.live2d, true);
-
+        } else {
+            helper.setText(R.id.live2d,"Live 2D");
+            helper.setVisible(R.id.live2d, true);
+        }
+        if (item.getArt().getImg_main_file1().getUrl().toLowerCase().endsWith("mp4")) {
+            helper.setVisible(R.id.img_video_tag, true);
+        } else {
+            helper.setVisible(R.id.img_video_tag, false);
+        }
         if (TextUtils.isEmpty(item.getSpecial_attr())) {
             helper.setVisible(R.id.seldom, false);
         } else helper.setVisible(R.id.seldom, true);

@@ -38,13 +38,14 @@ public class ShowNetBigImgActivity extends Activity implements ViewPager.OnPageC
     private TextView pageText;
     private List<String> list = new ArrayList<>();
     private int currentIndex;
-
+    private boolean isNeedShowClose;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_show_big_img);
         position = getIntent().getIntExtra("index", BigDecimal.ONE.intValue());
         list = getIntent().getStringArrayListExtra("url");
-        setContentView(R.layout.activity_show_big_img);
+        isNeedShowClose = getIntent().getBooleanExtra("isNeedClose",true);
         pageText = findViewById(R.id.page_text);
         viewPager = findViewById(R.id.view_pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(ShowNetBigImgActivity.this, list);
@@ -56,6 +57,11 @@ public class ShowNetBigImgActivity extends Activity implements ViewPager.OnPageC
         pageText.setText(position + "/" + list.size());
         ImageView imageView = findViewById(R.id.close);
         imageView.setOnClickListener(v -> finish());
+        if(isNeedShowClose){
+            imageView.setVisibility(View.VISIBLE);
+        }else{
+            imageView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -95,6 +101,14 @@ public class ShowNetBigImgActivity extends Activity implements ViewPager.OnPageC
             PhotoView zoomImageView = view
                     .findViewById(R.id.photo_view);
             Glide.with(context).load(list.get(position)).into(zoomImageView);
+            zoomImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!isNeedShowClose){
+                        finish();
+                    }
+                }
+            });
             container.addView(view);
             return view;
         }

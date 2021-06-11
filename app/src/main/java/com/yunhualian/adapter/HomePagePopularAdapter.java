@@ -41,7 +41,15 @@ public class HomePagePopularAdapter extends BaseQuickAdapter<SellingArtVo, BaseV
         helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(" " + item.getPrice()));
         if (TextUtils.isEmpty(item.getLive2d_file())) {
             helper.setVisible(R.id.live2d, false);
-        } else helper.setVisible(R.id.live2d, true);
+        } else {
+            helper.setText(R.id.live2d, "Live 2D");
+            helper.setVisible(R.id.live2d, true);
+        }
+        if (item.getImg_main_file1().getUrl().toLowerCase().endsWith("mp4")) {
+            helper.setVisible(R.id.img_video_tag, true);
+        } else {
+            helper.setVisible(R.id.img_video_tag, false);
+        }
         Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {

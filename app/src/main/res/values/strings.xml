@@ -69,7 +69,7 @@
     <string name="net_word_error">网络连接异常，请检查网络</string>
     <string name="request_error">请求失败，请稍候重试</string>
     <string name="reponse_error">服务器返回错误，请稍候重试</string>
-    <string name="version_install">立即安装</string>
+    <string name="version_install">立即更新</string>
     <string name="select_art_hint">请选择需要签名的作品</string>
     <string name="double_click_exit">再次点击返回键退出</string>
     <string name="next">下一步</string>
@@ -322,10 +322,14 @@
     <string name="picker_json_parse_sample">省市区Json文件解析示例</string>
 
     <string name="pic_detail_last">剩余：%1$s</string>
-
+    <string name="nft_name">名称：%1$s</string>
+    <string name="nft_theme">主题：%1$s</string>
+    <string name="nft_count">发行份数：%1$s</string>
     <string name="nft_address">NFT地址：%1$s</string>
 
-    <string name="upload_art_tips">上传作品(支持静态图、GIF)</string>
+    <string name="upload_art_tips">上传作品(支持静态图、GIF、Live2D、视频)</string>
+
+    <string name="upload_art_tips2">上传作品(支持静态图、GIF)</string>
 
     <string name="sells_amount">交易次数：%1$s</string>
 
@@ -387,4 +391,5 @@ UniArts提供技术支持</string>
     <string name="pay_result_success">订单支付成功</string>
     <string name="pay_result_fail">订单支付失败</string>
     <string name="pay_result_cancle">订单支付未完成</string>
+    <string name="update_version">发现新版本%1$s</string>
 </resources>

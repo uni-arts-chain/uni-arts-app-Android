@@ -41,7 +41,10 @@ public class CollectionAdapter extends BaseQuickAdapter<CollectArtVo, BaseViewHo
         helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(" " + item.getFavoritable().getPrice()));
         if (TextUtils.isEmpty(item.getFavoritable().getLive2d_file())) {
             helper.setVisible(R.id.live2d, false);
-        } else helper.setVisible(R.id.live2d, true);
+        } else{
+            helper.setText(R.id.live2d,"Live 2D");
+            helper.setVisible(R.id.live2d, true);
+        }
         Glide.with(mContext).asBitmap().load(item.getFavoritable().getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {

@@ -69,6 +69,15 @@
                     android:textSize="@dimen/sp_15" />
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/img_video_tag"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_above="@id/textLayout"
+                android:layout_marginLeft="12dp"
+                android:layout_marginBottom="13dp"
+                android:background="@mipmap/icon_play" />
+
             <TextView
                 android:id="@+id/live2d"
                 android:layout_width="wrap_content"

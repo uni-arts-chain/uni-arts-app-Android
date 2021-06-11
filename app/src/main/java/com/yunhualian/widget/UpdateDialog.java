@@ -57,7 +57,7 @@ public class UpdateDialog extends Dialog {
 //        Button btn_browser = findViewById(R.id.btn_browser);
         btn_aum_update = findViewById(R.id.btn_aum_update);
 
-        txt_aum_update_version.setText(getVersionName());
+        txt_aum_update_version.setText(String.format(mContext.getString(R.string.update_version),getVersionName()));
         txt_aum_update_content.setText(getDesc());
 
         imb_aum_close.setVisibility(bUpdateFlag ? View.GONE : View.VISIBLE);

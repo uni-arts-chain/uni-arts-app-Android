@@ -50,7 +50,11 @@ public class CommonPictureAdapter extends BaseQuickAdapter<SellingArtVo, BaseVie
         View overPage = helper.getView(R.id.zhe);
         helper.setText(R.id.picture_name, item.getName());
         helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(item.getPrice()));
-
+        if (item.getImg_main_file1().getUrl().toLowerCase().endsWith("mp4")) {
+            helper.setVisible(R.id.img_video_tag, true);
+        } else {
+            helper.setVisible(R.id.img_video_tag, false);
+        }
 //        Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
 //            @Override
 //            public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
