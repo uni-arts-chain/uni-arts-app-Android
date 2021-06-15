@@ -60,7 +60,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="end"
                     android:paddingBottom="@dimen/dp_10"
