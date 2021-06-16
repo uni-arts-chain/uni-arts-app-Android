@@ -2,6 +2,7 @@ package com.yunhualian.adapter;
 
 
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -40,6 +41,15 @@ public class UserHomePagePicturesAdapter extends BaseQuickAdapter<SellingArtVo, 
         helper.setVisible(R.id.live2d, false);
         helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(" " + item.getPrice()));
         LogUtils.e("convert =" + helper.getPosition());
+        if(!TextUtils.isEmpty(item.getResource_type())){
+            if (item.getResource_type().equals("4")) {
+                helper.setVisible(R.id.img_video_tag, true);
+            } else {
+                helper.setVisible(R.id.img_video_tag, false);
+            }
+        }else{
+            helper.setVisible(R.id.img_video_tag, false);
+        }
         Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {

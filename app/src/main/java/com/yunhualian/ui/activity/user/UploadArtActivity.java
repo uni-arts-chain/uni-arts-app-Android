@@ -2,6 +2,8 @@ package com.yunhualian.ui.activity.user;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -40,8 +41,6 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.rxbus2.Subscribe;
-import com.luck.picture.lib.rxbus2.ThreadMode;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.upbest.arouter.EventEntity;
 import com.yunhualian.R;
@@ -68,10 +67,17 @@ import com.yunhualian.widget.UploadSelectorPopUpWindow;
 import com.yunhualian.widget.UploadSuccessPopUpWindow;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,7 +122,6 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     File file;
     Uri imageUri;
     List<File> fileList;
-    List<File> allFileList;
     List<File> userFileList;
     private String themeId;
     private String cutAmount;
@@ -185,7 +190,6 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     public void initView() {
         fileList = new ArrayList<>();
         userFileList = new ArrayList<>();
-        allFileList = new ArrayList<>();
         from = getIntent().getStringExtra(UploadArtActivity.FROM);
 
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
@@ -342,7 +346,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                     takePhotoBtn.setVisibility(View.GONE);
                     selectPhoto.setVisibility(View.GONE);
                 }
-                if(isPic){
+                if (isPic) {
                     takeVideo.setVisibility(View.GONE);
                 }
                 showPopwindow();
@@ -670,7 +674,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
             mDataBinding.img2.setVisibility(View.GONE);
             mDataBinding.imageParent3.setVisibility(View.GONE);
             mDataBinding.img3.setVisibility(View.GONE);
-        }else{
+        } else {
             isPic = false;
         }
     }
@@ -732,7 +736,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     @Override
     public void onCreate(Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
-//        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -790,6 +794,12 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 if (!PictureSelector.obtainMultipleResult(data).isEmpty()) {
                     LocalMedia localMedia = PictureSelector.obtainMultipleResult(data).get(0);
                     File file = new File(localMedia.getPath());
+                    DecimalFormat df = new DecimalFormat("#.00");
+                    double fileSize = Double.parseDouble(df.format((file.length() / 1048576)));
+                    if(fileSize > 50){
+                        ToastUtils.showShort("当前视频文件超过50M");
+                        return;
+                    }
                     fileList.add(file);
                     buttonStateListener();//改变按钮状态
                     updateUI();
@@ -972,17 +982,15 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
 
     public void upload() {
         showLoading("正在上传...");
-        allFileList.clear();
         MultipartBody.Builder multipartBody = new MultipartBody.Builder();
         multipartBody.setType(MultipartBody.FORM);
         int resourceType = PIC;
         if (isLive2d && fileList.size() > BigDecimal.ONE.intValue()) {
             fileList.remove(0);
         }
-        allFileList.addAll(fileList);
-        allFileList.addAll(userFileList);
-        for (int i = 0; i < allFileList.size(); i++) {
-            File file = allFileList.get(i);
+        //作品
+        for (int i = 0; i < fileList.size(); i++) {
+            File file = fileList.get(i);
             RequestBody requestFrontFile;
             if (file.getName().toLowerCase().endsWith("gif")) {
                 File fileCopy = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".gif");
@@ -993,14 +1001,35 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                         StringUtils.getFileNameNoEx(fileCopy.getName()), requestFrontFile);
             } else if (file.getName().toLowerCase().endsWith("mp4")) {
                 resourceType = VIDEO;
-                requestFrontFile = RequestBody.create(MediaType.parse("application/octet-stream"), file);
-                multipartBody.addFormDataPart("img_main_file" + (allFileList.indexOf(file) + 1), file.getName(), requestFrontFile);
+                File picFile = getVideoFirstPic(file.getAbsolutePath(), file.getName());
+                if (picFile != null) {
+                    requestFrontFile = RequestBody.create(MediaType.parse("image/*"), picFile);
+                    multipartBody.addFormDataPart("img_main_file" + (fileList.indexOf(file) + 1), picFile.getName(), requestFrontFile);
+                    requestFrontFile  =  RequestBody.create(MediaType.parse("application/octet-stream"), file);
+                    multipartBody.addFormDataPart("img_main_file2", file.getName(), requestFrontFile);
+                }
             } else {
                 resourceType = PIC;
                 requestFrontFile = RequestBody.create(MediaType.parse("image/*"), file);
-                multipartBody.addFormDataPart("img_main_file" + (allFileList.indexOf(file) + 1), StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
+                multipartBody.addFormDataPart("img_main_file" + (fileList.indexOf(file) + 1), StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
             }
         }
+        //作品信息
+        for (int j = 0; j < userFileList.size(); j++) {
+            File file = userFileList.get(j);
+            RequestBody requestFrontFile;
+            if (file.getName().toLowerCase().endsWith("gif")) {
+                File fileCopy = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".gif");
+                FileUtils.copy(file, fileCopy);
+                requestFrontFile = RequestBody.create(MediaType.parse("image/*"), fileCopy);
+                multipartBody.addFormDataPart("img_detail_file" + (j + 1),
+                        StringUtils.getFileNameNoEx(fileCopy.getName()), requestFrontFile);
+            } else {
+                requestFrontFile = RequestBody.create(MediaType.parse("image/*"), file);
+                multipartBody.addFormDataPart("img_detail_file" + (userFileList.indexOf(file) + 1), StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
+            }
+        }
+
         multipartBody.addFormDataPart("name", mDataBinding.artTitle.getText().toString());
         multipartBody.addFormDataPart("category_id", themeId);
         multipartBody.addFormDataPart("details", mDataBinding.advice.getText().toString());
@@ -1070,6 +1099,41 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
             finish();
         }
     };
+
+    private File getVideoFirstPic(String videoPath, String fileName) {
+        MediaMetadataRetriever media = new MediaMetadataRetriever();
+        media.setDataSource(videoPath);// videoPath 本地视频的路径
+        Bitmap bitmap = media.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+        if (bitmap != null) {
+            try {
+                String path = getSDPath() + "/revoeye/";
+                File dirFile = new File(path);
+                if (!dirFile.exists()) {
+                    dirFile.mkdir();
+                }
+                File bmpFile = new File(path + fileName + ".png");
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(bmpFile));
+                bitmap.compress(Bitmap.CompressFormat.PNG, 80, bos);
+                bos.flush();
+                bos.close();
+                return bmpFile;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public static String getSDPath() {
+        File sdDir = null;
+        boolean sdCardExist = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
+        if (sdCardExist) {
+            sdDir = Environment.getExternalStorageDirectory();// 获取跟目录
+        }
+        return sdDir.toString();
+    }
 
     private void performUpload() {
         if (fileList.size() == 0) {

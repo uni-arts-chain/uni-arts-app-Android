@@ -35,7 +35,9 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.lljjcoder.style.citylist.Toast.ToastUtils;
 import com.yunhualian.R;
+import com.yunhualian.adapter.ArtDetailImgAdapter;
 import com.yunhualian.adapter.ArtDetailOrderListAdapter;
+import com.yunhualian.adapter.CommonPictureAdapter;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
@@ -118,7 +120,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
     private TextView mNftCountTv;
     private TextView mNftAddressTv;
     private RelativeLayout mNftCloseBtn;
-
+    private List<String> artDetailUrls = new ArrayList<>();
     @Override
     public int getLayoutId() {
         return R.layout.activity_art_detail;
@@ -137,21 +139,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         mToolBarOptions.titleId = R.string.title_detail;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         sellingArtVo = (SellingArtVo) getIntent().getExtras().getSerializable(ART_KEY);
-        if (sellingArtVo != null) {
-            if (sellingArtVo.getImg_main_file1().getUrl().endsWith("mp4")) {
-                mDataBinding.imgPlay.setOnClickListener(this);
-                mDataBinding.layoutVideo.setVisibility(View.VISIBLE);
-                mDataBinding.layoutBanner.setVisibility(View.GONE);
-                Glide.with(this)
-                        .load(sellingArtVo.getImg_main_file1().getUrl())
-                        .skipMemoryCache(true).transition(withCrossFade())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(mDataBinding.imgVideo);
-            } else {
-                mDataBinding.layoutVideo.setVisibility(View.GONE);
-                mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
-            }
-        }
+        initArtDetails();
         request_art_id = String.valueOf(getIntent().getIntExtra(ART_ID, 0));
         mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.zan.setOnClickListener(this);
@@ -160,6 +148,14 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         mDataBinding.goHomePage.setOnClickListener(this);
         mDataBinding.imgZhengshu.setOnClickListener(this);
         initZhengShuPopwindow();
+    }
+
+    private void initArtDetails(){
+        if(!artDetailUrls.isEmpty()){
+            ArtDetailImgAdapter artDetailImgAdapter = new ArtDetailImgAdapter(artDetailUrls,this);
+            mDataBinding.artDetails.setLayoutManager(new LinearLayoutManager(this));
+            mDataBinding.artDetails.setAdapter(artDetailImgAdapter);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -198,16 +194,22 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         mNftCountTv = contentView.findViewById(R.id.tv_nft_count);
         mNftAddressTv = contentView.findViewById(R.id.tv_nft_address);
         mNftCloseBtn = contentView.findViewById(R.id.layout_close);
-        mNftNameTv.setText(getString(R.string.nft_name, sellingArtVo.getName()));
-        if (!YunApplication.getArtThemeVoList().isEmpty()) {
-            for (int i = 0; i < YunApplication.getArtThemeVoList().size(); i++) {
-                if (YunApplication.getArtThemeVoList().get(i).getId() == sellingArtVo.getCategory_id()) {
-                    mNftThemeTv.setText(getString(R.string.nft_theme, YunApplication.getArtThemeVoList().get(i).getTitle()));
+        if(sellingArtVo != null){
+            if(!TextUtils.isEmpty(sellingArtVo.getName())){
+                mNftNameTv.setText(getString(R.string.nft_name, sellingArtVo.getName()));
+            }
+            if (!YunApplication.getArtThemeVoList().isEmpty()) {
+                for (int i = 0; i < YunApplication.getArtThemeVoList().size(); i++) {
+                    if (YunApplication.getArtThemeVoList().get(i).getId() == sellingArtVo.getCategory_id()) {
+                        mNftThemeTv.setText(getString(R.string.nft_theme, YunApplication.getArtThemeVoList().get(i).getTitle()));
+                    }
                 }
             }
+            mNftCountTv.setText(getString(R.string.nft_count, String.valueOf(sellingArtVo.getTotal_amount())));
+            if(!TextUtils.isEmpty(sellingArtVo.getItem_hash())){
+                mNftAddressTv.setText(sellingArtVo.getItem_hash());
+            }
         }
-        mNftCountTv.setText(getString(R.string.nft_count, String.valueOf(sellingArtVo.getTotal_amount())));
-        mNftAddressTv.setText(sellingArtVo.getItem_hash());
         mZhengshuPopwinow = new BasePopupWindow(this);
         mZhengshuPopwinow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         mZhengshuPopwinow.setContentView(contentView);
@@ -286,6 +288,45 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
     public void initPageData() {
 
         if (sellingArtVo == null) return;
+            if(!TextUtils.isEmpty(sellingArtVo.getResource_type())){
+                if (sellingArtVo.getResource_type().equals("4")) {
+                    if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file2().getUrl()) && sellingArtVo.getImg_main_file2().getUrl().endsWith("mp4")) {
+                        mDataBinding.imgPlay.setOnClickListener(this);
+                        mDataBinding.layoutVideo.setVisibility(View.VISIBLE);
+                        mDataBinding.layoutBanner.setVisibility(View.GONE);
+                        Glide.with(this)
+                                .load(sellingArtVo.getImg_main_file1().getUrl())
+                                .skipMemoryCache(true).transition(withCrossFade())
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(mDataBinding.imgVideo);
+                    } else {
+                        mDataBinding.layoutVideo.setVisibility(View.GONE);
+                        mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
+                    }
+                }else{
+                    mDataBinding.layoutVideo.setVisibility(View.GONE);
+                    mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
+                }
+            }else{
+                mDataBinding.layoutVideo.setVisibility(View.GONE);
+                mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
+            }
+
+            if(sellingArtVo.getImg_detail_file1() != null){
+                if(!TextUtils.isEmpty(sellingArtVo.getImg_detail_file1().getUrl())){
+                    artDetailUrls.add(sellingArtVo.getImg_detail_file1().getUrl());
+                }
+            }
+            if(sellingArtVo.getImg_detail_file2() != null){
+                if(!TextUtils.isEmpty(sellingArtVo.getImg_detail_file2().getUrl())){
+                    artDetailUrls.add(sellingArtVo.getImg_detail_file2().getUrl());
+                }
+            }
+            if(sellingArtVo.getImg_detail_file3() != null){
+                if(!TextUtils.isEmpty(sellingArtVo.getImg_detail_file3().getUrl())){
+                    artDetailUrls.add(sellingArtVo.getImg_detail_file3().getUrl());
+                }
+            }
         art_id = String.valueOf(sellingArtVo.getId());
         mDataBinding.pictureName.setText(sellingArtVo.getName());
         mDataBinding.picturePrize.setText(getString(R.string.text_buy_amount, sellingArtVo.getPrice()));
@@ -486,10 +527,12 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 break;
 
             case R.id.img_play:
-                if(sellingArtVo.getImg_main_file1().getUrl().endsWith("mp4")){
-                    Intent videoIntent = new Intent(ArtDetailActivity.this, VideoPlayerActivity.class);
-                    videoIntent.putExtra("art_video_path", sellingArtVo.getImg_main_file1().getUrl());
-                    startActivity(videoIntent);
+                if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file2().getUrl())) {
+                    if (sellingArtVo.getImg_main_file2().getUrl().endsWith("mp4")) {
+                        Intent videoIntent = new Intent(ArtDetailActivity.this, VideoPlayerActivity.class);
+                        videoIntent.putExtra("art_video_path", sellingArtVo.getImg_main_file2().getUrl());
+                        startActivity(videoIntent);
+                    }
                 }
                 break;
         }

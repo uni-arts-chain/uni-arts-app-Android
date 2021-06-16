@@ -350,9 +350,8 @@ public class DownLoadManager {
         if (file != null && size != 0 && saveSize != 0 && size == saveSize) {
             Intent intent = new Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addCategory(Intent.CATEGORY_DEFAULT);
             intent.setAction(Intent.ACTION_VIEW);
-
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                 String mAuthority;
                 if (!TextUtils.isEmpty(mAuthority = getFileProviderAuthority()))

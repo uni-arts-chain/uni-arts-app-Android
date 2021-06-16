@@ -121,6 +121,24 @@ public class SellingArtVo implements Serializable {
     private int collection_mode;
     private int total_amount;
     private int trades_count;
+    private String resource_type;
+    private String video_url;
+
+    public String getVideo_url() {
+        return video_url;
+    }
+
+    public void setVideo_url(String video_url) {
+        this.video_url = video_url;
+    }
+
+    public String getResource_type() {
+        return resource_type;
+    }
+
+    public void setResource_type(String resource_type) {
+        this.resource_type = resource_type;
+    }
 
     public int getTrades_count() {
         return trades_count;

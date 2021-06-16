@@ -10,8 +10,8 @@ android {
         applicationId config.applicationId
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
         buildConfigField "boolean", "LOG_DEBUG", "false" //不显示log
         multiDexEnabled true
         externalNativeBuild {

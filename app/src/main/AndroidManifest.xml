@@ -297,6 +297,21 @@
             android:theme="@style/Theme.Soramitsu.Fearless"
             tools:ignore="WrongManifestParent"
             tools:replace="android:theme,screenOrientation" />
+
+        <service
+            android:name="com.yunhualian.service.DownLoadService"
+            android:exported="false" />
+
+        <provider
+            tools:replace="android:authorities"
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.file_provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

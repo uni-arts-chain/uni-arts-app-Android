@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -53,11 +54,12 @@ public class UpdateDialog extends Dialog {
 
         TextView txt_aum_update_version = findViewById(R.id.txt_aum_update_version);
         TextView txt_aum_update_content = findViewById(R.id.txt_aum_update_content);
+        txt_aum_update_content.setMovementMethod(ScrollingMovementMethod.getInstance());
         ImageButton imb_aum_close = findViewById(R.id.imb_aum_close);
 //        Button btn_browser = findViewById(R.id.btn_browser);
         btn_aum_update = findViewById(R.id.btn_aum_update);
 
-        txt_aum_update_version.setText(String.format(mContext.getString(R.string.update_version),getVersionName()));
+        txt_aum_update_version.setText(String.format(mContext.getString(R.string.update_version), getVersionName()));
         txt_aum_update_content.setText(getDesc());
 
         imb_aum_close.setVisibility(bUpdateFlag ? View.GONE : View.VISIBLE);

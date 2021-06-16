@@ -51,9 +51,13 @@ public class MyHomePageArtAdapter extends BaseQuickAdapter<SellingArtVo, BaseVie
             helper.setText(R.id.live2d,"Live 2D");
             helper.setVisible(R.id.live2d, true);
         }
-        if (item.getImg_main_file1().getUrl().toLowerCase().endsWith("mp4")) {
-            helper.setVisible(R.id.img_video_tag, true);
-        } else {
+        if(!TextUtils.isEmpty(item.getResource_type())){
+            if (item.getResource_type().equals("4")) {
+                helper.setVisible(R.id.img_video_tag, true);
+            } else {
+                helper.setVisible(R.id.img_video_tag, false);
+            }
+        }else{
             helper.setVisible(R.id.img_video_tag, false);
         }
         helper.addOnClickListener(R.id.sellAction);
