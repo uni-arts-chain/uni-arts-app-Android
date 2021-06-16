@@ -34,10 +34,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.lljjcoder.style.citylist.Toast.ToastUtils;
+import com.luck.picture.lib.PictureSelector;
 import com.yunhualian.R;
 import com.yunhualian.adapter.ArtDetailImgAdapter;
 import com.yunhualian.adapter.ArtDetailOrderListAdapter;
-import com.yunhualian.adapter.CommonPictureAdapter;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
@@ -56,16 +56,13 @@ import com.yunhualian.ui.activity.user.CreateOrderActivity;
 import com.yunhualian.ui.activity.user.MyHomePageActivity;
 import com.yunhualian.ui.activity.user.SellArtActivity;
 import com.yunhualian.ui.activity.user.SellArtUnCutActivity;
-import com.yunhualian.ui.activity.user.UploadArtActivity;
 import com.yunhualian.ui.activity.user.UserHomePageActivity;
-import com.yunhualian.ui.activity.video.VideoPlayerActivity;
 import com.yunhualian.utils.DateUtil;
 import com.yunhualian.utils.DisplayUtils;
 import com.yunhualian.utils.FileHelper;
 import com.yunhualian.widget.BasePopupWindow;
 import com.yunhualian.widget.UploadSuccessPopUpWindow;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
-
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -77,7 +74,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 
 import cn.woblog.android.downloader.DownloadService;
 import cn.woblog.android.downloader.callback.DownloadListener;
@@ -147,6 +143,8 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         mDataBinding.collect.setOnClickListener(this);
         mDataBinding.goHomePage.setOnClickListener(this);
         mDataBinding.imgZhengshu.setOnClickListener(this);
+        mDataBinding.imgPlay.setOnClickListener(this);
+        mDataBinding.imgVideo.setOnClickListener(this);
         initZhengShuPopwindow();
     }
 
@@ -527,11 +525,14 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 break;
 
             case R.id.img_play:
+            case R.id.img_video:
                 if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file2().getUrl())) {
                     if (sellingArtVo.getImg_main_file2().getUrl().endsWith("mp4")) {
-                        Intent videoIntent = new Intent(ArtDetailActivity.this, VideoPlayerActivity.class);
-                        videoIntent.putExtra("art_video_path", sellingArtVo.getImg_main_file2().getUrl());
-                        startActivity(videoIntent);
+                        try {
+                            PictureSelector.create(ArtDetailActivity.this).externalPictureVideo(sellingArtVo.getImg_main_file2().getUrl());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
                 }
                 break;
@@ -852,6 +853,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         Bundle bundle = new Bundle();
         bundle.putString(ShowLiveActivity.PATH, path);
         bundle.putString(ShowLiveActivity.MODEL_NAME, modelName);
+        bundle.putBoolean("is_from_detail", true);
         startActivity(ShowLiveActivity.class, bundle);
     }
 

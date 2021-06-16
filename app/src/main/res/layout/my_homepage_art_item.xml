@@ -30,21 +30,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/hot_picture"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/picture_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/hot_picture"
-                    android:layout_alignParentLeft="true"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:layout_marginBottom="@dimen/dp_5"
-                    android:layout_toLeftOf="@+id/picture_prize"
-                    android:layout_weight="1"
                     android:ellipsize="end"
-                    android:paddingBottom="@dimen/dp_10"
                     android:singleLine="true"
                     android:text="向日葵"
                     android:textColor="@color/picture_name_color"
@@ -53,16 +47,13 @@
 
                 <TextView
                     android:id="@+id/picture_prize"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/hot_picture"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginTop="5dp"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
                     android:ellipsize="end"
-                    android:gravity="end"
-                    android:paddingBottom="@dimen/dp_10"
+                    android:layout_marginBottom="10dp"
                     android:singleLine="true"
                     android:text="¥8000"
                     android:textColor="@color/picture_name_color"

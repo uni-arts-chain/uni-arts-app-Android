@@ -55,6 +55,7 @@ public class ShowLiveActivity extends Activity {
     String path;
     String modelName;
     Bitmap bitmap;
+    boolean isFromDetail;
     boolean hasScreenShot = false;
 
     @SuppressLint("HandlerLeak")
@@ -73,6 +74,7 @@ public class ShowLiveActivity extends Activity {
         EventBus.getDefault().register(this);
         path = getIntent().getStringExtra(PATH);
         modelName = getIntent().getStringExtra(MODEL_NAME);
+        isFromDetail = getIntent().getBooleanExtra("is_from_detail", false);
         JniBridgeJava.SetActivityInstance(this);
         JniBridgeJava.SetContext(this);
         _glSurfaceView = new GLSurfaceView(this);
@@ -107,8 +109,12 @@ public class ShowLiveActivity extends Activity {
         if (eventBusMessageEvent != null) {
             if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_LIVE_CLOSE)) {
                 //refresh token
-                if (!hasScreenShot)
-                    handler.sendEmptyMessage(0);
+                if(isFromDetail){
+                    finish();
+                }else{
+                    if (!hasScreenShot)
+                        handler.sendEmptyMessage(0);
+                }
             }
         }
     }

@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
+import com.luck.picture.lib.dialog.PictureDialog;
+
 public class PictureVideoPlayActivity extends PictureBaseActivity implements MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, View.OnClickListener {
     private String video_path = "";
     private ImageView picture_left_back;
@@ -18,12 +20,14 @@ public class PictureVideoPlayActivity extends PictureBaseActivity implements Med
     private VideoView mVideoView;
     private ImageView iv_play;
     private int mPositionWhenPaused = -1;
+    private PictureDialog mLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.picture_activity_video_play);
+        showPleaseDialog();
         video_path = getIntent().getStringExtra("video_path");
         picture_left_back = (ImageView) findViewById(R.id.picture_left_back);
         mVideoView = (VideoView) findViewById(R.id.video_view);
@@ -32,6 +36,7 @@ public class PictureVideoPlayActivity extends PictureBaseActivity implements Med
         mMediaController = new MediaController(this);
         mVideoView.setOnCompletionListener(this);
         mVideoView.setOnPreparedListener(this);
+        mMediaController.setPadding(15,0,15,50);
         mVideoView.setMediaController(mMediaController);
         picture_left_back.setOnClickListener(this);
         iv_play.setOnClickListener(this);
@@ -118,11 +123,37 @@ public class PictureVideoPlayActivity extends PictureBaseActivity implements Med
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
                 if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
                     // video started
+                    dismissDialog();
                     mVideoView.setBackgroundColor(Color.TRANSPARENT);
                     return true;
                 }
                 return false;
             }
         });
+    }
+
+    /**
+     * loading dialog
+     */
+    protected void showPleaseDialog() {
+        if (!isFinishing()) {
+            dismissDialog();
+            dialog = new PictureDialog(this);
+            dialog.show();
+        }
+    }
+
+    /**
+     * dismiss dialog
+     */
+    protected void dismissDialog() {
+        try {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

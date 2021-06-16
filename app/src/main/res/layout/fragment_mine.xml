@@ -55,6 +55,8 @@
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/mine_title_img"
                         android:text=""
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColor="@color/picture_name_color"
                         android:textSize="@dimen/sp_18"
                         android:textStyle="bold" />

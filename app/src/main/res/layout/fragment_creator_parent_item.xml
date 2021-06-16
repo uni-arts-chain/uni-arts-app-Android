@@ -45,6 +45,8 @@
             android:layout_toRightOf="@+id/picturLayout"
             android:text="name"
             android:textSize="@dimen/sp_15"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textStyle="bold" />
 
         <TextView

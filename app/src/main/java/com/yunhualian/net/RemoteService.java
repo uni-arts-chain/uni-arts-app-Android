@@ -157,7 +157,7 @@ public interface RemoteService {
 
     // 新闻列表
     @GET("/api/v2/arts/popular")
-    Call<BaseResponseVo<List<SellingArtVo>>> queryPopular(@Query("page") int page, @Query("limit") int type);
+    Call<BaseResponseVo<List<SellingArtVo>>> queryPopular(@Query("page") int page, @Query("per_page") int type);
 
     // 盲盒列表
     @GET("/api/v2/blind_boxes")

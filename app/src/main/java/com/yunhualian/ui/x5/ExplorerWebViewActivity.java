@@ -113,7 +113,7 @@ public class ExplorerWebViewActivity extends BaseActivity<ActivityX5webviewBindi
         if (null != mDataBinding.mProgressBar)
             mDataBinding.mProgressBar.setProgressDrawable(new ClipDrawable(drawSystemBar(this, Color.WHITE, getResources().getColor(R.color.colorAccent)), ClipDrawable.VERTICAL, ClipDrawable.HORIZONTAL));
         mDataBinding.wbvX5.setWebChromeClient(mWebChromeClient);
-
+        mDataBinding.wbvX5.addJavascriptInterface(new JsToAndroid(ExplorerWebViewActivity.this),"jsMethod");
         mDataBinding.wbvX5.setProgressBar(mDataBinding.mProgressBar)
                 .setWebViewonLoadListener((view, url) -> {
                     if (null != mDataBinding && null != mDataBinding.mAppBarLayout && null != mDataBinding.mAppBarLayout.txtTitle && TextUtils.isEmpty(mTitle)) {

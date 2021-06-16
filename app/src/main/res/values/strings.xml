@@ -324,7 +324,7 @@
     <string name="pic_detail_last">剩余：%1$s</string>
     <string name="nft_name">名称：%1$s</string>
     <string name="nft_theme">主题：%1$s</string>
-    <string name="nft_count">发行份数：%1$s</string>
+    <string name="nft_count">发行份数：%1$s份</string>
     <string name="nft_address">NFT地址：%1$s</string>
 
     <string name="upload_art_tips">上传作品(支持静态图、GIF、Live2D、视频)</string>

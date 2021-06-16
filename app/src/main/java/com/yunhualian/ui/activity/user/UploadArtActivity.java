@@ -43,6 +43,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.upbest.arouter.EventEntity;
+import com.yunhualian.MainActivity;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
@@ -76,6 +77,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -220,6 +222,12 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         mDataBinding.userClosed1.setOnClickListener(this);
         mDataBinding.userClosed2.setOnClickListener(this);
         mDataBinding.userClosed3.setOnClickListener(this);
+        mDataBinding.img1.setOnClickListener(this);
+        mDataBinding.img2.setOnClickListener(this);
+        mDataBinding.img3.setOnClickListener(this);
+        mDataBinding.userImg1.setOnClickListener(this);
+        mDataBinding.userImg2.setOnClickListener(this);
+        mDataBinding.userImg3.setOnClickListener(this);
         mDataBinding.switchButton.setOnCheckedChangeListener((view, isChecked) -> {
             if (isChecked) {
                 isCut = true;
@@ -358,13 +366,13 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 performUpload();
                 break;
             case R.id.imgEg1:
-                showBigImg(1);
+                showBigImg(1, 0, false);
                 break;
             case R.id.imgEg2:
-                showBigImg(2);
+                showBigImg(2, 0, false);
                 break;
             case R.id.imgEg3:
-                showBigImg(3);
+                showBigImg(3, 0, false);
                 break;
             case R.id.timeSelect:
                 uploadDateSelectPopUpWindow.showAtLocation(mDataBinding.content, Gravity.BOTTOM, 0, 0);
@@ -403,12 +411,60 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 }
                 updateUserUI();
                 break;
+
+            case R.id.img1:
+                if(fileList.get(0).getName().toLowerCase().endsWith("mp4")){
+                    String videoPath = fileList.get(0).getAbsolutePath();
+                    try {
+                        PictureSelector.create(UploadArtActivity.this).externalPictureVideo(videoPath);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }else{
+                    showBigImg(1, 1,true);
+                }
+                break;
+
+            case R.id.img2:
+                showBigImg(2,1, true);
+                break;
+
+            case R.id.img3:
+                showBigImg(3,1, true);
+                break;
+
+            case R.id.userImg1:
+                showBigImg(1, 2,true);
+                break;
+
+            case R.id.userImg2:
+                showBigImg(1, 2,true);
+                break;
+
+            case R.id.userImg3:
+                showBigImg(1, 2,true);
+                break;
+
         }
     }
 
-    private void showBigImg(int position) {
+    private void showBigImg(int position, int type, boolean isArts) {
+        ArrayList<String> paths = new ArrayList<>();
+        if (isArts) {
+            if (type == 1) {
+                for (int i = 0; i < fileList.size(); i++) {
+                    paths.add(fileList.get(i).getAbsolutePath());
+                }
+            } else if(type == 2) {
+                for (int i = 0; i < userFileList.size(); i++) {
+                    paths.add(userFileList.get(i).getAbsolutePath());
+                }
+            }
+        }
         Bundle bundle = new Bundle();
         bundle.putInt("index", position);
+        bundle.putBoolean("is_arts", isArts);
+        bundle.putStringArrayList("pic_paths", paths);
         startActivity(ShowBigImgActivity.class, bundle);
     }
 
@@ -674,8 +730,10 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
             mDataBinding.img2.setVisibility(View.GONE);
             mDataBinding.imageParent3.setVisibility(View.GONE);
             mDataBinding.img3.setVisibility(View.GONE);
+            mDataBinding.imgVideoTag.setVisibility(View.GONE);
         } else {
             isPic = false;
+            mDataBinding.imgVideoTag.setVisibility(View.VISIBLE);
         }
     }
 
@@ -796,7 +854,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                     File file = new File(localMedia.getPath());
                     DecimalFormat df = new DecimalFormat("#.00");
                     double fileSize = Double.parseDouble(df.format((file.length() / 1048576)));
-                    if(fileSize > 50){
+                    if (fileSize > 50) {
                         ToastUtils.showShort("当前视频文件超过50M");
                         return;
                     }
@@ -1005,7 +1063,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 if (picFile != null) {
                     requestFrontFile = RequestBody.create(MediaType.parse("image/*"), picFile);
                     multipartBody.addFormDataPart("img_main_file" + (fileList.indexOf(file) + 1), picFile.getName(), requestFrontFile);
-                    requestFrontFile  =  RequestBody.create(MediaType.parse("application/octet-stream"), file);
+                    requestFrontFile = RequestBody.create(MediaType.parse("application/octet-stream"), file);
                     multipartBody.addFormDataPart("img_main_file2", file.getName(), requestFrontFile);
                 }
             } else {

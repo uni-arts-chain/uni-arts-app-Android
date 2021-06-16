@@ -75,6 +75,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="fitCenter" />
+
+                        <ImageView
+                            android:id="@+id/img_video_tag"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@mipmap/icon_play"
+                            android:visibility="gone" />
+
                     </androidx.cardview.widget.CardView>
 
                     <ImageView
