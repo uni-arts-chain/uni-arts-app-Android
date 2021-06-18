@@ -2,6 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'cn.leo.plugin.magic'
+
+static def getTime() {
+    return new Date().format("yyyy_MM_dd HH_mm")
+}
+
 android {
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion "30.0.1"
@@ -57,6 +62,12 @@ android {
             minifyEnabled false
         }
     }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "UniArts_V${variant.versionName}_${getTime()}.apk"
+        }
+    }
+
     dataBinding {
         enabled = true
     }
