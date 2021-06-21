@@ -54,13 +54,23 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="@dimen/dp_76"
-                android:layout_marginBottom="@dimen/dp_30"
                 android:background="@color/_101010"
                 android:drawablePadding="@dimen/dp_5"
                 android:paddingLeft="@dimen/dp_5"
                 android:paddingRight="@dimen/dp_5"
+                android:translationY="-13dp"
                 android:text="Live 2D"
                 android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/img_video_tag"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="8dp"
+                android:background="@mipmap/icon_play"
+                android:translationY="-13dp"/>
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

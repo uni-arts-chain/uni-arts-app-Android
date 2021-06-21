@@ -65,7 +65,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
-                        android:text=""
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColor="@color/_212121"
                         android:textSize="@dimen/sp_15" />
 
@@ -75,7 +76,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text=""
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColor="@color/_212121"
                         android:textSize="@dimen/sp_15" />
 

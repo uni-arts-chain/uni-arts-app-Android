@@ -47,7 +47,19 @@ public class MyHomePageArtAdapter extends BaseQuickAdapter<SellingArtVo, BaseVie
 
         if (TextUtils.isEmpty(item.getLive2d_file())) {
             helper.setVisible(R.id.live2d, false);
-        } else helper.setVisible(R.id.live2d, true);
+        } else {
+            helper.setText(R.id.live2d,"Live 2D");
+            helper.setVisible(R.id.live2d, true);
+        }
+        if(!TextUtils.isEmpty(item.getResource_type())){
+            if (item.getResource_type().equals("4")) {
+                helper.setVisible(R.id.img_video_tag, true);
+            } else {
+                helper.setVisible(R.id.img_video_tag, false);
+            }
+        }else{
+            helper.setVisible(R.id.img_video_tag, false);
+        }
         helper.addOnClickListener(R.id.sellAction);
         helper.addOnClickListener(R.id.transferAction);
         Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {

@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -32,7 +34,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.lljjcoder.style.citylist.Toast.ToastUtils;
+import com.luck.picture.lib.PictureSelector;
 import com.yunhualian.R;
+import com.yunhualian.adapter.ArtDetailImgAdapter;
 import com.yunhualian.adapter.ArtDetailOrderListAdapter;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
@@ -56,9 +60,9 @@ import com.yunhualian.ui.activity.user.UserHomePageActivity;
 import com.yunhualian.utils.DateUtil;
 import com.yunhualian.utils.DisplayUtils;
 import com.yunhualian.utils.FileHelper;
+import com.yunhualian.widget.BasePopupWindow;
 import com.yunhualian.widget.UploadSuccessPopUpWindow;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
-
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -71,7 +75,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 import cn.woblog.android.downloader.DownloadService;
 import cn.woblog.android.downloader.callback.DownloadListener;
 import cn.woblog.android.downloader.callback.DownloadManager;
@@ -79,6 +82,8 @@ import cn.woblog.android.downloader.domain.DownloadInfo;
 import cn.woblog.android.downloader.exception.DownloadException;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 
 public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> implements View.OnClickListener {
@@ -105,7 +110,13 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
     boolean isSell = true;
     boolean fistLoad = false;
     private int clickPosition = 0;
-
+    private PopupWindow mZhengshuPopwinow;
+    private TextView mNftNameTv;
+    private TextView mNftThemeTv;
+    private TextView mNftCountTv;
+    private TextView mNftAddressTv;
+    private RelativeLayout mNftCloseBtn;
+    private List<String> artDetailUrls = new ArrayList<>();
     @Override
     public int getLayoutId() {
         return R.layout.activity_art_detail;
@@ -124,12 +135,25 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         mToolBarOptions.titleId = R.string.title_detail;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         sellingArtVo = (SellingArtVo) getIntent().getExtras().getSerializable(ART_KEY);
+        initArtDetails();
         request_art_id = String.valueOf(getIntent().getIntExtra(ART_ID, 0));
         mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.zan.setOnClickListener(this);
         mDataBinding.cai.setOnClickListener(this);
         mDataBinding.collect.setOnClickListener(this);
         mDataBinding.goHomePage.setOnClickListener(this);
+        mDataBinding.imgZhengshu.setOnClickListener(this);
+        mDataBinding.imgPlay.setOnClickListener(this);
+        mDataBinding.imgVideo.setOnClickListener(this);
+        initZhengShuPopwindow();
+    }
+
+    private void initArtDetails(){
+        if(!artDetailUrls.isEmpty()){
+            ArtDetailImgAdapter artDetailImgAdapter = new ArtDetailImgAdapter(artDetailUrls,this);
+            mDataBinding.artDetails.setLayoutManager(new LinearLayoutManager(this));
+            mDataBinding.artDetails.setAdapter(artDetailImgAdapter);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -158,6 +182,44 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
         uploadSuccessPopUpWindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
         EventBus.getDefault().removeAllStickyEvents();
+    }
+
+    private void initZhengShuPopwindow() {
+        View contentView = LayoutInflater.from(this).inflate(
+                R.layout.pop_zhengshu_layout, null);
+        mNftNameTv = contentView.findViewById(R.id.tv_nft_name);
+        mNftThemeTv = contentView.findViewById(R.id.tv_nft_theme);
+        mNftCountTv = contentView.findViewById(R.id.tv_nft_count);
+        mNftAddressTv = contentView.findViewById(R.id.tv_nft_address);
+        mNftCloseBtn = contentView.findViewById(R.id.layout_close);
+        if(sellingArtVo != null){
+            if(!TextUtils.isEmpty(sellingArtVo.getName())){
+                mNftNameTv.setText(getString(R.string.nft_name, sellingArtVo.getName()));
+            }
+            if (!YunApplication.getArtThemeVoList().isEmpty()) {
+                for (int i = 0; i < YunApplication.getArtThemeVoList().size(); i++) {
+                    if (YunApplication.getArtThemeVoList().get(i).getId() == sellingArtVo.getCategory_id()) {
+                        mNftThemeTv.setText(getString(R.string.nft_theme, YunApplication.getArtThemeVoList().get(i).getTitle()));
+                    }
+                }
+            }
+            mNftCountTv.setText(getString(R.string.nft_count, String.valueOf(sellingArtVo.getTotal_amount())));
+            if(!TextUtils.isEmpty(sellingArtVo.getItem_hash())){
+                mNftAddressTv.setText(sellingArtVo.getItem_hash());
+            }
+        }
+        mZhengshuPopwinow = new BasePopupWindow(this);
+        mZhengshuPopwinow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mZhengshuPopwinow.setContentView(contentView);
+        mZhengshuPopwinow.setOutsideTouchable(false);
+        mZhengshuPopwinow.setTouchable(true);
+        mZhengshuPopwinow.setAnimationStyle(R.style.mypopwindow_anim_style);
+        mNftCloseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mZhengshuPopwinow.dismiss();
+            }
+        });
     }
 
     public void initBanner() {
@@ -224,6 +286,45 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
     public void initPageData() {
 
         if (sellingArtVo == null) return;
+            if(!TextUtils.isEmpty(sellingArtVo.getResource_type())){
+                if (sellingArtVo.getResource_type().equals("4")) {
+                    if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file2().getUrl()) && sellingArtVo.getImg_main_file2().getUrl().endsWith("mp4")) {
+                        mDataBinding.imgPlay.setOnClickListener(this);
+                        mDataBinding.layoutVideo.setVisibility(View.VISIBLE);
+                        mDataBinding.layoutBanner.setVisibility(View.GONE);
+                        Glide.with(this)
+                                .load(sellingArtVo.getImg_main_file1().getUrl())
+                                .skipMemoryCache(true).transition(withCrossFade())
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(mDataBinding.imgVideo);
+                    } else {
+                        mDataBinding.layoutVideo.setVisibility(View.GONE);
+                        mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
+                    }
+                }else{
+                    mDataBinding.layoutVideo.setVisibility(View.GONE);
+                    mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
+                }
+            }else{
+                mDataBinding.layoutVideo.setVisibility(View.GONE);
+                mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
+            }
+
+            if(sellingArtVo.getImg_detail_file1() != null){
+                if(!TextUtils.isEmpty(sellingArtVo.getImg_detail_file1().getUrl())){
+                    artDetailUrls.add(sellingArtVo.getImg_detail_file1().getUrl());
+                }
+            }
+            if(sellingArtVo.getImg_detail_file2() != null){
+                if(!TextUtils.isEmpty(sellingArtVo.getImg_detail_file2().getUrl())){
+                    artDetailUrls.add(sellingArtVo.getImg_detail_file2().getUrl());
+                }
+            }
+            if(sellingArtVo.getImg_detail_file3() != null){
+                if(!TextUtils.isEmpty(sellingArtVo.getImg_detail_file3().getUrl())){
+                    artDetailUrls.add(sellingArtVo.getImg_detail_file3().getUrl());
+                }
+            }
         art_id = String.valueOf(sellingArtVo.getId());
         mDataBinding.pictureName.setText(sellingArtVo.getName());
         mDataBinding.picturePrize.setText(getString(R.string.text_buy_amount, sellingArtVo.getPrice()));
@@ -419,6 +520,22 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 }
                 break;
 
+            case R.id.img_zhengshu:
+                mZhengshuPopwinow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
+                break;
+
+            case R.id.img_play:
+            case R.id.img_video:
+                if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file2().getUrl())) {
+                    if (sellingArtVo.getImg_main_file2().getUrl().endsWith("mp4")) {
+                        try {
+                            PictureSelector.create(ArtDetailActivity.this).externalPictureVideo(sellingArtVo.getImg_main_file2().getUrl());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                break;
         }
 
     }
@@ -736,6 +853,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         Bundle bundle = new Bundle();
         bundle.putString(ShowLiveActivity.PATH, path);
         bundle.putString(ShowLiveActivity.MODEL_NAME, modelName);
+        bundle.putBoolean("is_from_detail", true);
         startActivity(ShowLiveActivity.class, bundle);
     }
 

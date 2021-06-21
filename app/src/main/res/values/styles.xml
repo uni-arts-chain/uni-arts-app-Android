@@ -98,9 +98,9 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="txt_333333_13">
+    <style name="txt_333333_1">
         <item name="android:textColor">@color/_333333</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">

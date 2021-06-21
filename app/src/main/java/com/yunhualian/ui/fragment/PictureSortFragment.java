@@ -128,7 +128,8 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         mBinding.sortList.setAdapter(sortAdapter);
         mBinding.typeList.setAdapter(typeAdapter);
         mBinding.prizeList.setAdapter(prizeAdapter);
-        getPopular(new HashMap<>());
+        param.put("price_sort", String.valueOf(priceVos.get(0).getId()));
+        getPopular(param);
     }
 
     public void initSelectedListener() {
@@ -173,7 +174,10 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         });
         prizeAdapter.addSelectedListener(new PrizeAdapter.onSelectedListener() {
             @Override
-            public void onSelected(int selectPosition) {
+            public void onSelected(boolean isInit,int selectPosition) {
+                if(isInit && selectPosition == 0){
+                    return;
+                }
                 page = 1;
                 param.put("price_sort", String.valueOf(priceVos.get(selectPosition).getId()));
                 getPopular(param);
@@ -181,7 +185,8 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
             }
 
             @Override
-            public void onUnSelected(int selectPosition) {
+            public void onUnSelected(boolean isInit,int selectPosition) {
+
                 if (param.containsKey("price_sort")) {
                     page = 1;
                     param.remove("price_sort");

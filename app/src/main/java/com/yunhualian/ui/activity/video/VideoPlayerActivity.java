@@ -1,7 +1,6 @@
 package com.yunhualian.ui.activity.video;
 
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -20,19 +19,22 @@ public class VideoPlayerActivity extends VideoPlayerBaseActivity {
     private int mDisplayAspectRatio = PLVideoView.ASPECT_RATIO_FIT_PARENT;
     private TextView mStatInfoTextView;
     private MediaController mMediaController;
-    String videoPath = "http://demo-videos.qnsdk.com/movies/qiniu.mp4";
+    String videoPath;
     Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
+        if(getIntent() != null){
+            videoPath = getIntent().getStringExtra("art_video_path");
+        }
         mVideoView = findViewById(R.id.VideoView);
-        button = findViewById(R.id.action);
-        button.setOnClickListener(v -> setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE));
+        button = findViewById(R.id.close_video);
+        button.setOnClickListener(v -> finish());
         mVideoView.setVideoPath(videoPath);
         mVideoView.setOnErrorListener(mOnErrorListener);
-        mMediaController = new MediaController(this, true, false);
+        mMediaController = new MediaController(this, false, false);
         mMediaController.setOnClickSpeedAdjustListener(mOnClickSpeedAdjustListener);
         mVideoView.setMediaController(mMediaController);
     }

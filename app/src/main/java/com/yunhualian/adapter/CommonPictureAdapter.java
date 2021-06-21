@@ -3,6 +3,7 @@ package com.yunhualian.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -50,7 +51,15 @@ public class CommonPictureAdapter extends BaseQuickAdapter<SellingArtVo, BaseVie
         View overPage = helper.getView(R.id.zhe);
         helper.setText(R.id.picture_name, item.getName());
         helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(item.getPrice()));
-
+        if(!TextUtils.isEmpty(item.getResource_type())){
+            if (item.getResource_type().equals("4")) {
+                helper.setVisible(R.id.img_video_tag, true);
+            } else {
+                helper.setVisible(R.id.img_video_tag, false);
+            }
+        }else{
+            helper.setVisible(R.id.img_video_tag, false);
+        }
 //        Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
 //            @Override
 //            public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {

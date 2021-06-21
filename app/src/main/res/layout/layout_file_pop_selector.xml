@@ -41,6 +41,20 @@
             android:background="@color/default_text_light" />
 
         <Button
+            android:id="@+id/take_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="视频"
+            android:textColor="@color/_356CDB"
+            android:textSize="@dimen/sp_16" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/default_text_light" />
+
+        <Button
             android:id="@+id/gifType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

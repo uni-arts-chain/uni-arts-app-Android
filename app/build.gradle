@@ -2,6 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'cn.leo.plugin.magic'
+
+static def getTime() {
+    return new Date().format("yyyy_MM_dd HH_mm")
+}
+
 android {
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion "30.0.1"
@@ -10,8 +15,8 @@ android {
         applicationId config.applicationId
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2"
         buildConfigField "boolean", "LOG_DEBUG", "false" //不显示log
         multiDexEnabled true
         externalNativeBuild {
@@ -57,6 +62,12 @@ android {
             minifyEnabled false
         }
     }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "UniArts_V${variant.versionName}_${getTime()}.apk"
+        }
+    }
+
     dataBinding {
         enabled = true
     }
@@ -66,7 +77,7 @@ android {
     }
 
     sourceSets.main {
-        assets.srcDir "../../CubismSdkForNative-4-r.2/Samples/Resources"
+        assets.srcDir "/../CubismSdkForNative-4-r.2/Samples/Resources"
         jniLibs.srcDirs = ['src/main/jniLibs']
     }
     ndkVersion '22.1.7171670'
@@ -148,11 +159,11 @@ dependencies {
 
     implementation project(':feature-wallet-api')
     implementation project(':feature-wallet-impl')
+    implementation project(':picture_library')
     implementation 'com.github.zyyoona7:wheelview:1.0.7'
     implementation 'com.github.zyyoona7:pickerview:1.0.9'
     implementation 'com.getui:sdk:2.14.2.0'
     implementation kotlinDep
-
     implementation zXingEmbeddedDep
 
     implementation web3jDep

@@ -3,7 +3,7 @@ package com.yunhualian.ui.activity.user;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,16 +17,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
@@ -37,8 +37,13 @@ import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.upbest.arouter.EventEntity;
+import com.yunhualian.MainActivity;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
@@ -52,7 +57,6 @@ import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.ShowBigImgActivity;
 import com.yunhualian.ui.activity.ZipFileSelectActivity;
-import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.ui.activity.art.ShowLiveActivity;
 import com.yunhualian.utils.DateUtil;
 import com.yunhualian.utils.FileHelper;
@@ -66,18 +70,22 @@ import com.yunhualian.widget.UploadSuccessPopUpWindow;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import jp.co.soramitsu.common.utils.Event;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -86,7 +94,11 @@ import retrofit2.Response;
 
 public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> implements View.OnClickListener, TakePhoto.TakeResultListener, InvokeListener {
     public static final String FROM = "from";
+    public static final int PIC = 1;
     public static final int GIF = 2;
+    public static final int LIVE2D = 3;
+    public static final int VIDEO = 4;
+
     List<String> list;
     List<ArtTypeVo> themeList;
     List<String> themeNameList = new ArrayList<>();
@@ -100,15 +112,23 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     Button cancle;
     Button live2d;
     Button gifType;
+    Button takeVideo;
+
+    Button takeArtsPhotoBtn;
+    Button selectArtsPhotoBtn;
+    Button selectGIFPhotoBtn;
+    Button cancelArtsBtn;
+
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     File file;
     Uri imageUri;
     List<File> fileList;
+    List<File> userFileList;
     private String themeId;
     private String cutAmount;
     private PopupWindow popupWindow;
-    private View contentView;
+    private PopupWindow popupArtWindow;
     private List<String> mLackedPermission = new ArrayList<>();
     ImageView headImag;
     boolean themeClick = false;
@@ -126,7 +146,9 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     String from;
     UploadSuccessPopUpWindow uploadSuccessPopUpWindow;
     private boolean isLive2d = false;
+    private boolean isPic = false;
     UploadLive2dVo uploadLive2dVo;
+    private boolean isArtWorksClicked;
 
     @Override
     public int getLayoutId() {
@@ -169,6 +191,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     @Override
     public void initView() {
         fileList = new ArrayList<>();
+        userFileList = new ArrayList<>();
         from = getIntent().getStringExtra(UploadArtActivity.FROM);
 
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
@@ -193,6 +216,18 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         mDataBinding.imgEg2.setOnClickListener(this);
         mDataBinding.imgEg3.setOnClickListener(this);
         mDataBinding.timeSelect.setOnClickListener(this);
+        mDataBinding.userPerformLayout1.setOnClickListener(this);
+        mDataBinding.userPerformLayout2.setOnClickListener(this);
+        mDataBinding.userPerformLayout3.setOnClickListener(this);
+        mDataBinding.userClosed1.setOnClickListener(this);
+        mDataBinding.userClosed2.setOnClickListener(this);
+        mDataBinding.userClosed3.setOnClickListener(this);
+        mDataBinding.img1.setOnClickListener(this);
+        mDataBinding.img2.setOnClickListener(this);
+        mDataBinding.img3.setOnClickListener(this);
+        mDataBinding.userImg1.setOnClickListener(this);
+        mDataBinding.userImg2.setOnClickListener(this);
+        mDataBinding.userImg3.setOnClickListener(this);
         mDataBinding.switchButton.setOnCheckedChangeListener((view, isChecked) -> {
             if (isChecked) {
                 isCut = true;
@@ -210,6 +245,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
 //        mDataBinding.selectCreateTime.setOnClickListener(this);
 //        mDataBinding.artDetail.setOnClickListener(this);
         initPopWindow();
+        initArtPopWindow();
 //        initPicker();
         uploadNormalPopUpWindow = new UploadNormalPopUpWindow(this, list, (view, position) -> {
             String str = "0";
@@ -305,40 +341,130 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 updateUI();
                 break;
             case R.id.performLayout1:
+                isArtWorksClicked = true;
                 live2d.setVisibility(View.VISIBLE);
+                takeVideo.setVisibility(View.VISIBLE);
                 showPopwindow();
                 break;
             case R.id.performLayout2:
             case R.id.performLayout3:
+                isArtWorksClicked = true;
                 live2d.setVisibility(View.GONE);
                 if (isLive2d) {
                     takePhotoBtn.setVisibility(View.GONE);
                     selectPhoto.setVisibility(View.GONE);
                 }
+                if (isPic) {
+                    takeVideo.setVisibility(View.GONE);
+                }
                 showPopwindow();
                 break;
+
+
             case R.id.uploadAction:
 
                 performUpload();
                 break;
             case R.id.imgEg1:
-                showBigImg(1);
+                showBigImg(1, 0, false);
                 break;
             case R.id.imgEg2:
-                showBigImg(2);
+                showBigImg(2, 0, false);
                 break;
             case R.id.imgEg3:
-                showBigImg(3);
+                showBigImg(3, 0, false);
                 break;
             case R.id.timeSelect:
                 uploadDateSelectPopUpWindow.showAtLocation(mDataBinding.content, Gravity.BOTTOM, 0, 0);
                 break;
+
+            case R.id.userPerformLayout1:
+            case R.id.userPerformLayout2:
+            case R.id.userPerformLayout3:
+                isArtWorksClicked = false;
+                showArtPopwindow();
+                break;
+
+            case R.id.userClosed1:
+                if (userFileList.size() == 0) return;
+                if (userFileList.size() == 1) {
+                    userFileList.clear();
+                } else {
+                    userFileList.remove(0);
+                    removeUserAll();
+                }
+                updateUserUI();
+                break;
+
+            case R.id.userClosed2:
+                if (userFileList.size() > 1) {
+                    userFileList.remove(1);
+                    removeUserAll();
+                }
+                updateUserUI();
+                break;
+
+            case R.id.userClosed3:
+                if (userFileList.size() > 2) {
+                    userFileList.remove(2);
+                    removeUserAll();
+                }
+                updateUserUI();
+                break;
+
+            case R.id.img1:
+                if(fileList.get(0).getName().toLowerCase().endsWith("mp4")){
+                    String videoPath = fileList.get(0).getAbsolutePath();
+                    try {
+                        PictureSelector.create(UploadArtActivity.this).externalPictureVideo(videoPath);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }else{
+                    showBigImg(1, 1,true);
+                }
+                break;
+
+            case R.id.img2:
+                showBigImg(2,1, true);
+                break;
+
+            case R.id.img3:
+                showBigImg(3,1, true);
+                break;
+
+            case R.id.userImg1:
+                showBigImg(1, 2,true);
+                break;
+
+            case R.id.userImg2:
+                showBigImg(1, 2,true);
+                break;
+
+            case R.id.userImg3:
+                showBigImg(1, 2,true);
+                break;
+
         }
     }
 
-    private void showBigImg(int position) {
+    private void showBigImg(int position, int type, boolean isArts) {
+        ArrayList<String> paths = new ArrayList<>();
+        if (isArts) {
+            if (type == 1) {
+                for (int i = 0; i < fileList.size(); i++) {
+                    paths.add(fileList.get(i).getAbsolutePath());
+                }
+            } else if(type == 2) {
+                for (int i = 0; i < userFileList.size(); i++) {
+                    paths.add(userFileList.get(i).getAbsolutePath());
+                }
+            }
+        }
         Bundle bundle = new Bundle();
         bundle.putInt("index", position);
+        bundle.putBoolean("is_arts", isArts);
+        bundle.putStringArrayList("pic_paths", paths);
         startActivity(ShowBigImgActivity.class, bundle);
     }
 
@@ -365,9 +491,14 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                     return;
                 }
             }
-            fileList.add(file);
+            if (isArtWorksClicked) {
+                fileList.add(file);
+                updateUI();
+            } else {
+                userFileList.add(file);
+                updateUserUI();
+            }
             buttonStateListener();//改变按钮状态
-            updateUI();
             initPhoto();//初始化保存路径
         }
     }
@@ -452,7 +583,6 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
 
     /*根据当前已拍摄的图片更新ui*/
     public void updateUI() {
-        buttonStateListener();
         for (File file : fileList) {
             LogUtils.e("url = " + file.getAbsolutePath());
         }
@@ -479,6 +609,36 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 break;
 
         }
+    }
+
+    /*根据当前已拍摄的图片更新ui*/
+    private void updateUserUI() {
+        for (File file : userFileList) {
+            LogUtils.e("url = " + file.getAbsolutePath());
+        }
+        switch (userFileList.size()) {
+            case 0:
+                removeUserAll();
+                break;
+            case 1:
+                if (userFileList.size() > 0)
+                    performOneUserFile();
+                break;
+            case 2:
+                if (userFileList.size() > 1) {
+                    performOneUserFile();
+                    performTwoUserFile();
+                }
+                break;
+            case 3:
+                if (userFileList.size() > 2) {
+                    performOneUserFile();
+                    performTwoUserFile();
+                    performThreeUserFile();
+                }
+                break;
+
+        }
 
     }
 
@@ -488,34 +648,104 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         mDataBinding.imageParent1.setVisibility(View.GONE);
         mDataBinding.img1.setVisibility(View.GONE);
         mDataBinding.fileLayout2.setVisibility(View.INVISIBLE);
-        mDataBinding.fileLayout3.setVisibility(View.INVISIBLE);
-        mDataBinding.imageParent1.setVisibility(View.GONE);
-        mDataBinding.img1.setVisibility(View.GONE);
         mDataBinding.imageParent2.setVisibility(View.GONE);
         mDataBinding.img2.setVisibility(View.GONE);
+        mDataBinding.fileLayout3.setVisibility(View.INVISIBLE);
+        mDataBinding.imageParent3.setVisibility(View.GONE);
+        mDataBinding.img3.setVisibility(View.GONE);
+
     }
 
-    private void performOneFile() {
+    /*取消所有图片上传状态*/
+    private void removeUserAll() {
+        mDataBinding.userPerformLayout1.setVisibility(View.VISIBLE);
+        mDataBinding.userImageParent1.setVisibility(View.GONE);
+        mDataBinding.userImg1.setVisibility(View.GONE);
+        mDataBinding.userFileLayout2.setVisibility(View.INVISIBLE);
+        mDataBinding.userImageParent2.setVisibility(View.GONE);
+        mDataBinding.userImg2.setVisibility(View.GONE);
+        mDataBinding.userFileLayout3.setVisibility(View.INVISIBLE);
+        mDataBinding.userImageParent3.setVisibility(View.GONE);
+        mDataBinding.userImg3.setVisibility(View.GONE);
+    }
 
+    private void performOneUserFile() {
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+        LogUtils.e("performOneUserFile = " + userFileList.get(0).getAbsolutePath());
+        mDataBinding.userPerformLayout1.setVisibility(View.GONE);
+        mDataBinding.userImageParent1.setVisibility(View.VISIBLE);
+        mDataBinding.userImg1.setVisibility(View.VISIBLE);
+        Glide.with(this).load(userFileList.get(0).getAbsolutePath()).apply(options).into(mDataBinding.userImg1);
+        mDataBinding.userFileLayout2.setVisibility(View.VISIBLE);
+        mDataBinding.userPerformLayout2.setVisibility(View.VISIBLE);
+        mDataBinding.userImageParent2.setVisibility(View.GONE);
+        mDataBinding.userImg2.setVisibility(View.GONE);
+        mDataBinding.userImageParent3.setVisibility(View.GONE);
+        mDataBinding.userImg3.setVisibility(View.GONE);
+    }
+
+    private void performTwoUserFile() {
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+        LogUtils.e("performTwoUserFile = " + userFileList.get(1).getAbsolutePath());
+        mDataBinding.userPerformLayout2.setVisibility(View.GONE);
+        mDataBinding.userImageParent2.setVisibility(View.VISIBLE);
+        mDataBinding.userImg2.setVisibility(View.VISIBLE);
+        Glide.with(this).load(userFileList.get(1).getAbsolutePath()).apply(options).into(mDataBinding.userImg2);
+        mDataBinding.userFileLayout3.setVisibility(View.VISIBLE);
+        mDataBinding.userPerformLayout3.setVisibility(View.VISIBLE);
+        mDataBinding.userImageParent3.setVisibility(View.GONE);
+        mDataBinding.userImg3.setVisibility(View.GONE);
+    }
+
+    private void performThreeUserFile() {
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+        LogUtils.e("performThreeUserFile = " + userFileList.get(2).getAbsolutePath());
+        mDataBinding.userPerformLayout3.setVisibility(View.GONE);
+        mDataBinding.userImageParent3.setVisibility(View.VISIBLE);
+        mDataBinding.userImg3.setVisibility(View.VISIBLE);
+        Glide.with(this).load(userFileList.get(2).getAbsolutePath()).apply(options).into(mDataBinding.userImg3);
+    }
+
+
+    private void performOneFile() {
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
         LogUtils.e("performOneFile = " + fileList.get(0).getAbsolutePath());
         mDataBinding.performLayout1.setVisibility(View.GONE);
         mDataBinding.imageParent1.setVisibility(View.VISIBLE);
         mDataBinding.img1.setVisibility(View.VISIBLE);
-        Glide.with(this).load(fileList.get(0).getAbsolutePath()).into(mDataBinding.img1);
-        mDataBinding.fileLayout2.setVisibility(View.VISIBLE);
-        mDataBinding.performLayout2.setVisibility(View.VISIBLE);
-        mDataBinding.imageParent2.setVisibility(View.GONE);
-        mDataBinding.img2.setVisibility(View.GONE);
-        mDataBinding.imageParent3.setVisibility(View.GONE);
-        mDataBinding.img3.setVisibility(View.GONE);
+        Glide.with(this).load(fileList.get(0).getAbsolutePath()).apply(options).into(mDataBinding.img1);
+        if (!fileList.get(0).getName().toLowerCase().endsWith("mp4")) {
+            isPic = true;
+            mDataBinding.fileLayout2.setVisibility(View.VISIBLE);
+            mDataBinding.performLayout2.setVisibility(View.VISIBLE);
+            mDataBinding.imageParent2.setVisibility(View.GONE);
+            mDataBinding.img2.setVisibility(View.GONE);
+            mDataBinding.imageParent3.setVisibility(View.GONE);
+            mDataBinding.img3.setVisibility(View.GONE);
+            mDataBinding.imgVideoTag.setVisibility(View.GONE);
+        } else {
+            isPic = false;
+            mDataBinding.imgVideoTag.setVisibility(View.VISIBLE);
+        }
     }
 
     private void performTwoFile() {
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
         LogUtils.e("performTwoFile = " + fileList.get(1).getAbsolutePath());
         mDataBinding.performLayout2.setVisibility(View.GONE);
         mDataBinding.imageParent2.setVisibility(View.VISIBLE);
         mDataBinding.img2.setVisibility(View.VISIBLE);
-        Glide.with(this).load(fileList.get(1).getAbsolutePath()).into(mDataBinding.img2);
+        Glide.with(this).load(fileList.get(1).getAbsolutePath()).apply(options).into(mDataBinding.img2);
         if (!isLive2d) {
             mDataBinding.fileLayout3.setVisibility(View.VISIBLE);
             mDataBinding.performLayout3.setVisibility(View.VISIBLE);
@@ -525,11 +755,14 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     }
 
     private void performThreeFile() {
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
         LogUtils.e("performThreeFile = " + fileList.get(2).getAbsolutePath());
         mDataBinding.performLayout3.setVisibility(View.GONE);
         mDataBinding.imageParent3.setVisibility(View.VISIBLE);
         mDataBinding.img3.setVisibility(View.VISIBLE);
-        Glide.with(this).load(fileList.get(2).getAbsolutePath()).into(mDataBinding.img3);
+        Glide.with(this).load(fileList.get(2).getAbsolutePath()).apply(options).into(mDataBinding.img3);
     }
 
 
@@ -542,6 +775,10 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
 
     public void showPopwindow() {
         popupWindow.showAtLocation(mDataBinding.content, Gravity.CENTER, 0, 0);
+    }
+
+    public void showArtPopwindow() {
+        popupArtWindow.showAtLocation(mDataBinding.content, Gravity.CENTER, 0, 0);
     }
 
     @Override
@@ -604,14 +841,29 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         getTakePhoto().onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == BigDecimal.ZERO.intValue()) {
-            if (data == null) return;
-            String path = data.getStringExtra("scan_result");
-            if (!TextUtils.isEmpty(path)) {
-                verfyZip(path);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == BigDecimal.ZERO.intValue()) {
+                if (data == null) return;
+                String path = data.getStringExtra("scan_result");
+                if (!TextUtils.isEmpty(path)) {
+                    verfyZip(path);
+                }
+            } else if (requestCode == PictureConfig.CHOOSE_REQUEST) {
+                if (!PictureSelector.obtainMultipleResult(data).isEmpty()) {
+                    LocalMedia localMedia = PictureSelector.obtainMultipleResult(data).get(0);
+                    File file = new File(localMedia.getPath());
+                    DecimalFormat df = new DecimalFormat("#.00");
+                    double fileSize = Double.parseDouble(df.format((file.length() / 1048576)));
+                    if (fileSize > 50) {
+                        ToastUtils.showShort("当前视频文件超过50M");
+                        return;
+                    }
+                    fileList.add(file);
+                    buttonStateListener();//改变按钮状态
+                    updateUI();
+                }
             }
         }
-
     }
 
     private void openLive2dActivity(String dir, String modelName) {
@@ -657,15 +909,18 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         return type;
     }
 
-    public void initPopWindow() {
-        contentView = LayoutInflater.from(UploadArtActivity.this).inflate(
+    private void initPopWindow() {
+        View contentView = LayoutInflater.from(UploadArtActivity.this).inflate(
                 R.layout.layout_file_pop_selector, null);
         takePhotoBtn = contentView.findViewById(R.id.take_photo);
         selectPhoto = contentView.findViewById(R.id.select_photo);
+        takeVideo = contentView.findViewById(R.id.take_video);
         cancle = contentView.findViewById(R.id.cancle);
         live2d = contentView.findViewById(R.id.live2d);
         gifType = contentView.findViewById(R.id.gifType);
+
         takePhotoBtn.setOnClickListener(popClick);
+        takeVideo.setOnClickListener(popClick);
         selectPhoto.setOnClickListener(popClick);
         live2d.setOnClickListener(popClick);
         cancle.setOnClickListener(popClick);
@@ -681,6 +936,26 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         //进入退出的动画，指定刚才定义的style
         popupWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
         initPhoto();//初始化拍照参数
+    }
+
+    private void initArtPopWindow() {
+        View contentView = LayoutInflater.from(UploadArtActivity.this).inflate(
+                R.layout.layout_arts_pop_selector, null);
+        takeArtsPhotoBtn = contentView.findViewById(R.id.take_photo);
+        selectArtsPhotoBtn = contentView.findViewById(R.id.select_photo);
+        selectGIFPhotoBtn = contentView.findViewById(R.id.gifType);
+        cancelArtsBtn = contentView.findViewById(R.id.cancle);
+        popupArtWindow = new BasePopupWindow(this);
+        popupArtWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupArtWindow.setContentView(contentView);
+        popupArtWindow.setOutsideTouchable(true);
+        popupArtWindow.setTouchable(true);
+        popupArtWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+
+        takeArtsPhotoBtn.setOnClickListener(popArtClick);
+        selectArtsPhotoBtn.setOnClickListener(popArtClick);
+        selectGIFPhotoBtn.setOnClickListener(popArtClick);
+        cancelArtsBtn.setOnClickListener(popArtClick);
     }
 
     private View.OnClickListener popClick = new View.OnClickListener() {
@@ -709,6 +984,56 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 case R.id.gifType:
                     takePhoto.onPickFromGallery();
                     break;
+
+                case R.id.take_video:
+                    PictureSelector.create(UploadArtActivity.this)
+                            .openGallery(PictureMimeType.ofVideo())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                            .theme(R.style.picture_default_style)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
+                            .maxSelectNum(5)// 最大图片选择数量
+                            .minSelectNum(1)// 最小选择数量
+                            .imageSpanCount(4)// 每行显示个数
+                            .selectionMode(PictureConfig.SINGLE)// 多选 or 单选, PictureConfig.SINGLE
+                            .isCamera(false)// 是否显示拍照按钮
+                            .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                            .synOrAsy(true)//同步true或异步false 压缩 默认同步
+                            .isGif(true)// 是否显示gif图片
+                            .freeStyleCropEnabled(true)// 裁剪框是否可拖拽
+                            .circleDimmedLayer(false)// 是否圆形裁剪
+                            .showCropFrame(true)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
+                            .showCropGrid(true)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
+                            .withAspectRatio(3, 2)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                            .minimumCompressSize(100)// 小于100kb的图片不压缩
+                            .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+                    break;
+            }
+        }
+    };
+
+    private View.OnClickListener popArtClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (popupArtWindow.isShowing()) {
+                popupArtWindow.dismiss();
+            }
+
+            switch (v.getId()) {
+                case R.id.take_photo:
+                    takePhoto.onEnableCompress(new CompressConfig.Builder().enablePixelCompress(false).enableQualityCompress(false).setMaxSize(MAX_SIZE).create(), false);
+                    takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
+                    break;
+
+                case R.id.select_photo:
+                    takePhoto.onEnableCompress(new CompressConfig.Builder().enablePixelCompress(false).enableQualityCompress(false).setMaxSize(MAX_SIZE).create(), false);
+                    takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions());
+                    break;
+
+                case R.id.gifType:
+                    takePhoto.onPickFromGallery();
+                    break;
+
+                case R.id.cancle:
+                    popupArtWindow.dismiss();
+                    break;
             }
         }
     };
@@ -717,31 +1042,52 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         showLoading("正在上传...");
         MultipartBody.Builder multipartBody = new MultipartBody.Builder();
         multipartBody.setType(MultipartBody.FORM);
-        int resourceType = BigDecimal.ONE.intValue();
+        int resourceType = PIC;
         if (isLive2d && fileList.size() > BigDecimal.ONE.intValue()) {
             fileList.remove(0);
         }
-        String fileName;
-        File fileCopy = null;
-
+        //作品
         for (int i = 0; i < fileList.size(); i++) {
             File file = fileList.get(i);
-            if (file.getName().toLowerCase().contains("gif")) {
-                fileCopy = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".gif");
-                resourceType = GIF;
+            RequestBody requestFrontFile;
+            if (file.getName().toLowerCase().endsWith("gif")) {
+                File fileCopy = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".gif");
                 FileUtils.copy(file, fileCopy);
-            }
-            if (fileCopy != null) {
-                RequestBody requestFrontFile = RequestBody.create(MediaType.parse("image/*"), fileCopy);
+                requestFrontFile = RequestBody.create(MediaType.parse("image/*"), fileCopy);
+                resourceType = GIF;
                 multipartBody.addFormDataPart("img_main_file" + (i + 1),
                         StringUtils.getFileNameNoEx(fileCopy.getName()), requestFrontFile);
-                fileCopy = null;
+            } else if (file.getName().toLowerCase().endsWith("mp4")) {
+                resourceType = VIDEO;
+                File picFile = getVideoFirstPic(file.getAbsolutePath(), file.getName());
+                if (picFile != null) {
+                    requestFrontFile = RequestBody.create(MediaType.parse("image/*"), picFile);
+                    multipartBody.addFormDataPart("img_main_file" + (fileList.indexOf(file) + 1), picFile.getName(), requestFrontFile);
+                    requestFrontFile = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+                    multipartBody.addFormDataPart("img_main_file2", file.getName(), requestFrontFile);
+                }
             } else {
-                RequestBody requestFrontFile = RequestBody.create(MediaType.parse("image/*"), file);
-                multipartBody.addFormDataPart("img_main_file" + (i + 1),
-                        StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
+                resourceType = PIC;
+                requestFrontFile = RequestBody.create(MediaType.parse("image/*"), file);
+                multipartBody.addFormDataPart("img_main_file" + (fileList.indexOf(file) + 1), StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
             }
         }
+        //作品信息
+        for (int j = 0; j < userFileList.size(); j++) {
+            File file = userFileList.get(j);
+            RequestBody requestFrontFile;
+            if (file.getName().toLowerCase().endsWith("gif")) {
+                File fileCopy = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".gif");
+                FileUtils.copy(file, fileCopy);
+                requestFrontFile = RequestBody.create(MediaType.parse("image/*"), fileCopy);
+                multipartBody.addFormDataPart("img_detail_file" + (j + 1),
+                        StringUtils.getFileNameNoEx(fileCopy.getName()), requestFrontFile);
+            } else {
+                requestFrontFile = RequestBody.create(MediaType.parse("image/*"), file);
+                multipartBody.addFormDataPart("img_detail_file" + (userFileList.indexOf(file) + 1), StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
+            }
+        }
+
         multipartBody.addFormDataPart("name", mDataBinding.artTitle.getText().toString());
         multipartBody.addFormDataPart("category_id", themeId);
         multipartBody.addFormDataPart("details", mDataBinding.advice.getText().toString());
@@ -769,8 +1115,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
             multipartBody.addFormDataPart("live2d_ipfs_zip_hash", uploadLive2dVo.getLive2d_ipfs_zip_hash());
         }
 
-        RequestBody mRequestBody = multipartBody
-                .build();
+        RequestBody mRequestBody = multipartBody.build();
         RequestManager.instance().uploadArt(mRequestBody, new MinerCallback<BaseResponseVo<UserVo>>() {
             @Override
             public void onSuccess
@@ -796,7 +1141,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         });
     }
 
-    private UploadSuccessPopUpWindow.OnBottomTextviewClickListener clickListener = new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
+    UploadSuccessPopUpWindow.OnBottomTextviewClickListener clickListener = new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
         @Override
         public void onCancleClick() {
             if (uploadSuccessPopUpWindow.isShowing()) uploadSuccessPopUpWindow.dismiss();
@@ -812,6 +1157,41 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
             finish();
         }
     };
+
+    private File getVideoFirstPic(String videoPath, String fileName) {
+        MediaMetadataRetriever media = new MediaMetadataRetriever();
+        media.setDataSource(videoPath);// videoPath 本地视频的路径
+        Bitmap bitmap = media.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+        if (bitmap != null) {
+            try {
+                String path = getSDPath() + "/revoeye/";
+                File dirFile = new File(path);
+                if (!dirFile.exists()) {
+                    dirFile.mkdir();
+                }
+                File bmpFile = new File(path + fileName + ".png");
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(bmpFile));
+                bitmap.compress(Bitmap.CompressFormat.PNG, 80, bos);
+                bos.flush();
+                bos.close();
+                return bmpFile;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public static String getSDPath() {
+        File sdDir = null;
+        boolean sdCardExist = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
+        if (sdCardExist) {
+            sdDir = Environment.getExternalStorageDirectory();// 获取跟目录
+        }
+        return sdDir.toString();
+    }
 
     private void performUpload() {
         if (fileList.size() == 0) {
@@ -853,7 +1233,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         File file = new File(live2DPath);
         RequestBody requestFrontFile = RequestBody.create(MediaType.parse("application/zip"), file);
         multipartBody.addFormDataPart("live2d_file", StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
-        multipartBody.addFormDataPart("resource_type", String.valueOf(3));
+        multipartBody.addFormDataPart("resource_type", String.valueOf(LIVE2D));
 
         RequestBody mRequestBody = multipartBody
                 .build();
