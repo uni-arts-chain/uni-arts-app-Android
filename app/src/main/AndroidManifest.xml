@@ -4,6 +4,7 @@
     package="com.yunhualian">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 在sdcard中创建/删除文件的权限 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 8.0安装apk权限，需要允许安装未知应用 -->
@@ -126,7 +127,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.art.ShowLiveActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeFullscreen" />
         <activity
             android:name=".ui.activity.blindbox.BlindBoxRecordActivity"
             android:screenOrientation="portrait" />
