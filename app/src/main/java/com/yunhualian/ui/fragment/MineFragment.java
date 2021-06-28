@@ -2,25 +2,16 @@ package com.yunhualian.ui.fragment;
 
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ClickUtils;
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -34,41 +25,28 @@ import com.yunhualian.base.BaseFragment;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.databinding.FragmentMineBinding;
-import com.yunhualian.entity.ArtBean;
-import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.BaseResponseVo;
-import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.StdoutLogger;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
-import com.yunhualian.ui.activity.ExchangeNFTActivity;
-import com.yunhualian.ui.activity.video.VideoPlayerActivity;
-import com.yunhualian.ui.activity.wallet.AcountActivity;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
-import com.yunhualian.ui.activity.user.UploadArtActivity;
+import com.yunhualian.ui.activity.ExchangeNFTActivity;
+import com.yunhualian.ui.activity.order.SellAndBuyActivity;
 import com.yunhualian.ui.activity.user.FollowAndFansActivity;
 import com.yunhualian.ui.activity.user.MessagesActivity;
 import com.yunhualian.ui.activity.user.MyCollectActivity;
 import com.yunhualian.ui.activity.user.MyHomePageActivity;
-import com.yunhualian.ui.activity.order.SellAndBuyActivity;
 import com.yunhualian.ui.activity.user.SettingsActivity;
+import com.yunhualian.ui.activity.user.UploadArtActivity;
+import com.yunhualian.ui.activity.wallet.AcountActivity;
 import com.yunhualian.utils.SharedPreUtils;
-
-
-import org.bouncycastle.math.ec.rfc8032.Ed25519;
-import org.bouncycastle.util.encoders.Hex;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
-import jp.co.soramitsu.fearless_utils.encrypt.EncryptionType;
-import jp.co.soramitsu.fearless_utils.encrypt.json.JsonSeedEncoder;
-import jp.co.soramitsu.fearless_utils.encrypt.model.Keypair;
-import jp.co.soramitsu.fearless_utils.ss58.SS58Encoder;
 import jp.co.soramitsu.fearless_utils.wsrpc.SocketService;
 import retrofit2.Call;
 import retrofit2.Response;

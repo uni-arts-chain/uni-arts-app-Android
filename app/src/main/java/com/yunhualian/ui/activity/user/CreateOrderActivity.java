@@ -67,7 +67,7 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
     @Override
     public void initView() {
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
-        mToolBarOptions.titleId = R.string.order_info_detail;
+        mToolBarOptions.titleId = R.string.form_order;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
 
         sellingArtVo = (SellingArtVo) getIntent().getExtras().getSerializable(ARTINFO);

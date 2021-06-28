@@ -63,7 +63,7 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(), BalanceListAda
 
         transfersContainer.setScrollingListener(viewModel::scrolled)
 
-        headLayout.setOnClickListener {
+        img_setting.setOnClickListener {
 //            EventBus.getDefault().postSticky(EventBusMessageEvent(EventEntity.EVENT_ADDRESS_COPY, addr))
 //            viewModel.headClicked()
 

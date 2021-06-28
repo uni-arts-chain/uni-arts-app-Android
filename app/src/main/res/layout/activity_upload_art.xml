@@ -75,6 +75,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="fitCenter" />
+
+                        <ImageView
+                            android:id="@+id/img_video_tag"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@mipmap/icon_play"
+                            android:visibility="gone" />
+
                     </androidx.cardview.widget.CardView>
 
                     <ImageView
@@ -507,6 +516,193 @@
                     android:text="0/200"
                     android:textColor="@color/_909090" />
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="作品图片（可选）"
+                android:textColor="@color/text_black_dark"
+                android:textSize="@dimen/sp_15" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/userFileLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/userImageParent1"
+                        android:layout_width="103dp"
+                        android:layout_height="87dp"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/dp_10"
+                        android:visibility="gone"
+                        app:cardCornerRadius="@dimen/dp_5">
+
+                        <ImageView
+                            android:id="@+id/userImg1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitCenter" />
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/userClosed1"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_toRightOf="@+id/userImageParent1"
+                        android:elevation="@dimen/dp_5"
+                        android:src="@mipmap/icon_img_del" />
+
+                    <RelativeLayout
+                        android:id="@+id/userPerformLayout1"
+                        android:layout_width="103dp"
+                        android:layout_height="87dp"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/dp_10"
+                        android:background="@drawable/shape_upload_bg_gray"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:drawableTop="@mipmap/icon_upload_img"
+                            android:drawablePadding="5dp"
+                            android:text="上传图片"
+                            android:textColor="@color/_909090"
+                            android:textSize="@dimen/sp_12" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/userFileLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/userImageParent2"
+                        android:layout_width="103dp"
+                        android:layout_height="87dp"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/dp_10"
+                        android:visibility="gone"
+                        app:cardCornerRadius="@dimen/dp_5">
+
+                        <ImageView
+                            android:id="@+id/userImg2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitCenter" />
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/userClosed2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_toRightOf="@+id/userImageParent2"
+                        android:elevation="@dimen/dp_5"
+                        android:src="@mipmap/icon_img_del" />
+
+                    <RelativeLayout
+                        android:id="@+id/userPerformLayout2"
+                        android:layout_width="103dp"
+                        android:layout_height="87dp"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/dp_10"
+                        android:background="@drawable/shape_upload_bg_gray"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:drawableTop="@mipmap/icon_upload_img"
+                            android:drawablePadding="5dp"
+                            android:text="上传图片"
+                            android:textColor="@color/_909090"
+                            android:textSize="@dimen/sp_12" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/userFileLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/userImageParent3"
+                        android:layout_width="103dp"
+                        android:layout_height="87dp"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/dp_10"
+                        android:visibility="gone"
+                        app:cardCornerRadius="@dimen/dp_5">
+
+                        <ImageView
+                            android:id="@+id/userImg3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitCenter" />
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/userClosed3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_toRightOf="@+id/userImageParent3"
+                        android:elevation="@dimen/dp_5"
+                        android:src="@mipmap/icon_img_del" />
+
+                    <RelativeLayout
+                        android:id="@+id/userPerformLayout3"
+                        android:layout_width="103dp"
+                        android:layout_height="87dp"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/dp_10"
+                        android:background="@drawable/shape_upload_bg_gray"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:drawableTop="@mipmap/icon_upload_img"
+                            android:drawablePadding="5dp"
+                            android:text="上传图片"
+                            android:textColor="@color/_909090"
+                            android:textSize="@dimen/sp_12" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_15"
+                android:drawableLeft="@mipmap/icon_tips"
+                android:drawablePadding="5dp"
+                android:text="@string/upload_art_tips2"
+                android:textColor="@color/_B25F00"
+                android:textSize="@dimen/sp_12" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

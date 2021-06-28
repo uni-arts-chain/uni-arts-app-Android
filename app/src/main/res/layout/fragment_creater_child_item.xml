@@ -28,41 +28,26 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/picture_layout"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/picture_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/picture_layout"
-            android:layout_alignParentLeft="true"
-            android:layout_weight="1"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
-            android:gravity="start"
             android:maxLines="1"
             android:paddingTop="5dp"
-            android:text=""
             android:textColor="@color/picture_name_color"
             android:textSize="@dimen/sp_13" />
-
-        <View
-            android:layout_width="@dimen/dp_15"
-            android:layout_height="match_parent"
-            android:background="@color/white" />
 
         <TextView
             android:id="@+id/picture_prize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/picture_layout"
-            android:layout_alignParentRight="true"
             android:ellipsize="end"
-            android:gravity="end"
             android:maxLines="1"
             android:paddingTop="5dp"
-            android:text=""
             android:textColor="@color/picture_name_color"
             android:textSize="@dimen/sp_12" />
 

@@ -41,6 +41,7 @@ import com.yunhualian.ui.fragment.CreatorFragment;
 import com.yunhualian.ui.fragment.HomeFragment;
 import com.yunhualian.ui.fragment.MineFragment;
 import com.yunhualian.ui.fragment.PictureSortFragment;
+import com.yunhualian.utils.DownLoadManager;
 import com.yunhualian.utils.NotificationUtil;
 import com.yunhualian.utils.SharedPreUtils;
 import com.yunhualian.utils.UserManager;
@@ -101,7 +102,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             PermissionUtils.permission(mLackedPermission.toArray(new String[0])).callback(new PermissionUtils.FullCallback() {
                 @Override
                 public void onGranted(List<String> permissionsGranted) {
-                    permissionsGranted.containsAll(Arrays.asList(PermissionConstants.getPermissions(PermissionConstants.STORAGE)));//  DownLoadManager.with().init(MainActivity.this);
+                    permissionsGranted.containsAll(Arrays.asList(PermissionConstants.getPermissions(PermissionConstants.STORAGE)));
+                    DownLoadManager.with().init(MainActivity.this);
                 }
 
                 @Override
@@ -110,6 +112,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 }
             }).request();
         }
+        DownLoadManager.with().init(MainActivity.this);
     }
 
     @Override

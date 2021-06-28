@@ -65,7 +65,7 @@ import static com.blankj.utilcode.util.StringUtils.getString;
  */
 public class DownLoadManager {
     private static boolean mUpdateFlag = false;
-    public static final String mFileName = "MinerClient";
+    public static final String mFileName = "UniArtClient";
     private static final int MSG_DOWNLOAD_ERROR = 0x1001;
     private static volatile DownLoadManager mDownLoadManager;
     private final static int REQUEST_CODE_ASK_WRITE_EXTERNAL_STORAGE = 0x1002;
@@ -350,9 +350,8 @@ public class DownLoadManager {
         if (file != null && size != 0 && saveSize != 0 && size == saveSize) {
             Intent intent = new Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addCategory(Intent.CATEGORY_DEFAULT);
             intent.setAction(Intent.ACTION_VIEW);
-
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                 String mAuthority;
                 if (!TextUtils.isEmpty(mAuthority = getFileProviderAuthority()))
@@ -535,28 +534,20 @@ public class DownLoadManager {
 
                     if (null == mAppUpdateVo || null == mAppUpdateVo.getDownload_url() || TextUtils.isEmpty(mAppUpdateVo.getVersion_code())) {
                         AppConstant.DownLoadValues.IsNeedDownLoad = false;
-                        return;
                     } else {
                         mUpdateFlag = mAppUpdateVo.isForce_updated();
                         mVersion = String.valueOf(mAppUpdateVo.getVersion_code());
                         mVersionName = mAppUpdateVo.getVersion_name();
                         mDesc = mAppUpdateVo.getDesc();
-
                         String url = null != mAppUpdateVo.getDownload_url() ? mAppUpdateVo.getDownload_url().getUrl() : "";
-
                         if (TextUtils.isEmpty(url)) {
                             AppConstant.DownLoadValues.IsNeedDownLoad = false;
-
-                            return;
                         } else {
                             mUrl = url;
-
                             AppConstant.DownLoadValues.IsNeedDownLoad = true;
                             AppConstant.DownLoadValues.DownLoadUrl = mUrl;
                             AppConstant.DownLoadValues.DownLoadVersion = mVersion;
-
                             checkStatus();
-
                             SPUtils.getInstance().put(ExtraConstant.KEY_CLOSE_TIME, System.currentTimeMillis());
                         }
 

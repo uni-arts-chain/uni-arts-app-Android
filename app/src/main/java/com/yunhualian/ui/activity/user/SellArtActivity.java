@@ -227,7 +227,7 @@ public class SellArtActivity extends BaseActivity<ActivitySellArtBinding> {
 
     private void sellArt() {
         if (TextUtils.isEmpty(mDataBinding.amountInput.getText().toString()) || TextUtils.equals("0", mDataBinding.amountInput.getText().toString())) {
-            ToastUtils.showShort(getString(R.string.verifi_tips));
+            ToastUtils.showShort(getString(R.string.text_sell_amount_null));
             return;
         }
         if (TextUtils.isEmpty(mDataBinding.cutPriceInput.getText().toString()) || TextUtils.equals("0", mDataBinding.cutPriceInput.getText().toString())) {
