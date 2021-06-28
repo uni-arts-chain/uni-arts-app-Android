@@ -1,6 +1,13 @@
 package com.yunhualian.utils;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.Log;
+import android.view.ViewConfiguration;
+
+import com.blankj.utilcode.util.FileUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -9,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -133,5 +141,63 @@ public class FileHelper {
         } catch (IOException ex) {
             Log.d(TAG, ex.getMessage());
         }
+    }
+
+    public static String saveBitmap(String name, Bitmap bitmap, Context context) {
+        String targetPath = context.getFilesDir() + "/images/";
+        File saveFile = new File(targetPath, name);
+        if (!FileUtils.isFileExists(targetPath)) {
+            try {
+
+                FileOutputStream saveImgOs = new FileOutputStream(saveFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 88, saveImgOs);
+                saveImgOs.flush();
+                saveImgOs.close();
+
+            } catch (IOException e) {
+
+            }
+        }
+        return saveFile.getAbsolutePath();
+    }
+
+    /**
+     * 检查是否存在虚拟按键栏
+     * @param context
+     * @return
+     */
+    public static boolean hasNavBar(Context context) {
+        Resources res = context.getResources();
+        int resourceId = res.getIdentifier("config_showNavigationBar", "bool", "android");
+        if (resourceId != 0) {
+            boolean hasNav = res.getBoolean(resourceId);
+            // check override flag
+            String sNavBarOverride = getNavBarOverride();
+            if ("1".equals(sNavBarOverride)) {
+                hasNav = false;
+            } else if ("0".equals(sNavBarOverride)) {
+                hasNav = true;
+            }
+            return hasNav;
+        } else { // fallback
+            return !ViewConfiguration.get(context).hasPermanentMenuKey();
+        }
+    }
+    /**
+     * 判断虚拟按键栏是否重写
+     * @return
+     */
+    private static String getNavBarOverride() {
+        String sNavBarOverride = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                Class c = Class.forName("android.os.SystemProperties");
+                Method m = c.getDeclaredMethod("get", String.class);
+                m.setAccessible(true);
+                sNavBarOverride = (String) m.invoke(null, "qemu.hw.mainkeys");
+            } catch (Throwable e) {
+            }
+        }
+        return sNavBarOverride;
     }
 }
