@@ -28,8 +28,12 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.androidyuan.lib.screenshot.Shooter;
+import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.util.TouchEventUtil;
@@ -38,11 +42,14 @@ import com.upbest.arouter.EventEntity;
 import com.yunhualian.GLRenderer;
 import com.yunhualian.JniBridgeJava;
 import com.yunhualian.base.YunApplication;
+import com.yunhualian.utils.FileHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.w3c.dom.Text;
+
+import java.math.BigDecimal;
 
 import jp.co.soramitsu.common.utils.Event;
 
@@ -56,7 +63,8 @@ public class ShowLiveActivity extends Activity {
     String modelName;
     Bitmap bitmap;
     boolean hasScreenShot = false;
-
+    public final int shapeThreshold = 200;
+    public final int startYpx = 120;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -80,6 +88,8 @@ public class ShowLiveActivity extends Activity {
         _glRenderer = new GLRenderer();
         _glSurfaceView.setRenderer(_glRenderer);
         _glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        BarUtils.setNotificationBarVisibility(false);
+        BarUtils.setNavBarVisibility(this, false);
         setContentView(_glSurfaceView);
 
 //        getWindow().getDecorView().setSystemUiVisibility(
@@ -149,7 +159,6 @@ public class ShowLiveActivity extends Activity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private Intent createScreenCaptureIntent() {
-        //Here using media_projection instead of Context.MEDIA_PROJECTION_SERVICE to  make it successfully build on low api.
         return ((MediaProjectionManager) getSystemService("media_projection")).createScreenCaptureIntent();
     }
 
@@ -164,7 +173,15 @@ public class ShowLiveActivity extends Activity {
                         @Override
                         public void onFinish(String path) {
                             hasScreenShot = true;
-                            EventBus.getDefault().post(new EventBusMessageEvent(EventEntity.EVENT_SCREEN_SHORT, path));
+                            int[] size = ImageUtils.getSize(path);
+                            int height = FileHelper.hasNavBar(ShowLiveActivity.this) ? size[BigDecimal.ONE.intValue()] - shapeThreshold : size[BigDecimal.ONE.intValue()];
+                            Bitmap bitmap = ImageUtils.clip(ImageUtils.getBitmap(path), BigDecimal.ZERO.intValue(), startYpx, size[BigDecimal.ZERO.intValue()], height);
+                            String newPath = YunApplication.LIVE2D_CACHE_PATH.concat(String.valueOf(System.currentTimeMillis())).concat(".png");
+                            boolean saveSuc = ImageUtils.save(bitmap, newPath, Bitmap.CompressFormat.PNG, false);
+                            if (saveSuc) {
+                                FileUtils.delete(path);
+                                EventBus.getDefault().post(new EventBusMessageEvent(EventEntity.EVENT_SCREEN_SHORT, newPath));
+                            } else ToastUtils.showShort("save fail");
 //                            YunApplication.path = path;
                             if (!TextUtils.isEmpty(path))
                                 finish();
@@ -176,6 +193,28 @@ public class ShowLiveActivity extends Activity {
                         }
                     }
             );
+        }
+    }
+
+    /**
+     * 隐藏虚拟按键，并且全屏
+     */
+    protected void hideBottomUIMenu() {
+        //隐藏虚拟按键，并且全屏
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+//                    | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE;
+            decorView.setSystemUiVisibility(uiOptions);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
 
