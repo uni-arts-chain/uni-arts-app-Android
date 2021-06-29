@@ -8,7 +8,7 @@
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/page_launch</item>
+        <item name="android:windowBackground">@mipmap/page_launch</item>
         <item name="android:windowNoTitle">true</item> <!-- 设置无标题 -->
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsTranslucent">false</item>
