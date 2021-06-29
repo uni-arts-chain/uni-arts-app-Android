@@ -60,6 +60,7 @@ public class EditNickNameActivity extends BaseActivity<ActivityEditNickNameBindi
         if (!TextUtils.isEmpty(YunApplication.getmUserVo().getDisplay_name())) {
             mDataBinding.nickName.setText(YunApplication.getmUserVo().getDisplay_name());
             mDataBinding.nickName.setSelection(YunApplication.getmUserVo().getDisplay_name().length());
+            mDataBinding.textNum.setText(YunApplication.getmUserVo().getDisplay_name().length() + "/" + mMaxNum);
         }
         mDataBinding.nickName.addTextChangedListener(new TextWatcher() {
             private CharSequence wordNum;

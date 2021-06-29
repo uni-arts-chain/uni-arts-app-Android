@@ -113,8 +113,7 @@ public class UpdateDialog extends Dialog {
         if (TextUtils.isEmpty(mDesc))
             value = "";
         else
-            value = mDesc/*StringUtils.getArrayValue(mDesc.replace("，", "/").replace(",", "/")
-                    .replace(" ", "").split("/"))*/;
+            value = mDesc.replace("\\n","\n");
 
         return value;
     }
