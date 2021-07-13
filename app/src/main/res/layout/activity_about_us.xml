@@ -17,12 +17,12 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_below="@+id/mAppBarLayout_av"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="70dp"
-            android:src="@mipmap/icon_group_logo" />
+            android:src="@mipmap/img_launch_title" />
 
         <TextView
             android:id="@+id/groupDesc"

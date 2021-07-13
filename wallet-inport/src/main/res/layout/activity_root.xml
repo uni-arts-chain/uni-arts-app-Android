@@ -11,6 +11,12 @@
         android:layout_height="match_parent"
         android:background="@drawable/page_launch">
 
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/img_launch_title" />
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/navHost"
             android:name="androidx.navigation.fragment.NavHostFragment"

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">饭团密画</string>
+    <string name="app_name">密の可能</string>
     <!--tab-->
     <string name="tab_home">首页</string>
     <string name="tab_mall">市场</string>
@@ -227,7 +227,7 @@
     <string name="text_call_service">联系客服</string>
     <string name="text_downloading">正在下载...</string>
     <string name="text_download_success">下载完成</string>
-    <string name="text_sell_tips">检测到您已提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。</string>
+    <string name="text_sell_tips">检测到您已提交挂单申请。密の可能现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，密の可能感谢您的支持。</string>
     <string name="balance_zero_tips">当前积分为0，无法进行操作\n（购买NFT卡片可获得积分）</string>
     <!--选择作品-->
     <string name="confirm_tips">请选择作品后确认</string>
@@ -380,8 +380,7 @@
     <string name="title_exchange_nft">兑换NFT</string>
     <string name="title_exchange_action">兑换</string>
     <string name="text_group_copright">Copyright©2020-2021\n
-饭团密画版权所有\n
-UniArts提供技术支持</string>
+密の可能版权所有</string>
 
     <string name="text_exchange_code_null_tips">请输入兑换码</string>
 
