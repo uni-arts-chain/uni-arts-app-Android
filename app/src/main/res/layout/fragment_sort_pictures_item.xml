@@ -26,6 +26,34 @@
                 android:layout_height="wrap_content"
                 android:scaleType="fitCenter" />
 
+            <TextView
+                android:id="@+id/live2d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/_101010"
+                android:drawablePadding="@dimen/dp_5"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_10"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_video_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/_101010"
+                android:drawableStart="@mipmap/icon_play_small"
+                android:drawablePadding="2dp"
+                android:paddingStart="3dp"
+                android:paddingRight="5dp"
+                android:text="视频"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/textLayout"
                 android:layout_width="match_parent"
@@ -56,39 +84,37 @@
                     android:layout_below="@+id/hot_picture"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
                     android:ellipsize="end"
                     android:paddingBottom="@dimen/dp_10"
                     android:singleLine="true"
                     android:text="¥8000"
-                    android:layout_marginTop="5dp"
                     android:textColor="@color/picture_name_color"
                     android:textSize="@dimen/sp_12" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/live2d"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_auction_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
                 android:layout_above="@+id/textLayout"
-                android:layout_marginBottom="@dimen/dp_30"
-                android:background="@color/_101010"
-                android:drawablePadding="@dimen/dp_5"
-                android:paddingLeft="@dimen/dp_5"
-                android:paddingRight="@dimen/dp_5"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_10" />
+                android:layout_gravity="bottom"
+                android:background="@drawable/bg_auction_time"
+                android:gravity="center">
 
-            <ImageView
-                android:id="@+id/img_video_tag"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginLeft="9dp"
-                android:layout_marginBottom="12dp"
-                android:layout_above="@id/textLayout"
-                android:background="@mipmap/icon_play" />
+                <TextView
+                    android:id="@+id/tv_auction_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableStart="@mipmap/icon_clock"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+            </RelativeLayout>
 
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
 
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

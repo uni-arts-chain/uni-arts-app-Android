@@ -392,4 +392,29 @@ UniArts提供技术支持</string>
     <string name="pay_result_fail">订单支付失败</string>
     <string name="pay_result_cancle">订单支付未完成</string>
     <string name="update_version">发现新版本%1$s</string>
+
+    <string name="cash_account">现金账户：¥%1$s</string>
+    <string name="total_cash">账户总额：¥%1$s</string>
+
+    <string name="auction_start_price">起拍价</string>
+    <string name="auction_add_unit">加价幅度</string>
+    <string name="auction_start_time">开始时间</string>
+    <string name="auction_end_time">结束时间</string>
+    <string name="auction_pieces">拍卖份数</string>
+    <string name="start_auction">立即发起</string>
+    <string name="office_price_count">出价%1$s次</string>
+
+    <string name="cancel">取消</string>
+    <string name="title">请选择时间</string>
+    <string name="confirm">确定</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="hour">时</string>
+    <string name="minute">分</string>
+    <string name="second">秒</string>
+    <string name="select_date">选择日期</string>
+    <string name="current_date">当前日期</string>
+    <string name="select_time">选择时间</string>
+    <string name="current_time">当前时间</string>
 </resources>
