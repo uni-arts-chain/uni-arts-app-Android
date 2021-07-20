@@ -227,6 +227,9 @@
             android:name=".ui.activity.art.ArtDetailActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.art.AuctionArtDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.SelectPicActivity"
             android:screenOrientation="portrait" />
         <activity

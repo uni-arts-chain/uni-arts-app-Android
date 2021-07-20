@@ -5,11 +5,10 @@
 
     <data></data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:orientation="vertical"
         tools:context="com.yunhualian.ui.activity.order.OrderDetailActivity">
 
         <include
@@ -20,6 +19,7 @@
             android:id="@+id/order_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/mAppBarLayout_av"
             android:layout_marginLeft="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_20"
             android:text="交易成功"
@@ -28,8 +28,10 @@
             android:textStyle="bold" />
 
         <com.dd.ShadowLayout
+            android:id="@+id/layout_info1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/order_status"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginTop="@dimen/dp_15"
             android:layout_marginRight="@dimen/dp_15"
@@ -191,6 +193,7 @@
         <com.dd.ShadowLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/layout_info1"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_15"
@@ -261,5 +264,80 @@
 
             </LinearLayout>
         </com.dd.ShadowLayout>
-    </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_pay_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/tv_count_time_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/_D70000"
+                android:textSize="14sp" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/tv_count_time_hint"
+                android:layout_marginTop="19dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_line" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="27dp"
+                        android:gravity="center"
+                        android:text="待支付:"
+                        android:textColor="@color/_212121"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/priceTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:text="@string/text_buy_amount"
+                        android:textColor="@color/deep_red"
+                        android:textSize="@dimen/sp_15" />
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/buy_now"
+                    android:layout_width="118dp"
+                    android:layout_height="31dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:background="@drawable/shape_btn_buy_black">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="@dimen/dp_15"
+                        android:background="@drawable/shape_btn_buy_black"
+                        android:text="@string/go_pay"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_15" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 </layout>

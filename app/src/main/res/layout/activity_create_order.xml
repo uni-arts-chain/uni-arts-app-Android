@@ -81,8 +81,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:singleLine="true"
                             android:ellipsize="end"
+                            android:singleLine="true"
                             android:textColor="@color/_212121"
                             android:textSize="@dimen/sp_15" />
 
@@ -91,9 +91,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:ellipsize="end"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:ellipsize="end"
                             android:textColor="@color/_212121"
                             android:textSize="@dimen/sp_15" />
 
@@ -114,12 +114,40 @@
                 </LinearLayout>
 
                 <RelativeLayout
-                    android:id="@+id/buyAmountLayout"
+                    android:id="@+id/rl_auction_amount_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/artLayout"
                     android:layout_marginLeft="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_10">
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_auction_amount_key"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="拍卖数量"
+                        android:textColor="@color/_333333"
+                        android:textSize="@dimen/sp_15" />
+
+                    <TextView
+                        android:id="@+id/tv_auction_amount_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/dp_15"
+                        android:textColor="@color/_101010"
+                        android:textSize="@dimen/sp_15" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/buyAmountLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_auction_amount_layout"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_buy_amount"
@@ -222,9 +250,9 @@
                     android:paddingBottom="@dimen/dp_15">
 
                     <TextView
+                        android:id="@+id/tv_price_key"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/art_price"
                         android:textColor="@color/_333333"
                         android:textSize="@dimen/sp_15" />
 
@@ -240,6 +268,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rl_rotate_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/priceLayout"
@@ -274,6 +303,35 @@
                         android:textColor="@color/deep_red"
                         android:textSize="@dimen/sp_15" />
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_deposit_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_rotate_layout"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_15"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_deposit_key"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="已缴纳保证金"
+                        android:textColor="@color/_333333"
+                        android:textSize="@dimen/sp_15" />
+
+                    <TextView
+                        android:id="@+id/tv_deposit_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/dp_15"
+                        android:text="@string/text_buy_amount"
+                        android:textColor="@color/_101010"
+                        android:textSize="@dimen/sp_15" />
+                </RelativeLayout>
+
             </RelativeLayout>
 
         </com.dd.ShadowLayout>
@@ -394,9 +452,15 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/rl_pay_layout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_line" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -446,6 +510,15 @@
 
             </RelativeLayout>
 
+            <TextView
+                android:id="@+id/tv_count_time_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/rl_pay_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="19dp"
+                android:textColor="@color/_D70000"
+                android:textSize="14sp" />
 
         </RelativeLayout>
     </LinearLayout>

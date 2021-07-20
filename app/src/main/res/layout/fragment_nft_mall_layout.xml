@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="市场"
+            android:textColor="@color/_101010"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/img_search"
+            android:layout_width="17dp"
+            android:layout_height="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:background="@mipmap/icon_search_b" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_below="@id/tv_title"
+            android:background="@color/_F6F6F6"
+            app:tabIndicatorColor="@color/_101010"
+            app:tabIndicatorFullWidth="false"
+            app:tabSelectedTextColor="@color/_101010"
+            app:tabTextColor="@color/_101010" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tabLayout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </RelativeLayout>
+</layout>

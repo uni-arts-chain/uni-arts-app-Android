@@ -23,6 +23,14 @@
             android:background="@color/white"
             android:paddingLeft="@dimen/dp_10">
 
+            <ImageView
+                android:id="@+id/img_auction_tag"
+                android:layout_width="31dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:background="@mipmap/icon_auction"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/order_no"
                 android:layout_width="wrap_content"
@@ -64,9 +72,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:ellipsize="end"
                         android:fontFamily="sans-serif-medium"
                         android:singleLine="true"
-                        android:ellipsize="end"
                         android:textColor="@color/_212121"
                         android:textSize="@dimen/sp_15" />
 
@@ -75,9 +83,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:ellipsize="end"
                         android:gravity="center"
                         android:singleLine="true"
-                        android:ellipsize="end"
                         android:textColor="@color/_212121"
                         android:textSize="@dimen/sp_15" />
 
