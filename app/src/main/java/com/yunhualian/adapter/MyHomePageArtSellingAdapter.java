@@ -42,20 +42,18 @@ public class MyHomePageArtSellingAdapter extends BaseQuickAdapter<SellingArtVo, 
             helper.setVisible(R.id.transferAction, true);
         else helper.setGone(R.id.transferAction, false);
 
-        if (TextUtils.isEmpty(item.getLive2d_file())) {
-            helper.setVisible(R.id.live2d, false);
-        } else{
-            helper.setText(R.id.live2d,"Live 2D");
-            helper.setVisible(R.id.live2d, true);
-        }
-        if(!TextUtils.isEmpty(item.getResource_type())){
+        if (!TextUtils.isEmpty(item.getResource_type())) {
             if (item.getResource_type().equals("4")) {
-                helper.setVisible(R.id.img_video_tag, true);
+                helper.setVisible(R.id.tv_video_tag, true);
+            } else if (item.getResource_type().equals("3")) {
+                helper.setVisible(R.id.tv_live2d_tag, true);
             } else {
-                helper.setVisible(R.id.img_video_tag, false);
+                helper.setVisible(R.id.tv_video_tag, false);
+                helper.setVisible(R.id.tv_live2d_tag, false);
             }
-        }else{
-            helper.setVisible(R.id.img_video_tag, false);
+        } else {
+            helper.setVisible(R.id.tv_video_tag, false);
+            helper.setVisible(R.id.tv_live2d_tag, false);
         }
 
         Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
@@ -76,6 +74,7 @@ public class MyHomePageArtSellingAdapter extends BaseQuickAdapter<SellingArtVo, 
         Glide.with(mContext).load(item.getImg_main_file1().getUrl()).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.ALL).into(ivImage);
         helper.addOnClickListener(R.id.sellAction);
         helper.addOnClickListener(R.id.transferAction);
+        helper.addOnClickListener(R.id.cancelAuction);
     }
 
     @Override

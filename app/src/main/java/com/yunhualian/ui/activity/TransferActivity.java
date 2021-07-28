@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 
 import androidx.annotation.Nullable;
@@ -21,7 +22,6 @@ import com.neovisionaries.ws.client.WebSocketFactory;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
-import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.databinding.ActivityTransferBinding;
 import com.yunhualian.entity.SellingArtVo;
@@ -30,7 +30,7 @@ import com.yunhualian.ui.activity.user.SellArtActivity;
 import com.yunhualian.ui.fragment.SendIntegrationTest;
 import com.yunhualian.ui.fragment.ToHexKt;
 import com.yunhualian.utils.SharedPreUtils;
-import com.yunhualian.widget.UploadSuccessPopUpWindow;
+import com.yunhualian.widget.ConfirmOrCancelPopwindow;
 
 import org.bouncycastle.util.encoders.Hex;
 
@@ -46,11 +46,13 @@ import jp.co.soramitsu.fearless_utils.ss58.SS58Encoder;
 import jp.co.soramitsu.fearless_utils.wsrpc.SocketService;
 import jp.co.soramitsu.feature_account_api.domain.model.Node;
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.extrinsics.TransferRequest;
+import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.extrinsics.TransferRequestV28;
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.SubmittableExtrinsic;
+import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.SubmittableExtrinsicV28;
 
 public class TransferActivity extends BaseActivity<ActivityTransferBinding> {
     SellingArtVo sellingArtVo;
-    UploadSuccessPopUpWindow uploadSuccessPopUpWindow;
+    ConfirmOrCancelPopwindow confirmOrCancelPopwindow;
     public int MAXVALUE = 1000;
     private int MAX_DAYS = 180;
     private int MIN_VALUE = 1;
@@ -60,7 +62,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding> {
     private String powers_num = "1";
 
     public SocketService rxWebSocket;
-    String balance;
+    String balance = "0";
     SendIntegrationTest sendIntegrationTest;
     int lastAmount;
     Matcher m;
@@ -141,29 +143,30 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding> {
     }
 
     private void showPopWindow() {
-        uploadSuccessPopUpWindow = new UploadSuccessPopUpWindow(TransferActivity.this, new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
+        confirmOrCancelPopwindow = new ConfirmOrCancelPopwindow(TransferActivity.this, new ConfirmOrCancelPopwindow.OnBottomTextviewClickListener() {
             @Override
             public void onCancleClick() {
-                uploadSuccessPopUpWindow.dismiss();
+                confirmOrCancelPopwindow.dismiss();
             }
 
             @Override
             public void onPerformClick() {
-                uploadSuccessPopUpWindow.dismiss();
+                confirmOrCancelPopwindow.dismiss();
             }
         });
-        uploadSuccessPopUpWindow.setOneKey(true);
-        uploadSuccessPopUpWindow.setConfirmText("确定");
-        uploadSuccessPopUpWindow.setContent(getString(R.string.balance_zero_tips));
-        uploadSuccessPopUpWindow.showAtLocation(mDataBinding.parent, Gravity.CENTER, 0, 0);
+        confirmOrCancelPopwindow.setOneKey(true);
+        confirmOrCancelPopwindow.setConfirmText("确定");
+        confirmOrCancelPopwindow.setContent(getString(R.string.balance_zero_tips));
+        confirmOrCancelPopwindow.showAtLocation(mDataBinding.parent, Gravity.CENTER, 0, 0);
     }
 
 
     private void transfer(String address) {
         showLoading(getString(R.string.progress_loading));
         SS58Encoder ss58Encoder = new SS58Encoder();
-        TransferRequest transferRequest = new TransferRequest(signStr(Hex.toHexString(ss58Encoder.decode(address)), Integer.parseInt(mDataBinding.inputAmount.getText().toString())));
+        TransferRequestV28 transferRequest = new TransferRequestV28(signStr(Hex.toHexString(ss58Encoder.decode(address)), Integer.parseInt(mDataBinding.inputAmount.getText().toString())));
         String result = sendIntegrationTest.transfer(rxWebSocket, transferRequest);
+        Log.e("Transfer","result" + result);
         dismissLoading();
         if (!TextUtils.isEmpty(result)) {
             ToastUtils.showShort("已提交转让申请");
@@ -276,20 +279,20 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding> {
         });
     }
 
-    private EncodableStruct<SubmittableExtrinsic> signStr(String receiveAddress, int amount) {
+    private EncodableStruct<SubmittableExtrinsicV28> signStr(String receiveAddress, int amount) {
         String privateKey = SharedPreUtils.getString(this, SharedPreUtils.KEY_PRIVATE);
         String publicKey = SharedPreUtils.getString(this, SharedPreUtils.KEY_PUBLICKEY);
         String nonce = SharedPreUtils.getString(this, SharedPreUtils.KEY_NONCE);
 
         Signer signer = new Signer();
         receiveAddress = receiveAddress.contains("0x") ? receiveAddress.substring(2) : receiveAddress;
-        EncodableStruct<SubmittableExtrinsic> sigStr
+        EncodableStruct<SubmittableExtrinsicV28> sigStr
                 = sendIntegrationTest.shouldfee(
                 receiveAddress,
                 amount,
                 sellingArtVo.getCollection_id(),
                 sellingArtVo.getItem_id(), privateKey, publicKey, nonce.substring(2), rxWebSocket, signer, AppConstant.genesisHash);
-        String hexStr = ToHexKt.toHex(sigStr);
+//        String hexStr = ToHexKt.toHex(sigStr);
         return sigStr;
     }
 

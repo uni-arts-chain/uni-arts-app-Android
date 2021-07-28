@@ -30,6 +30,7 @@ import com.yunhualian.entity.StdoutLogger;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.CashAccountActivity;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
 import com.yunhualian.ui.activity.ExchangeNFTActivity;
 import com.yunhualian.ui.activity.order.SellAndBuyActivity;
@@ -51,7 +52,8 @@ import jp.co.soramitsu.fearless_utils.wsrpc.SocketService;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
+public class
+MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
 
     Button button;
     RecyclerView actionList;
@@ -86,7 +88,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
     @Override
     protected void initView() {
         initList();
-        View[] views = {mBinding.setting, mBinding.fans, mBinding.follow, mBinding.walletLayout, mBinding.mineTitleImg};
+        View[] views = {mBinding.setting, mBinding.fans, mBinding.follow, mBinding.mineCount, mBinding.mineMoney, mBinding.mineTitleImg};
         ClickUtils.applyGlobalDebouncing(views, this);
         socketService = new SocketService(new Gson(), new StdoutLogger(), new WebSocketFactory(), i -> 0);
         socketService.start(AppConstant.RPC);
@@ -148,8 +150,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> implements V
                 bundle2.putString("from", FollowAndFansActivity.FANS);
                 startActivity(FollowAndFansActivity.class, bundle2);
                 break;
-            case R.id.walletLayout:
+            case R.id.mine_count:
                 startActivity(AcountActivity.class);
+
+                break;
+            case R.id.mine_money:
+                startActivity(CashAccountActivity.class);
                 break;
             case R.id.mine_title_img:
                 startActivity(MyHomePageActivity.class);

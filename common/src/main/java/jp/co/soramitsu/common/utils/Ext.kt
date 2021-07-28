@@ -11,6 +11,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import io.emeraldpay.polkaj.scale.ScaleCodecWriter
 
 fun Activity.showToast(msg: String, duration: Int = Toast.LENGTH_LONG) {
     Toast.makeText(this, msg, duration).show()
@@ -61,4 +62,8 @@ fun Context.createSendEmailIntent(targetEmail: String, title: String) {
         data = Uri.parse("mailto:$targetEmail")
     }
     startActivity(Intent.createChooser(emailIntent, title))
+}
+
+fun ScaleCodecWriter.directWrite(byteArray: ByteArray) {
+    directWrite(byteArray, 0, byteArray.size)
 }

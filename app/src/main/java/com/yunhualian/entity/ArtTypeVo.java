@@ -1,7 +1,14 @@
 package com.yunhualian.entity;
 
-public class ArtTypeVo {
+import java.io.Serializable;
 
+public class ArtTypeVo implements Serializable {
+
+    public ArtTypeVo(String title, String desc, int id) {
+        this.title = title;
+        this.desc = desc;
+        this.id = id;
+    }
     /**
      * title : 摄影
      * desc : 6

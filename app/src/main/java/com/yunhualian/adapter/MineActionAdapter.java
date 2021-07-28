@@ -26,5 +26,10 @@ public class MineActionAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
     protected void convert(BaseViewHolder helper, String item) {
         helper.setImageResource(R.id.action_icon, imgList.get(helper.getAdapterPosition()));
         helper.setText(R.id.action_name, item);
+        if(helper.getAdapterPosition() == 2){
+            helper.setVisible(R.id.tv_wait_pay,true);
+        }else{
+            helper.setVisible(R.id.tv_wait_pay,false);
+        }
     }
 }

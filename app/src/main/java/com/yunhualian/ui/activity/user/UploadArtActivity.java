@@ -413,36 +413,36 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 break;
 
             case R.id.img1:
-                if(fileList.get(0).getName().toLowerCase().endsWith("mp4")){
+                if (fileList.get(0).getName().toLowerCase().endsWith("mp4")) {
                     String videoPath = fileList.get(0).getAbsolutePath();
                     try {
                         PictureSelector.create(UploadArtActivity.this).externalPictureVideo(videoPath);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }else{
-                    showBigImg(1, 1,true);
+                } else {
+                    showBigImg(1, 1, true);
                 }
                 break;
 
             case R.id.img2:
-                showBigImg(2,1, true);
+                showBigImg(2, 1, true);
                 break;
 
             case R.id.img3:
-                showBigImg(3,1, true);
+                showBigImg(3, 1, true);
                 break;
 
             case R.id.userImg1:
-                showBigImg(1, 2,true);
+                showBigImg(1, 2, true);
                 break;
 
             case R.id.userImg2:
-                showBigImg(1, 2,true);
+                showBigImg(1, 2, true);
                 break;
 
             case R.id.userImg3:
-                showBigImg(1, 2,true);
+                showBigImg(1, 2, true);
                 break;
 
         }
@@ -455,7 +455,7 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                 for (int i = 0; i < fileList.size(); i++) {
                     paths.add(fileList.get(i).getAbsolutePath());
                 }
-            } else if(type == 2) {
+            } else if (type == 2) {
                 for (int i = 0; i < userFileList.size(); i++) {
                     paths.add(userFileList.get(i).getAbsolutePath());
                 }
@@ -767,9 +767,12 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
 
 
     public void initArtType() {
+
         themeList = YunApplication.getArtThemeVoList();
-        for (ArtTypeVo artTypeVo : themeList) {
-            themeNameList.add(artTypeVo.getTitle());
+        if (themeList != null) {
+            for (ArtTypeVo artTypeVo : themeList) {
+                themeNameList.add(artTypeVo.getTitle());
+            }
         }
     }
 

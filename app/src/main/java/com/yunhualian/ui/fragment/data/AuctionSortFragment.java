@@ -1,21 +1,14 @@
-package com.yunhualian.ui.fragment;
+package com.yunhualian.ui.fragment.data;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunhualian.R;
 import com.yunhualian.adapter.PicturesAdapter;
@@ -33,20 +26,19 @@ import com.yunhualian.net.GetBaseData;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.art.ArtDetailActivity;
-import com.yunhualian.ui.activity.SearchActivity;
+import com.yunhualian.ui.activity.art.AuctionArtDetailActivity;
 import com.yunhualian.utils.ListUtil;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding> implements BaseQuickAdapter.OnItemClickListener {
+public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding> implements BaseQuickAdapter.OnItemClickListener {
     private SortAdapter sortAdapter;
     private TypeAdapter typeAdapter;
     private PrizeAdapter prizeAdapter;
@@ -68,8 +60,9 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
     private int curThemeClickPos;
     private int curTypeClickPos;
     private int curPriceClickPos;
+
     public static BaseFragment newInstance() {
-        return new PictureSortFragment();
+        return new AuctionSortFragment();
     }
 
     @Override
@@ -137,17 +130,13 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         mBinding.sortList.setAdapter(sortAdapter);
         mBinding.typeList.setAdapter(typeAdapter);
         mBinding.prizeList.setAdapter(prizeAdapter);
-        if(priceVos != null && priceVos.size() > 1){
-            param.put("price_sort", String.valueOf(priceVos.get(0).getId()));
-            prizeAdapter.selectTag(1,false);
-        }
         getPopular(param);
     }
 
     public void initSelectedListener() {
         sortAdapter.addSelectedListener(new SortAdapter.onSelectedListener() {
             @Override
-            public void onSelected(boolean isInit,int selectPosition) {
+            public void onSelected(boolean isInit, int selectPosition) {
                 page = 1;
                 if (selectPosition != 0) {
                     param.put("category_id", String.valueOf(materialVos.get(selectPosition).getId()));
@@ -163,7 +152,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
             }
 
             @Override
-            public void onUnSelected(boolean isInit,int selectPosition) {
+            public void onUnSelected(boolean isInit, int selectPosition) {
                 if (isInit) {
                     curThemeClickPos = 0;
                 }
@@ -175,7 +164,6 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
                 }
             }
         });
-
         typeAdapter.addSelectedListener(new TypeAdapter.onSelectedListener() {
             @Override
             public void onSelected(boolean isInit,int selectPosition) {
@@ -208,7 +196,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         });
         prizeAdapter.addSelectedListener(new PrizeAdapter.onSelectedListener() {
             @Override
-            public void onSelected(boolean isInit,int selectPosition) {
+            public void onSelected(boolean isInit, int selectPosition) {
                 page = 1;
                 if (selectPosition != 0) {
                     param.put("price_sort", String.valueOf(priceVos.get(selectPosition).getId()));
@@ -224,7 +212,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
             }
 
             @Override
-            public void onUnSelected(boolean isInit,int selectPosition) {
+            public void onUnSelected(boolean isInit, int selectPosition) {
                 if (isInit) {
                     curPriceClickPos = 0;
                 }
@@ -270,9 +258,9 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (artBeanList != null && artBeanList.size() > position) {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(ArtDetailActivity.ART_KEY, artBeanList.get(position));
-            bundle.putInt(ArtDetailActivity.ART_ID, artBeanList.get(position).getId());
-            startActivity(ArtDetailActivity.class, bundle);
+            bundle.putSerializable(AuctionArtDetailActivity.ART_KEY, artBeanList.get(position));
+            bundle.putInt(AuctionArtDetailActivity.ART_ID, artBeanList.get(position).getId());
+            startActivity(AuctionArtDetailActivity.class, bundle);
         }
     }
 
@@ -322,7 +310,13 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
     private List<ArtTypeVo> queryTypeList() {
         GetBaseData.getArtType(() -> {
             if (YunApplication.getArtTypelist() != null) {
-                typeList = YunApplication.getArtTypelist();
+                typeList.clear();
+                try {
+                    typeList = ListUtil.deepCopy(YunApplication.getArtTypelist());
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                typeList.add(0, new ArtTypeVo("全部", "", 0));
                 typeAdapter.setNewData(typeList);
             }
         });
@@ -331,7 +325,13 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
 
     private List<ArtTypeVo> queryThmeList() {
         GetBaseData.getCategories(() -> {
-            materialVos = YunApplication.getArtThemeVoList();
+            materialVos.clear();
+            try {
+                materialVos = ListUtil.deepCopy(YunApplication.getArtThemeVoList());
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            materialVos.add(0, new ArtTypeVo("全部", "", 0));
             sortAdapter.setNewData(materialVos);
         });
         return new ArrayList<>();
@@ -339,7 +339,13 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
 
     private List<ArtPriceVo> queryPriceList() {
         GetBaseData.getPrice(() -> {
-            priceVos = YunApplication.getArtPriceVoList();
+            priceVos.clear();
+            try {
+                priceVos = ListUtil.deepCopy(YunApplication.getArtPriceVoList());
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            priceVos.add(0, new ArtPriceVo("全部", 0));
             prizeAdapter.setNewData(priceVos);
         });
         return new ArrayList<>();

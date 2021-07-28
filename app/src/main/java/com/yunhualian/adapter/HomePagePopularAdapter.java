@@ -39,22 +39,20 @@ public class HomePagePopularAdapter extends BaseQuickAdapter<SellingArtVo, BaseV
 
         helper.setText(R.id.picture_name, item.getName());
         helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(" " + item.getPrice()));
-        if (TextUtils.isEmpty(item.getLive2d_file())) {
-            helper.setVisible(R.id.live2d, false);
-        } else {
-            helper.setText(R.id.live2d, "Live 2D");
-            helper.setVisible(R.id.live2d, true);
-        }
-        if(!TextUtils.isEmpty(item.getResource_type())){
+        if (!TextUtils.isEmpty(item.getResource_type())) {
             if (item.getResource_type().equals("4")) {
-                helper.setVisible(R.id.img_video_tag, true);
+                helper.setVisible(R.id.tv_video_tag, true);
+            } else if (item.getResource_type().equals("3")) {
+                helper.setText(R.id.live2d, "Live 2D");
+                helper.setVisible(R.id.live2d, true);
             } else {
-                helper.setVisible(R.id.img_video_tag, false);
+                helper.setVisible(R.id.tv_video_tag, false);
+                helper.setVisible(R.id.live2d, false);
             }
-        }else{
-            helper.setVisible(R.id.img_video_tag, false);
+        } else {
+            helper.setVisible(R.id.tv_video_tag, false);
+            helper.setVisible(R.id.live2d, false);
         }
-
         Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {

@@ -51,8 +51,14 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        tools:replace="android:theme"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:theme">
+        <activity
+            android:name=".ui.activity.wallet.WithdrawActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.CashAccountActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ZipFileSelectActivity"
             android:screenOrientation="portrait" />
@@ -308,11 +314,11 @@
             android:exported="false" />
 
         <provider
-            tools:replace="android:authorities"
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.file_provider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />

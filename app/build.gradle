@@ -16,7 +16,7 @@ android {
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
         versionCode 4
-        versionName "1.0.4"
+        versionName "1.0.3"
         buildConfigField "boolean", "LOG_DEBUG", "false" //不显示log
         multiDexEnabled true
         externalNativeBuild {

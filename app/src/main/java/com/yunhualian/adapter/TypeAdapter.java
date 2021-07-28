@@ -13,6 +13,7 @@ import java.util.List;
 public class TypeAdapter extends BaseQuickAdapter<ArtTypeVo, BaseViewHolder> {
     public onSelectedListener onSelectedListener;
     int clickPosition = 999;
+    boolean isInit = true;
 
     public TypeAdapter(List<ArtTypeVo> data) {
         super(R.layout.fragment_sort_item, data);
@@ -31,32 +32,44 @@ public class TypeAdapter extends BaseQuickAdapter<ArtTypeVo, BaseViewHolder> {
 
             if (clickPosition == helper.getPosition()) {
                 clickPosition = 999;
-                if (null != onSelectedListener)
-                    onSelectedListener.onUnSelected(helper.getPosition());
+                if (null != onSelectedListener) {
+                    isInit = true;
+                    onSelectedListener.onUnSelected(true, helper.getPosition());
+                }
+
             } else {
                 clickPosition = helper.getPosition();
-                if (null != onSelectedListener)
-                    onSelectedListener.onSelected(helper.getPosition());
+                if (null != onSelectedListener) {
+                    isInit = false;
+                    onSelectedListener.onSelected(false, helper.getPosition());
+                }
             }
-
         });
 
+        if (isInit) {
+            if (0 == helper.getPosition()) {
+                textView.setTextColor(mContext.getResources().getColor(R.color.white));
+                textView.setBackground(mContext.getResources().getDrawable(R.drawable.shape_sort_type_without_stroke));
 
-        if (clickPosition == helper.getPosition()) {
-            textView.setTextColor(mContext.getResources().getColor(R.color.white));
-            textView.setBackground(mContext.getResources().getDrawable(R.drawable.shape_sort_type_without_stroke));
-
+            } else {
+                textView.setTextColor(mContext.getResources().getColor(R.color._101010));
+                textView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+            }
         } else {
-            textView.setTextColor(mContext.getResources().getColor(R.color._101010));
-            textView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+            if (clickPosition == helper.getPosition()) {
+                textView.setTextColor(mContext.getResources().getColor(R.color.white));
+                textView.setBackground(mContext.getResources().getDrawable(R.drawable.shape_sort_type_without_stroke));
 
+            } else {
+                textView.setTextColor(mContext.getResources().getColor(R.color._101010));
+                textView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+            }
         }
-
     }
 
     public interface onSelectedListener {
-        void onSelected(int selectPosition);
+        void onSelected(boolean isInit, int selectPosition);
 
-        void onUnSelected(int selectPosition);
+        void onUnSelected(boolean isInit, int selectPosition);
     }
 }

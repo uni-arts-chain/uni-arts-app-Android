@@ -40,6 +40,7 @@ import com.yunhualian.ui.fragment.BlindBoxFragment;
 import com.yunhualian.ui.fragment.CreatorFragment;
 import com.yunhualian.ui.fragment.HomeFragment;
 import com.yunhualian.ui.fragment.MineFragment;
+import com.yunhualian.ui.fragment.NFTMallFragment;
 import com.yunhualian.ui.fragment.PictureSortFragment;
 import com.yunhualian.utils.DownLoadManager;
 import com.yunhualian.utils.NotificationUtil;
@@ -72,7 +73,7 @@ import retrofit2.Response;
 @Route(path = ArouterModelPath.MAIN)
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private HomeFragment homeFragment;
-    private PictureSortFragment pictureSortFragment;
+    private NFTMallFragment nftMallFragment;
     private MineFragment mineFragment;
     private CreatorFragment creatorFragment;
     private BlindBoxFragment blindBoxFragment;
@@ -121,7 +122,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         saveData();
 //        loginByAddress();
         homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("homeFragment");
-        pictureSortFragment = (PictureSortFragment) getSupportFragmentManager().findFragmentByTag("pictureSortFragment");
+        nftMallFragment = (NFTMallFragment) getSupportFragmentManager().findFragmentByTag("nftMallFragment");
         creatorFragment = (CreatorFragment) getSupportFragmentManager().findFragmentByTag("creatorFragment");
         blindBoxFragment = (BlindBoxFragment) getSupportFragmentManager().findFragmentByTag("blindBoxFragment");
         mineFragment = (MineFragment) getSupportFragmentManager().findFragmentByTag("mineFragment");
@@ -131,7 +132,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                     mCurrentFragment = homeFragment;
                     break;
                 case R.id.navigation_art_sort:
-                    mCurrentFragment = pictureSortFragment;
+                    mCurrentFragment = nftMallFragment;
                     break;
                 case R.id.navigation_creator:
                     mCurrentFragment = creatorFragment;
@@ -174,15 +175,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                     mCurrentFragment = homeFragment;
                     break;
                 case R.id.navigation_art_sort:
-                    if (null == pictureSortFragment) {
-                        if (null != getSupportFragmentManager().findFragmentByTag("pictureSortFragment")) {
-                            pictureSortFragment = (PictureSortFragment) getSupportFragmentManager().findFragmentByTag("pictureSortFragment");
+                    if (null == nftMallFragment) {
+                        if (null != getSupportFragmentManager().findFragmentByTag("nftMallFragment")) {
+                            nftMallFragment = (NFTMallFragment) getSupportFragmentManager().findFragmentByTag("nftMallFragment");
                         } else {
-                            pictureSortFragment = (PictureSortFragment) PictureSortFragment.newInstance();
-                            mFragmentTransaction.add(R.id.container, pictureSortFragment, "pictureSortFragment");
+                            nftMallFragment = (NFTMallFragment) NFTMallFragment.newInstance();
+                            mFragmentTransaction.add(R.id.container, nftMallFragment, "nftMallFragment");
                         }
                     }
-                    mCurrentFragment = pictureSortFragment;
+                    mCurrentFragment = nftMallFragment;
                     break;
 
                 case R.id.navigation_shop_cart:

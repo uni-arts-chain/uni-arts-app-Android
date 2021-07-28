@@ -27,7 +27,8 @@
                 android:layout_width="122dp"
                 android:layout_height="122dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/_EFEFEF">
+                android:background="@drawable/shape_add_bg">
+
 
                 <ImageView
                     android:id="@+id/img_zfb_add"
@@ -46,6 +47,14 @@
                     android:text="上传图片"
                     android:textColor="@color/_666666"
                     android:textSize="13sp" />
+
+
+                <ImageView
+                    android:id="@+id/img_zfb_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
 
                 <RelativeLayout
                     android:id="@+id/rl_zfb_select"
@@ -104,7 +113,7 @@
                 android:layout_width="122dp"
                 android:layout_height="122dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/_EFEFEF">
+                android:background="@drawable/shape_add_bg">
 
                 <ImageView
                     android:id="@+id/img_wx_add"
@@ -123,6 +132,12 @@
                     android:text="上传图片"
                     android:textColor="@color/_666666"
                     android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/img_wx_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/rl_wx_select"

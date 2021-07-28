@@ -1,7 +1,6 @@
 package com.yunhualian.ui.activity;
 
 
-import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -11,35 +10,42 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.android.material.tabs.TabLayout;
 import com.yunhualian.R;
-import com.yunhualian.adapter.PicturesAdapter;
+import com.yunhualian.adapter.MyHomePageAdapter;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.databinding.ActivitySearchBinding;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
-import com.yunhualian.ui.activity.art.ArtDetailActivity;
+import com.yunhualian.ui.fragment.SearchResultFragment;
 import com.yunhualian.utils.SharedPreUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
+public class SearchActivity extends BaseActivity<ActivitySearchBinding> implements MyHomePageAdapter.TabPagerListener {
 
     private List<String> historyList;
 
-    private PicturesAdapter picturesAdapter;
     private List<SellingArtVo> artList;
+
+    private MyHomePageAdapter pageAdapter;
+
+    private SearchResultFragment sellFragment;
+
+    private SearchResultFragment auctionFragment;
 
     @Override
     public int getLayoutId() {
@@ -100,20 +106,27 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
                 return false;
             }
         });
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        picturesAdapter = new PicturesAdapter(artList);
-        mDataBinding.resultList.setLayoutManager(layoutManager);
-        mDataBinding.resultList.setAdapter(picturesAdapter);
-        picturesAdapter.setEmptyView(R.layout.layout_entrust_empty, mDataBinding.resultList);
-        picturesAdapter.setOnItemClickListener((adapter, view, position) -> {
-
-            if (artList != null && artList.size() > 0) {
-                Intent intent = new Intent(this, ArtDetailActivity.class);
-                intent.putExtra(ArtDetailActivity.ART_ID, artList.get(position).getId());
-                startActivity(intent);
-            }
-
-        });
+        sellFragment = new SearchResultFragment(artList);
+        auctionFragment = new SearchResultFragment(artList);
+        pageAdapter = new MyHomePageAdapter(getSupportFragmentManager(), 2, Arrays.asList(getResources().getStringArray(R.array.mall_tabs)), this);
+        pageAdapter.setListener(this);
+        mDataBinding.viewpager.setAdapter(pageAdapter);
+        mDataBinding.tabLayout.setupWithViewPager(mDataBinding.viewpager);
+        mDataBinding.tabLayout.setTabMode(TabLayout.MODE_FIXED);
+//        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//        picturesAdapter = new PicturesAdapter(artList);
+//        mDataBinding.resultList.setLayoutManager(layoutManager);
+//        mDataBinding.resultList.setAdapter(picturesAdapter);
+//        picturesAdapter.setEmptyView(R.layout.layout_entrust_empty, mDataBinding.resultList);
+//        picturesAdapter.setOnItemClickListener((adapter, view, position) -> {
+//
+//            if (artList != null && artList.size() > 0) {
+//                Intent intent = new Intent(this, ArtDetailActivity.class);
+//                intent.putExtra(ArtDetailActivity.ART_ID, artList.get(position).getId());
+//                startActivity(intent);
+//            }
+//
+//        });
         initRefresh();
         mDataBinding.clearHistory.setOnClickListener(v -> {
             SharedPreUtils.clearAll(this);
@@ -146,7 +159,8 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
                     artList = response.body().getBody();
                     mDataBinding.searchHistoryLayout.setVisibility(View.GONE);
                     if (artList.size() > 0) {
-                        picturesAdapter.setNewData(artList);
+                        sellFragment.updateData(artList);
+                        auctionFragment.updateData(artList);
                     }
                 }
             }
@@ -164,6 +178,14 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
         });
 //        sendRequest(MarketService.getInstance().MarketDepth, params, false, false, false);
 
+    }
+
+    @Override
+    public Fragment getFragment(int position) {
+        if (position == 0) {
+            return sellFragment;
+        }
+        return auctionFragment;
     }
 
 //    @Override

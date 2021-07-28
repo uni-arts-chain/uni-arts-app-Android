@@ -151,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/cash_account"
+                    android:text="现金账户："
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_15" />
 
@@ -167,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/mine_acount"
+                    android:text="区块链积分："
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_15" />
 

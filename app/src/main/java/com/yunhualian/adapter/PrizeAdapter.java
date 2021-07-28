@@ -35,14 +35,17 @@ public class PrizeAdapter extends BaseQuickAdapter<ArtPriceVo, BaseViewHolder> {
 
             if (clickPosition == helper.getPosition()) {
                 clickPosition = 999;
-                if (null != onSelectedListener)
+                if (null != onSelectedListener){
+                    isInit = true;
                     onSelectedListener.onUnSelected(isInit,helper.getPosition());
+                }
             } else {
                 clickPosition = helper.getPosition();
-                if (null != onSelectedListener)
-                    onSelectedListener.onSelected(isInit,helper.getPosition());
+                if (null != onSelectedListener){
+                    isInit = false;
+                    onSelectedListener.onSelected(false,helper.getPosition());
+                }
             }
-            isInit = false;
         });
 
         if(isInit){
@@ -68,5 +71,10 @@ public class PrizeAdapter extends BaseQuickAdapter<ArtPriceVo, BaseViewHolder> {
         void onSelected(boolean isInit,int selectPosition);
 
         void onUnSelected(boolean isInit,int selectPosition);
+    }
+
+    public void selectTag(int clickPosition, boolean isInit) {
+        this.clickPosition = clickPosition;
+        this.isInit = isInit;
     }
 }
