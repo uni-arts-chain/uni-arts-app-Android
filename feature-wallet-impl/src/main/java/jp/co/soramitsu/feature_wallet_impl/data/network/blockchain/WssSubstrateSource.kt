@@ -46,7 +46,8 @@ import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.Accoun
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.AccountData.reserved
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.AccountInfo.data
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.AccountInfo.nonce
-import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.AccountInfo.refCount
+import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.AccountInfo.consumers
+import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.AccountInfo.providers
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.Call.args
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.Call.callIndex
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.SignedExtrinsic.accountId
@@ -363,7 +364,8 @@ class WssSubstrateSource(
 
     private fun emptyAccountInfo() = AccountInfo { info ->
         info[nonce] = 0.toUInt()
-        info[refCount] = 0.toUInt()
+        info[consumers] = 0.toUInt()
+        info[providers] = 0.toUInt()
 
         info[data] = AccountData { data ->
             data[free] = 0.toBigInteger()

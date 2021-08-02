@@ -19,7 +19,9 @@ object AccountData : Schema<AccountData>() {
 object AccountInfo : Schema<AccountInfo>() {
     val nonce by uint32()
 
-    val refCount by uint32()
+    val consumers by uint32()
+
+    val providers by uint32()
 
     val data by schema(AccountData)
 }
