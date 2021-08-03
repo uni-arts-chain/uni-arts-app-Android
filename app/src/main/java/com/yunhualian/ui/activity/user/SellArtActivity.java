@@ -13,11 +13,9 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neovisionaries.ws.client.WebSocketFactory;
-import com.upbest.arouter.EventEntity;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
-import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.databinding.ActivitySellArtBinding;
@@ -29,7 +27,6 @@ import com.yunhualian.entity.StdoutLogger;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.PinCodeKtActivity;
-import com.yunhualian.ui.activity.TransferActivity;
 import com.yunhualian.ui.fragment.SendIntegrationTest;
 import com.yunhualian.ui.fragment.ToHexKt;
 import com.yunhualian.ui.fragment.ToHexV28Kt;
@@ -45,7 +42,6 @@ import java.util.HashMap;
 import jp.co.soramitsu.fearless_utils.encrypt.Signer;
 import jp.co.soramitsu.fearless_utils.scale.EncodableStruct;
 import jp.co.soramitsu.fearless_utils.wsrpc.SocketService;
-import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.SubmittableExtrinsic;
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.SubmittableExtrinsicV28;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -59,6 +55,7 @@ public class SellArtActivity extends BaseActivity<ActivitySellArtBinding> {
     private String receiveAddress = "";
 
     String balance;
+    boolean isFromDetail;
 
     @Override
     public int getLayoutId() {
@@ -76,6 +73,7 @@ public class SellArtActivity extends BaseActivity<ActivitySellArtBinding> {
         mToolBarOptions.titleId = R.string.title_sell;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         sellingArtVo = (SellingArtVo) getIntent().getSerializableExtra(ARTINFO);
+        isFromDetail = getIntent().getBooleanExtra("is_from_detail",false);
         if (sellingArtVo != null) {
             initPageData();
         }
@@ -249,7 +247,12 @@ public class SellArtActivity extends BaseActivity<ActivitySellArtBinding> {
                 if (response.isSuccessful()) {
                     dismissLoading();
 //                    ToastUtils.showShort("success");
-                    EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS, null));
+                    if(isFromDetail){
+                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS_FROM_DETAIL, null));
+                    }else{
+                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS, null));
+                    }
+
                     finish();
                 }
             }

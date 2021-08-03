@@ -366,6 +366,7 @@ class WssSubstrateSource(
         info[nonce] = 0.toUInt()
         info[consumers] = 0.toUInt()
         info[providers] = 0.toUInt()
+
         info[data] = AccountData { data ->
             data[free] = 0.toBigInteger()
             data[reserved] = 0.toBigInteger()

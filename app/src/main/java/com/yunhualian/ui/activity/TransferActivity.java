@@ -164,7 +164,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding> {
     private void transfer(String address) {
         showLoading(getString(R.string.progress_loading));
         SS58Encoder ss58Encoder = new SS58Encoder();
-        TransferRequestV28 transferRequest = new TransferRequestV28(signStr(Hex.toHexString(ss58Encoder.decode(address)), Integer.parseInt(mDataBinding.inputAmount.getText().toString())));
+        TransferRequestV28 transferRequest = new TransferRequestV28 (signStr(Hex.toHexString(ss58Encoder.decode(address)), Integer.parseInt(mDataBinding.inputAmount.getText().toString())));
         String result = sendIntegrationTest.transfer(rxWebSocket, transferRequest);
         Log.e("Transfer","result" + result);
         dismissLoading();

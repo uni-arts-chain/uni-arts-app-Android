@@ -135,7 +135,6 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         mToolBarOptions.titleId = R.string.title_detail;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         sellingArtVo = (SellingArtVo) getIntent().getExtras().getSerializable(ART_KEY);
-        initArtDetails();
         request_art_id = String.valueOf(getIntent().getIntExtra(ART_ID, 0));
         mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.zan.setOnClickListener(this);
@@ -159,7 +158,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(EventBusMessageEvent mEventBusMessageEvent) {
         if (null != mEventBusMessageEvent && !TextUtils.isEmpty(mEventBusMessageEvent.getmMessage())) {
-            if (TextUtils.equals(ExtraConstant.EVENT_SELL_SUCCESS, mEventBusMessageEvent.getmMessage())) {
+            if (TextUtils.equals(ExtraConstant.EVENT_SELL_SUCCESS_FROM_DETAIL, mEventBusMessageEvent.getmMessage())) {
                 showPopWindow();
             }
         }
@@ -547,6 +546,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 if ((sellingArtVo.getHas_amount() - sellingArtVo.getSelling_amount()) > 0) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(SellArtActivity.ARTINFO, sellingArtVo);
+                    bundle.putBoolean("is_from_detail",true);
                     startActivity(SellArtActivity.class, bundle);
                 }
             } else {
@@ -558,6 +558,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 } else {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(SellArtUnCutActivity.ARTINFO, sellingArtVo);
+                    bundle.putBoolean("is_from_detail",true);
                     startActivity(SellArtUnCutActivity.class, bundle);
                 }
             }
@@ -928,6 +929,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                         dismissLoading();
                         sellingArtVo = response.body().getBody();
                         initPageData();
+                        initArtDetails();
                         getOrderAmount(String.valueOf(sellingArtVo.getId()));
                     }
                 }

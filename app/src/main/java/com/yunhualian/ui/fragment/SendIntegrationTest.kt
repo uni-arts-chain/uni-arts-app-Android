@@ -21,12 +21,16 @@ import jp.co.soramitsu.fearless_utils.wsrpc.request.runtime.chain.RuntimeVersion
 import jp.co.soramitsu.feature_wallet_api.domain.model.Token
 import jp.co.soramitsu.feature_wallet_api.domain.model.amountFromPlanks
 import jp.co.soramitsu.feature_wallet_api.domain.model.calculateTotalBalance
+import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.extrinsics.TransferRequest
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.extrinsics.TransferRequestV28
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.requests.GetStorageRequest
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.response.RuntimeVersion
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.*
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.AccountInfo.nonce
+import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.Call.args
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.Call.callIndex
+import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.OrderArgs.itemId
+import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.OrderArgs.value
 import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.SubmittableExtrinsic.signedExtrinsic
 import org.bouncycastle.util.encoders.Hex
 import java.math.BigDecimal
@@ -56,6 +60,7 @@ class SendIntegrationTest {
         val genesis = hash
         val genesisBytes = Hex.decode(genesis)
 
+
         val transferAmount = BigDecimal("1").scaleByPowerOfTen(Token.Type.DOT.mantissa)
 
         val runtimeInfo = rxWebSocket
@@ -81,14 +86,13 @@ class SendIntegrationTest {
         val nonceBigInt = nonce.toLong().toBigInteger()
 
         val receiverPublicKey = Hex.decode(receiveAddress)
-
         val callStruct = Call { call ->
             call[callIndex] = Pair(63.toUByte(), 14.toUByte())
-            call[Call.args] = OrderArgs { args ->
+            call[args] = OrderArgs { args ->
                 args[OrderArgs.recipientId] = receiverPublicKey
                 args[OrderArgs.collectionId] = collectId.toBigInteger()
-                args[OrderArgs.itemId] = item_id.toBigInteger()
-                args[OrderArgs.value] = amount.toBigInteger()
+                args[itemId] = item_id.toBigInteger()
+                args[value] = amount.toBigInteger()
             }
         }
 
@@ -108,14 +112,17 @@ class SendIntegrationTest {
             encryptionType = EncryptionType.SR25519,
             value = signer.sign(EncryptionType.SR25519, payload.toByteArray(), keypair).signature
         )
+
         val extrinsic = SignedExtrinsicV28 { extrinsic ->
             extrinsic[SignedExtrinsicV28.accountId] = MultiAddress.Id(accountId)
             extrinsic[SignedExtrinsicV28.signature] = signature
             extrinsic[SignedExtrinsicV28.nonce] = nonceBigInt
             extrinsic[SignedExtrinsicV28.call] = callStruct
         }
+
         val extrinsicBytes = SignedExtrinsicV28.toByteArray(extrinsic)
         val byteLength = extrinsicBytes.size.toBigInteger()
+
         return SubmittableExtrinsicV28 { struct ->
             struct[SubmittableExtrinsicV28.byteLength] = byteLength
             struct[SubmittableExtrinsicV28.signedExtrinsic] = extrinsic

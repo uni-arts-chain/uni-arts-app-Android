@@ -54,7 +54,7 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
 
     UploadSuccessPopUpWindow uploadSuccessPopUpWindow;
     String balance;
-
+    boolean isFromDetail;
     @Override
     public int getLayoutId() {
         return R.layout.activity_sell_art_un_cut;
@@ -71,6 +71,7 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
         mToolBarOptions.titleId = R.string.title_sell;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         sellingArtVo = (SellingArtVo) getIntent().getSerializableExtra(ARTINFO);
+        isFromDetail = getIntent().getBooleanExtra("is_from_detail",false);
         if (sellingArtVo != null) {
             initPageData();
         }
@@ -175,7 +176,11 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
 //                    ToastUtils.showShort("success");
-                    EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS, null));
+                    if(isFromDetail){
+                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS_FROM_DETAIL, null));
+                    }else{
+                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS, null));
+                    }
                     finish();
                 }
             }
