@@ -1,0 +1,534 @@
+{
+  "stringTable": {
+    "0": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+    "1": "--target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -O2 -DNDEBUG -fPIC -std=c++14",
+    "2": "--target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -O2 -DNDEBUG -fPIC -std=c++14"
+  },
+  "buildFiles": [
+    "D:\\WorkSpace\\uni-arts-app-Android\\app\\CMakeLists.txt",
+    "D:\\ASDK\\ndk\\22.1.7171670\\build\\cmake\\android.toolchain.cmake",
+    "D:\\ASDK\\ndk\\22.1.7171670\\build\\cmake\\platforms.cmake",
+    "D:\\ASDK\\ndk\\22.1.7171670\\build\\cmake\\compiler_id.cmake",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Id\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Physics\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\OpenGL\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CMakeLists.txt",
+    "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "D:\\ASDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\WorkSpace\\uni-arts-app-Android\\app\\.cxx\\cmake\\release\\arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "D:\\ASDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\WorkSpace\\uni-arts-app-Android\\app\\.cxx\\cmake\\release\\arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "Demo-Release-arm64-v8a": {
+      "buildCommand": "D:\\ASDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\WorkSpace\\uni-arts-app-Android\\app\\.cxx\\cmake\\release\\arm64-v8a\" Demo",
+      "buildType": "release",
+      "toolchain": "2653444645",
+      "abi": "arm64-v8a",
+      "artifactName": "Demo",
+      "files": [
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\JniBridgeC.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppAllocator.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppDefine.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppDelegate.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppLive2DManager.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppModel.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppPal.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppSprite.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppTextureManager.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppView.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\TouchManager.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\JniBridgeC.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppAllocator.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppDefine.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppDelegate.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppLive2DManager.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppModel.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppPal.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppSprite.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppTextureManager.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppView.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\TouchManager.hpp",
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "output": "D:\\WorkSpace\\uni-arts-app-Android\\app\\build\\intermediates\\cmake\\release\\obj\\arm64-v8a\\libDemo.so",
+      "runtimeFiles": []
+    },
+    "Framework-Release-arm64-v8a": {
+      "buildCommand": "D:\\ASDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\WorkSpace\\uni-arts-app-Android\\app\\.cxx\\cmake\\release\\arm64-v8a\" Framework",
+      "buildType": "release",
+      "toolchain": "2653444645",
+      "abi": "arm64-v8a",
+      "artifactName": "Framework",
+      "files": [
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismCdiJson.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismDefaultParameterId.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismFramework.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismModelSettingJson.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismBreath.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismEyeBlink.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismPose.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Id\\CubismId.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Id\\CubismIdManager.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismMath.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismMatrix44.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismModelMatrix.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismTargetPoint.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismVector2.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismViewMatrix.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismMoc.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModel.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModelUserData.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModelUserDataJson.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismUserModel.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\ACubismMotion.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismExpressionMotion.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotion.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionJson.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionManager.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionQueueEntry.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionQueueManager.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Physics\\CubismPhysics.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Physics\\CubismPhysicsJson.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\CubismRenderer.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\OpenGL\\CubismOffscreenSurface_OpenGLES2.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\OpenGL\\CubismRenderer_OpenGLES2.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\csmRectF.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\csmString.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismDebug.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismJson.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismString.cpp",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismCdiJson.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismDefaultParameterId.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismFramework.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismFrameworkConfig.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismModelSettingJson.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\ICubismAllocator.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\ICubismModelSetting.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Live2DCubismCore.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismBreath.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismEyeBlink.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismPose.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Id\\CubismId.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Id\\CubismIdManager.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismMath.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismMatrix44.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismModelMatrix.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismTargetPoint.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismVector2.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismViewMatrix.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismMoc.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModel.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModelUserData.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModelUserDataJson.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismUserModel.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\ACubismMotion.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismExpressionMotion.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotion.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionInternal.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionJson.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionManager.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionQueueEntry.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionQueueManager.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Physics\\CubismPhysics.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Physics\\CubismPhysicsInternal.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Physics\\CubismPhysicsJson.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\CubismRenderer.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\OpenGL\\CubismOffscreenSurface_OpenGLES2.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\OpenGL\\CubismRenderer_OpenGLES2.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\csmMap.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\csmRectF.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\csmString.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\csmVector.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\CubismBasicType.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismDebug.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismJson.hpp",
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "header": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismString.hpp",
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "output": "D:\\WorkSpace\\uni-arts-app-Android\\app\\.cxx\\cmake\\release\\arm64-v8a\\Framework\\libFramework.a"
+    }
+  },
+  "toolchains": {
+    "2653444645": {
+      "cppCompilerExecutable": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

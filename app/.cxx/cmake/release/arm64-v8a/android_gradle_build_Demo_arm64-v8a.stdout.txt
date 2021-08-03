@@ -1,0 +1,58 @@
+ninja: Entering directory `D:\WorkSpace\uni-arts-app-Android\app\.cxx\cmake\release\arm64-v8a'
+[1/50] Building CXX object CMakeFiles/Demo.dir/src/main/cpp/TouchManager.cpp.o
+[2/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/CubismCdiJson.cpp.o
+[3/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Effect/CubismBreath.cpp.o
+[4/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/CubismDefaultParameterId.cpp.o
+[5/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/CubismFramework.cpp.o
+[6/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Id/CubismId.cpp.o
+[7/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Math/CubismVector2.cpp.o
+[8/50] Building CXX object CMakeFiles/Demo.dir/src/main/cpp/LAppSprite.cpp.o
+[9/50] Building CXX object CMakeFiles/Demo.dir/src/main/cpp/LAppDelegate.cpp.o
+[10/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Id/CubismIdManager.cpp.o
+[11/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/CubismModelSettingJson.cpp.o
+[12/50] Building CXX object CMakeFiles/Demo.dir/src/main/cpp/LAppLive2DManager.cpp.o
+[13/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Effect/CubismPose.cpp.o
+[14/50] Building CXX object CMakeFiles/Demo.dir/src/main/cpp/LAppDefine.cpp.o
+[15/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Math/CubismMatrix44.cpp.o
+[16/50] Building CXX object CMakeFiles/Demo.dir/src/main/cpp/LAppAllocator.cpp.o
+[17/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Math/CubismMath.cpp.o
+[18/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Math/CubismViewMatrix.cpp.o
+[19/50] Building CXX object CMakeFiles/Demo.dir/src/main/cpp/LAppPal.cpp.o
+[20/50] Building CXX object CMakeFiles/Demo.dir/src/main/cpp/LAppView.cpp.o
+[21/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Math/CubismTargetPoint.cpp.o
+[22/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Math/CubismModelMatrix.cpp.o
+[23/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Model/CubismModelUserDataJson.cpp.o
+[24/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Model/CubismMoc.cpp.o
+[25/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Model/CubismModelUserData.cpp.o
+[26/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Motion/CubismMotionManager.cpp.o
+[27/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Motion/CubismExpressionMotion.cpp.o
+[28/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Model/CubismUserModel.cpp.o
+[29/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Motion/ACubismMotion.cpp.o
+[30/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Motion/CubismMotionQueueEntry.cpp.o
+[31/50] Building CXX object CMakeFiles/Demo.dir/src/main/cpp/LAppModel.cpp.o
+[32/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Motion/CubismMotionJson.cpp.o
+[33/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Model/CubismModel.cpp.o
+[34/50] Building CXX object CMakeFiles/Demo.dir/src/main/cpp/JniBridgeC.cpp.o
+[35/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Rendering/CubismRenderer.cpp.o
+[36/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Physics/CubismPhysicsJson.cpp.o
+[37/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Utils/CubismDebug.cpp.o
+[38/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Motion/CubismMotionQueueManager.cpp.o
+[39/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Rendering/OpenGL/CubismOffscreenSurface_OpenGLES2.cpp.o
+[40/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Utils/CubismString.cpp.o
+[41/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Type/csmRectF.cpp.o
+[42/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Effect/CubismEyeBlink.cpp.o
+D:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src/Effect/CubismEyeBlink.cpp:55:60: warning: implicit conversion from 'int' to 'float' changes value from 2147483647 to 2147483648 [-Wimplicit-const-int-float-conversion]
+    const csmFloat32 r = static_cast<csmFloat32>(rand()) / RAND_MAX;
+                                                         ~ ^~~~~~~~
+D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include\stdlib.h:132:18: note: expanded from macro 'RAND_MAX'
+#define RAND_MAX 0x7fffffff
+                 ^~~~~~~~~~
+1 warning generated.
+[43/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Motion/CubismMotion.cpp.o
+[44/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Physics/CubismPhysics.cpp.o
+[45/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Type/csmString.cpp.o
+[46/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Utils/CubismJson.cpp.o
+[47/50] Building CXX object CMakeFiles/Demo.dir/src/main/cpp/LAppTextureManager.cpp.o
+[48/50] Building CXX object Framework/CMakeFiles/Framework.dir/src/Rendering/OpenGL/CubismRenderer_OpenGLES2.cpp.o
+[49/50] Linking CXX static library Framework\libFramework.a
+[50/50] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\release\obj\arm64-v8a\libDemo.so

@@ -1,0 +1,7 @@
+Executable : D:\ASDK\cmake\3.10.2.4988404\bin\ninja.exe
+arguments : 
+-C
+D:\WorkSpace\uni-arts-app-Android\app\.cxx\cmake\debug\armeabi-v7a
+Demo
+jvmArgs : 
+

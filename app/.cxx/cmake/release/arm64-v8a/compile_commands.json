@@ -1,0 +1,289 @@
+[
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o CMakeFiles\\Demo.dir\\src\\main\\cpp\\JniBridgeC.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\JniBridgeC.cpp",
+  "file": "D:/WorkSpace/uni-arts-app-Android/app/src/main/cpp/JniBridgeC.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o CMakeFiles\\Demo.dir\\src\\main\\cpp\\LAppAllocator.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppAllocator.cpp",
+  "file": "D:/WorkSpace/uni-arts-app-Android/app/src/main/cpp/LAppAllocator.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o CMakeFiles\\Demo.dir\\src\\main\\cpp\\LAppDefine.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppDefine.cpp",
+  "file": "D:/WorkSpace/uni-arts-app-Android/app/src/main/cpp/LAppDefine.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o CMakeFiles\\Demo.dir\\src\\main\\cpp\\LAppDelegate.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppDelegate.cpp",
+  "file": "D:/WorkSpace/uni-arts-app-Android/app/src/main/cpp/LAppDelegate.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o CMakeFiles\\Demo.dir\\src\\main\\cpp\\LAppLive2DManager.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppLive2DManager.cpp",
+  "file": "D:/WorkSpace/uni-arts-app-Android/app/src/main/cpp/LAppLive2DManager.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o CMakeFiles\\Demo.dir\\src\\main\\cpp\\LAppModel.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppModel.cpp",
+  "file": "D:/WorkSpace/uni-arts-app-Android/app/src/main/cpp/LAppModel.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o CMakeFiles\\Demo.dir\\src\\main\\cpp\\LAppPal.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppPal.cpp",
+  "file": "D:/WorkSpace/uni-arts-app-Android/app/src/main/cpp/LAppPal.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o CMakeFiles\\Demo.dir\\src\\main\\cpp\\LAppSprite.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppSprite.cpp",
+  "file": "D:/WorkSpace/uni-arts-app-Android/app/src/main/cpp/LAppSprite.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o CMakeFiles\\Demo.dir\\src\\main\\cpp\\LAppTextureManager.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppTextureManager.cpp",
+  "file": "D:/WorkSpace/uni-arts-app-Android/app/src/main/cpp/LAppTextureManager.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o CMakeFiles\\Demo.dir\\src\\main\\cpp\\LAppView.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\LAppView.cpp",
+  "file": "D:/WorkSpace/uni-arts-app-Android/app/src/main/cpp/LAppView.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -DDemo_EXPORTS -I../../../../../CubismSdkForNative-4-r.2/Samples/OpenGL/thirdParty/stb -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -isystem ../../../../../CubismSdkForNative-4-r.2/Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o CMakeFiles\\Demo.dir\\src\\main\\cpp\\TouchManager.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\app\\src\\main\\cpp\\TouchManager.cpp",
+  "file": "D:/WorkSpace/uni-arts-app-Android/app/src/main/cpp/TouchManager.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\CubismCdiJson.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismCdiJson.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismCdiJson.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\CubismDefaultParameterId.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismDefaultParameterId.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismDefaultParameterId.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\CubismFramework.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismFramework.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismFramework.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\CubismModelSettingJson.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismModelSettingJson.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\CubismModelSettingJson.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Effect\\CubismBreath.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismBreath.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismBreath.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Effect\\CubismEyeBlink.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismEyeBlink.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismEyeBlink.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Effect\\CubismPose.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismPose.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Effect\\CubismPose.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Id\\CubismId.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Id\\CubismId.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Id\\CubismId.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Id\\CubismIdManager.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Id\\CubismIdManager.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Id\\CubismIdManager.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Math\\CubismMath.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismMath.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismMath.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Math\\CubismMatrix44.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismMatrix44.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismMatrix44.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Math\\CubismModelMatrix.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismModelMatrix.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismModelMatrix.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Math\\CubismTargetPoint.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismTargetPoint.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismTargetPoint.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Math\\CubismVector2.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismVector2.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismVector2.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Math\\CubismViewMatrix.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismViewMatrix.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Math\\CubismViewMatrix.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Model\\CubismMoc.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismMoc.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismMoc.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Model\\CubismModel.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModel.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModel.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Model\\CubismModelUserData.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModelUserData.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModelUserData.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Model\\CubismModelUserDataJson.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModelUserDataJson.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismModelUserDataJson.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Model\\CubismUserModel.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismUserModel.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Model\\CubismUserModel.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Motion\\ACubismMotion.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\ACubismMotion.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\ACubismMotion.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Motion\\CubismExpressionMotion.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismExpressionMotion.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismExpressionMotion.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Motion\\CubismMotion.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotion.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotion.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Motion\\CubismMotionJson.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionJson.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionJson.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Motion\\CubismMotionManager.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionManager.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionManager.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Motion\\CubismMotionQueueEntry.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionQueueEntry.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionQueueEntry.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Motion\\CubismMotionQueueManager.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionQueueManager.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Motion\\CubismMotionQueueManager.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Physics\\CubismPhysics.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Physics\\CubismPhysics.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Physics\\CubismPhysics.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Physics\\CubismPhysicsJson.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Physics\\CubismPhysicsJson.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Physics\\CubismPhysicsJson.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Rendering\\CubismRenderer.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\CubismRenderer.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\CubismRenderer.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Rendering\\OpenGL\\CubismOffscreenSurface_OpenGLES2.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\OpenGL\\CubismOffscreenSurface_OpenGLES2.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\OpenGL\\CubismOffscreenSurface_OpenGLES2.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Rendering\\OpenGL\\CubismRenderer_OpenGLES2.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\OpenGL\\CubismRenderer_OpenGLES2.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Rendering\\OpenGL\\CubismRenderer_OpenGLES2.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Type\\csmRectF.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\csmRectF.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\csmRectF.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Type\\csmString.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\csmString.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Type\\csmString.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Utils\\CubismDebug.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismDebug.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismDebug.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Utils\\CubismJson.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismJson.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismJson.cpp"
+},
+
+{
+  "directory": "D:/WorkSpace/uni-arts-app-Android/app/.cxx/cmake/release/arm64-v8a",
+  "command": "D:\\ASDK\\ndk\\22.1.7171670\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android23 --gcc-toolchain=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/ASDK/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -DCSM_TARGET_ANDROID_ES2 -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/src -ID:/WorkSpace/uni-arts-app-Android/CubismSdkForNative-4-r.2/Framework/../Core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC   -std=c++14 -o Framework\\CMakeFiles\\Framework.dir\\src\\Utils\\CubismString.cpp.o -c D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismString.cpp",
+  "file": "D:\\WorkSpace\\uni-arts-app-Android\\CubismSdkForNative-4-r.2\\Framework\\src\\Utils\\CubismString.cpp"
+}
+]
