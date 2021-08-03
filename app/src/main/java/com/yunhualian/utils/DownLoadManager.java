@@ -408,7 +408,7 @@ public class DownLoadManager {
     private String getFileProviderAuthority() {
         try {
             for (ProviderInfo provider : YunApplication.getInstance().getPackageManager().getPackageInfo(YunApplication.getInstance().getPackageName(), PackageManager.GET_PROVIDERS).providers) {
-                if (FileProvider.class.getName().equals(provider.name) && provider.authority.endsWith(BuildConfig.APPLICATION_ID + ".file_provider")) {
+                if (FileProvider.class.getName().equals(provider.name) && provider.authority.endsWith(BuildConfig.APPLICATION_ID + ".fileprovider")) {
                     return provider.authority;
                 }
             }
