@@ -156,7 +156,7 @@ public class CollectArtVo {
         private String selling_amount;
         private int trades_count;
         private AuthorBean author;
-
+        private String resource_type;
         public int getId() {
             return id;
         }
@@ -235,6 +235,14 @@ public class CollectArtVo {
 
         public void setImg_main_file1(ImgMainFile1Bean img_main_file1) {
             this.img_main_file1 = img_main_file1;
+        }
+
+        public String getResource_type() {
+            return resource_type;
+        }
+
+        public void setResource_type(String resource_type) {
+            this.resource_type = resource_type;
         }
 
         public ImgMainFile2Bean getImg_main_file2() {

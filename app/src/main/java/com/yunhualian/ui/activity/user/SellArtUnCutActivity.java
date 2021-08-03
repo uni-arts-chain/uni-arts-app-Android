@@ -7,7 +7,6 @@ import android.view.Gravity;
 
 import androidx.annotation.Nullable;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neovisionaries.ws.client.WebSocketFactory;
@@ -17,7 +16,6 @@ import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.constant.ExtraConstant;
-import com.yunhualian.databinding.ActivitySellArtBinding;
 import com.yunhualian.databinding.ActivitySellArtUnCutBinding;
 import com.yunhualian.entity.AccountIdVo;
 import com.yunhualian.entity.BaseResponseVo;
@@ -28,7 +26,7 @@ import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.PinCodeKtActivity;
 import com.yunhualian.ui.fragment.SendIntegrationTest;
-import com.yunhualian.ui.fragment.ToHexKt;
+import com.yunhualian.ui.fragment.ToHexV28Kt;
 import com.yunhualian.utils.SharedPreUtils;
 import com.yunhualian.widget.UploadSuccessPopUpWindow;
 
@@ -41,7 +39,7 @@ import java.util.HashMap;
 import jp.co.soramitsu.fearless_utils.encrypt.Signer;
 import jp.co.soramitsu.fearless_utils.scale.EncodableStruct;
 import jp.co.soramitsu.fearless_utils.wsrpc.SocketService;
-import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.SubmittableExtrinsic;
+import jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct.SubmittableExtrinsicV28;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -54,7 +52,7 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
 
     UploadSuccessPopUpWindow uploadSuccessPopUpWindow;
     String balance;
-
+    boolean isFromDetail;
     @Override
     public int getLayoutId() {
         return R.layout.activity_sell_art_un_cut;
@@ -71,6 +69,7 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
         mToolBarOptions.titleId = R.string.title_sell;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         sellingArtVo = (SellingArtVo) getIntent().getSerializableExtra(ARTINFO);
+        isFromDetail = getIntent().getBooleanExtra("is_from_detail",false);
         if (sellingArtVo != null) {
             initPageData();
         }
@@ -148,13 +147,13 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
 
         Signer signer = new Signer();
         SendIntegrationTest sendIntegrationTest = new SendIntegrationTest();
-        EncodableStruct<SubmittableExtrinsic> sigStr
+        EncodableStruct<SubmittableExtrinsicV28> sigStr
                 = sendIntegrationTest.shouldfee(
                 receiveAddress.substring(2),
                 1,
                 sellingArtVo.getCollection_id(),
                 sellingArtVo.getItem_id(), privateKey, publicKey, nonce.substring(2), rxWebSocket, signer, AppConstant.genesisHash);
-        String hexStr = ToHexKt.toHex(sigStr);
+        String hexStr = ToHexV28Kt.toHex(sigStr);
         return hexStr;
     }
 
@@ -175,7 +174,11 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
 //                    ToastUtils.showShort("success");
-                    EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS, null));
+                    if(isFromDetail){
+                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS_FROM_DETAIL, null));
+                    }else{
+                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS, null));
+                    }
                     finish();
                 }
             }

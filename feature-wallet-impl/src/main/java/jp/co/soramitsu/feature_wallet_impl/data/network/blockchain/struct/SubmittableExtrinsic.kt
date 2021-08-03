@@ -1,8 +1,11 @@
 package jp.co.soramitsu.feature_wallet_impl.data.network.blockchain.struct
 
+import io.emeraldpay.polkaj.scale.ScaleCodecReader
+import io.emeraldpay.polkaj.scale.ScaleCodecWriter
+import jp.co.soramitsu.common.utils.directWrite
 import jp.co.soramitsu.fearless_utils.extensions.toHexString
 import jp.co.soramitsu.fearless_utils.scale.*
-import jp.co.soramitsu.fearless_utils.scale.dataType.uint
+import jp.co.soramitsu.fearless_utils.scale.dataType.DataType
 import jp.co.soramitsu.fearless_utils.scale.dataType.uint8
 import org.bouncycastle.crypto.digests.Blake2bDigest
 import org.bouncycastle.jcajce.provider.digest.BCMessageDigest
@@ -106,6 +109,24 @@ object ExtrinsicPayloadValue : Schema<ExtrinsicPayloadValue>() {
     val blockHash by sizedByteArray(32)
 }
 
+object ExtrinsicPayloadValueV28 : Schema<ExtrinsicPayloadValueV28>() {
+    val call by custom(OpaqueCall)
+
+    val era by custom(EraType, default = Era.Immortal)
+
+    val nonce by compactInt()
+
+    val tip by compactInt(default = TIP)
+
+    val specVersion by uint32()
+
+    val transactionVersion by uint32()
+
+    val genesis by sizedByteArray(32)
+
+    val blockHash by sizedByteArray(32)
+}
+
 object ExtrinsicPayloadValue2 : Schema<ExtrinsicPayloadValue2>() {
     val call by schema(Call2)
 
@@ -128,4 +149,18 @@ fun EncodableStruct<SubmittableExtrinsic>.hash(): String {
     val bytes = Blake2b256.digest(SubmittableExtrinsic.toByteArray(this))
 
     return bytes.toHexString(withPrefix = true)
+}
+
+object OpaqueCall : DataType<ByteArray>() {
+    override fun conformsType(value: Any?): Boolean {
+        return value is ByteArray
+    }
+
+    override fun read(reader: ScaleCodecReader): ByteArray {
+        throw NotImplementedError("Cannot decode opaque call without runtime metadata")
+    }
+
+    override fun write(writer: ScaleCodecWriter, value: ByteArray) {
+        writer.directWrite(value)
+    }
 }

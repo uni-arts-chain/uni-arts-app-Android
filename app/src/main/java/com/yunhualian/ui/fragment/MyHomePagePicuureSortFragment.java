@@ -109,6 +109,7 @@ public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePi
             if (view.getId() == R.id.sellAction) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(SellArtActivity.ARTINFO, sellingArtVo);
+                bundle.putBoolean("is_from_detail",false);
                 if (sellingArtVo.getCollection_mode() == CUT_MODE) {
                     startActivity(SellArtActivity.class, bundle);
                 } else
