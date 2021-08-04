@@ -51,6 +51,10 @@ public class DateUtil {
         return System.currentTimeMillis();
     }
 
+    public static Long getTomorrowCurrentTime(){
+        return System.currentTimeMillis() + (24 * 3600 * 1000);
+    }
+
     public static String getCurrentSecondTime() {
         long time = System.currentTimeMillis() / 1000;
 

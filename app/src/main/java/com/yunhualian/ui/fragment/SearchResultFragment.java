@@ -38,8 +38,8 @@ public class SearchResultFragment extends BaseFragment<FragmentSearchResultLayou
     protected void initView() {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mAdapter = new PicturesAdapter(mArtList);
-        mAdapter.setEmptyView(R.layout.layout_entrust_empty, mBinding.rvSearchResult);
         mBinding.rvSearchResult.setLayoutManager(layoutManager);
+        mAdapter.setEmptyView(R.layout.layout_entrust_empty, mBinding.rvSearchResult);
         mBinding.rvSearchResult.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (mArtList != null && mArtList.size() > 0) {
@@ -51,6 +51,7 @@ public class SearchResultFragment extends BaseFragment<FragmentSearchResultLayou
     }
 
     public void updateData(List<SellingArtVo> artList){
-        mAdapter.setNewData(artList);
+        mArtList = artList;
+        mAdapter.setNewData(mArtList);
     }
 }

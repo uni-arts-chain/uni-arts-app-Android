@@ -549,4 +549,10 @@ public class RequestManager {
         Call<BaseResponseVo<UserAggrementVo>> mCall = NetworkManager.instance().getmRemoteService().getAgreement();
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
+
+    //
+    public void startAuction(HashMap<String, String> map, MinerCallback<BaseResponseVo<SellingArtVo>> mCallBack) {
+        Call<BaseResponseVo<SellingArtVo>> mCall = NetworkManager.instance().getmRemoteService().startAuction(map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
 }

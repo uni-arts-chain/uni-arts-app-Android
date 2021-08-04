@@ -39,7 +39,7 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> implemen
 
     private List<String> historyList;
 
-    private List<SellingArtVo> artList;
+    private List<SellingArtVo> artList = new ArrayList<>();
 
     private MyHomePageAdapter pageAdapter;
 
@@ -158,10 +158,8 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> implemen
                     SharedPreUtils.saveSearchHistory(SearchActivity.this, mDataBinding.searchEx.getText().toString());
                     artList = response.body().getBody();
                     mDataBinding.searchHistoryLayout.setVisibility(View.GONE);
-                    if (artList.size() > 0) {
-                        sellFragment.updateData(artList);
-                        auctionFragment.updateData(artList);
-                    }
+                    sellFragment.updateData(artList);
+                    auctionFragment.updateData(artList);
                 }
             }
 

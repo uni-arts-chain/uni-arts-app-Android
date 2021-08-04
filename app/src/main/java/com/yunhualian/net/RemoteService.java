@@ -323,5 +323,9 @@ public interface RemoteService {
     @GET("/api/v2/members/user_agreement")
     Call<BaseResponseVo<UserAggrementVo>> getAgreement();
 
+    /*创建艺术品拍卖*/
+    @POST("/api/v2/auctions")
+    @FormUrlEncoded
+    Call<BaseResponseVo<SellingArtVo>> startAuction(@FieldMap HashMap<String, String> map);
 }
 

@@ -22,6 +22,7 @@ import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
+import com.yunhualian.ui.activity.GoAuctionActivity;
 import com.yunhualian.ui.activity.TransferActivity;
 import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.ui.activity.user.SellArtActivity;
@@ -112,12 +113,17 @@ public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePi
                 bundle.putBoolean("is_from_detail",false);
                 if (sellingArtVo.getCollection_mode() == CUT_MODE) {
                     startActivity(SellArtActivity.class, bundle);
-                } else
+                } else{
                     startActivity(SellArtUnCutActivity.class, bundle);
+                }
             } else if (view.getId() == R.id.transferAction) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(SellArtActivity.ARTINFO, sellingArtVo);
                 startActivity(TransferActivity.class, bundle);
+            }else if(view.getId() == R.id.auctionAction){
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(SellArtActivity.ARTINFO, sellingArtVo);
+                startActivity(GoAuctionActivity.class, bundle);
             }
         });
         mBinding.swipeRefresh.setOnRefreshListener(this::queryArts);

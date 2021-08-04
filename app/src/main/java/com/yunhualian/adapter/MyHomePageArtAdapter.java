@@ -61,6 +61,7 @@ public class MyHomePageArtAdapter extends BaseQuickAdapter<SellingArtVo, BaseVie
 
         helper.addOnClickListener(R.id.sellAction);
         helper.addOnClickListener(R.id.transferAction);
+        helper.addOnClickListener(R.id.auctionAction);
         Glide.with(mContext).asBitmap().load(item.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
