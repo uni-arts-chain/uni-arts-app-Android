@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
@@ -43,7 +45,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
     private int MAX_SIZE = 5 * 1024;
     List<File> fileList = new ArrayList<>();
     private boolean bIsZFBCode;
-
+    private RequestOptions options;
 
     @Override
     public int getLayoutId() {
@@ -79,10 +81,17 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleId = R.string.with_draw;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
+        options = new RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+
         mDataBinding.imgZfbAdd.setOnClickListener(this);
         mDataBinding.imgWxAdd.setOnClickListener(this);
+        mDataBinding.imgDeleteZfb.setOnClickListener(this);
+        mDataBinding.imgDeleteWx.setOnClickListener(this);
         mDataBinding.btnWithdraw.setOnClickListener(this);
         initPhoto();
+        initBtnStatus();
     }
 
     @Override
@@ -111,34 +120,60 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
     }
 
     private void updatePageInfo() {
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL);
+
+
         if (fileList != null && fileList.size() > 0) {
             if (fileList.size() == 1) {
                 if (bIsZFBCode) {
-                    mDataBinding.imgZfbCode.setVisibility(View.VISIBLE);
-                    mDataBinding.imgZfbAdd.setVisibility(View.GONE);
-                    mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
-                    Glide.with(this).load(fileList.get(0).getAbsolutePath()).apply(options).into(mDataBinding.imgZfbCode);
+                    showZfbCode(0);
+                    mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
                 } else {
-                    mDataBinding.imgWxCode.setVisibility(View.VISIBLE);
-                    mDataBinding.imgWxAdd.setVisibility(View.GONE);
-                    mDataBinding.imgDeleteWx.setVisibility(View.VISIBLE);
-                    Glide.with(this).load(fileList.get(0).getAbsolutePath()).apply(options).into(mDataBinding.imgWxCode);
+                    showWxCode(0);
+                    mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
                 }
             } else {
-
+                showZfbCode(0);
+                showWxCode(1);
+                mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
             }
         } else {
 
         }
+        initBtnStatus();
+    }
+
+    private void showZfbCode(int index) {
+        mDataBinding.imgZfbCode.setVisibility(View.VISIBLE);
+        mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
+        mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
+        Glide.with(this).load(fileList.get(index).getAbsolutePath()).apply(options).into(mDataBinding.imgZfbCode);
+    }
+
+    private void showWxCode(int index) {
+        mDataBinding.imgWxCode.setVisibility(View.VISIBLE);
+        mDataBinding.imgDeleteWx.setVisibility(View.VISIBLE);
+        if (index == 1) {
+            mDataBinding.rlWxSelect.setVisibility(View.GONE);
+        } else {
+            mDataBinding.rlWxSelect.setVisibility(View.VISIBLE);
+        }
+        Glide.with(this).load(fileList.get(index).getAbsolutePath()).apply(options).into(mDataBinding.imgWxCode);
     }
 
     private void removeAll() {
 
     }
 
+
+    private void initBtnStatus() {
+        if (fileList != null && fileList.size() > 0) {
+            mDataBinding.btnWithdraw.setVisibility(View.VISIBLE);
+            mDataBinding.tvHint.setVisibility(View.VISIBLE);
+        } else {
+            mDataBinding.btnWithdraw.setVisibility(View.GONE);
+            mDataBinding.tvHint.setVisibility(View.GONE);
+        }
+    }
 
     /**
      * 获取TakePhoto实例
@@ -162,11 +197,6 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
         imageUri = Uri.fromFile(file);
     }
 
-    private CropOptions getCropOptions() {
-        CropOptions.Builder builder = new CropOptions.Builder();
-        return builder.create();
-    }
-
     @Override
     public PermissionManager.TPermissionType invoke(InvokeParam invokeParam) {
         PermissionManager.TPermissionType type = PermissionManager.checkPermission(TContextWrap.of(this), invokeParam.getMethod());
@@ -174,6 +204,10 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
             this.invokeParam = invokeParam;
         }
         return type;
+    }
+
+    private void uploadCode(){
+
     }
 
     @Override
@@ -188,14 +222,44 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
             case R.id.img_wx_add:
                 bIsZFBCode = false;
                 takePhoto.onEnableCompress(new CompressConfig.Builder().enablePixelCompress(false).enableQualityCompress(false).setMaxSize(MAX_SIZE).create(), false);
-                takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions());
+                takePhoto.onPickFromGallery();
                 break;
 
-            case R.id.img_zfb_code:
-
+            case R.id.img_delete_zfb:
+                if (fileList.size() == 0) {
+                    return;
+                } else if (fileList.size() == 1) {
+                    fileList.clear();
+                } else {
+                    fileList.remove(0);
+                    //当删除支付宝收款码时，默认微信收款码为选中状态
+                    mDataBinding.rlWxSelect.setVisibility(View.VISIBLE);
+                    mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
+                }
+                mDataBinding.imgDeleteZfb.setVisibility(View.GONE);
+                mDataBinding.imgZfbCode.setVisibility(View.GONE);
+                mDataBinding.rlZfbSelect.setVisibility(View.GONE);
+                mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
+                initBtnStatus();
                 break;
+
+            case R.id.img_delete_wx:
+                if (fileList.size() == 0) {
+                    return;
+                } else if (fileList.size() == 1) {
+                    fileList.clear();
+                } else {
+                    fileList.remove(1);
+                }
+                mDataBinding.imgDeleteWx.setVisibility(View.GONE);
+                mDataBinding.imgWxCode.setVisibility(View.GONE);
+                mDataBinding.rlWxSelect.setVisibility(View.GONE);
+                mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
+                initBtnStatus();
+                break;
+
             case R.id.btn_withdraw:
-
+                uploadCode();
                 break;
         }
     }

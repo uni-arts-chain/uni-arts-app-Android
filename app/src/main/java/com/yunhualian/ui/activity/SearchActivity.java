@@ -88,7 +88,7 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> implemen
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
-//                    search(s.toString());
+                    search(s.toString());
                 }
             }
         });
@@ -113,35 +113,10 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> implemen
         mDataBinding.viewpager.setAdapter(pageAdapter);
         mDataBinding.tabLayout.setupWithViewPager(mDataBinding.viewpager);
         mDataBinding.tabLayout.setTabMode(TabLayout.MODE_FIXED);
-//        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//        picturesAdapter = new PicturesAdapter(artList);
-//        mDataBinding.resultList.setLayoutManager(layoutManager);
-//        mDataBinding.resultList.setAdapter(picturesAdapter);
-//        picturesAdapter.setEmptyView(R.layout.layout_entrust_empty, mDataBinding.resultList);
-//        picturesAdapter.setOnItemClickListener((adapter, view, position) -> {
-//
-//            if (artList != null && artList.size() > 0) {
-//                Intent intent = new Intent(this, ArtDetailActivity.class);
-//                intent.putExtra(ArtDetailActivity.ART_ID, artList.get(position).getId());
-//                startActivity(intent);
-//            }
-//
-//        });
-        initRefresh();
         mDataBinding.clearHistory.setOnClickListener(v -> {
             SharedPreUtils.clearAll(this);
             historyListAdapter.setNewData(new ArrayList<>());
         });
-    }
-
-    private void initRefresh() {
-        mDataBinding.srlShoopingMall.setColorSchemeResources(R.color.colorAccent);
-        mDataBinding.srlShoopingMall.setDistanceToTriggerSync(500);
-        mDataBinding.srlShoopingMall.setOnRefreshListener(() -> {
-            search(mDataBinding.searchEx.getText().toString());
-            mDataBinding.srlShoopingMall.setRefreshing(false);
-        });
-
     }
 
     public void search(String keyWords) {
@@ -174,8 +149,6 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> implemen
                 dismissLoading();
             }
         });
-//        sendRequest(MarketService.getInstance().MarketDepth, params, false, false, false);
-
     }
 
     @Override
@@ -185,16 +158,6 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> implemen
         }
         return auctionFragment;
     }
-
-//    @Override
-//    public void OnResult(DTRequest request, Head head, Object response) {
-//
-//        if (head.isSuccess()) {
-//            dismissLoading();
-//            artList = (List<SellingArtVo>) response;
-//            picturesAdapter.setNewData(artList);
-//        }
-//    }
 
     public class HistoryListAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
@@ -207,13 +170,5 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> implemen
             helper.setText(R.id.searchTx, item);
             helper.addOnClickListener(R.id.clear);
         }
-
     }
-
-//    private AsynCommon sendRequest(API api, HashMap<String, String> params, boolean showprogressDialog, boolean showErrorMsgOneTime, boolean showErrorMsg) {
-//        if (showprogressDialog)
-//            showLoading("");
-//
-//        return AsynCommon.SendRequest(api, params, showErrorMsgOneTime, showErrorMsg, this, this);
-//    }
 }

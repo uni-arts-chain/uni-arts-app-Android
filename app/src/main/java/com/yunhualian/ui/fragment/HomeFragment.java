@@ -13,7 +13,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -82,7 +81,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     private List<ArtAuctionVo> artAuctionVoList;
     private List<SellingArtVo> popularList;
     private List<ArtTopicVo> themeList;
-    EditText searchText;
+    LinearLayout searchLayout;
     LinearLayout messageIcon;
     LinearLayout kefuIcon;
     TextView noReadFlag;
@@ -142,8 +141,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     @Override
     protected void initView() {
         initRefresh();
-        searchText = mBinding.titleLayout.findViewById(R.id.search_edt);
-        searchText.setOnClickListener(v -> startActivity(SearchActivity.class));
+        searchLayout = mBinding.titleLayout.findViewById(R.id.centerToolbarView);
+        searchLayout.setOnClickListener(v -> startActivity(SearchActivity.class));
         noReadFlag = mBinding.titleLayout.findViewById(R.id.noRead);
         messageIcon = mBinding.titleLayout.findViewById(R.id.layout_menu);
         kefuIcon = mBinding.titleLayout.findViewById(R.id.layout_back);

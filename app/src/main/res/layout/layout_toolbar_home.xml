@@ -72,16 +72,17 @@
         android:focusable="true"
         android:orientation="horizontal">
 
-        <EditText
+        <TextView
             android:id="@+id/search_edt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dp_5"
             android:background="@null"
+            android:gravity="center_vertical"
             android:drawableLeft="@mipmap/icon_search"
             android:drawablePadding="@dimen/dp_10"
-            android:editable="false"
-            android:hint="@string/edit_hint"
+            android:text="@string/edit_hint"
+            android:textColor="#AAAAAA"
             android:textSize="13sp" />
 
     </LinearLayout>

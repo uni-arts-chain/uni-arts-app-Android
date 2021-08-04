@@ -1,7 +1,9 @@
 package com.yunhualian.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class DateUtil {
 
@@ -51,7 +53,7 @@ public class DateUtil {
         return System.currentTimeMillis();
     }
 
-    public static Long getTomorrowCurrentTime(){
+    public static Long getTomorrowCurrentTime() {
         return System.currentTimeMillis() + (24 * 3600 * 1000);
     }
 
@@ -59,5 +61,17 @@ public class DateUtil {
         long time = System.currentTimeMillis() / 1000;
 
         return String.valueOf(time);
+    }
+
+    /*
+     * 将时间转换为时间戳(秒)
+     */
+    public static String dateToStamp(String s) throws ParseException {
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = simpleDateFormat.parse(s);
+        long ts = date.getTime() / 1000;
+        res = String.valueOf(ts);
+        return res;
     }
 }
