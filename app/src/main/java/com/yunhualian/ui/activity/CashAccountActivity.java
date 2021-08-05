@@ -1,5 +1,7 @@
 package com.yunhualian.ui.activity;
 
+import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.yunhualian.R;
@@ -11,6 +13,7 @@ import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.HistoriesBean;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.wallet.WithdrawActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +26,7 @@ import retrofit2.Response;
  * @Date:2021/8/5
  * @Author:Created by peter_ben
  */
-public class CashAccountActivity extends BaseActivity<ActivityCashAccountLayoutBinding> {
+public class CashAccountActivity extends BaseActivity<ActivityCashAccountLayoutBinding> implements View.OnClickListener {
 
     private String accountRemain = "0";
     private AccountHistoryAdapter adapter;
@@ -60,6 +63,8 @@ public class CashAccountActivity extends BaseActivity<ActivityCashAccountLayoutB
         adapter.setOnLoadMoreListener(this::queryHistories, mDataBinding.rvBills);
         initRefresh();
         queryHistories();
+
+        mDataBinding.btnWithdraw.setOnClickListener(this);
     }
 
     private void queryHistories() {
@@ -108,5 +113,12 @@ public class CashAccountActivity extends BaseActivity<ActivityCashAccountLayoutB
             queryHistories();
             mDataBinding.srlBills.setRefreshing(false);
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_withdraw) {
+            startActivity(WithdrawActivity.class);
+        }
     }
 }

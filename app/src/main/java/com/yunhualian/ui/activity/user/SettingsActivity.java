@@ -340,7 +340,7 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding> impl
                 .addFormDataPart("avatar", StringUtils.getFileNameNoEx(file.getName()), requestFrontFile)
                 .setType(MultipartBody.FORM)
                 .build();
-        RequestManager.instance().uploadIdImages(file.getName(), mRequestBody, new MinerCallback<BaseResponseVo<UserVo>>() {
+        RequestManager.instance().uploadIdImages(mRequestBody, new MinerCallback<BaseResponseVo<UserVo>>() {
             @Override
             public void onSuccess
                     (Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {

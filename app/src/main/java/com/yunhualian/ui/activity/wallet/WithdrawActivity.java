@@ -10,14 +10,13 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
-import com.jph.takephoto.model.CropOptions;
 import com.jph.takephoto.model.InvokeParam;
 import com.jph.takephoto.model.TContextWrap;
 import com.jph.takephoto.model.TResult;
@@ -25,13 +24,24 @@ import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.yunhualian.R;
+import com.yunhualian.adapter.UploadCodeBean;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.databinding.ActivityWithdrawLayoutBinding;
+import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.net.MinerCallback;
+import com.yunhualian.net.RequestManager;
+import com.yunhualian.utils.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * 提现上传二维码页面
@@ -101,7 +111,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
             fileList.add(file);
             updatePageInfo();
             updateButtonStatus();
-            initPhoto();//初始化保存路径
+//            initPhoto();//初始化保存路径
         }
     }
 
@@ -121,7 +131,6 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
 
     private void updatePageInfo() {
 
-
         if (fileList != null && fileList.size() > 0) {
             if (fileList.size() == 1) {
                 if (bIsZFBCode) {
@@ -136,8 +145,6 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                 showWxCode(1);
                 mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
             }
-        } else {
-
         }
         initBtnStatus();
     }
@@ -206,8 +213,57 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
         return type;
     }
 
-    private void uploadCode(){
+    private void uploadCode() {
+        showLoading("正在上传...");
+        MultipartBody.Builder multipartBody = new MultipartBody.Builder();
+        multipartBody.setType(MultipartBody.FORM);
 
+        if (fileList == null || fileList.size() == 0) {
+            return;
+        }
+        if (fileList.size() == 1) {
+            File file = fileList.get(0);
+            RequestBody requestFrontFile = RequestBody.create(MediaType.parse("image/*"), file);
+            if (mDataBinding.imgZfbCode.getVisibility() == View.VISIBLE) {
+                multipartBody.addFormDataPart("alipay_img", StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
+            } else if (mDataBinding.imgWxCode.getVisibility() == View.VISIBLE) {
+                multipartBody.addFormDataPart("weixin_img", StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
+            }
+        } else {
+            for (int i = 0; i < fileList.size(); i++) {
+                File file = fileList.get(i);
+                RequestBody requestFrontFile = RequestBody.create(MediaType.parse("image/*"), file);
+                if (i == 0) {
+                    multipartBody.addFormDataPart("alipay_img", StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
+                } else if (i == 1) {
+                    multipartBody.addFormDataPart("weixin_img", StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
+                }
+
+            }
+        }
+        RequestBody mRequestBody = multipartBody.build();
+        RequestManager.instance().uploadQrCode(mRequestBody, new MinerCallback<BaseResponseVo<UploadCodeBean>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<UploadCodeBean>> call, Response<BaseResponseVo<UploadCodeBean>> response) {
+                dismissLoading();
+                if (response.body().isSuccessful()) {
+                    if (response.body().getBody() != null) {
+
+                    }
+                    ToastUtils.showLong("上传成功");
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<UploadCodeBean>> call, Response<BaseResponseVo<UploadCodeBean>> response) {
+                dismissLoading();
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+                dismissLoading();
+            }
+        });
     }
 
     @Override

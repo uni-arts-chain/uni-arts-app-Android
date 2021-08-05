@@ -1,5 +1,6 @@
 package com.yunhualian.net;
 
+import com.yunhualian.adapter.UploadCodeBean;
 import com.yunhualian.entity.AccountIdVo;
 import com.yunhualian.entity.AccountVo;
 import com.yunhualian.entity.AnnouncementVo;
@@ -328,5 +329,9 @@ public interface RemoteService {
     /*账单明细*/
     @GET("/api/v2/account_histories")
     Call<BaseResponseVo<List<HistoriesBean>>> queryAccountHistory(@Query("page") int page);
+
+    // 上传wx和alipay收款二维码
+    @POST("/api/v2/payment_methods")
+    Call<BaseResponseVo<UploadCodeBean>> uploadQrCodeImg(@Body RequestBody mRequestBody);
 }
 

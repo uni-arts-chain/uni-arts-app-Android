@@ -2,6 +2,7 @@ package com.yunhualian.net;
 
 import com.google.gson.JsonObject;
 import com.yunhualian.R;
+import com.yunhualian.adapter.UploadCodeBean;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.entity.AccountIdVo;
 import com.yunhualian.entity.AccountVo;
@@ -452,7 +453,7 @@ public class RequestManager {
      *
      * @param mCallBack
      */
-    public void uploadIdImages(String param, RequestBody mRequestBody, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
+    public void uploadIdImages(RequestBody mRequestBody, MinerCallback<BaseResponseVo<UserVo>> mCallBack) {
         Call<BaseResponseVo<UserVo>> mCall = NetworkManager.instance().getmRemoteService().uploadIdImages(mRequestBody);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
@@ -580,6 +581,16 @@ public class RequestManager {
      */
     public void queryAccountHistory(int page,MinerCallback<BaseResponseVo<List<HistoriesBean>>> mCallBack) {
         Call<BaseResponseVo<List<HistoriesBean>>> mCall = NetworkManager.instance().getmRemoteService().queryAccountHistory(page);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 上传身份图片
+     *
+     * @param mCallBack
+     */
+    public void uploadQrCode(RequestBody mRequestBody, MinerCallback<BaseResponseVo<UploadCodeBean>> mCallBack) {
+        Call<BaseResponseVo<UploadCodeBean>> mCall = NetworkManager.instance().getmRemoteService().uploadQrCodeImg(mRequestBody);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 }
