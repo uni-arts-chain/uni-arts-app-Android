@@ -1,18 +1,16 @@
 package com.yunhualian.net;
 
-import com.google.gson.JsonObject;
 import com.yunhualian.entity.AccountIdVo;
+import com.yunhualian.entity.AccountVo;
 import com.yunhualian.entity.AnnouncementVo;
 import com.yunhualian.entity.AppUpdateVo;
 import com.yunhualian.entity.ArtAuctionVo;
-import com.yunhualian.entity.ArtBean;
-import com.yunhualian.entity.ArtMaterialVo;
 import com.yunhualian.entity.ArtPriceVo;
-import com.yunhualian.entity.ArtThemeVo;
 import com.yunhualian.entity.ArtTopicVo;
 import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.ArtistListVo;
 import com.yunhualian.entity.ArtistVo;
+import com.yunhualian.entity.AuctionVo;
 import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.BlindBoxCheckVO;
@@ -23,6 +21,7 @@ import com.yunhualian.entity.BlindBoxVo;
 import com.yunhualian.entity.BoughtArtVo;
 import com.yunhualian.entity.CollectArtVo;
 import com.yunhualian.entity.FollowerVO;
+import com.yunhualian.entity.HistoriesBean;
 import com.yunhualian.entity.MemberInfo;
 import com.yunhualian.entity.MessagesVo;
 import com.yunhualian.entity.NoRead;
@@ -38,21 +37,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
-import retrofit2.http.Streaming;
-import retrofit2.http.Url;
 
 public interface RemoteService {
 
@@ -82,8 +76,8 @@ public interface RemoteService {
     Call<BaseResponseVo<UserVo>> feedBack(@FieldMap HashMap<String, String> map);
 
     //账户列表
-//    @GET("/api/v1/accounts")
-//    Call<BaseResponseVo<List<AccountVo>>> accounts();
+    @GET("/api/v1/accounts")
+    Call<BaseResponseVo<List<AccountVo>>> queryAccountInfo();
 
     /*出售*/
     @POST("/api/v2/art_orders")
@@ -95,6 +89,9 @@ public interface RemoteService {
     @GET("/api/v2/art_orders/lock_account_id")
     Call<BaseResponseVo<AccountIdVo>> queryAccountId();
 
+
+    @GET("/api/v2/auctions/lock_account_id")
+    Call<BaseResponseVo<AccountIdVo>> queryAuctionAccountId();
 
     //手机用户忘记密码
 
@@ -326,6 +323,10 @@ public interface RemoteService {
     /*创建艺术品拍卖*/
     @POST("/api/v2/auctions")
     @FormUrlEncoded
-    Call<BaseResponseVo<SellingArtVo>> startAuction(@FieldMap HashMap<String, String> map);
+    Call<BaseResponseVo<AuctionVo>> startAuction(@FieldMap HashMap<String, String> map);
+
+    /*账单明细*/
+    @GET("/api/v2/account_histories")
+    Call<BaseResponseVo<List<HistoriesBean>>> queryAccountHistory(@Query("page") int page);
 }
 

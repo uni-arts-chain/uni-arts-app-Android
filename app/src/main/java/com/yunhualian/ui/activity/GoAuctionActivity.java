@@ -5,16 +5,15 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.google.gson.Gson;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
-import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.databinding.ActivityGoAuctionLayoutBinding;
 import com.yunhualian.entity.AccountIdVo;
+import com.yunhualian.entity.AuctionVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.StdoutLogger;
@@ -27,6 +26,7 @@ import com.yunhualian.utils.DateUtil;
 import com.yunhualian.utils.SharedPreUtils;
 import com.yunhualian.utils.ToastManager;
 
+import java.text.ParseException;
 import java.util.HashMap;
 
 import jp.co.soramitsu.fearless_utils.encrypt.Signer;
@@ -98,6 +98,7 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
     private void initListener() {
         mDataBinding.add.setOnClickListener(this);
         mDataBinding.cut.setOnClickListener(this);
+        mDataBinding.btnAuction.setOnClickListener(this);
         mDataBinding.inputAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -134,23 +135,23 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
         });
     }
 
-    private void startAuction() {
+    private void startAuction() throws ParseException {
         HashMap<String, String> param = new HashMap<>();
         param.put("art_id", String.valueOf(sellingArtVo.getId()));
-        param.put("amount",String.valueOf(defaultAmount));
+        param.put("amount", String.valueOf(defaultAmount));
         param.put("price", mDataBinding.edStartAuctionPrice.getText().toString());
-        param.put("price_increment",mDataBinding.edAuctionUnitPrice.getText().toString());
-        param.put("start_time",mDataBinding.tvStartAuctionTime.getText().toString());
-        param.put("end_time", mDataBinding.tvEndAuctionTime.getText().toString());
-        param.put("encrpt_extrinsic_message ", signStr());
-        RequestManager.instance().startAuction(param, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
+        param.put("price_increment", mDataBinding.edAuctionUnitPrice.getText().toString());
+        param.put("start_time", DateUtil.dateToStamp(mDataBinding.tvStartAuctionTime.getText().toString()));
+        param.put("end_time", DateUtil.dateToStamp(mDataBinding.tvEndAuctionTime.getText().toString()));
+        param.put("encrpt_extrinsic_message", signStr());
+        RequestManager.instance().startAuction(param, new MinerCallback<BaseResponseVo<AuctionVo>>() {
             @Override
-            public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+            public void onSuccess(Call<BaseResponseVo<AuctionVo>> call, Response<BaseResponseVo<AuctionVo>> response) {
 
             }
 
             @Override
-            public void onError(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+            public void onError(Call<BaseResponseVo<AuctionVo>> call, Response<BaseResponseVo<AuctionVo>> response) {
 
             }
 
@@ -178,7 +179,7 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
     }
 
     private void getAddress() {
-        RequestManager.instance().queryAccountId(new MinerCallback<BaseResponseVo<AccountIdVo>>() {
+        RequestManager.instance().queryAuctionAccountId(new MinerCallback<BaseResponseVo<AccountIdVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<AccountIdVo>> call, Response<BaseResponseVo<AccountIdVo>> response) {
                 if (response.isSuccessful()) {
@@ -218,7 +219,11 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
                     TextUtils.isEmpty(mDataBinding.edAuctionUnitPrice.getText().toString())) {
                 ToastManager.showShort("请将数据填写完整");
             } else {
-                startAuction();
+                try {
+                    startAuction();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

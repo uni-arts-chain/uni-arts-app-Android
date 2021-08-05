@@ -2,6 +2,7 @@ package com.yunhualian.ui.fragment;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,6 +26,7 @@ import com.yunhualian.base.BaseFragment;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.databinding.FragmentMineBinding;
+import com.yunhualian.entity.AccountVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.StdoutLogger;
 import com.yunhualian.entity.UserVo;
@@ -69,6 +71,7 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
     SocketService socketService;
     long lastClickTime = 0;
     private long time_space = 1000 * 1;
+    private String accountRemain = "0";
 
     public static BaseFragment newInstance() {
         MineFragment fragment = new MineFragment();
@@ -108,6 +111,7 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
     public void onResume() {
         super.onResume();
         getUserInfo();
+        queryAccountInfo();
         getBalance();
     }
 
@@ -140,23 +144,29 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
             case R.id.setting:
                 startActivity(SettingsActivity.class);
                 break;
+
             case R.id.follow:
                 Bundle bundle = new Bundle();
                 bundle.putString("from", FollowAndFansActivity.FOLLOW);
                 startActivity(FollowAndFansActivity.class, bundle);
                 break;
+
             case R.id.fans:
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("from", FollowAndFansActivity.FANS);
                 startActivity(FollowAndFansActivity.class, bundle2);
                 break;
+
             case R.id.mine_count:
                 startActivity(AcountActivity.class);
 
                 break;
             case R.id.mine_money:
-                startActivity(CashAccountActivity.class);
+                Intent intent = new Intent(requireContext(),CashAccountActivity.class);
+                intent.putExtra("account_remain",accountRemain);
+                startActivity(intent);
                 break;
+
             case R.id.mine_title_img:
                 startActivity(MyHomePageActivity.class);
                 break;
@@ -221,6 +231,36 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
 
             @Override
             public void onError(Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void queryAccountInfo() {
+        RequestManager.instance().queryAccount(new MinerCallback<BaseResponseVo<List<AccountVo>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<AccountVo>>> call, Response<BaseResponseVo<List<AccountVo>>> response) {
+                if (response.isSuccessful()) {
+                    List<AccountVo> accounts = response.body().getBody();
+                    if (accounts != null && accounts.size() > 0) {
+                        for (int i = 0; i < accounts.size(); i++){
+                            if(accounts.get(i).getCurrency_code().equals("rmb")){
+                                accountRemain = accounts.get(i).getBalance();
+                                mBinding.mineMoney.setText(getString(R.string.cash_account,accountRemain));
+                                return ;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<AccountVo>>> call, Response<BaseResponseVo<List<AccountVo>>> response) {
 
             }
 

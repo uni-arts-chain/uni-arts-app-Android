@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.yunhualian.R;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.entity.AccountIdVo;
+import com.yunhualian.entity.AccountVo;
 import com.yunhualian.entity.AnnouncementVo;
 import com.yunhualian.entity.AppUpdateVo;
 import com.yunhualian.entity.ArtAuctionVo;
@@ -15,6 +16,7 @@ import com.yunhualian.entity.ArtTopicVo;
 import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.ArtistListVo;
 import com.yunhualian.entity.ArtistVo;
+import com.yunhualian.entity.AuctionVo;
 import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.BlindBoxCheckVO;
@@ -25,6 +27,7 @@ import com.yunhualian.entity.BlindBoxVo;
 import com.yunhualian.entity.BoughtArtVo;
 import com.yunhualian.entity.CollectArtVo;
 import com.yunhualian.entity.FollowerVO;
+import com.yunhualian.entity.HistoriesBean;
 import com.yunhualian.entity.MemberInfo;
 import com.yunhualian.entity.MessagesVo;
 import com.yunhualian.entity.NoRead;
@@ -99,10 +102,18 @@ public class RequestManager {
 
 
     /**
-     * 邮箱登录
+     * 出售锁定地址
      */
     public void queryAccountId(MinerCallback<BaseResponseVo<AccountIdVo>> mCallBack) {
         Call<BaseResponseVo<AccountIdVo>> mCall = NetworkManager.instance().getmRemoteService().queryAccountId();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 拍卖锁定地址
+     */
+    public void queryAuctionAccountId(MinerCallback<BaseResponseVo<AccountIdVo>> mCallBack) {
+        Call<BaseResponseVo<AccountIdVo>> mCall = NetworkManager.instance().getmRemoteService().queryAuctionAccountId();
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
@@ -550,9 +561,25 @@ public class RequestManager {
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
-    //
-    public void startAuction(HashMap<String, String> map, MinerCallback<BaseResponseVo<SellingArtVo>> mCallBack) {
-        Call<BaseResponseVo<SellingArtVo>> mCall = NetworkManager.instance().getmRemoteService().startAuction(map);
+    //创建拍卖艺术品
+    public void startAuction(HashMap<String, String> map, MinerCallback<BaseResponseVo<AuctionVo>> mCallBack) {
+        Call<BaseResponseVo<AuctionVo>> mCall = NetworkManager.instance().getmRemoteService().startAuction(map);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 查询账户信息
+     */
+    public void queryAccount(MinerCallback<BaseResponseVo<List<AccountVo>>> mCallBack) {
+        Call<BaseResponseVo<List<AccountVo>>> mCall = NetworkManager.instance().getmRemoteService().queryAccountInfo();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /**
+     * 查询账单明细
+     */
+    public void queryAccountHistory(int page,MinerCallback<BaseResponseVo<List<HistoriesBean>>> mCallBack) {
+        Call<BaseResponseVo<List<HistoriesBean>>> mCall = NetworkManager.instance().getmRemoteService().queryAccountHistory(page);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 }
