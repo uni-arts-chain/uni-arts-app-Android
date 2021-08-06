@@ -593,4 +593,12 @@ public class RequestManager {
         Call<BaseResponseVo<UploadCodeBean>> mCall = NetworkManager.instance().getmRemoteService().uploadQrCodeImg(mRequestBody);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
+
+    /*
+     * 获取拍卖列表
+     * */
+    public void queryAuctions(HashMap<String, String> params, MinerCallback<BaseResponseVo<List<SellingArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<SellingArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryAuctions(params);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
 }

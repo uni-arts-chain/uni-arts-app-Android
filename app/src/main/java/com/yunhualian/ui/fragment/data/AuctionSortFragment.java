@@ -25,7 +25,6 @@ import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.GetBaseData;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
-import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.ui.activity.art.AuctionArtDetailActivity;
 import com.yunhualian.utils.ListUtil;
 
@@ -106,7 +105,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
                 //滑动到底部
                 if (System.currentTimeMillis() - lastRefreshTime > timeFlag) {
                     lastRefreshTime = System.currentTimeMillis();
-                    getPopular(param);
+                    getAuctions(param);
                 }
             }
         });
@@ -130,7 +129,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
         mBinding.sortList.setAdapter(sortAdapter);
         mBinding.typeList.setAdapter(typeAdapter);
         mBinding.prizeList.setAdapter(prizeAdapter);
-        getPopular(param);
+        getAuctions(param);
     }
 
     public void initSelectedListener() {
@@ -146,7 +145,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
                         return;
                     }
                 }
-                getPopular(param);
+                getAuctions(param);
                 sortAdapter.notifyDataSetChanged();
                 curThemeClickPos = selectPosition;
             }
@@ -159,7 +158,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
                 if (param.containsKey("category_id")) {
                     page = 1;
                     param.remove("category_id");
-                    getPopular(param);
+                    getAuctions(param);
                     sortAdapter.notifyDataSetChanged();
                 }
             }
@@ -176,7 +175,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
                         return;
                     }
                 }
-                getPopular(param);
+                getAuctions(param);
                 typeAdapter.notifyDataSetChanged();
                 curTypeClickPos = selectPosition;
             }
@@ -189,7 +188,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
                 if (param.containsKey("resource_type")) {
                     page = 1;
                     param.remove("resource_type");
-                    getPopular(param);
+                    getAuctions(param);
                     typeAdapter.notifyDataSetChanged();
                 }
             }
@@ -206,7 +205,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
                         return;
                     }
                 }
-                getPopular(param);
+                getAuctions(param);
                 prizeAdapter.notifyDataSetChanged();
                 curPriceClickPos = selectPosition;
             }
@@ -219,7 +218,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
                 if (param.containsKey("price_sort")) {
                     page = 1;
                     param.remove("price_sort");
-                    getPopular(param);
+                    getAuctions(param);
                     prizeAdapter.notifyDataSetChanged();
                 }
             }
@@ -232,7 +231,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
         mBinding.srlShoopingMall.setOnRefreshListener(() -> {
             page = BigDecimal.ONE.intValue();
             param = param == null ? new HashMap<>() : param;
-            getPopular(param);
+            getAuctions(param);
             mBinding.srlShoopingMall.setRefreshing(false);
         });
     }
@@ -264,32 +263,28 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
         }
     }
 
-    public void getPopular(HashMap<String, String> params) {
+    public void getAuctions(HashMap<String, String> params) {
         showLoading(getString(R.string.progress_loading));
+        params.put("code","rmb");
         params.put("page", String.valueOf(page));
         params.put("per_page", String.valueOf(perpage));
-        RequestManager.instance().querySelling(params, new MinerCallback<BaseResponseVo<List<SellingArtVo>>>() {
+        RequestManager.instance().queryAuctions(params, new MinerCallback<BaseResponseVo<List<SellingArtVo>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
                 dismissLoading();
                 if (response.isSuccessful()) {
-                    if (response.body() != null && response.body().getBody() != null) {
-//                        if (response.body().getBody().size() == 0) return;
-                        if (page == BigDecimal.ONE.intValue()) {
-                            artBeanList.clear();
-                            artBeanList = response.body().getBody();
-                            picturesAdapter.setNewData(artBeanList);
-                        } else if (page > BigDecimal.ONE.intValue() && artBeanList.size() > BigDecimal.ZERO.intValue()) {
-                            artBeanList.addAll(response.body().getBody());
-                            picturesAdapter.notifyItemRangeChanged(artBeanList.size() - 1, response.body().getBody().size());
-                        }
-
-//                        if (page > BigDecimal.ONE.intValue()) {
-                        picturesAdapter.loadMoreEnd();
+//                    if (response.body() != null && response.body().getBody() != null) {
+//                        if (page == BigDecimal.ONE.intValue()) {
+//                            artBeanList.clear();
+//                            artBeanList = response.body().getBody();
+//                            picturesAdapter.setNewData(artBeanList);
+//                        } else if (page > BigDecimal.ONE.intValue() && artBeanList.size() > BigDecimal.ZERO.intValue()) {
+//                            artBeanList.addAll(response.body().getBody());
+//                            picturesAdapter.notifyItemRangeChanged(artBeanList.size() - 1, response.body().getBody().size());
 //                        }
-                        page++;
-                    }
-
+//                        picturesAdapter.loadMoreEnd();
+//                        page++;
+//                    }
                 }
             }
 

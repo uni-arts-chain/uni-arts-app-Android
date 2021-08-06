@@ -333,5 +333,9 @@ public interface RemoteService {
     // 上传wx和alipay收款二维码
     @POST("/api/v2/payment_methods")
     Call<BaseResponseVo<UploadCodeBean>> uploadQrCodeImg(@Body RequestBody mRequestBody);
+
+    // 获取拍卖列表
+    @GET("/api/v2/auctions")
+    Call<BaseResponseVo<List<SellingArtVo>>> queryAuctions(@QueryMap HashMap<String, String> map);
 }
 

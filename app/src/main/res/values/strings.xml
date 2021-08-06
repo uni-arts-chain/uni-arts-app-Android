@@ -412,6 +412,7 @@ UniArts提供技术支持</string>
     <string name="auction_start_time_">开始时间：</string>
     <string name="auction_end_time_">结束时间：</string>
     <string name="start_auction_">发起拍卖</string>
+    <string name="account_remain_v">(￥%1$s)</string>
 
     <string name="cancel">取消</string>
     <string name="title">请选择时间</string>

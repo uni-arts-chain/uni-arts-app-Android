@@ -17,13 +17,13 @@ import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.databinding.ActivityCreateOrderBinding;
+import com.yunhualian.entity.AccountVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.OrderAmountVo;
 import com.yunhualian.entity.PayResyltVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
-import com.yunhualian.ui.activity.order.OrderDetailActivity;
 import com.yunhualian.ui.x5.WebViewActivity;
 import com.yunhualian.ui.x5.X5WebViewActivity;
 import com.yunhualian.ui.x5.X5WebViewForAliPayActivity;
@@ -32,6 +32,7 @@ import com.yunhualian.utils.DisplayUtils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -50,10 +51,11 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
 
     private boolean softInputIsShowing = false;
     private String powers_num = "1";
-    private String payType = "wepay";
+    private String payType = "";
     private boolean isNoRotaly = false;
     private int ROUND = 2;
-
+    private String accountRemain;
+    private String totalPrice;
     @Override
     public int getLayoutId() {
         return R.layout.activity_create_order;
@@ -73,8 +75,10 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
         sellingArtVo = (SellingArtVo) getIntent().getExtras().getSerializable(ARTINFO);
         orderAmountVo = (OrderAmountVo) getIntent().getExtras().getSerializable(ORDERINFO);
         isNoRotaly = !orderAmountVo.getNeed_royalty();
-        if (sellingArtVo != null && orderAmountVo != null)
+        if (sellingArtVo != null && orderAmountVo != null) {
             initPageData();
+            queryAccountInfo();
+        }
         initListener();
     }
 
@@ -104,27 +108,34 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
         }
         mDataBinding.weiPayLayout.setOnClickListener(this);
         mDataBinding.aPayLayout.setOnClickListener(this);
+        mDataBinding.remainLayout.setOnClickListener(this);
         mDataBinding.price.setText(getString(R.string.text_buy_amount, new BigDecimal(orderAmountVo.getPrice()).stripTrailingZeros().toPlainString()));
-        String totalPrice = isNoRotaly ? orderAmountVo.getPrice() :
+        totalPrice = isNoRotaly ? orderAmountVo.getPrice() :
                 new BigDecimal(orderAmountVo.getPrice()).add(new BigDecimal(orderAmountVo.getPrice())
                         .multiply(new BigDecimal(rotalyRate)).setScale(ROUND, BigDecimal.ROUND_UP)).stripTrailingZeros().toPlainString();
         mDataBinding.priceTotal.setText(getString(R.string.text_buy_amount,
                 totalPrice));
+        mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.weichatPay.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked && mDataBinding.aliPay.isChecked()) {
                 payType = "wepay";
                 mDataBinding.aliPay.setChecked(false);
+                mDataBinding.remain.setChecked(false);
             }
         });
-        mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.aliPay.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
             if (isChecked && mDataBinding.weichatPay.isChecked()) {
                 payType = "alipay";
                 mDataBinding.weichatPay.setChecked(false);
+                mDataBinding.remain.setChecked(false);
             }
         });
-        mDataBinding.weiPayLayout.performClick();
+        mDataBinding.remain.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            payType = "account";
+            mDataBinding.aliPay.setChecked(false);
+            mDataBinding.weichatPay.setChecked(false);
+        });
     }
 
     private void showImage() {
@@ -235,10 +246,52 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
             case R.id.weiPayLayout:
                 mDataBinding.weichatPay.performClick();
                 break;
+            case R.id.remainLayout:
+                if(Double.parseDouble(accountRemain) < Double.parseDouble(totalPrice)){
+                    ToastUtils.showShort("账户余额不足");
+                    return ;
+                }
+                mDataBinding.remain.performClick();
+                break;
             case R.id.buy_now:
                 performOrders();
                 break;
         }
+    }
+
+    private void queryAccountInfo() {
+        RequestManager.instance().queryAccount(new MinerCallback<BaseResponseVo<List<AccountVo>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<AccountVo>>> call, Response<BaseResponseVo<List<AccountVo>>> response) {
+                if (response.isSuccessful()) {
+                    List<AccountVo> accounts = response.body().getBody();
+                    if (accounts != null && accounts.size() > 0) {
+                        for (int i = 0; i < accounts.size(); i++) {
+                            if (accounts.get(i).getCurrency_code().equals("rmb")) {
+                                accountRemain = accounts.get(i).getBalance();
+                                mDataBinding.tvRemainValue.setText(getString(R.string.account_remain_v, accountRemain));
+                                if (Double.parseDouble(accountRemain) >= Double.parseDouble(totalPrice)){
+                                    mDataBinding.remain.performClick();
+                                }else{
+                                    mDataBinding.weichatPay.performClick();
+                                }
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<AccountVo>>> call, Response<BaseResponseVo<List<AccountVo>>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
     }
 
     private void performOrders() {
@@ -254,20 +307,24 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
             public void onSuccess(Call<BaseResponseVo<PayResyltVo>> call, Response<BaseResponseVo<PayResyltVo>> response) {
                 dismissLoading();
                 if (response.isSuccessful()) {
-                    if (response.body().getBody() != null) {
-                        String url = response.body().getBody().getUrl();
-                        String title = "支付";
-                        Bundle bundle = new Bundle();
-                        bundle.putString(WebViewActivity.TITLE, title);
-                        bundle.putString(WebViewActivity.URL, url);
-                        bundle.putString(WebViewActivity.TYPE, payType);
-                        if (!TextUtils.isEmpty(url)) {
-                            if (payType.equals(X5WebViewActivity.WECHAT)) {
-                                startActivity(X5WebViewActivity.class, bundle);
-                            } else startActivity(X5WebViewForAliPayActivity.class, bundle);
-                            finish();
-                        } else
-                            ToastUtils.showShort("出错了");
+                    if(payType == "account"){
+                        finish();
+                    }else{
+                        if (response.body().getBody() != null) {
+                            String url = response.body().getBody().getUrl();
+                            String title = "支付";
+                            Bundle bundle = new Bundle();
+                            bundle.putString(WebViewActivity.TITLE, title);
+                            bundle.putString(WebViewActivity.URL, url);
+                            bundle.putString(WebViewActivity.TYPE, payType);
+                            if (!TextUtils.isEmpty(url)) {
+                                if (payType.equals(X5WebViewActivity.WECHAT)) {
+                                    startActivity(X5WebViewActivity.class, bundle);
+                                } else startActivity(X5WebViewForAliPayActivity.class, bundle);
+                                finish();
+                            } else
+                                ToastUtils.showShort("出错了");
+                        }
                     }
                 }
             }
