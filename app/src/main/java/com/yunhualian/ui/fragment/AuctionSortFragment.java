@@ -1,4 +1,4 @@
-package com.yunhualian.ui.fragment.data;
+package com.yunhualian.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunhualian.R;
-import com.yunhualian.adapter.PicturesAdapter;
+import com.yunhualian.adapter.AuctionPicturesAdapter;
 import com.yunhualian.adapter.PrizeAdapter;
 import com.yunhualian.adapter.SortAdapter;
 import com.yunhualian.adapter.TypeAdapter;
@@ -20,8 +20,8 @@ import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.FragmentPictureSortBinding;
 import com.yunhualian.entity.ArtPriceVo;
 import com.yunhualian.entity.ArtTypeVo;
+import com.yunhualian.entity.AuctionArtVo;
 import com.yunhualian.entity.BaseResponseVo;
-import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.GetBaseData;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
@@ -41,9 +41,9 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
     private SortAdapter sortAdapter;
     private TypeAdapter typeAdapter;
     private PrizeAdapter prizeAdapter;
-    private PicturesAdapter picturesAdapter;
+    private AuctionPicturesAdapter picturesAdapter;
 
-    private List<SellingArtVo> artBeanList;
+    private List<AuctionArtVo> artBeanList;
     private List<ArtTypeVo> typeList;
     private List<ArtTypeVo> materialVos;
     private List<ArtPriceVo> priceVos;
@@ -94,7 +94,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
         sortAdapter = new SortAdapter(materialVos);
         typeAdapter = new TypeAdapter(typeList);
         prizeAdapter = new PrizeAdapter(priceVos);
-        picturesAdapter = new PicturesAdapter(artBeanList);
+        picturesAdapter = new AuctionPicturesAdapter(artBeanList);
         initSelectedListener();
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
@@ -268,29 +268,29 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
         params.put("code","rmb");
         params.put("page", String.valueOf(page));
         params.put("per_page", String.valueOf(perpage));
-        RequestManager.instance().queryAuctions(params, new MinerCallback<BaseResponseVo<List<SellingArtVo>>>() {
+        RequestManager.instance().queryAuctions(params, new MinerCallback<BaseResponseVo<List<AuctionArtVo>>>() {
             @Override
-            public void onSuccess(Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
+            public void onSuccess(Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
                 dismissLoading();
                 if (response.isSuccessful()) {
-//                    if (response.body() != null && response.body().getBody() != null) {
-//                        if (page == BigDecimal.ONE.intValue()) {
-//                            artBeanList.clear();
-//                            artBeanList = response.body().getBody();
-//                            picturesAdapter.setNewData(artBeanList);
-//                        } else if (page > BigDecimal.ONE.intValue() && artBeanList.size() > BigDecimal.ZERO.intValue()) {
-//                            artBeanList.addAll(response.body().getBody());
-//                            picturesAdapter.notifyItemRangeChanged(artBeanList.size() - 1, response.body().getBody().size());
-//                        }
-//                        picturesAdapter.loadMoreEnd();
-//                        page++;
-//                    }
+                    if (response.body() != null && response.body().getBody() != null) {
+                        if (page == BigDecimal.ONE.intValue()) {
+                            artBeanList.clear();
+                            artBeanList = response.body().getBody();
+                            picturesAdapter.setNewData(artBeanList);
+                        } else if (page > BigDecimal.ONE.intValue() && artBeanList.size() > BigDecimal.ZERO.intValue()) {
+                            artBeanList.addAll(response.body().getBody());
+                            picturesAdapter.notifyItemRangeChanged(artBeanList.size() - 1, response.body().getBody().size());
+                        }
+                        picturesAdapter.loadMoreEnd();
+                        page++;
+                    }
                 }
             }
 
             @Override
             public void onError
-                    (Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
+                    (Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
                 dismissLoading();
             }
 

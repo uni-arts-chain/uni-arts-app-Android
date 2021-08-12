@@ -434,5 +434,8 @@ UniArts提供技术支持</string>
         <item>寄售</item>
         <item>拍卖</item>
     </string-array>
-
+    <string-array name="home_tabs">
+        <item>热门原创</item>
+        <item>精品拍卖</item>
+    </string-array>
 </resources>

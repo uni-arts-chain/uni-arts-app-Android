@@ -56,10 +56,10 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/tv_need_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="1000"
                     android:textColor="@color/_D70000"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -69,8 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ll_current_price"
-                android:layout_marginTop="25dp"
                 android:layout_margin="20dp"
+                android:layout_marginTop="25dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -88,6 +88,7 @@
                     android:paddingBottom="@dimen/dp_10">
 
                     <TextView
+                        android:id="@+id/tv_remains"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/dp_10"
@@ -97,8 +98,17 @@
                         android:textColor="@color/_212121"
                         android:textSize="@dimen/sp_14" />
 
+                    <TextView
+                        android:id="@+id/tv_remains_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@id/tv_remains"
+                        android:textColor="@color/_212121"
+                        android:textSize="@dimen/sp_14" />
+
                     <CheckBox
-                        android:id="@+id/remain"
+                        android:id="@+id/check_remain"
                         android:layout_width="@dimen/dp_20"
                         android:layout_height="@dimen/dp_20"
                         android:layout_alignParentRight="true"
@@ -123,7 +133,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <CheckBox
-                        android:id="@+id/weichatPay"
+                        android:id="@+id/check_weichatPay"
                         android:layout_width="@dimen/dp_20"
                         android:layout_height="@dimen/dp_20"
                         android:layout_alignParentRight="true"
@@ -150,7 +160,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <CheckBox
-                        android:id="@+id/aliPay"
+                        android:id="@+id/check_aliPay"
                         android:layout_width="@dimen/dp_20"
                         android:layout_height="@dimen/dp_20"
                         android:layout_alignParentRight="true"
@@ -188,6 +198,7 @@
                     android:layout_weight="1"
                     android:background="@color/_101010"
                     android:gravity="center"
+                    android:text="支付"
                     android:textColor="@color/white"
                     android:textSize="17sp" />
 

@@ -10,10 +10,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -38,13 +42,16 @@ import com.luck.picture.lib.PictureSelector;
 import com.yunhualian.R;
 import com.yunhualian.adapter.ArtDetailImgAdapter;
 import com.yunhualian.adapter.ArtDetailOrderListAdapter;
+import com.yunhualian.adapter.OfferPriceListAdapter;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.databinding.ActivityAuctionArtDetailBinding;
+import com.yunhualian.entity.AuctionArtVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.EventBusMessageEvent;
+import com.yunhualian.entity.OfferPriceBean;
 import com.yunhualian.entity.OrderAmountVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
@@ -81,6 +88,7 @@ import cn.woblog.android.downloader.callback.DownloadListener;
 import cn.woblog.android.downloader.callback.DownloadManager;
 import cn.woblog.android.downloader.domain.DownloadInfo;
 import cn.woblog.android.downloader.exception.DownloadException;
+import jp.co.soramitsu.feature_account_impl.presentation.pincode.PinCodeAction;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -96,20 +104,29 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     int totalAmount;
     List<String> lists = new ArrayList<>();
     private int selectPostioton = 0;
-    SellingArtVo sellingArtVo;
+    AuctionArtVo sellingArtVo;
     String art_id;
     String path;//下载路径
     String request_art_id;//部分页面传id
     boolean fistLoad = false;
     private int clickPosition = 0;
     private PopupWindow mZhengshuPopwinow;
+    private PopupWindow mDepositPopwindow;
     private List<String> artDetailUrls = new ArrayList<>();
 
     private final CountTimeHandler mHandler = new CountTimeHandler(this);
-    ;
+    private boolean isOfferedDeposit; //是否缴纳保证金
+    private boolean isStarted; //拍卖是否已经开始
+    private boolean isOwner; //是否是自己的拍卖品
+    private boolean isWinBiding; //是否中标
+    private boolean isEnded; //拍卖是否已经结束
     private int mHours = 10;
     private int mMinutes = 20;
     private int mSeconds = 30;
+    private String payType;
+    private String offerPriceTimes;
+    private OfferPriceListAdapter mOfferPriceAdapter;
+    private List<OfferPriceBean> mOfferPriceList;
 
     private static class CountTimeHandler extends Handler {
         private final WeakReference<AuctionArtDetailActivity> weakReference;
@@ -176,9 +193,10 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleId = R.string.title_detail;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
-        sellingArtVo = (SellingArtVo) getIntent().getExtras().getSerializable(ART_KEY);
-        initArtDetails();
+        sellingArtVo = (AuctionArtVo) getIntent().getExtras().getSerializable(ART_KEY);
         request_art_id = String.valueOf(getIntent().getIntExtra(ART_ID, 0));
+        getOfferPriceList(request_art_id);
+        initArtDetails();
         mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.zan.setOnClickListener(this);
         mDataBinding.cai.setOnClickListener(this);
@@ -188,7 +206,14 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         mDataBinding.imgPlay.setOnClickListener(this);
         mDataBinding.imgVideo.setOnClickListener(this);
         initZhengShuPopwindow();
+        initPayDepositWindow("100", "150");
         mHandler.sendEmptyMessage(1);
+
+        mOfferPriceList = new ArrayList<>();
+        mOfferPriceAdapter = new OfferPriceListAdapter(this,mOfferPriceList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mDataBinding.rvOfferPrice.setLayoutManager(layoutManager);
+        mDataBinding.rvOfferPrice.setAdapter(mOfferPriceAdapter);
     }
 
     private void initArtDetails() {
@@ -236,19 +261,19 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         TextView mNftAddressTv = contentView.findViewById(R.id.tv_nft_address);
         RelativeLayout mNftCloseBtn = contentView.findViewById(R.id.layout_close);
         if (sellingArtVo != null) {
-            if (!TextUtils.isEmpty(sellingArtVo.getName())) {
-                mNftNameTv.setText(getString(R.string.nft_name, sellingArtVo.getName()));
+            if (!TextUtils.isEmpty(sellingArtVo.getArt().getName())) {
+                mNftNameTv.setText(getString(R.string.nft_name, sellingArtVo.getArt().getName()));
             }
             if (!YunApplication.getArtThemeVoList().isEmpty()) {
                 for (int i = 0; i < YunApplication.getArtThemeVoList().size(); i++) {
-                    if (YunApplication.getArtThemeVoList().get(i).getId() == sellingArtVo.getCategory_id()) {
+                    if (YunApplication.getArtThemeVoList().get(i).getId() == sellingArtVo.getArt().getCategory_id()) {
                         mNftThemeTv.setText(getString(R.string.nft_theme, YunApplication.getArtThemeVoList().get(i).getTitle()));
                     }
                 }
             }
-            mNftCountTv.setText(getString(R.string.nft_count, String.valueOf(sellingArtVo.getTotal_amount())));
-            if (!TextUtils.isEmpty(sellingArtVo.getItem_hash())) {
-                mNftAddressTv.setText(sellingArtVo.getItem_hash());
+            mNftCountTv.setText(getString(R.string.nft_count, String.valueOf(sellingArtVo.getArt().getTotal_amount())));
+            if (!TextUtils.isEmpty(sellingArtVo.getArt().getItem_hash())) {
+                mNftAddressTv.setText(sellingArtVo.getArt().getItem_hash());
             }
         }
         mZhengshuPopwinow = new BasePopupWindow(this);
@@ -265,18 +290,99 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         });
     }
 
+    private void initPayDepositWindow(String deposit, String remains) {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_select_payway_layout, null);
+        TextView remainsTv = contentView.findViewById(R.id.tv_remains_value);
+        TextView needpayTv = contentView.findViewById(R.id.tv_need_pay);
+        TextView payBtn = contentView.findViewById(R.id.confirm);
+
+        CheckBox remainsCheck = contentView.findViewById(R.id.check_remain);
+        CheckBox wxCheck = contentView.findViewById(R.id.check_weichatPay);
+        CheckBox aliCheck = contentView.findViewById(R.id.check_aliPay);
+        ImageView closeImg = contentView.findViewById(R.id.img_close);
+        mDepositPopwindow = new BasePopupWindow(this);
+        mDepositPopwindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mDepositPopwindow.setContentView(contentView);
+        mDepositPopwindow.setOutsideTouchable(false);
+        mDepositPopwindow.setTouchable(true);
+        mDepositPopwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+
+        remainsTv.setText(getString(R.string.account_remain_v, remains));
+        needpayTv.setText("¥" + deposit);
+
+        remainsCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Log.e("tag", "isChecked -->" + b);
+                payType = "account";
+            }
+        });
+
+        aliCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                payType = "alipay";
+            }
+        });
+
+        wxCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                payType = "wepay";
+            }
+        });
+//        if (Double.parseDouble(deposit) <= Double.parseDouble(remains)) {
+//            remainsCheck.setChecked(true);
+//        } else {
+//            wxCheck.setChecked(true);
+//        }
+        closeImg.setOnClickListener(view -> {
+            mDepositPopwindow.dismiss();
+        });
+        payBtn.setOnClickListener(view -> {
+
+        });
+
+    }
+
+    private void getOfferPriceList(String art_id) {
+        RequestManager.instance().queryOfferPriceList(art_id, 1, 30, new MinerCallback<BaseResponseVo<List<OfferPriceBean>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<OfferPriceBean>>> call, Response<BaseResponseVo<List<OfferPriceBean>>> response) {
+                if(response.isSuccessful()){
+                    if(response.body() != null){
+                        offerPriceTimes = response.body().getHead().getTotal_count();
+                        mOfferPriceList = response.body().getBody();
+                        mDataBinding.tvOfferPriceCount.setText(offerPriceTimes + "次");
+                        mOfferPriceAdapter.setNewData(mOfferPriceList);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<OfferPriceBean>>> call, Response<BaseResponseVo<List<OfferPriceBean>>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void initBanner() {
         fistLoad = false;
         if (sellingArtVo == null) return;
         lists.clear();
-        if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file1().getUrl())) {
-            lists.add(sellingArtVo.getImg_main_file1().getUrl());
+        if (!TextUtils.isEmpty(sellingArtVo.getArt().getImg_main_file1().getUrl())) {
+            lists.add(sellingArtVo.getArt().getImg_main_file1().getUrl());
         }
-        if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file2().getUrl())) {
-            lists.add(sellingArtVo.getImg_main_file2().getUrl());
+        if (!TextUtils.isEmpty(sellingArtVo.getArt().getImg_main_file2().getUrl())) {
+            lists.add(sellingArtVo.getArt().getImg_main_file2().getUrl());
         }
-        if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file3().getUrl())) {
-            lists.add(sellingArtVo.getImg_main_file3().getUrl());
+        if (!TextUtils.isEmpty(sellingArtVo.getArt().getImg_main_file3().getUrl())) {
+            lists.add(sellingArtVo.getArt().getImg_main_file3().getUrl());
         }
         if (lists.size() == 0) return;
         totalAmount = lists.size();
@@ -284,19 +390,19 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         mDataBinding.banner.setIndicatorVisible(false);
         mDataBinding.banner.setPages(lists, BannerViewHolder::new);
         mDataBinding.largeAction.setOnClickListener(v -> {
-            if (TextUtils.isEmpty(sellingArtVo.getLive2d_ipfs_zip_url()))
+            if (TextUtils.isEmpty(sellingArtVo.getArt().getLive2d_ipfs_zip_url()))
                 showBigImg();
             else {
                 String path = YunApplication.LIVE2D_CACHE_PATH
                         .concat(String.valueOf(sellingArtVo.getId()))
-                        .concat("/" + sellingArtVo.getLive2d_file() + YunApplication.MODEL_PATH);
+                        .concat("/" + sellingArtVo.getArt().getLive2d_file() + YunApplication.MODEL_PATH);
                 File file = new File(path);
                 boolean isHave = file.exists();
                 if (isHave) {
                     openLive2dActivity(YunApplication.LIVE2D_CACHE_PATH
                             .concat(String.valueOf(sellingArtVo.getId())));
                 } else
-                    download2(sellingArtVo.getLive2d_ipfs_zip_url(), String.valueOf(sellingArtVo.getId()));
+                    download2(sellingArtVo.getArt().getLive2d_ipfs_zip_url(), String.valueOf(sellingArtVo.getId()));
             }
         });
 
@@ -330,14 +436,14 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     public void initPageData() {
 
         if (sellingArtVo == null) return;
-        if (!TextUtils.isEmpty(sellingArtVo.getResource_type())) {
-            if (sellingArtVo.getResource_type().equals("4")) {
-                if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file2().getUrl()) && sellingArtVo.getImg_main_file2().getUrl().endsWith("mp4")) {
+        if (!TextUtils.isEmpty(sellingArtVo.getArt().getResource_type())) {
+            if (sellingArtVo.getArt().getResource_type().equals("4")) {
+                if (!TextUtils.isEmpty(sellingArtVo.getArt().getImg_main_file2().getUrl()) && sellingArtVo.getArt().getImg_main_file2().getUrl().endsWith("mp4")) {
                     mDataBinding.imgPlay.setOnClickListener(this);
                     mDataBinding.layoutVideo.setVisibility(View.VISIBLE);
                     mDataBinding.layoutBanner.setVisibility(View.GONE);
                     Glide.with(this)
-                            .load(sellingArtVo.getImg_main_file1().getUrl())
+                            .load(sellingArtVo.getArt().getImg_main_file1().getUrl())
                             .skipMemoryCache(true).transition(withCrossFade())
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(mDataBinding.imgVideo);
@@ -354,40 +460,44 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
         }
 
-        if (sellingArtVo.getImg_detail_file1() != null) {
-            if (!TextUtils.isEmpty(sellingArtVo.getImg_detail_file1().getUrl())) {
-                artDetailUrls.add(sellingArtVo.getImg_detail_file1().getUrl());
+        if (sellingArtVo.getArt().getImg_detail_file1() != null) {
+            if (!TextUtils.isEmpty(sellingArtVo.getArt().getImg_detail_file1().getUrl())) {
+                artDetailUrls.add(sellingArtVo.getArt().getImg_detail_file1().getUrl());
             }
         }
-        if (sellingArtVo.getImg_detail_file2() != null) {
-            if (!TextUtils.isEmpty(sellingArtVo.getImg_detail_file2().getUrl())) {
-                artDetailUrls.add(sellingArtVo.getImg_detail_file2().getUrl());
+        if (sellingArtVo.getArt().getImg_detail_file2() != null) {
+            if (!TextUtils.isEmpty(sellingArtVo.getArt().getImg_detail_file2().getUrl())) {
+                artDetailUrls.add(sellingArtVo.getArt().getImg_detail_file2().getUrl());
             }
         }
-        if (sellingArtVo.getImg_detail_file3() != null) {
-            if (!TextUtils.isEmpty(sellingArtVo.getImg_detail_file3().getUrl())) {
-                artDetailUrls.add(sellingArtVo.getImg_detail_file3().getUrl());
+        if (sellingArtVo.getArt().getImg_detail_file3() != null) {
+            if (!TextUtils.isEmpty(sellingArtVo.getArt().getImg_detail_file3().getUrl())) {
+                artDetailUrls.add(sellingArtVo.getArt().getImg_detail_file3().getUrl());
             }
         }
-        art_id = String.valueOf(sellingArtVo.getId());
-        mDataBinding.pictureName.setText(sellingArtVo.getName());
-        mDataBinding.centifyAddr.setText(getString(R.string.nft_address, sellingArtVo.getItem_hash()));
-        String royalty = sellingArtVo.getRoyalty() == null ? "0" : sellingArtVo.getRoyalty().toPlainString();
-        mDataBinding.rotailDate.setText(getString(R.string.royalty_date, sellingArtVo.getRoyalty_expired_at() == 0 ?
-                sellingArtVo.getRoyalty() == null ? "" : "永久" :
-                DateUtil.dateToStringWithZhYear(sellingArtVo.getRoyalty_expired_at() * 1000)));
-        mDataBinding.rotailRate.setText(getString(R.string.royalty_rate, sellingArtVo.getRoyalty() == null ?
+
+        art_id = String.valueOf(sellingArtVo.getId()); //艺术品ID
+        mDataBinding.pictureName.setText(sellingArtVo.getArt().getName());
+        mDataBinding.tvCurPriceV.setText("¥ " + sellingArtVo.getCurrent_price());//当前价
+        mDataBinding.tvStartAuctionPrice.setText(getString(R.string.auction_start_price_, sellingArtVo.getStart_price()));//起拍价
+        mDataBinding.tvAuctionPieces.setText(getString(R.string.auction_pieces_, String.valueOf(sellingArtVo.getAmount())));//拍卖份数
+        mDataBinding.centifyAddr.setText(getString(R.string.nft_address, sellingArtVo.getArt().getItem_hash()));
+        String royalty = sellingArtVo.getArt().getRoyalty() == null ? "0" : sellingArtVo.getArt().getRoyalty().toPlainString();
+        mDataBinding.rotailDate.setText(getString(R.string.royalty_date, sellingArtVo.getArt().getRoyalty_expired_at() == 0 ?
+                sellingArtVo.getArt().getRoyalty() == null ? "" : "永久" :
+                DateUtil.dateToStringWithZhYear(sellingArtVo.getArt().getRoyalty_expired_at() * 1000)));
+        mDataBinding.rotailRate.setText(getString(R.string.royalty_rate, sellingArtVo.getArt().getRoyalty() == null ?
                 "" :
                 new BigDecimal(royalty).multiply(new BigDecimal("100")).stripTrailingZeros().toPlainString().concat("%")));
-        if (!TextUtils.isEmpty(sellingArtVo.getAuthor().getDisplay_name()))
-            mDataBinding.creatorName.setText(sellingArtVo.getAuthor().getDisplay_name());
+        if (!TextUtils.isEmpty(sellingArtVo.getArt().getAuthor().getDisplay_name()))
+            mDataBinding.creatorName.setText(sellingArtVo.getArt().getAuthor().getDisplay_name());
         else mDataBinding.creatorName.setText(getString(R.string.no_display_name));
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.mipmap.icon_default_head);
-        Glide.with(this).load(sellingArtVo.getAuthor().getAvatar().getUrl()).apply(requestOptions).into(mDataBinding.headImg);
-        mDataBinding.creatorProfile.setText(sellingArtVo.getAuthor().getDesc());
+        Glide.with(this).load(sellingArtVo.getArt().getAuthor().getAvatar().getUrl()).apply(requestOptions).into(mDataBinding.headImg);
+        mDataBinding.creatorProfile.setText(sellingArtVo.getArt().getAuthor().getDesc());
 
-        if (sellingArtVo.isDisliked_by_me()) {
+        if (sellingArtVo.getArt().isDisliked_by_me()) {
             Drawable top = getResources().getDrawable(R.mipmap.icon_cai_);
             top.setBounds(0, 0, top.getMinimumWidth(), top.getMinimumHeight());// 一定要设置setBounds();
             mDataBinding.cai.setCompoundDrawables(null, top, null, null);
@@ -397,7 +507,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             mDataBinding.cai.setCompoundDrawables(null, top, null, null);
         }
 
-        if (sellingArtVo.isLiked_by_me()) {
+        if (sellingArtVo.getArt().isLiked_by_me()) {
             Drawable top = getResources().getDrawable(R.mipmap.icon_zan_);
             top.setBounds(0, 0, top.getMinimumWidth(), top.getMinimumHeight());// 一定要设置setBounds();
             mDataBinding.zan.setCompoundDrawables(null, top, null, null);
@@ -408,7 +518,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
         }
 
-        if (sellingArtVo.isFavorite_by_me()) {
+        if (sellingArtVo.getArt().isFavorite_by_me()) {
             Drawable top = getResources().getDrawable(R.mipmap.icon_collect_);
             top.setBounds(0, 0, top.getMinimumWidth(), top.getMinimumHeight());// 一定要设置setBounds();
             mDataBinding.collect.setCompoundDrawables(null, top, null, null);
@@ -420,14 +530,14 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         }
         if (fistLoad)
             initBanner();
-        mDataBinding.cai.setText(getString(R.string.text_cai_amount, String.valueOf(sellingArtVo.getDislike_count())));
-        mDataBinding.zan.setText(getString(R.string.text_zan_amount, String.valueOf(sellingArtVo.getLiked_count())));
-        mDataBinding.signAmount.setText(getString(R.string.sign_amounts, String.valueOf(sellingArtVo.getTrades_count())));
-        mDataBinding.createAmount.setText(getString(R.string.create_amount, String.valueOf(sellingArtVo.getTotal_amount())));
-        if (TextUtils.isEmpty(sellingArtVo.getDetails())) {
+        mDataBinding.cai.setText(getString(R.string.text_cai_amount, String.valueOf(sellingArtVo.getArt().getDislike_count())));
+        mDataBinding.zan.setText(getString(R.string.text_zan_amount, String.valueOf(sellingArtVo.getArt().getLiked_count())));
+        mDataBinding.signAmount.setText(getString(R.string.sign_amounts, String.valueOf(sellingArtVo.getArt().getTrades_count())));
+        mDataBinding.createAmount.setText(getString(R.string.create_amount, String.valueOf(sellingArtVo.getArt().getTotal_amount())));
+        if (TextUtils.isEmpty(sellingArtVo.getArt().getDetails())) {
             mDataBinding.artAppreciationLayout.setVisibility(View.GONE);
         } else
-            mDataBinding.artAppreciation.setText(sellingArtVo.getDetails());
+            mDataBinding.artAppreciation.setText(sellingArtVo.getArt().getDetails());
 
         initBtnStatus();
     }
@@ -438,7 +548,23 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     }
 
     public void initBtnStatus() {
-
+        if (isStarted) {
+            if (isOwner) {
+                mDataBinding.buyNow.setText("取消拍卖");
+            } else {
+                if (isOfferedDeposit) {
+                    mDataBinding.buyNow.setText("出价");
+                } else {
+                    mDataBinding.buyNow.setText("缴纳保证金");
+                }
+            }
+        } else if (isWinBiding) {
+            mDataBinding.buyNow.setText("中标去支付");
+        } else if (isEnded) {
+            mDataBinding.buyNow.setText("已结束");
+        } else {
+            mDataBinding.buyNow.setText("未开始");
+        }
     }
 
 
@@ -455,31 +581,32 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
         switch (v.getId()) {
             case R.id.buy_now:
-                buyAction();
+                mDepositPopwindow.showAtLocation(mDataBinding.parentLayout, Gravity.BOTTOM, 0, 0);
+//                buyAction();
                 break;
             case R.id.zan:
 
-                if (sellingArtVo.isLiked_by_me()) {
+                if (sellingArtVo.getArt().isLiked_by_me()) {
                     cancleLike();
                 } else like();
 
                 break;
             case R.id.cai:
-                if (sellingArtVo.isDisliked_by_me()) {
+                if (sellingArtVo.getArt().isDisliked_by_me()) {
                     cancleDisLike();
                 } else disLike();
                 break;
             case R.id.collect:
-                if (sellingArtVo.isFavorite_by_me())
+                if (sellingArtVo.getArt().isFavorite_by_me())
                     cancleCollect();
                 else collect();
                 break;
             case R.id.go_home_page:
-                if (sellingArtVo.getAuthor().getId() == YunApplication.getmUserVo().getId()) {
+                if (sellingArtVo.getArt().getAuthor().getId() == YunApplication.getmUserVo().getId()) {
                     startActivity(MyHomePageActivity.class);
                 } else {
                     Bundle bundle1 = new Bundle();
-                    bundle1.putInt(UserHomePageActivity.UID, sellingArtVo.getAuthor().getId());
+                    bundle1.putInt(UserHomePageActivity.UID, sellingArtVo.getArt().getAuthor().getId());
                     startActivity(UserHomePageActivity.class, bundle1);
                 }
                 break;
@@ -490,10 +617,10 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
             case R.id.img_play:
             case R.id.img_video:
-                if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file2().getUrl())) {
-                    if (sellingArtVo.getImg_main_file2().getUrl().endsWith("mp4")) {
+                if (!TextUtils.isEmpty(sellingArtVo.getArt().getImg_main_file2().getUrl())) {
+                    if (sellingArtVo.getArt().getImg_main_file2().getUrl().endsWith("mp4")) {
                         try {
-                            PictureSelector.create(AuctionArtDetailActivity.this).externalPictureVideo(sellingArtVo.getImg_main_file2().getUrl());
+                            PictureSelector.create(AuctionArtDetailActivity.this).externalPictureVideo(sellingArtVo.getArt().getImg_main_file2().getUrl());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -506,10 +633,22 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
     /*根据不同状态跳不同页面*/
     private void buyAction() {
-        if (sellingArtVo.isIs_owner()) {
-
+        if (isStarted) {
+            if (isOwner) {
+                mDataBinding.buyNow.setText("取消拍卖");
+            } else {
+                if (isOfferedDeposit) {
+                    mDataBinding.buyNow.setText("出价");
+                } else {
+                    mDataBinding.buyNow.setText("缴纳保证金");
+                }
+            }
+        } else if (isWinBiding) {
+            mDataBinding.buyNow.setText("中标去支付");
+        } else if (isEnded) {
+            mDataBinding.buyNow.setText("已结束");
         } else {
-
+            mDataBinding.buyNow.setText("未开始");
         }
     }
 
@@ -567,9 +706,9 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     public void like() {
         HashMap<String, String> params = new HashMap<>();
         params.put("art_id", art_id);
-        RequestManager.instance().like(art_id, params, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
+        RequestManager.instance().auctionLike(art_id, params, new MinerCallback<BaseResponseVo<AuctionArtVo>>() {
             @Override
-            public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+            public void onSuccess(Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
                         sellingArtVo = response.body().getBody();
@@ -580,7 +719,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
             @Override
             public void onError
-                    (Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+                    (Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
 
             }
 
@@ -595,9 +734,9 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     public void cancleLike() {
         HashMap<String, String> params = new HashMap<>();
         params.put("art_id", art_id);
-        RequestManager.instance().canclelike(art_id, params, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
+        RequestManager.instance().auctionCancelLike(art_id, params, new MinerCallback<BaseResponseVo<AuctionArtVo>>() {
             @Override
-            public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+            public void onSuccess(Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
                         sellingArtVo = response.body().getBody();
@@ -608,7 +747,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
             @Override
             public void onError
-                    (Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+                    (Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
 
             }
 
@@ -628,7 +767,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
-                        sellingArtVo = response.body().getBody();
+//                        sellingArtVo = response.body().getBody();
                         initPageData();
                     }
                 }
@@ -655,7 +794,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
-                        sellingArtVo = response.body().getBody();
+//                        sellingArtVo = response.body().getBody();
                         initPageData();
                     }
                 }
@@ -682,7 +821,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
-                        sellingArtVo = response.body().getBody();
+//                        sellingArtVo = response.body().getBody();
                         initPageData();
                     }
                 }
@@ -709,7 +848,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
-                        sellingArtVo = response.body().getBody();
+//                        sellingArtVo = response.body().getBody();
                         initPageData();
                     }
 
@@ -784,7 +923,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
     private void openLive2dActivity(String dir) {
         String path = dir.concat("/");
-        String modelName = sellingArtVo.getLive2d_file().concat(YunApplication.MODEL_PATH);
+        String modelName = sellingArtVo.getArt().getLive2d_file().concat(YunApplication.MODEL_PATH);
         Bundle bundle = new Bundle();
         bundle.putString(ShowLiveActivity.PATH, path);
         bundle.putString(ShowLiveActivity.MODEL_NAME, modelName);
@@ -800,9 +939,9 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
     public void requestArtInfo() {
         showLoading(getString(R.string.progress_loading));
-        RequestManager.instance().artInfo(request_art_id, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
+        RequestManager.instance().auctionArtInfo(request_art_id, new MinerCallback<BaseResponseVo<AuctionArtVo>>() {
             @Override
-            public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+            public void onSuccess(Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
                         dismissLoading();
@@ -813,7 +952,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             }
 
             @Override
-            public void onError(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+            public void onError(Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
 
             }
 

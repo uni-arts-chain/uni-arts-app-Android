@@ -11,6 +11,7 @@ import com.yunhualian.entity.ArtTopicVo;
 import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.ArtistListVo;
 import com.yunhualian.entity.ArtistVo;
+import com.yunhualian.entity.AuctionArtVo;
 import com.yunhualian.entity.AuctionVo;
 import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
@@ -26,6 +27,7 @@ import com.yunhualian.entity.HistoriesBean;
 import com.yunhualian.entity.MemberInfo;
 import com.yunhualian.entity.MessagesVo;
 import com.yunhualian.entity.NoRead;
+import com.yunhualian.entity.OfferPriceBean;
 import com.yunhualian.entity.OrderAmountVo;
 import com.yunhualian.entity.PayResult;
 import com.yunhualian.entity.PayResyltVo;
@@ -33,6 +35,7 @@ import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.UploadLive2dVo;
 import com.yunhualian.entity.UserAggrementVo;
 import com.yunhualian.entity.UserVo;
+import com.yunhualian.entity.WithDrawsBean;
 
 import java.util.HashMap;
 import java.util.List;
@@ -334,8 +337,38 @@ public interface RemoteService {
     @POST("/api/v2/payment_methods")
     Call<BaseResponseVo<UploadCodeBean>> uploadQrCodeImg(@Body RequestBody mRequestBody);
 
+    // 上传wx和alipay收款二维码
+    @POST("/api/v2/payment_methods/update_img")
+    Call<BaseResponseVo<UploadCodeBean>> updateQrCodeImg(@Body RequestBody mRequestBody);
+
     // 获取拍卖列表
     @GET("/api/v2/auctions")
-    Call<BaseResponseVo<List<SellingArtVo>>> queryAuctions(@QueryMap HashMap<String, String> map);
+    Call<BaseResponseVo<List<AuctionArtVo>>> queryAuctions(@QueryMap HashMap<String, String> map);
+
+    // 获取拍卖列表
+    @POST("/api/v2/withdraws")
+    @FormUrlEncoded
+    Call<BaseResponseVo<WithDrawsBean>> withdraws(@FieldMap HashMap<String, String> map);
+
+    // 获取推荐拍卖列表
+    @GET("/api/v2/auctions/popular")
+    Call<BaseResponseVo<List<AuctionArtVo>>> queryHomePageAuctions(@Query("page") int page, @Query("per_page") int pageSize);
+
+    //拍卖点赞
+    @POST("/api/v2/arts/{id}/like")
+    @FormUrlEncoded
+    Call<BaseResponseVo<AuctionArtVo>> auctionLike(@Path("id") String id, @FieldMap HashMap<String, String> map);
+
+    @POST("/api/v2/arts/{id}/cancel_like")
+    @FormUrlEncoded
+    Call<BaseResponseVo<AuctionArtVo>> auctionCancleLike(@Path("id") String id, @FieldMap HashMap<String, String> map);
+
+    // 拍卖艺术品详情
+    @GET("/api/v2/auctions/{id}")
+    Call<BaseResponseVo<AuctionArtVo>> auctionArtInfo(@Path("id") String artId);
+
+    // 获取拍卖出价列表
+    @GET("/api/v2/auctions/{id}/bid_histories")
+    Call<BaseResponseVo<List<OfferPriceBean>>> queryOfferPriceList(@Path("id") String artId, @Query("page") int page, @Query("per_page") int pageSize);
 }
 

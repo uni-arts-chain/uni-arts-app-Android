@@ -93,6 +93,26 @@
                     android:textSize="@dimen/sp_12" />
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/rl_auction_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_above="@+id/textLayout"
+                android:layout_gravity="bottom"
+                android:background="@drawable/bg_auction_time"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_auction_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableStart="@mipmap/icon_clock"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

@@ -80,6 +80,9 @@ public class UserVo implements Serializable {
     private String id_document_number;
     private String aasm_state;
     private boolean is_organization;
+    private WechatImg weixin_img;
+    private AlipayImg alipay_img;
+
 
     public int getId() {
         return id;
@@ -345,7 +348,23 @@ public class UserVo implements Serializable {
         this.is_organization = is_organization;
     }
 
-    public static class RecommendImageBean implements Serializable{
+    public WechatImg getWeixin_img() {
+        return weixin_img;
+    }
+
+    public void setWeixin_img(WechatImg weixin_img) {
+        this.weixin_img = weixin_img;
+    }
+
+    public AlipayImg getAlipay_img() {
+        return alipay_img;
+    }
+
+    public void setAlipay_img(AlipayImg alipay_img) {
+        this.alipay_img = alipay_img;
+    }
+
+    public static class RecommendImageBean implements Serializable {
         /**
          * url : https://miner-pool.oss-cn-hongkong.aliyuncs.com/miner_pool/member/recommend_image/11/de72717a-c952-42f0-a06f-5284bbf2713e.jpg
          */
@@ -366,6 +385,30 @@ public class UserVo implements Serializable {
          * url : null
          */
 
+        private String url;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+    }
+
+    public static class WechatImg implements Serializable {
+        private String url;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+    }
+
+    public static class AlipayImg implements Serializable {
         private String url;
 
         public String getUrl() {

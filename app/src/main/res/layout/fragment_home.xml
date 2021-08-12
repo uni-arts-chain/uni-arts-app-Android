@@ -243,55 +243,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <View
-                            android:layout_width="@dimen/dp_20"
-                            android:layout_height="@dimen/dp_2"
-                            android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@+id/title_hot"
-                            android:background="@color/line_color" />
-
-                        <TextView
-                            android:id="@+id/title_hot"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:padding="@dimen/dp_10"
-                            android:text="@string/hot"
-                            android:textColor="@color/picture_name_color"
-                            android:textSize="@dimen/sp_19"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="@dimen/dp_20"
-                            android:layout_height="@dimen/dp_2"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/title_hot"
-                            android:background="@color/line_color" />
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/hot_recycle"
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tabLayout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_10"
-                            android:layout_marginRight="@dimen/dp_10" />
+                            android:layout_height="38dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@color/white"
+                            app:tabIndicatorColor="@color/_101010"
+                            app:tabIndicatorFullWidth="false"
+                            app:tabSelectedTextColor="@color/_101010"
+                            app:tabTextColor="@color/_101010" />
 
-                    </RelativeLayout>
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/vp_sell_auction"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
 
                 </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     </LinearLayout>
+
 </layout>

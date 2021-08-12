@@ -11,6 +11,10 @@ public class DateUtil {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
     }
 
+    public static String dateToStringWithAllDot(Long date) {
+        return new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(date);
+    }
+
     public static String dateToStringWithZh(Long date) {
         return new SimpleDateFormat("MM月dd日").format(date);
     }

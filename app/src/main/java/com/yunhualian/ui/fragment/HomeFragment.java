@@ -1,10 +1,5 @@
 package com.yunhualian.ui.fragment;
 
-import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,16 +12,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.blankj.utilcode.util.LogUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.android.material.tabs.TabLayout;
 import com.igexin.sdk.PushManager;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.upbest.arouter.EventEntity;
 import com.yunhualian.R;
 import com.yunhualian.adapter.HomePagePopularAdapter;
 import com.yunhualian.adapter.HomePageThemeAdapter;
+import com.yunhualian.adapter.MyHomePageAdapter;
 import com.yunhualian.base.BaseFragment;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.FragmentHomeBinding;
@@ -35,6 +36,7 @@ import com.yunhualian.entity.ArtAuctionVo;
 import com.yunhualian.entity.ArtPriceVo;
 import com.yunhualian.entity.ArtTopicVo;
 import com.yunhualian.entity.ArtTypeVo;
+import com.yunhualian.entity.AuctionArtVo;
 import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.NoRead;
@@ -42,11 +44,11 @@ import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
-import com.yunhualian.ui.activity.NoticeInfoActivity;
-import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
-import com.yunhualian.ui.activity.user.MessagesActivity;
+import com.yunhualian.ui.activity.NoticeInfoActivity;
 import com.yunhualian.ui.activity.SearchActivity;
+import com.yunhualian.ui.activity.art.ArtDetailActivity;
+import com.yunhualian.ui.activity.user.MessagesActivity;
 import com.yunhualian.ui.x5.ExplorerWebViewActivity;
 import com.yunhualian.utils.DateUtil;
 import com.yunhualian.utils.SharedPreUtils;
@@ -59,6 +61,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,20 +75,23 @@ import retrofit2.Response;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 
-public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
+public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener, MyHomePageAdapter.TabPagerListener {
 
-    private HomePagePopularAdapter popularAdapter;
     private HomePageThemeAdapter themeAdapter;
     private List<BannersVo> bannersVoList;
     private List<AnnouncementVo> announcementVoList;
     private List<ArtAuctionVo> artAuctionVoList;
-    private List<SellingArtVo> popularList;
+    private List<SellingArtVo> popularList = new ArrayList<>();
+    private List<AuctionArtVo> auctionList = new ArrayList<>();
     private List<ArtTopicVo> themeList;
     LinearLayout searchLayout;
     LinearLayout messageIcon;
     LinearLayout kefuIcon;
     TextView noReadFlag;
     private boolean resume = false;
+    private HomeHotFragment homeHotFragment;
+    private HomeAuctionFragment homeAuctionFragment;
+    private MyHomePageAdapter pageAdapter;
 
     public static BaseFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -141,18 +147,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     @Override
     protected void initView() {
         initRefresh();
+        initFragments();
         searchLayout = mBinding.titleLayout.findViewById(R.id.centerToolbarView);
         searchLayout.setOnClickListener(v -> startActivity(SearchActivity.class));
         noReadFlag = mBinding.titleLayout.findViewById(R.id.noRead);
         messageIcon = mBinding.titleLayout.findViewById(R.id.layout_menu);
         kefuIcon = mBinding.titleLayout.findViewById(R.id.layout_back);
-        popularAdapter = new HomePagePopularAdapter(popularList);
         themeAdapter = new HomePageThemeAdapter(themeList, mActivity);
-        StaggeredGridLayoutManager hotManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mBinding.hotRecycle.setLayoutManager(hotManager);
-        mBinding.scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> hotManager.invalidateSpanAssignments());
-        mBinding.hotRecycle.setAdapter(popularAdapter);
-        popularAdapter.setOnItemClickListener(this);
         LinearLayoutManager sortLayoutManager = new LinearLayoutManager(YunApplication.getInstance());
         mBinding.theme.setLayoutManager(sortLayoutManager);
         mBinding.theme.setAdapter(themeAdapter);
@@ -167,6 +168,16 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         loginByAddress(false);
     }
 
+    private void initFragments() {
+        homeHotFragment = new HomeHotFragment(popularList);
+        homeAuctionFragment = new HomeAuctionFragment(auctionList);
+        pageAdapter = new MyHomePageAdapter(getChildFragmentManager(), 2, Arrays.asList(getResources().getStringArray(R.array.home_tabs)), requireActivity());
+        pageAdapter.setListener(this);
+        mBinding.vpSellAuction.setAdapter(pageAdapter);
+        mBinding.tabLayout.setupWithViewPager(mBinding.vpSellAuction);
+        mBinding.tabLayout.setTabMode(TabLayout.MODE_FIXED);
+    }
+
     private void initRequest() {
         getPrice();//获取价格区间
         getArtType();//获取类型数据
@@ -174,8 +185,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         getBanner();//获取banner
         getNews();//获取新闻
         getPopular();//获取流行
+        getAuctions();//获取推荐拍卖
         getTheme();//获取主题
-        getUserInfo();//获取用户信息
         hasUnReadMessage();//查询唯独消息
     }
 
@@ -185,19 +196,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         mBinding.banner.pause();
     }
 
-
-    /*
-    *
-    *   getArtType();//获取类型数据
-            getCategories();//获取主题
-            getBanner();//获取banner
-            getNews();//获取新闻
-            getPopular();//获取流行
-            getTheme();//获取主题
-            getPrice();//获取价格区间
-            getUserInfo();//获取用户信息
-            hasUnReadMessage();//查询唯独消息
-    * */
     private void initRefresh() {
         mBinding.srlShoopingMall.setColorSchemeResources(R.color.colorAccent);
         mBinding.srlShoopingMall.setDistanceToTriggerSync(500);
@@ -253,6 +251,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 
     }
 
+    @Override
+    public Fragment getFragment(int position) {
+        if (position == 0) {
+            return homeHotFragment;
+        }
+        return homeAuctionFragment;
+    }
+
     public static class BannerViewHolder implements MZViewHolder<BannersVo> {
         private ImageView mImageView;
 
@@ -282,57 +288,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
             });
         }
     }
-
-//    public static class AuctionViewHolder implements MZViewHolder<ArtAuctionVo> {
-//        private ImageView mImageView;
-//        private TextView auctionTime;
-//        private TextView artAmount;
-//        private TextView button;
-//        private TextView artMeetName;
-//        private TextView title;
-//        private CountdownView countdownView;
-//        @SuppressLint("SimpleDateFormat")
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd HH:mm");
-//
-//        @Override
-//        public View createView(Context context) {
-//            View view = LayoutInflater.from(context).inflate(R.layout.adapter_home_banner_image, null);
-//            mImageView = view.findViewById(R.id.artist_pic);
-//            auctionTime = view.findViewById(R.id.artist_time);
-//            artAmount = view.findViewById(R.id.artist_amount);
-//            artMeetName = view.findViewById(R.id.artist_name);
-//            title = view.findViewById(R.id.title);
-//            button = view.findViewById(R.id.come_in);
-//            countdownView = view.findViewById(R.id.countDown);
-//            return view;
-//        }
-//
-//        @Override
-//        public void onBind(Context context, int position, ArtAuctionVo data) {
-//            Glide.with(context).clear(mImageView);
-//            Glide.with(context).load(data.getImg_file().getUrl()).into(mImageView);
-//            long current = System.currentTimeMillis();
-//            long last = Long.parseLong(data.getStart_at()) * 1000 - current;
-//            if (last > 0) {
-//                countdownView.start(last);
-//                title.setText(R.string.auction_time_start);
-//            } else if ((Long.parseLong(data.getEnd_at()) * 1000 - current) > 0) {
-//                countdownView.start(Long.parseLong(data.getEnd_at()) * 1000 - current);
-//                title.setText(R.string.auction_time_end);
-//            } else {
-//                title.setText(R.string.auction_time_end);
-//                countdownView.start(0);
-//            }
-//            Date date = new Date(Long.parseLong(data.getStart_at()) * 1000);
-//            Date endDate = new Date(Long.parseLong(data.getEnd_at()) * 1000);
-//            auctionTime.setText(simpleDateFormat.format(date) + " - " + simpleDateFormat.format(endDate));
-//            artAmount.setText(String.valueOf(data.getArt_size()).concat("件"));
-//            artMeetName.setText(data.getDesc());
-//            button.setOnClickListener(v -> {
-//                ToastUtils.showLong("click" + position);
-//            });
-//        }
-//    }
 
     /*
      * 获取banner
@@ -401,35 +356,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     }
 
     /*
-     * 获取拍卖会列表
-     * */
-   /* public void getAuctionMeet() {
-        RequestManager.instance().queryAuction(new MinerCallback<BaseResponseVo<List<ArtAuctionVo>>>() {
-            @Override
-            public void onSuccess(Call<BaseResponseVo<List<ArtAuctionVo>>> call, Response<BaseResponseVo<List<ArtAuctionVo>>> response) {
-                if (response.isSuccessful()) {
-                    artAuctionVoList = response.body().getBody();
-                    if (artAuctionVoList.size() > 0) {
-                        mBinding.auctionList.setIndicatorRes(R.mipmap.icon_time_p, R.mipmap.icon_art_amount);
-//                        mBinding.auctionList.setPages(artAuctionVoList, AuctionViewHolder::new);
-                    }
-                }
-            }
-
-            @Override
-            public void onError(Call<BaseResponseVo<List<ArtAuctionVo>>> call, Response<BaseResponseVo<List<ArtAuctionVo>>> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<?> call, Throwable t) {
-
-            }
-        });
-    }
-    */
-
-    /*
      * 获取新闻
      * */
     public void getPopular() {
@@ -442,7 +368,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
                         popularList = response.body().getBody();
 
                     if (popularList != null && popularList.size() > 0) {
-                        popularAdapter.setNewData(popularList);
+                        homeHotFragment.updateData(popularList);
                     }
                 }
             }
@@ -459,6 +385,34 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
             }
         });
 
+    }
+
+    private void getAuctions() {
+        RequestManager.instance().queryHomePageAuctions(1, 10, new MinerCallback<BaseResponseVo<List<AuctionArtVo>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() == null) return;
+                    if (response.body().getBody() != null)
+                        auctionList = response.body().getBody();
+
+                    if (auctionList != null && auctionList.size() > 0) {
+                        homeAuctionFragment.updateData(auctionList);
+                    }
+                }
+            }
+
+            @Override
+            public void onError
+                    (Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
     }
 
     /*
@@ -665,26 +619,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 
             }
         });
-    }
-
-    private void getUserInfo() {
-//        RequestManager.instance().queryUser(new MinerCallback<BaseResponseVo<UserVo>>() {
-//            @Override
-//            public void onSuccess(Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
-//                if (response.isSuccessful())
-//                    YunApplication.setmUserVo(response.body().getBody());
-//            }
-//
-//            @Override
-//            public void onError(Call<BaseResponseVo<UserVo>> call, Response<BaseResponseVo<UserVo>> response) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<?> call, Throwable t) {
-//
-//            }
-//        });
     }
 
     public void loginByAddress(boolean refreshToken) {

@@ -8,7 +8,6 @@ import com.yunhualian.adapter.MyHomePageAdapter;
 import com.yunhualian.base.BaseFragment;
 import com.yunhualian.databinding.FragmentNftMallLayoutBinding;
 import com.yunhualian.ui.activity.SearchActivity;
-import com.yunhualian.ui.fragment.data.AuctionSortFragment;
 
 import java.util.Arrays;
 

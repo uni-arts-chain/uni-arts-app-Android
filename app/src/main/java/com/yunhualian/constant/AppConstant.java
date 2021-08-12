@@ -22,7 +22,7 @@ public class AppConstant {
     public static final String TOKEN_MISS = "1070";
     //接口地址
     private static final String IPADDRESS_RELEASE = "uniarts.senmeo.tech";
-    private static final String IPADDRESS_DEBUG = "app.uniarts.me";
+    private static final String IPADDRESS_DEBUG = "app.uniarts.network";
 
     //    public static final String ADDRESS = (BuildConfig.DEBUG ? "http" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
     public static final String ADDRESS = (BuildConfig.DEBUG ? "https" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
