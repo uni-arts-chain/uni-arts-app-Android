@@ -21,6 +21,7 @@ import com.yunhualian.entity.BlindBoxOrderCheck;
 import com.yunhualian.entity.BlindBoxRecordVo;
 import com.yunhualian.entity.BlindBoxVo;
 import com.yunhualian.entity.BoughtArtVo;
+import com.yunhualian.entity.CancelAuctionBean;
 import com.yunhualian.entity.CollectArtVo;
 import com.yunhualian.entity.FollowerVO;
 import com.yunhualian.entity.HistoriesBean;
@@ -370,5 +371,20 @@ public interface RemoteService {
     // 获取拍卖出价列表
     @GET("/api/v2/auctions/{id}/bid_histories")
     Call<BaseResponseVo<List<OfferPriceBean>>> queryOfferPriceList(@Path("id") String artId, @Query("page") int page, @Query("per_page") int pageSize);
+
+    //创建拍卖保证金
+    @POST("/api/v2/auction_deposits")
+    @FormUrlEncoded
+    Call<BaseResponseVo<PayResyltVo>> payForDeposit(@FieldMap HashMap<String, String> map);
+
+    //创建拍卖保证金
+    @POST("/api/v2/auctions/{id}/cancel")
+    @FormUrlEncoded
+    Call<BaseResponseVo<CancelAuctionBean>> cancelAuction(@Path("id") String id);
+
+    //拍卖出价
+    @POST("/api/v2/auctions/{id}/bid")
+    @FormUrlEncoded
+    Call<BaseResponseVo<OfferPriceBean>> offerPrice(@Path("id") String id, @FieldMap HashMap<String, String> map);
 }
 

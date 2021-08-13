@@ -5,23 +5,23 @@ import java.math.BigDecimal;
 
 public class AuctionArtVo implements Serializable {
 
-   private int id;
+    private int id;
 
-   private String currency_code;
+    private String currency_code;
 
-   private String start_price;
+    private String start_price;
 
-   private int amount;
+    private int amount;
 
-   private String price_increment;
+    private String price_increment;
 
     private String current_price;
 
     private String win_price;
 
-    private String start_time;
+    private long start_time;
 
-    private String end_time;
+    private long end_time;
 
     private String created_at;
 
@@ -33,7 +33,7 @@ public class AuctionArtVo implements Serializable {
 
     private boolean deposit_paid;
 
-    private String buyer;
+    private BuyerBean buyer;
 
     private ArtBean art;
 
@@ -93,19 +93,19 @@ public class AuctionArtVo implements Serializable {
         this.win_price = win_price;
     }
 
-    public String getStart_time() {
+    public long getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(String start_time) {
+    public void setStart_time(long start_time) {
         this.start_time = start_time;
     }
 
-    public String getEnd_time() {
+    public long getEnd_time() {
         return end_time;
     }
 
-    public void setEnd_time(String end_time) {
+    public void setEnd_time(long end_time) {
         this.end_time = end_time;
     }
 
@@ -149,11 +149,11 @@ public class AuctionArtVo implements Serializable {
         this.deposit_paid = deposit_paid;
     }
 
-    public String getBuyer() {
+    public BuyerBean getBuyer() {
         return buyer;
     }
 
-    public void setBuyer(String buyer) {
+    public void setBuyer(BuyerBean buyer) {
         this.buyer = buyer;
     }
 
@@ -165,7 +165,303 @@ public class AuctionArtVo implements Serializable {
         this.art = art;
     }
 
-    public static class ArtBean implements Serializable{
+    public static class BuyerBean implements Serializable {
+        private int id;
+        private String uid;
+        private String sn;
+        private String email;
+        private String display_name;
+        private String token;
+        private String phone_number;
+        private boolean id_document_validated;
+        private boolean app_validated;
+        private boolean pay_password_validated;
+        private String ref_code;
+        private String created_at;
+        private String expire_at;
+        private boolean is_read_agreement;
+        private boolean is_binding_invitation;
+        private String address;
+        private BoughtArtVo.BuyerBean.RecommendImageBeanX recommend_image;
+        private String sex;
+        private String desc;
+        private BoughtArtVo.BuyerBean.AvatarBeanX avatar;
+        private boolean is_artist;
+        private String artist_desc;
+        private int follow_user_size;
+        private int following_user_size;
+        private boolean follow_by_me;
+        private int favorite_art_size;
+        private int art_size;
+        private String residential_address;
+        private String college;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getUid() {
+            return uid;
+        }
+
+        public void setUid(String uid) {
+            this.uid = uid;
+        }
+
+        public String getSn() {
+            return sn;
+        }
+
+        public void setSn(String sn) {
+            this.sn = sn;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getDisplay_name() {
+            return display_name;
+        }
+
+        public void setDisplay_name(String display_name) {
+            this.display_name = display_name;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        public String getPhone_number() {
+            return phone_number;
+        }
+
+        public void setPhone_number(String phone_number) {
+            this.phone_number = phone_number;
+        }
+
+        public boolean isId_document_validated() {
+            return id_document_validated;
+        }
+
+        public void setId_document_validated(boolean id_document_validated) {
+            this.id_document_validated = id_document_validated;
+        }
+
+        public boolean isApp_validated() {
+            return app_validated;
+        }
+
+        public void setApp_validated(boolean app_validated) {
+            this.app_validated = app_validated;
+        }
+
+        public boolean isPay_password_validated() {
+            return pay_password_validated;
+        }
+
+        public void setPay_password_validated(boolean pay_password_validated) {
+            this.pay_password_validated = pay_password_validated;
+        }
+
+        public String getRef_code() {
+            return ref_code;
+        }
+
+        public void setRef_code(String ref_code) {
+            this.ref_code = ref_code;
+        }
+
+        public String getCreated_at() {
+            return created_at;
+        }
+
+        public void setCreated_at(String created_at) {
+            this.created_at = created_at;
+        }
+
+        public String getExpire_at() {
+            return expire_at;
+        }
+
+        public void setExpire_at(String expire_at) {
+            this.expire_at = expire_at;
+        }
+
+        public Boolean getIs_read_agreement() {
+            return is_read_agreement;
+        }
+
+        public void setIs_read_agreement(Boolean is_read_agreement) {
+            this.is_read_agreement = is_read_agreement;
+        }
+
+        public boolean isIs_binding_invitation() {
+            return is_binding_invitation;
+        }
+
+        public void setIs_binding_invitation(boolean is_binding_invitation) {
+            this.is_binding_invitation = is_binding_invitation;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public BoughtArtVo.BuyerBean.RecommendImageBeanX getRecommend_image() {
+            return recommend_image;
+        }
+
+        public void setRecommend_image(BoughtArtVo.BuyerBean.RecommendImageBeanX recommend_image) {
+            this.recommend_image = recommend_image;
+        }
+
+        public String getSex() {
+            return sex;
+        }
+
+        public void setSex(String sex) {
+            this.sex = sex;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public BoughtArtVo.BuyerBean.AvatarBeanX getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(BoughtArtVo.BuyerBean.AvatarBeanX avatar) {
+            this.avatar = avatar;
+        }
+
+        public boolean isIs_artist() {
+            return is_artist;
+        }
+
+        public void setIs_artist(boolean is_artist) {
+            this.is_artist = is_artist;
+        }
+
+        public String getArtist_desc() {
+            return artist_desc;
+        }
+
+        public void setArtist_desc(String artist_desc) {
+            this.artist_desc = artist_desc;
+        }
+
+        public int getFollow_user_size() {
+            return follow_user_size;
+        }
+
+        public void setFollow_user_size(int follow_user_size) {
+            this.follow_user_size = follow_user_size;
+        }
+
+        public int getFollowing_user_size() {
+            return following_user_size;
+        }
+
+        public void setFollowing_user_size(int following_user_size) {
+            this.following_user_size = following_user_size;
+        }
+
+        public boolean isFollow_by_me() {
+            return follow_by_me;
+        }
+
+        public void setFollow_by_me(boolean follow_by_me) {
+            this.follow_by_me = follow_by_me;
+        }
+
+        public int getFavorite_art_size() {
+            return favorite_art_size;
+        }
+
+        public void setFavorite_art_size(int favorite_art_size) {
+            this.favorite_art_size = favorite_art_size;
+        }
+
+        public int getArt_size() {
+            return art_size;
+        }
+
+        public void setArt_size(int art_size) {
+            this.art_size = art_size;
+        }
+
+        public String getResidential_address() {
+            return residential_address;
+        }
+
+        public void setResidential_address(String residential_address) {
+            this.residential_address = residential_address;
+        }
+
+        public String getCollege() {
+            return college;
+        }
+
+        public void setCollege(String college) {
+            this.college = college;
+        }
+
+        public static class RecommendImageBeanX implements Serializable {
+            /**
+             * url : https://miner-pool.oss-cn-hongkong.aliyuncs.com/miner_pool/member/recommend_image/11/de72717a-c952-42f0-a06f-5284bbf2713e.jpg
+             */
+
+            private String url;
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+        }
+
+        public static class AvatarBeanX implements Serializable {
+            /**
+             * url : null
+             */
+
+            private String url;
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+        }
+    }
+
+    public static class ArtBean implements Serializable {
 
         private int id;
 
@@ -269,7 +565,10 @@ public class AuctionArtVo implements Serializable {
 
         private String video_url;
 
+        private boolean is_owner;
+
         private AuthorBean author;
+
         public static class AuthorBean implements Serializable {
 
             private int id;
@@ -334,7 +633,7 @@ public class AuctionArtVo implements Serializable {
 
             private AlipayImg alipay_img;
 
-            private long cny_amount;
+            private double cny_amount;
 
             public static class RecommendImageBean implements Serializable {
 
@@ -634,11 +933,11 @@ public class AuctionArtVo implements Serializable {
                 this.alipay_img = alipay_img;
             }
 
-            public long getCny_amount() {
+            public double getCny_amount() {
                 return cny_amount;
             }
 
-            public void setCny_amount(long cny_amount) {
+            public void setCny_amount(double cny_amount) {
                 this.cny_amount = cny_amount;
             }
         }
@@ -1057,6 +1356,14 @@ public class AuctionArtVo implements Serializable {
 
         public void setAuthor(AuthorBean author) {
             this.author = author;
+        }
+
+        public boolean isIs_owner() {
+            return is_owner;
+        }
+
+        public void setIs_owner(boolean is_owner) {
+            this.is_owner = is_owner;
         }
 
         public static class ImgMainFile1Bean implements Serializable {

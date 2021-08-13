@@ -27,6 +27,7 @@ import com.yunhualian.entity.BlindBoxOrderCheck;
 import com.yunhualian.entity.BlindBoxRecordVo;
 import com.yunhualian.entity.BlindBoxVo;
 import com.yunhualian.entity.BoughtArtVo;
+import com.yunhualian.entity.CancelAuctionBean;
 import com.yunhualian.entity.CollectArtVo;
 import com.yunhualian.entity.FollowerVO;
 import com.yunhualian.entity.HistoriesBean;
@@ -648,6 +649,21 @@ public class RequestManager {
 
     public void queryOfferPriceList(String art_id, int page, int page_size, MinerCallback<BaseResponseVo<List<OfferPriceBean>>> mCallBack) {
         Call<BaseResponseVo<List<OfferPriceBean>>> mCall = NetworkManager.instance().getmRemoteService().queryOfferPriceList(art_id, page, page_size);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void payForDeposit(HashMap<String, String> param, MinerCallback<BaseResponseVo<PayResyltVo>> mCallBack) {
+        Call<BaseResponseVo<PayResyltVo>> mCall = NetworkManager.instance().getmRemoteService().payForDeposit(param);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void cancelAuction(String art_id, MinerCallback<BaseResponseVo<CancelAuctionBean>> mCallBack) {
+        Call<BaseResponseVo<CancelAuctionBean>> mCall = NetworkManager.instance().getmRemoteService().cancelAuction(art_id);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void offerPrice(String art_id,HashMap<String, String> param, MinerCallback<BaseResponseVo<OfferPriceBean>> mCallBack) {
+        Call<BaseResponseVo<OfferPriceBean>> mCall = NetworkManager.instance().getmRemoteService().offerPrice(art_id, param);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 }

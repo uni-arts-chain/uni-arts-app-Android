@@ -58,10 +58,10 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/tv_current_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="1000"
                     android:textColor="@color/_D70000"
                     android:textSize="14sp" />
             </LinearLayout>

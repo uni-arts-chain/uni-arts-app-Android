@@ -407,10 +407,10 @@ UniArts提供技术支持</string>
     <string name="deal_close_hint">未支付%1$s，已扣除保证金</string>
     <string name="auction_pieces_">拍卖份数：%1$s</string>
     <string name="auction_start_price_">起拍价：%1$s</string>
-    <string name="auction_start_price_key">起拍价：</string>
-    <string name="auction_add_unit_">加价幅度：</string>
-    <string name="auction_start_time_">开始时间：</string>
-    <string name="auction_end_time_">结束时间：</string>
+    <string name="auction_start_price_key">起拍价：%1$s</string>
+    <string name="auction_add_unit_">加价幅度：¥%1$s</string>
+    <string name="auction_start_time_">开始时间：%1$s</string>
+    <string name="auction_end_time_">结束时间：%1$s</string>
     <string name="start_auction_">发起拍卖</string>
     <string name="account_remain_v">(￥%1$s)</string>
     <string name="offer_price_title">出价记录</string>
@@ -430,6 +430,10 @@ UniArts提供技术支持</string>
     <string name="cash_account_">现金账户</string>
     <string name="with_draw">提现</string>
     <string name="with_draw_hint">申请提现后，资金将会在3个工作日内到账，请注意查收！</string>
+    <string name="cancel_auction_hint">是否确认取消拍卖？</string>
+    <string name="has_offered_price">您已出价 ¥%1$s</string>
+    <string name="need_offered_price">至少还需加价 ¥%1$s</string>
+    <string name="offer_price_now">立即出价 ¥%1$s</string>
     <string-array name="mall_tabs">
         <item>寄售</item>
         <item>拍卖</item>

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,30 +37,40 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.lljjcoder.style.citylist.Toast.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.tools.ToastManage;
 import com.yunhualian.R;
 import com.yunhualian.adapter.ArtDetailImgAdapter;
-import com.yunhualian.ui.activity.OfferPriceListActivity;
 import com.yunhualian.adapter.OfferPriceListAdapter;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.ExtraConstant;
 import com.yunhualian.databinding.ActivityAuctionArtDetailBinding;
+import com.yunhualian.entity.AccountVo;
 import com.yunhualian.entity.AuctionArtVo;
 import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.entity.CancelAuctionBean;
 import com.yunhualian.entity.EventBusMessageEvent;
 import com.yunhualian.entity.OfferPriceBean;
+import com.yunhualian.entity.PayResyltVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
+import com.yunhualian.ui.activity.OfferPriceListActivity;
 import com.yunhualian.ui.activity.ShowNetBigImgActivity;
+import com.yunhualian.ui.activity.TransferActivity;
 import com.yunhualian.ui.activity.user.MyHomePageActivity;
 import com.yunhualian.ui.activity.user.UserHomePageActivity;
+import com.yunhualian.ui.x5.WebViewActivity;
+import com.yunhualian.ui.x5.X5WebViewActivity;
+import com.yunhualian.ui.x5.X5WebViewForAliPayActivity;
 import com.yunhualian.utils.DateUtil;
 import com.yunhualian.utils.DisplayUtils;
 import com.yunhualian.utils.FileHelper;
+import com.yunhualian.utils.ToastManager;
 import com.yunhualian.widget.BasePopupWindow;
+import com.yunhualian.widget.ConfirmOrCancelPopwindow;
 import com.yunhualian.widget.UploadSuccessPopUpWindow;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
@@ -91,6 +100,8 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDetailBinding> implements View.OnClickListener {
 
     UploadSuccessPopUpWindow uploadSuccessPopUpWindow;
+    ConfirmOrCancelPopwindow confirmOrCancelPopwindow;
+
     public static final String ART_KEY = "art";
     public static final String GIF = "gif";
     public static final String ART_ID = "id";
@@ -105,6 +116,8 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     private int clickPosition = 0;
     private PopupWindow mZhengshuPopwinow;
     private PopupWindow mDepositPopwindow;
+    private PopupWindow mOfferPricePopwindow;
+
     private List<String> artDetailUrls = new ArrayList<>();
 
     private final CountTimeHandler mHandler = new CountTimeHandler(this);
@@ -188,7 +201,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         sellingArtVo = (AuctionArtVo) getIntent().getExtras().getSerializable(ART_KEY);
         request_art_id = String.valueOf(getIntent().getIntExtra(ART_ID, 0));
-        getOfferPriceList(request_art_id);
+        getOfferPriceList(false, request_art_id);
         initArtDetails();
         mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.zan.setOnClickListener(this);
@@ -200,7 +213,6 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         mDataBinding.imgVideo.setOnClickListener(this);
         mDataBinding.rlOfferPrice.setOnClickListener(this);
         initZhengShuPopwindow();
-        initPayDepositWindow("100", "150");
         mHandler.sendEmptyMessage(1);
 
         mOfferPriceList = new ArrayList<>();
@@ -295,6 +307,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         CheckBox aliCheck = contentView.findViewById(R.id.check_aliPay);
         ImageView closeImg = contentView.findViewById(R.id.img_close);
         mDepositPopwindow = new BasePopupWindow(this);
+        mDepositPopwindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         mDepositPopwindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         mDepositPopwindow.setContentView(contentView);
         mDepositPopwindow.setOutsideTouchable(false);
@@ -304,42 +317,74 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         remainsTv.setText(getString(R.string.account_remain_v, remains));
         needpayTv.setText("¥" + deposit);
 
+        if (Double.parseDouble(remains) >= Double.parseDouble(deposit)) {
+            payType = "account";
+            remainsCheck.setChecked(true);
+        } else {
+            payType = "wepay";
+            wxCheck.setChecked(true);
+        }
+
         remainsCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                Log.e("tag", "isChecked -->" + b);
-                payType = "account";
-            }
-        });
-
-        aliCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                payType = "alipay";
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (Double.parseDouble(remains) < Double.parseDouble(deposit)) {
+                    remainsCheck.setChecked(false);
+                    com.blankj.utilcode.util.ToastUtils.showShort("账户余额不足");
+                    return;
+                }
+                if (isChecked) {
+                    payType = "account";
+                    wxCheck.setChecked(false);
+                    aliCheck.setChecked(false);
+                } else {
+                    if (!wxCheck.isChecked() && !aliCheck.isChecked()) {
+                        remainsCheck.setChecked(true);
+                    }
+                }
             }
         });
 
         wxCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                payType = "wepay";
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    payType = "wepay";
+                    remainsCheck.setChecked(false);
+                    aliCheck.setChecked(false);
+                } else {
+                    if (!remainsCheck.isChecked() && !aliCheck.isChecked()) {
+                        wxCheck.setChecked(true);
+                    }
+                }
             }
         });
-//        if (Double.parseDouble(deposit) <= Double.parseDouble(remains)) {
-//            remainsCheck.setChecked(true);
-//        } else {
-//            wxCheck.setChecked(true);
-//        }
+
+        aliCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    payType = "alipay";
+                    remainsCheck.setChecked(false);
+                    wxCheck.setChecked(false);
+                } else {
+                    if (!remainsCheck.isChecked() && !wxCheck.isChecked()) {
+                        aliCheck.setChecked(true);
+                    }
+                }
+            }
+        });
         closeImg.setOnClickListener(view -> {
             mDepositPopwindow.dismiss();
         });
         payBtn.setOnClickListener(view -> {
-
+            goToPayDeposit();
+            mDepositPopwindow.dismiss();
         });
 
     }
 
-    private void getOfferPriceList(String art_id) {
+    private void getOfferPriceList(boolean isOfferPrice, String art_id) {
         RequestManager.instance().queryOfferPriceList(art_id, 1, 30, new MinerCallback<BaseResponseVo<List<OfferPriceBean>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<OfferPriceBean>>> call, Response<BaseResponseVo<List<OfferPriceBean>>> response) {
@@ -349,6 +394,24 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                         mOfferPriceList = response.body().getBody();
                         mDataBinding.tvOfferPriceCount.setText(offerPriceTimes + "次");
                         mOfferPriceAdapter.setNewData(mOfferPriceList);
+                        if (isOfferPrice) {
+                            String topPrice;
+                            String offeredPrice = "0";
+                            if (mOfferPriceList != null && mOfferPriceList.size() > 0) {
+                                topPrice = mOfferPriceList.get(0).getPrice(); //若有出价记录，取第一条数据为当前最高价
+                                for (int i = 0; i < mOfferPriceList.size(); i++) {
+                                    if (YunApplication.getmUserVo().getUid().equals(mOfferPriceList.get(i).getMember().getUid())) {
+                                        offeredPrice = mOfferPriceList.get(i).getPrice();
+                                        break;
+                                    }
+                                }
+                            } else {
+                                topPrice = sellingArtVo.getStart_price();//若没有出价记录，则取起拍价
+                            }
+                            double addPrice = Double.parseDouble(topPrice) - Double.parseDouble(offeredPrice) + Double.parseDouble(sellingArtVo.getPrice_increment());
+                            double offPrice = Double.parseDouble(topPrice) + Double.parseDouble(sellingArtVo.getPrice_increment());
+                            initOfferPriceWindow(topPrice, offeredPrice, String.valueOf(addPrice), String.valueOf(offPrice));
+                        }
                     }
                 }
             }
@@ -361,6 +424,35 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             @Override
             public void onFailure(Call<?> call, Throwable t) {
 
+            }
+        });
+    }
+
+    private void queryAccountInfo() {
+        RequestManager.instance().queryAccount(new MinerCallback<BaseResponseVo<List<AccountVo>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<AccountVo>>> call, Response<BaseResponseVo<List<AccountVo>>> response) {
+                if (response.isSuccessful()) {
+                    List<AccountVo> accounts = response.body().getBody();
+                    if (accounts != null && accounts.size() > 0) {
+                        for (int i = 0; i < accounts.size(); i++) {
+                            if (accounts.get(i).getCurrency_code().equals("rmb")) {
+                                String remains = accounts.get(i).getBalance();
+                                initPayDepositWindow(sellingArtVo.getDeposit_amount(), remains);
+                                mDepositPopwindow.showAtLocation(mDataBinding.parentLayout, Gravity.BOTTOM, 0, 0);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<AccountVo>>> call, Response<BaseResponseVo<List<AccountVo>>> response) {
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
             }
         });
     }
@@ -486,6 +578,11 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         if (!TextUtils.isEmpty(sellingArtVo.getArt().getAuthor().getDisplay_name()))
             mDataBinding.creatorName.setText(sellingArtVo.getArt().getAuthor().getDisplay_name());
         else mDataBinding.creatorName.setText(getString(R.string.no_display_name));
+
+        mDataBinding.tvAuctionStartPrice.setText(getString(R.string.auction_start_price_, sellingArtVo.getStart_price()));
+        mDataBinding.tvAuctionPriceUnit.setText(getString(R.string.auction_add_unit_, sellingArtVo.getPrice_increment()));
+        mDataBinding.tvAuctionStartTime.setText(getString(R.string.auction_start_time_, DateUtil.dateToStringWithAllDot(sellingArtVo.getStart_time() * 1000)));
+        mDataBinding.tvAuctionEndTime.setText(getString(R.string.auction_end_time_, DateUtil.dateToStringWithAllDot(sellingArtVo.getEnd_time() * 1000)));
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.mipmap.icon_default_head);
         Glide.with(this).load(sellingArtVo.getArt().getAuthor().getAvatar().getUrl()).apply(requestOptions).into(mDataBinding.headImg);
@@ -542,22 +639,33 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     }
 
     public void initBtnStatus() {
-        if (isStarted) {
-            if (isOwner) {
+        if (sellingArtVo.getServer_timestamp() < sellingArtVo.getStart_time()) {
+            //未开始
+            if (sellingArtVo.getArt().isIs_owner()) {
+                //持有者为开始可以取消拍卖
                 mDataBinding.buyNow.setText("取消拍卖");
             } else {
-                if (isOfferedDeposit) {
-                    mDataBinding.buyNow.setText("出价");
-                } else {
-                    mDataBinding.buyNow.setText("缴纳保证金");
-                }
+                mDataBinding.buyNow.setText("未开始");
             }
-        } else if (isWinBiding) {
-            mDataBinding.buyNow.setText("中标去支付");
-        } else if (isEnded) {
-            mDataBinding.buyNow.setText("已结束");
+        } else if (sellingArtVo.getServer_timestamp() > sellingArtVo.getEnd_time()) {
+            //已结束
+            if (sellingArtVo.getBuyer() != null) {
+                if (sellingArtVo.getArt().getAuthor().getUid() == sellingArtVo.getBuyer().getUid()) {
+                    mDataBinding.buyNow.setText("中标去支付");
+                } else {
+                    mDataBinding.buyNow.setText("已结束");
+                }
+            } else {
+                mDataBinding.buyNow.setText("已结束");
+            }
         } else {
-            mDataBinding.buyNow.setText("未开始");
+            //拍卖中
+            long countDownTime = sellingArtVo.getEnd_time() - sellingArtVo.getServer_timestamp();
+            if (sellingArtVo.isDeposit_paid()) {
+                mDataBinding.buyNow.setText("出价");
+            } else {
+                mDataBinding.buyNow.setText("缴纳保证金");
+            }
         }
     }
 
@@ -575,8 +683,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
         switch (v.getId()) {
             case R.id.buy_now:
-                mDepositPopwindow.showAtLocation(mDataBinding.parentLayout, Gravity.BOTTOM, 0, 0);
-//                buyAction();
+                buyAction();
                 break;
             case R.id.zan:
 
@@ -633,23 +740,30 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
     /*根据不同状态跳不同页面*/
     private void buyAction() {
-        if (isStarted) {
-            if (isOwner) {
-                mDataBinding.buyNow.setText("取消拍卖");
-            } else {
-                if (isOfferedDeposit) {
-                    mDataBinding.buyNow.setText("出价");
-                } else {
-                    mDataBinding.buyNow.setText("缴纳保证金");
-                }
-            }
-        } else if (isWinBiding) {
-            mDataBinding.buyNow.setText("中标去支付");
-        } else if (isEnded) {
-            mDataBinding.buyNow.setText("已结束");
-        } else {
-            mDataBinding.buyNow.setText("未开始");
+        String btnStatus = mDataBinding.buyNow.getText().toString();
+        switch (btnStatus) {
+            case "取消拍卖":
+                showCancelDispositDialog();
+                break;
+
+            case "出价":
+                getOfferPriceList(true, String.valueOf(sellingArtVo.getId()));
+                break;
+
+            case "缴纳保证金":
+                queryAccountInfo();
+                break;
+
+            case "中标去支付":
+
+                break;
+
+            case "未开始":
+            case "已结束":
+
+                break;
         }
+
     }
 
     public static class BannerViewHolder implements MZViewHolder<String> {
@@ -953,6 +1067,154 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
             @Override
             public void onError(Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void showCancelDispositDialog() {
+        confirmOrCancelPopwindow = new ConfirmOrCancelPopwindow(AuctionArtDetailActivity.this, new ConfirmOrCancelPopwindow.OnBottomTextviewClickListener() {
+            @Override
+            public void onCancleClick() {
+                confirmOrCancelPopwindow.dismiss();
+            }
+
+            @Override
+            public void onPerformClick() {
+
+                confirmOrCancelPopwindow.dismiss();
+                goToCancelAuction();
+            }
+        });
+        confirmOrCancelPopwindow.setConfirmText("确定");
+        confirmOrCancelPopwindow.setCancleText("取消");
+        confirmOrCancelPopwindow.setContent(getString(R.string.cancel_auction_hint));
+        confirmOrCancelPopwindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
+    }
+
+    private void initOfferPriceWindow(String currentPrice, String hasOfferPrice, String priceUnit, String needOfferPrice) {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_offer_price_layout, null);
+
+        TextView currentPriceTv = contentView.findViewById(R.id.tv_current_price);
+        TextView hasOfferPriceHintTv = contentView.findViewById(R.id.tv_offered_price_hint);
+        TextView priceUnitTv = contentView.findViewById(R.id.tv_offering_price_hint);
+        TextView confirmBtn = contentView.findViewById(R.id.confirm);
+        ImageView closeBtn = contentView.findViewById(R.id.img_close);
+
+
+        currentPriceTv.setText("¥" + currentPrice);
+        hasOfferPriceHintTv.setText(getString(R.string.has_offered_price, hasOfferPrice));
+        priceUnitTv.setText(getString(R.string.need_offered_price, priceUnit));
+        confirmBtn.setText(getString(R.string.offer_price_now, needOfferPrice));
+
+        mOfferPricePopwindow = new BasePopupWindow(this);
+        mOfferPricePopwindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mOfferPricePopwindow.setContentView(contentView);
+        mOfferPricePopwindow.setOutsideTouchable(false);
+        mOfferPricePopwindow.setTouchable(true);
+        mOfferPricePopwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+
+        closeBtn.setOnClickListener(view -> {
+            mOfferPricePopwindow.dismiss();
+        });
+
+        confirmBtn.setOnClickListener(view -> {
+            offerPrice(needOfferPrice);
+            mOfferPricePopwindow.dismiss();
+        });
+
+        mOfferPricePopwindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
+    }
+
+    //取消拍卖
+    private void goToCancelAuction() {
+        showLoading(R.string.progress_loading);
+        RequestManager.instance().cancelAuction(String.valueOf(sellingArtVo.getId()), new MinerCallback<BaseResponseVo<CancelAuctionBean>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<CancelAuctionBean>> call, Response<BaseResponseVo<CancelAuctionBean>> response) {
+                if (response.isSuccessful()) {
+                    requestArtInfo();
+                    getOfferPriceList(false, String.valueOf(sellingArtVo.getId()));
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<CancelAuctionBean>> call, Response<BaseResponseVo<CancelAuctionBean>> response) {
+                dismissLoading();
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+                dismissLoading();
+            }
+        });
+    }
+
+    //支付保证金
+    private void goToPayDeposit() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("auction_id", String.valueOf(sellingArtVo.getId()));
+        params.put("pay_type", payType);
+        params.put("order_from", "android");
+        RequestManager.instance().payForDeposit(params, new MinerCallback<BaseResponseVo<PayResyltVo>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<PayResyltVo>> call, Response<BaseResponseVo<PayResyltVo>> response) {
+                if (response.body() != null) {
+                    if (payType.equals("account")) {
+                        requestArtInfo();
+                    } else {
+                        if (response.body().getBody() != null) {
+                            String url = response.body().getBody().getUrl();
+                            String title = "支付";
+                            Bundle bundle = new Bundle();
+                            bundle.putString(WebViewActivity.TITLE, title);
+                            bundle.putString(WebViewActivity.URL, url);
+                            bundle.putString(WebViewActivity.TYPE, payType);
+                            if (!TextUtils.isEmpty(url)) {
+                                if (payType.equals(X5WebViewActivity.WECHAT)) {
+                                    startActivity(X5WebViewActivity.class, bundle);
+                                } else startActivity(X5WebViewForAliPayActivity.class, bundle);
+                                finish();
+                            } else
+                                com.blankj.utilcode.util.ToastUtils.showShort("出错了");
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<PayResyltVo>> call, Response<BaseResponseVo<PayResyltVo>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
+    //出价艺术品拍卖
+    private void offerPrice(String price) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("price", price);
+        RequestManager.instance().offerPrice(String.valueOf(sellingArtVo.getId()), params, new MinerCallback<BaseResponseVo<OfferPriceBean>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<OfferPriceBean>> call, Response<BaseResponseVo<OfferPriceBean>> response) {
+                if (response.isSuccessful()) {
+                    ToastManager.showShort("出价成功");
+                    requestArtInfo();
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<OfferPriceBean>> call, Response<BaseResponseVo<OfferPriceBean>> response) {
 
             }
 
