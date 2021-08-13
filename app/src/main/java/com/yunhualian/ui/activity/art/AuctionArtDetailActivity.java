@@ -15,7 +15,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -41,7 +40,7 @@ import com.lljjcoder.style.citylist.Toast.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.yunhualian.R;
 import com.yunhualian.adapter.ArtDetailImgAdapter;
-import com.yunhualian.adapter.ArtDetailOrderListAdapter;
+import com.yunhualian.ui.activity.OfferPriceListActivity;
 import com.yunhualian.adapter.OfferPriceListAdapter;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
@@ -52,17 +51,12 @@ import com.yunhualian.entity.AuctionArtVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.EventBusMessageEvent;
 import com.yunhualian.entity.OfferPriceBean;
-import com.yunhualian.entity.OrderAmountVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
-import com.yunhualian.ui.activity.PinCodeKtActivity;
 import com.yunhualian.ui.activity.ShowNetBigImgActivity;
-import com.yunhualian.ui.activity.user.CreateOrderActivity;
 import com.yunhualian.ui.activity.user.MyHomePageActivity;
-import com.yunhualian.ui.activity.user.SellArtActivity;
-import com.yunhualian.ui.activity.user.SellArtUnCutActivity;
 import com.yunhualian.ui.activity.user.UserHomePageActivity;
 import com.yunhualian.utils.DateUtil;
 import com.yunhualian.utils.DisplayUtils;
@@ -88,7 +82,6 @@ import cn.woblog.android.downloader.callback.DownloadListener;
 import cn.woblog.android.downloader.callback.DownloadManager;
 import cn.woblog.android.downloader.domain.DownloadInfo;
 import cn.woblog.android.downloader.exception.DownloadException;
-import jp.co.soramitsu.feature_account_impl.presentation.pincode.PinCodeAction;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -205,12 +198,13 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         mDataBinding.imgZhengshu.setOnClickListener(this);
         mDataBinding.imgPlay.setOnClickListener(this);
         mDataBinding.imgVideo.setOnClickListener(this);
+        mDataBinding.rlOfferPrice.setOnClickListener(this);
         initZhengShuPopwindow();
         initPayDepositWindow("100", "150");
         mHandler.sendEmptyMessage(1);
 
         mOfferPriceList = new ArrayList<>();
-        mOfferPriceAdapter = new OfferPriceListAdapter(this,mOfferPriceList);
+        mOfferPriceAdapter = new OfferPriceListAdapter(this, mOfferPriceList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mDataBinding.rvOfferPrice.setLayoutManager(layoutManager);
         mDataBinding.rvOfferPrice.setAdapter(mOfferPriceAdapter);
@@ -349,8 +343,8 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         RequestManager.instance().queryOfferPriceList(art_id, 1, 30, new MinerCallback<BaseResponseVo<List<OfferPriceBean>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<OfferPriceBean>>> call, Response<BaseResponseVo<List<OfferPriceBean>>> response) {
-                if(response.isSuccessful()){
-                    if(response.body() != null){
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
                         offerPriceTimes = response.body().getHead().getTotal_count();
                         mOfferPriceList = response.body().getBody();
                         mDataBinding.tvOfferPriceCount.setText(offerPriceTimes + "次");
@@ -626,6 +620,12 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                         }
                     }
                 }
+                break;
+
+            case R.id.rl_offer_price:
+                Intent intent = new Intent(AuctionArtDetailActivity.this, OfferPriceListActivity.class);
+                intent.putExtra("art_id", art_id);
+                startActivity(intent);
                 break;
         }
 

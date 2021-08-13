@@ -54,6 +54,9 @@
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
         <activity
+            android:name=".ui.activity.OfferPriceListActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.GoAuctionActivity"
             android:screenOrientation="portrait" />
         <activity
