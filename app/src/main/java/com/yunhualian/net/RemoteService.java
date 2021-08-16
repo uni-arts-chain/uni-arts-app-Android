@@ -328,7 +328,7 @@ public interface RemoteService {
     /*创建艺术品拍卖*/
     @POST("/api/v2/auctions")
     @FormUrlEncoded
-    Call<BaseResponseVo<AuctionVo>> startAuction(@FieldMap HashMap<String, String> map);
+    Call<BaseResponseVo<AuctionArtVo>> startAuction(@FieldMap HashMap<String, String> map);
 
     /*账单明细*/
     @GET("/api/v2/account_histories")
@@ -379,12 +379,15 @@ public interface RemoteService {
 
     //创建拍卖保证金
     @POST("/api/v2/auctions/{id}/cancel")
-    @FormUrlEncoded
-    Call<BaseResponseVo<CancelAuctionBean>> cancelAuction(@Path("id") String id);
+    Call<BaseResponseVo<AuctionArtVo>> cancelAuction(@Path("id") String id);
 
     //拍卖出价
     @POST("/api/v2/auctions/{id}/bid")
     @FormUrlEncoded
     Call<BaseResponseVo<OfferPriceBean>> offerPrice(@Path("id") String id, @FieldMap HashMap<String, String> map);
+
+    // 我的拍卖列表
+    @GET("/api/v2/auctions/mine")
+    Call<BaseResponseVo<List<AuctionArtVo>>> queryMyAuctions();
 }
 

@@ -57,10 +57,10 @@
         android:background="@color/date_picker_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingTop="15dp"
+        android:paddingBottom="20dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="20dp">
+        android:paddingStart="20dp"
+        android:paddingTop="15dp">
 
         <com.yunhualian.widget.PickerView
             android:id="@+id/dpv_year"
@@ -139,21 +139,6 @@
             android:textColor="@color/date_picker_text_dark"
             android:textSize="@dimen/date_unit_text_size" />
 
-        <com.yunhualian.widget.PickerView
-            android:id="@+id/dpv_second"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/picker_view_height"
-            android:layout_weight="2" />
-
-        <TextView
-            android:id="@+id/tv_second_unit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/second"
-            android:textColor="@color/date_picker_text_dark"
-            android:textSize="@dimen/date_unit_text_size" />
     </LinearLayout>
 
 </LinearLayout>

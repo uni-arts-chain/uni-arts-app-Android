@@ -36,8 +36,8 @@ public class OfferPriceListAdapter extends BaseQuickAdapter<OfferPriceBean, Base
 
     }
 
-    @Override
-    public int getItemCount() {
-        return 3;
-    }
+//    @Override
+//    public int getItemCount() {
+//        return 3;
+//    }
 }

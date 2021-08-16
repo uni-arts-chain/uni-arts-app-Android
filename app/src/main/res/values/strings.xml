@@ -235,6 +235,7 @@
 
         <item>持有的NFT</item>
         <item>出售的NFT</item>
+        <item>拍卖的NFT</item>
 
     </string-array>
     <string-array name="cut_amount">

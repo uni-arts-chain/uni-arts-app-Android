@@ -129,7 +129,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
         mBinding.sortList.setAdapter(sortAdapter);
         mBinding.typeList.setAdapter(typeAdapter);
         mBinding.prizeList.setAdapter(prizeAdapter);
-        getAuctions(param);
+
     }
 
     public void initSelectedListener() {
@@ -165,7 +165,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
         });
         typeAdapter.addSelectedListener(new TypeAdapter.onSelectedListener() {
             @Override
-            public void onSelected(boolean isInit,int selectPosition) {
+            public void onSelected(boolean isInit, int selectPosition) {
                 page = 1;
                 if (selectPosition != 0) {
                     param.put("resource_type", String.valueOf(typeList.get(selectPosition).getId()));
@@ -181,7 +181,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
             }
 
             @Override
-            public void onUnSelected(boolean isInit,int selectPosition) {
+            public void onUnSelected(boolean isInit, int selectPosition) {
                 if (isInit) {
                     curTypeClickPos = 0;
                 }
@@ -240,6 +240,8 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
     @Override
     public void onResume() {
         super.onResume();
+        page = 1;
+        getAuctions(param);
     }
 
     @Override
@@ -265,7 +267,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
 
     public void getAuctions(HashMap<String, String> params) {
         showLoading(getString(R.string.progress_loading));
-        params.put("code","rmb");
+        params.put("code", "rmb");
         params.put("page", String.valueOf(page));
         params.put("per_page", String.valueOf(perpage));
         RequestManager.instance().queryAuctions(params, new MinerCallback<BaseResponseVo<List<AuctionArtVo>>>() {

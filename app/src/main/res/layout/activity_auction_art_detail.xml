@@ -95,8 +95,7 @@
                     <RelativeLayout
                         android:id="@+id/rl_auction_count_time"
                         android:layout_width="match_parent"
-                        android:layout_height="42dp"
-                        android:background="@mipmap/bg_auction_ing">
+                        android:layout_height="42dp">
 
                         <LinearLayout
                             android:id="@+id/ll_count_time"
@@ -120,7 +119,6 @@
                                 android:layout_marginStart="15dp"
                                 android:background="@drawable/shape_count_time_bg"
                                 android:gravity="center"
-                                android:text="23"
                                 android:textColor="#FF7F1F"
                                 android:textSize="13sp" />
 
@@ -140,7 +138,6 @@
                                 android:background="@drawable/shape_count_time_bg"
                                 android:gravity="center"
                                 android:layout_marginStart="5dp"
-                                android:text="23"
                                 android:textColor="#FF7F1F"
                                 android:textSize="13sp" />
 
@@ -160,7 +157,6 @@
                                 android:layout_marginStart="5dp"
                                 android:background="@drawable/shape_count_time_bg"
                                 android:gravity="center"
-                                android:text="23"
                                 android:textColor="#FF7F1F"
                                 android:textSize="13sp" />
                         </LinearLayout>

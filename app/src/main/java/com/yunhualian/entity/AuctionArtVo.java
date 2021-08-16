@@ -33,6 +33,10 @@ public class AuctionArtVo implements Serializable {
 
     private boolean deposit_paid;
 
+    private boolean buyer_paid;
+
+    private String current_user_highest_price;
+
     private BuyerBean buyer;
 
     private ArtBean art;
@@ -163,6 +167,22 @@ public class AuctionArtVo implements Serializable {
 
     public void setArt(ArtBean art) {
         this.art = art;
+    }
+
+    public boolean isBuyer_paid() {
+        return buyer_paid;
+    }
+
+    public void setBuyer_paid(boolean buyer_paid) {
+        this.buyer_paid = buyer_paid;
+    }
+
+    public String getCurrent_user_highest_price() {
+        return current_user_highest_price;
+    }
+
+    public void setCurrent_user_highest_price(String current_user_highest_price) {
+        this.current_user_highest_price = current_user_highest_price;
     }
 
     public static class BuyerBean implements Serializable {

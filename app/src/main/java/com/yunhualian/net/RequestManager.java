@@ -567,8 +567,8 @@ public class RequestManager {
     }
 
     //创建拍卖艺术品
-    public void startAuction(HashMap<String, String> map, MinerCallback<BaseResponseVo<AuctionVo>> mCallBack) {
-        Call<BaseResponseVo<AuctionVo>> mCall = NetworkManager.instance().getmRemoteService().startAuction(map);
+    public void startAuction(HashMap<String, String> map, MinerCallback<BaseResponseVo<AuctionArtVo>> mCallBack) {
+        Call<BaseResponseVo<AuctionArtVo>> mCall = NetworkManager.instance().getmRemoteService().startAuction(map);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
@@ -657,13 +657,18 @@ public class RequestManager {
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
-    public void cancelAuction(String art_id, MinerCallback<BaseResponseVo<CancelAuctionBean>> mCallBack) {
-        Call<BaseResponseVo<CancelAuctionBean>> mCall = NetworkManager.instance().getmRemoteService().cancelAuction(art_id);
+    public void cancelAuction(String art_id, MinerCallback<BaseResponseVo<AuctionArtVo>> mCallBack) {
+        Call<BaseResponseVo<AuctionArtVo>> mCall = NetworkManager.instance().getmRemoteService().cancelAuction(art_id);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
-    public void offerPrice(String art_id,HashMap<String, String> param, MinerCallback<BaseResponseVo<OfferPriceBean>> mCallBack) {
+    public void offerPrice(String art_id, HashMap<String, String> param, MinerCallback<BaseResponseVo<OfferPriceBean>> mCallBack) {
         Call<BaseResponseVo<OfferPriceBean>> mCall = NetworkManager.instance().getmRemoteService().offerPrice(art_id, param);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryMyAuctions(MinerCallback<BaseResponseVo<List<AuctionArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<AuctionArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryMyAuctions();
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 }

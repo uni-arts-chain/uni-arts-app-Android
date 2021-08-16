@@ -47,6 +47,7 @@ public class ConfirmOrCancelPopwindow extends BasePopupWindow {
         mBinding.confirm.setOnClickListener(v -> {
             listener.onPerformClick();
         });
+        mBinding.imgClose.setOnClickListener(view -> dismiss());
     }
 
     public void setOneKey(boolean status) {

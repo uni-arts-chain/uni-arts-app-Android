@@ -24,6 +24,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -37,7 +38,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.lljjcoder.style.citylist.Toast.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.tools.ToastManage;
 import com.yunhualian.R;
 import com.yunhualian.adapter.ArtDetailImgAdapter;
 import com.yunhualian.adapter.OfferPriceListAdapter;
@@ -49,7 +49,6 @@ import com.yunhualian.databinding.ActivityAuctionArtDetailBinding;
 import com.yunhualian.entity.AccountVo;
 import com.yunhualian.entity.AuctionArtVo;
 import com.yunhualian.entity.BaseResponseVo;
-import com.yunhualian.entity.CancelAuctionBean;
 import com.yunhualian.entity.EventBusMessageEvent;
 import com.yunhualian.entity.OfferPriceBean;
 import com.yunhualian.entity.PayResyltVo;
@@ -59,7 +58,6 @@ import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
 import com.yunhualian.ui.activity.OfferPriceListActivity;
 import com.yunhualian.ui.activity.ShowNetBigImgActivity;
-import com.yunhualian.ui.activity.TransferActivity;
 import com.yunhualian.ui.activity.user.MyHomePageActivity;
 import com.yunhualian.ui.activity.user.UserHomePageActivity;
 import com.yunhualian.ui.x5.WebViewActivity;
@@ -121,14 +119,9 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     private List<String> artDetailUrls = new ArrayList<>();
 
     private final CountTimeHandler mHandler = new CountTimeHandler(this);
-    private boolean isOfferedDeposit; //是否缴纳保证金
-    private boolean isStarted; //拍卖是否已经开始
-    private boolean isOwner; //是否是自己的拍卖品
-    private boolean isWinBiding; //是否中标
-    private boolean isEnded; //拍卖是否已经结束
-    private int mHours = 10;
-    private int mMinutes = 20;
-    private int mSeconds = 30;
+    private long mHours;
+    private long mMinutes;
+    private long mSeconds;
     private String payType;
     private String offerPriceTimes;
     private OfferPriceListAdapter mOfferPriceAdapter;
@@ -152,7 +145,12 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                         activity.mDataBinding.tvCountHour.setText(activity.getTv(activity.mHours));
                         activity.mDataBinding.tvCountMinute.setText(activity.getTv(activity.mMinutes));
                         activity.mDataBinding.tvCountSecond.setText(activity.getTv(activity.mSeconds));
-                        activity.mHandler.sendEmptyMessageDelayed(1, 1000);
+                        if (!(activity.mHours == 0 && activity.mMinutes == 0 && activity.mSeconds == 0)) {
+                            activity.mHandler.sendEmptyMessageDelayed(1, 1000);
+                        } else {
+                            activity.requestArtInfo();
+                            activity.mHandler.removeMessages(1);
+                        }
                         break;
                 }
             }
@@ -213,12 +211,11 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         mDataBinding.imgVideo.setOnClickListener(this);
         mDataBinding.rlOfferPrice.setOnClickListener(this);
         initZhengShuPopwindow();
-        mHandler.sendEmptyMessage(1);
-
         mOfferPriceList = new ArrayList<>();
         mOfferPriceAdapter = new OfferPriceListAdapter(this, mOfferPriceList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mDataBinding.rvOfferPrice.setLayoutManager(layoutManager);
+        mOfferPriceAdapter.setEmptyView(R.layout.layout_offer_price_list_empty, mDataBinding.rvOfferPrice);
         mDataBinding.rvOfferPrice.setAdapter(mOfferPriceAdapter);
     }
 
@@ -270,7 +267,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             if (!TextUtils.isEmpty(sellingArtVo.getArt().getName())) {
                 mNftNameTv.setText(getString(R.string.nft_name, sellingArtVo.getArt().getName()));
             }
-            if (!YunApplication.getArtThemeVoList().isEmpty()) {
+            if (YunApplication.getArtThemeVoList() != null && !YunApplication.getArtThemeVoList().isEmpty()) {
                 for (int i = 0; i < YunApplication.getArtThemeVoList().size(); i++) {
                     if (YunApplication.getArtThemeVoList().get(i).getId() == sellingArtVo.getArt().getCategory_id()) {
                         mNftThemeTv.setText(getString(R.string.nft_theme, YunApplication.getArtThemeVoList().get(i).getTitle()));
@@ -393,7 +390,12 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                         offerPriceTimes = response.body().getHead().getTotal_count();
                         mOfferPriceList = response.body().getBody();
                         mDataBinding.tvOfferPriceCount.setText(offerPriceTimes + "次");
-                        mOfferPriceAdapter.setNewData(mOfferPriceList);
+                        if (mOfferPriceList.size() >= 3) {
+                            mOfferPriceAdapter.setNewData(mOfferPriceList.subList(0, 3));
+                        } else {
+                            mOfferPriceAdapter.setNewData(mOfferPriceList);
+                        }
+
                         if (isOfferPrice) {
                             String topPrice;
                             String offeredPrice = "0";
@@ -564,7 +566,11 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
         art_id = String.valueOf(sellingArtVo.getId()); //艺术品ID
         mDataBinding.pictureName.setText(sellingArtVo.getArt().getName());
-        mDataBinding.tvCurPriceV.setText("¥ " + sellingArtVo.getCurrent_price());//当前价
+        if (sellingArtVo.getCurrent_price() != null) {
+            mDataBinding.tvCurPriceV.setText("¥ " + sellingArtVo.getCurrent_price());//当前价
+        } else {
+            mDataBinding.tvCurPriceV.setText("¥ " + sellingArtVo.getStart_price());//当前价
+        }
         mDataBinding.tvStartAuctionPrice.setText(getString(R.string.auction_start_price_, sellingArtVo.getStart_price()));//起拍价
         mDataBinding.tvAuctionPieces.setText(getString(R.string.auction_pieces_, String.valueOf(sellingArtVo.getAmount())));//拍卖份数
         mDataBinding.centifyAddr.setText(getString(R.string.nft_address, sellingArtVo.getArt().getItem_hash()));
@@ -639,34 +645,75 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     }
 
     public void initBtnStatus() {
-        if (sellingArtVo.getServer_timestamp() < sellingArtVo.getStart_time()) {
-            //未开始
-            if (sellingArtVo.getArt().isIs_owner()) {
-                //持有者为开始可以取消拍卖
-                mDataBinding.buyNow.setText("取消拍卖");
+        if (sellingArtVo.getArt().isIs_owner()) {
+            //持有者为开始可以取消拍卖
+            mDataBinding.buyNow.setText("取消拍卖");
+            if (sellingArtVo.isCan_cancel() && (System.currentTimeMillis() / 1000) < sellingArtVo.getEnd_time()) {
+                mDataBinding.buyNow.setClickable(true);
+                mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_red));
             } else {
-                mDataBinding.buyNow.setText("未开始");
+                mDataBinding.buyNow.setClickable(false);
+                mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
             }
-        } else if (sellingArtVo.getServer_timestamp() > sellingArtVo.getEnd_time()) {
-            //已结束
-            if (sellingArtVo.getBuyer() != null) {
-                if (sellingArtVo.getArt().getAuthor().getUid() == sellingArtVo.getBuyer().getUid()) {
-                    mDataBinding.buyNow.setText("中标去支付");
+            if (sellingArtVo.getServer_timestamp() < sellingArtVo.getStart_time()) {
+                //未开始
+                long countDownTime = sellingArtVo.getStart_time() - sellingArtVo.getServer_timestamp();
+                secToTime(countDownTime);
+                mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_yet));
+            } else if (sellingArtVo.getServer_timestamp() > sellingArtVo.getEnd_time()) {
+                //已结束
+                mDataBinding.tvCountHour.setText("00");
+                mDataBinding.tvCountMinute.setText("00");
+                mDataBinding.tvCountSecond.setText("00");
+                mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_end));
+            } else {
+                //进行中
+                long countDownTime = sellingArtVo.getEnd_time() - sellingArtVo.getServer_timestamp();
+                secToTime(countDownTime);
+                mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_ing));
+            }
+        } else {
+            if (sellingArtVo.getServer_timestamp() < sellingArtVo.getStart_time()) {
+                //未开始
+                mDataBinding.buyNow.setText("未开始");
+                long countDownTime = sellingArtVo.getStart_time() - sellingArtVo.getServer_timestamp();
+                secToTime(countDownTime);
+                mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_yet));
+            } else if (sellingArtVo.getServer_timestamp() > sellingArtVo.getEnd_time()) {
+                //已结束
+                mDataBinding.tvCountHour.setText("00");
+                mDataBinding.tvCountMinute.setText("00");
+                mDataBinding.tvCountSecond.setText("00");
+                mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_end));
+                if (sellingArtVo.getBuyer() != null) {
+                    if (sellingArtVo.getArt().getAuthor().getUid() == sellingArtVo.getBuyer().getUid()) {
+                        mDataBinding.buyNow.setText("中标去支付");
+                    } else {
+                        mDataBinding.buyNow.setText("已结束");
+                    }
                 } else {
                     mDataBinding.buyNow.setText("已结束");
                 }
             } else {
-                mDataBinding.buyNow.setText("已结束");
-            }
-        } else {
-            //拍卖中
-            long countDownTime = sellingArtVo.getEnd_time() - sellingArtVo.getServer_timestamp();
-            if (sellingArtVo.isDeposit_paid()) {
-                mDataBinding.buyNow.setText("出价");
-            } else {
-                mDataBinding.buyNow.setText("缴纳保证金");
+                //拍卖中
+                mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_ing));
+                long countDownTime = sellingArtVo.getEnd_time() - sellingArtVo.getServer_timestamp();
+                secToTime(countDownTime);
+                if (sellingArtVo.isDeposit_paid()) {
+                    mDataBinding.buyNow.setText("出价");
+                } else {
+                    mDataBinding.buyNow.setText("缴纳保证金");
+                }
             }
         }
+
+    }
+
+    private void secToTime(long seconds) {
+        mHours = seconds / 3600;
+        mMinutes = (seconds - mHours * 3600) / 60;
+        mSeconds = (seconds - mHours * 3600 - mMinutes * 60);
+        mHandler.sendEmptyMessage(1);
     }
 
 
@@ -743,7 +790,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         String btnStatus = mDataBinding.buyNow.getText().toString();
         switch (btnStatus) {
             case "取消拍卖":
-                showCancelDispositDialog();
+                showCancelDepositDialog();
                 break;
 
             case "出价":
@@ -1077,7 +1124,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         });
     }
 
-    private void showCancelDispositDialog() {
+    private void showCancelDepositDialog() {
         confirmOrCancelPopwindow = new ConfirmOrCancelPopwindow(AuctionArtDetailActivity.this, new ConfirmOrCancelPopwindow.OnBottomTextviewClickListener() {
             @Override
             public void onCancleClick() {
@@ -1086,7 +1133,6 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
             @Override
             public void onPerformClick() {
-
                 confirmOrCancelPopwindow.dismiss();
                 goToCancelAuction();
             }
@@ -1134,17 +1180,16 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     //取消拍卖
     private void goToCancelAuction() {
         showLoading(R.string.progress_loading);
-        RequestManager.instance().cancelAuction(String.valueOf(sellingArtVo.getId()), new MinerCallback<BaseResponseVo<CancelAuctionBean>>() {
+        RequestManager.instance().cancelAuction(String.valueOf(sellingArtVo.getId()), new MinerCallback<BaseResponseVo<AuctionArtVo>>() {
             @Override
-            public void onSuccess(Call<BaseResponseVo<CancelAuctionBean>> call, Response<BaseResponseVo<CancelAuctionBean>> response) {
+            public void onSuccess(Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
                 if (response.isSuccessful()) {
-                    requestArtInfo();
-                    getOfferPriceList(false, String.valueOf(sellingArtVo.getId()));
+                    finish();
                 }
             }
 
             @Override
-            public void onError(Call<BaseResponseVo<CancelAuctionBean>> call, Response<BaseResponseVo<CancelAuctionBean>> response) {
+            public void onError(Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
                 dismissLoading();
             }
 
