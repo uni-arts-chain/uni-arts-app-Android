@@ -262,10 +262,10 @@
         <item>上传作品</item>
         <item>买入订单</item>
         <item>卖出订单</item>
+        <item>拍卖纪录</item>>
         <item>作品收藏</item>
         <item>兑换NFT</item>
         <item>消息</item>
-        <item>客服</item>
     </string-array>
     <string-array name="my_sign">
         <item>买入订单</item>
@@ -435,6 +435,7 @@ UniArts提供技术支持</string>
     <string name="has_offered_price">您已出价 ¥%1$s</string>
     <string name="need_offered_price">至少还需加价 ¥%1$s</string>
     <string name="offer_price_now">立即出价 ¥%1$s</string>
+    <string name="count_time_hint">请在%1$s内完成支付，否则将扣除保证金</string>
     <string-array name="mall_tabs">
         <item>寄售</item>
         <item>拍卖</item>
@@ -442,5 +443,11 @@ UniArts提供技术支持</string>
     <string-array name="home_tabs">
         <item>热门原创</item>
         <item>精品拍卖</item>
+    </string-array>
+    <string-array name="auctions_tabs">
+        <item>已参与</item>
+        <item>已出价</item>
+        <item>已中标</item>
+        <item>已结束</item>
     </string-array>
 </resources>

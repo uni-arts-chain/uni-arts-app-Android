@@ -32,6 +32,7 @@ import com.yunhualian.entity.StdoutLogger;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.AuctionRecordsActivity;
 import com.yunhualian.ui.activity.CashAccountActivity;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
 import com.yunhualian.ui.activity.ExchangeNFTActivity;
@@ -64,10 +65,11 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
     public static final int UPGRADE_ARTS = 1;
     public static final int BUY_IN = 2;
     public static final int SELL_OUT = 3;
-    public static final int COLLECT_ARTS = 4;
-    public static final int ABOUT_US = 5;
-    public static final int NEWS = 6;
-    public static final int SERVICE = 7;
+    public static final int AUCTIONS = 4;
+    public static final int COLLECT_ARTS = 5;
+    public static final int ABOUT_US = 6;
+    public static final int NEWS = 7;
+
     SocketService socketService;
     long lastClickTime = 0;
     private long time_space = 1000 * 1;
@@ -195,8 +197,8 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
             case NEWS:
                 startActivity(MessagesActivity.class);
                 break;
-            case SERVICE:
-                startActivity(CustomerServiceActivity.class);
+            case AUCTIONS:
+                startActivity(AuctionRecordsActivity.class);
                 break;
             case MINE_PAGE:
                 startActivity(MyHomePageActivity.class);

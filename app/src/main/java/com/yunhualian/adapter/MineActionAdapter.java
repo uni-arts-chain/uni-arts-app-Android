@@ -18,15 +18,14 @@ public class MineActionAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
         super(R.layout.mine_action_item, list);
         nameList = list;
         imgList = Arrays.asList(R.mipmap.icon_wodezhuye, R.mipmap.icon_shangchuanzuopin, R.mipmap.icon_mairu,
-                R.mipmap.icon_maichu, R.mipmap.icon_my_collect, R.mipmap.icon_exchange, R.mipmap.icon_xiaoxi,
-                R.mipmap.icon_kefu);
+                R.mipmap.icon_maichu, R.mipmap.icon_auctions,R.mipmap.icon_my_collect, R.mipmap.icon_exchange, R.mipmap.icon_xiaoxi);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
         helper.setImageResource(R.id.action_icon, imgList.get(helper.getAdapterPosition()));
         helper.setText(R.id.action_name, item);
-        if(helper.getAdapterPosition() == 2){
+        if(helper.getAdapterPosition() == 4){
             helper.setVisible(R.id.tv_wait_pay,true);
         }else{
             helper.setVisible(R.id.tv_wait_pay,false);

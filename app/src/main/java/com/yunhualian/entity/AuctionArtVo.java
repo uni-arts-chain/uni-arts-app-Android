@@ -23,7 +23,7 @@ public class AuctionArtVo implements Serializable {
 
     private long end_time;
 
-    private String created_at;
+    private long created_at;
 
     private String deposit_amount;
 
@@ -36,6 +36,10 @@ public class AuctionArtVo implements Serializable {
     private boolean buyer_paid;
 
     private String current_user_highest_price;
+
+    private boolean is_owner;
+
+    private long pay_timeout;
 
     private BuyerBean buyer;
 
@@ -113,11 +117,11 @@ public class AuctionArtVo implements Serializable {
         this.end_time = end_time;
     }
 
-    public String getCreated_at() {
+    public long getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(long created_at) {
         this.created_at = created_at;
     }
 
@@ -151,6 +155,22 @@ public class AuctionArtVo implements Serializable {
 
     public void setDeposit_paid(boolean deposit_paid) {
         this.deposit_paid = deposit_paid;
+    }
+
+    public boolean isIs_owner() {
+        return is_owner;
+    }
+
+    public void setIs_owner(boolean is_owner) {
+        this.is_owner = is_owner;
+    }
+
+    public long getPay_timeout() {
+        return pay_timeout;
+    }
+
+    public void setPay_timeout(long pay_timeout) {
+        this.pay_timeout = pay_timeout;
     }
 
     public BuyerBean getBuyer() {
@@ -202,10 +222,10 @@ public class AuctionArtVo implements Serializable {
         private boolean is_read_agreement;
         private boolean is_binding_invitation;
         private String address;
-        private BoughtArtVo.BuyerBean.RecommendImageBeanX recommend_image;
+        private RecommendImageBeanX recommend_image;
         private String sex;
         private String desc;
-        private BoughtArtVo.BuyerBean.AvatarBeanX avatar;
+        private AvatarBeanX avatar;
         private boolean is_artist;
         private String artist_desc;
         private int follow_user_size;
@@ -344,11 +364,11 @@ public class AuctionArtVo implements Serializable {
             this.address = address;
         }
 
-        public BoughtArtVo.BuyerBean.RecommendImageBeanX getRecommend_image() {
+        public RecommendImageBeanX getRecommend_image() {
             return recommend_image;
         }
 
-        public void setRecommend_image(BoughtArtVo.BuyerBean.RecommendImageBeanX recommend_image) {
+        public void setRecommend_image(RecommendImageBeanX recommend_image) {
             this.recommend_image = recommend_image;
         }
 
@@ -368,11 +388,11 @@ public class AuctionArtVo implements Serializable {
             this.desc = desc;
         }
 
-        public BoughtArtVo.BuyerBean.AvatarBeanX getAvatar() {
+        public AvatarBeanX getAvatar() {
             return avatar;
         }
 
-        public void setAvatar(BoughtArtVo.BuyerBean.AvatarBeanX avatar) {
+        public void setAvatar(AvatarBeanX avatar) {
             this.avatar = avatar;
         }
 
@@ -654,6 +674,8 @@ public class AuctionArtVo implements Serializable {
             private AlipayImg alipay_img;
 
             private double cny_amount;
+
+            private boolean have_win_auction;
 
             public static class RecommendImageBean implements Serializable {
 
@@ -959,6 +981,14 @@ public class AuctionArtVo implements Serializable {
 
             public void setCny_amount(double cny_amount) {
                 this.cny_amount = cny_amount;
+            }
+
+            public boolean isHave_win_auction() {
+                return have_win_auction;
+            }
+
+            public void setHave_win_auction(boolean have_win_auction) {
+                this.have_win_auction = have_win_auction;
             }
         }
 

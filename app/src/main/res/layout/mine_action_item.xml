@@ -28,7 +28,7 @@
             android:gravity="center"
             android:paddingLeft="2dp"
             android:paddingRight="2dp"
-            android:text="待支付"
+            android:text="已中标"
             android:textColor="@color/white"
             android:textSize="9sp"
             android:visibility="gone"/>

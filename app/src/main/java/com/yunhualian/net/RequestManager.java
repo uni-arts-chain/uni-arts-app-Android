@@ -9,16 +9,12 @@ import com.yunhualian.entity.AccountVo;
 import com.yunhualian.entity.AnnouncementVo;
 import com.yunhualian.entity.AppUpdateVo;
 import com.yunhualian.entity.ArtAuctionVo;
-import com.yunhualian.entity.ArtBean;
-import com.yunhualian.entity.ArtMaterialVo;
 import com.yunhualian.entity.ArtPriceVo;
-import com.yunhualian.entity.ArtThemeVo;
 import com.yunhualian.entity.ArtTopicVo;
 import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.ArtistListVo;
 import com.yunhualian.entity.ArtistVo;
 import com.yunhualian.entity.AuctionArtVo;
-import com.yunhualian.entity.AuctionVo;
 import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.BlindBoxCheckVO;
@@ -27,7 +23,6 @@ import com.yunhualian.entity.BlindBoxOrderCheck;
 import com.yunhualian.entity.BlindBoxRecordVo;
 import com.yunhualian.entity.BlindBoxVo;
 import com.yunhualian.entity.BoughtArtVo;
-import com.yunhualian.entity.CancelAuctionBean;
 import com.yunhualian.entity.CollectArtVo;
 import com.yunhualian.entity.FollowerVO;
 import com.yunhualian.entity.HistoriesBean;
@@ -48,7 +43,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 
@@ -669,6 +663,26 @@ public class RequestManager {
 
     public void queryMyAuctions(MinerCallback<BaseResponseVo<List<AuctionArtVo>>> mCallBack) {
         Call<BaseResponseVo<List<AuctionArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryMyAuctions();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryAttendAuctions(int page, int page_size, MinerCallback<BaseResponseVo<List<AuctionArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<AuctionArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryAttendAuctions(page, page_size);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryBidAuctions(int page, int page_size, MinerCallback<BaseResponseVo<List<AuctionArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<AuctionArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryBidAuctions(page, page_size);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryWinAuctions(int page, int page_size, MinerCallback<BaseResponseVo<List<AuctionArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<AuctionArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryWinAuctions(page, page_size);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryFinishAuctions(int page, int page_size, MinerCallback<BaseResponseVo<List<AuctionArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<AuctionArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryFinishAuctions(page, page_size);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 }

@@ -58,6 +58,7 @@ import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
 import com.yunhualian.ui.activity.OfferPriceListActivity;
 import com.yunhualian.ui.activity.ShowNetBigImgActivity;
+import com.yunhualian.ui.activity.user.CreateAuctionOrderActivity;
 import com.yunhualian.ui.activity.user.MyHomePageActivity;
 import com.yunhualian.ui.activity.user.UserHomePageActivity;
 import com.yunhualian.ui.x5.WebViewActivity;
@@ -645,7 +646,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     }
 
     public void initBtnStatus() {
-        if (sellingArtVo.getArt().isIs_owner()) {
+        if (sellingArtVo.isIs_owner()) {
             //持有者为开始可以取消拍卖
             mDataBinding.buyNow.setText("取消拍卖");
             if (sellingArtVo.isCan_cancel() && (System.currentTimeMillis() / 1000) < sellingArtVo.getEnd_time()) {
@@ -686,7 +687,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                 mDataBinding.tvCountSecond.setText("00");
                 mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_end));
                 if (sellingArtVo.getBuyer() != null) {
-                    if (sellingArtVo.getArt().getAuthor().getUid() == sellingArtVo.getBuyer().getUid()) {
+                    if (YunApplication.getmUserVo().getId() == sellingArtVo.getBuyer().getId()) {
                         mDataBinding.buyNow.setText("中标去支付");
                     } else {
                         mDataBinding.buyNow.setText("已结束");
@@ -802,7 +803,9 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                 break;
 
             case "中标去支付":
-
+                Intent intent = new Intent(AuctionArtDetailActivity.this, CreateAuctionOrderActivity.class);
+                intent.putExtra("id", sellingArtVo.getId());
+                startActivity(intent);
                 break;
 
             case "未开始":

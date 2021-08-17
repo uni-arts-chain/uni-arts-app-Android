@@ -502,7 +502,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/rl_pay_layout"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="19dp"
+                android:layout_marginBottom="20dp"
                 android:textColor="@color/_D70000"
                 android:textSize="14sp" />
 

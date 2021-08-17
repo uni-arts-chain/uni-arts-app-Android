@@ -2,7 +2,9 @@ package com.yunhualian.adapter;
 
 
 import android.graphics.Bitmap;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -19,7 +21,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunhualian.R;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.entity.AuctionArtVo;
+import com.yunhualian.utils.DateUtil;
 import com.yunhualian.utils.DisplayUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -28,14 +33,28 @@ import java.util.List;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 
-public class AuctionPicturesAdapter extends BaseQuickAdapter<AuctionArtVo, BaseViewHolder> {
+public class AuctionPicturesAdapter extends BaseQuickAdapter<AuctionArtVo, AuctionPicturesAdapter.TaskNewViewHolder> {
 
     public AuctionPicturesAdapter(List<AuctionArtVo> data) {
         super(R.layout.fragment_auction_sort_pictures_item, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, AuctionArtVo item) {
+    protected void convert(TaskNewViewHolder helper, AuctionArtVo item) {
+
+        helper.countDownTimer = new CountDownTimer((item.getEnd_time() - item.getServer_timestamp()) * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                helper.setText(R.id.tv_auction_time, DateUtil.dateToStringWithTime(millisUntilFinished));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
+        helper.countDownTimer.start();
+
         ImageView ivImage = helper.getView(R.id.hot_picture);
         helper.setText(R.id.picture_name, item.getArt().getName());
 
@@ -78,10 +97,20 @@ public class AuctionPicturesAdapter extends BaseQuickAdapter<AuctionArtVo, BaseV
     }
 
     @Override
-    public void onViewRecycled(@NonNull BaseViewHolder holder) {
+    public void onViewRecycled(@NonNull @NotNull TaskNewViewHolder holder) {
         super.onViewRecycled(holder);
         ImageView imageView = holder.getView(R.id.hot_picture);
         if (imageView != null)
             Glide.with(mContext).clear(imageView);
     }
+
+    static class TaskNewViewHolder extends BaseViewHolder {
+
+        CountDownTimer countDownTimer = null;
+
+        public TaskNewViewHolder(View view) {
+            super(view);
+        }
+    }
+
 }

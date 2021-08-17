@@ -3,7 +3,6 @@ package com.yunhualian.ui.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +19,6 @@ import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.TransferActivity;
 import com.yunhualian.ui.activity.art.ArtDetailActivity;
 import com.yunhualian.ui.activity.user.SellArtActivity;
-import com.yunhualian.ui.activity.user.SellArtUnCutActivity;
 
 import java.util.HashMap;
 import java.util.List;

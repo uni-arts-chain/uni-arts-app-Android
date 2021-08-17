@@ -12,7 +12,6 @@ import com.yunhualian.entity.ArtTypeVo;
 import com.yunhualian.entity.ArtistListVo;
 import com.yunhualian.entity.ArtistVo;
 import com.yunhualian.entity.AuctionArtVo;
-import com.yunhualian.entity.AuctionVo;
 import com.yunhualian.entity.BannersVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.BlindBoxCheckVO;
@@ -21,7 +20,6 @@ import com.yunhualian.entity.BlindBoxOrderCheck;
 import com.yunhualian.entity.BlindBoxRecordVo;
 import com.yunhualian.entity.BlindBoxVo;
 import com.yunhualian.entity.BoughtArtVo;
-import com.yunhualian.entity.CancelAuctionBean;
 import com.yunhualian.entity.CollectArtVo;
 import com.yunhualian.entity.FollowerVO;
 import com.yunhualian.entity.HistoriesBean;
@@ -389,5 +387,21 @@ public interface RemoteService {
     // 我的拍卖列表
     @GET("/api/v2/auctions/mine")
     Call<BaseResponseVo<List<AuctionArtVo>>> queryMyAuctions();
+
+    // 我参与的拍卖列表
+    @GET("/api/v2/auctions/attend")
+    Call<BaseResponseVo<List<AuctionArtVo>>> queryAttendAuctions(@Query("page") int page, @Query("per_page") int pageSize);
+
+    // 我出价的拍卖列表
+    @GET("/api/v2/auctions/bid_auctions")
+    Call<BaseResponseVo<List<AuctionArtVo>>> queryBidAuctions(@Query("page") int page, @Query("per_page") int pageSize);
+
+    // 我拍到的拍卖列表
+    @GET("/api/v2/auctions/wins")
+    Call<BaseResponseVo<List<AuctionArtVo>>> queryWinAuctions(@Query("page") int page, @Query("per_page") int pageSize);
+
+    // 我的已结束拍卖列表
+    @GET("/api/v2/auctions/finish")
+    Call<BaseResponseVo<List<AuctionArtVo>>> queryFinishAuctions(@Query("page") int page, @Query("per_page") int pageSize);
 }
 
