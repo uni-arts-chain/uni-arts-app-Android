@@ -436,6 +436,7 @@ UniArts提供技术支持</string>
     <string name="need_offered_price">至少还需加价 ¥%1$s</string>
     <string name="offer_price_now">立即出价 ¥%1$s</string>
     <string name="count_time_hint">请在%1$s内完成支付，否则将扣除保证金</string>
+    <string name="price_holder">¥%1$s</string>
     <string-array name="mall_tabs">
         <item>寄售</item>
         <item>拍卖</item>

@@ -54,6 +54,9 @@
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
         <activity
+            android:name=".ui.activity.AuctionRuleActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.AuctionRecordsActivity"
             android:screenOrientation="portrait" />
         <activity

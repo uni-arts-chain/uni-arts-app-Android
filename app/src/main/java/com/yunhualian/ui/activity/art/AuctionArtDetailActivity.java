@@ -38,6 +38,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.lljjcoder.style.citylist.Toast.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
+import com.umeng.commonsdk.debug.E;
 import com.yunhualian.R;
 import com.yunhualian.adapter.ArtDetailImgAdapter;
 import com.yunhualian.adapter.OfferPriceListAdapter;
@@ -55,6 +56,7 @@ import com.yunhualian.entity.PayResyltVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.AuctionRuleActivity;
 import com.yunhualian.ui.activity.CustomerServiceActivity;
 import com.yunhualian.ui.activity.OfferPriceListActivity;
 import com.yunhualian.ui.activity.ShowNetBigImgActivity;
@@ -382,7 +384,8 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
     }
 
-    private void getOfferPriceList(boolean isOfferPrice, String art_id) {
+    //获取出价列表
+    private void getOfferPriceList(boolean isShowOfferPriceWindow, String art_id) {
         RequestManager.instance().queryOfferPriceList(art_id, 1, 30, new MinerCallback<BaseResponseVo<List<OfferPriceBean>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<OfferPriceBean>>> call, Response<BaseResponseVo<List<OfferPriceBean>>> response) {
@@ -391,29 +394,37 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                         offerPriceTimes = response.body().getHead().getTotal_count();
                         mOfferPriceList = response.body().getBody();
                         mDataBinding.tvOfferPriceCount.setText(offerPriceTimes + "次");
+                        //展示前三条出价记录
                         if (mOfferPriceList.size() >= 3) {
                             mOfferPriceAdapter.setNewData(mOfferPriceList.subList(0, 3));
                         } else {
                             mOfferPriceAdapter.setNewData(mOfferPriceList);
                         }
 
-                        if (isOfferPrice) {
-                            String topPrice;
-                            String offeredPrice = "0";
-                            if (mOfferPriceList != null && mOfferPriceList.size() > 0) {
-                                topPrice = mOfferPriceList.get(0).getPrice(); //若有出价记录，取第一条数据为当前最高价
-                                for (int i = 0; i < mOfferPriceList.size(); i++) {
-                                    if (YunApplication.getmUserVo().getUid().equals(mOfferPriceList.get(i).getMember().getUid())) {
-                                        offeredPrice = mOfferPriceList.get(i).getPrice();
-                                        break;
-                                    }
-                                }
+                        if (isShowOfferPriceWindow) {
+                            double offeredPrice = 0; //您已出价
+                            double addPrice; //还需加价
+                            double topPrice;
+                            if (sellingArtVo.getCurrent_price() != null) {
+                                topPrice = Double.parseDouble(sellingArtVo.getCurrent_price()); //表示当前商品最高价格
                             } else {
-                                topPrice = sellingArtVo.getStart_price();//若没有出价记录，则取起拍价
+                                topPrice = 0; //表示当前商品最高价格
                             }
-                            double addPrice = Double.parseDouble(topPrice) - Double.parseDouble(offeredPrice) + Double.parseDouble(sellingArtVo.getPrice_increment());
-                            double offPrice = Double.parseDouble(topPrice) + Double.parseDouble(sellingArtVo.getPrice_increment());
-                            initOfferPriceWindow(topPrice, offeredPrice, String.valueOf(addPrice), String.valueOf(offPrice));
+
+                            if (mOfferPriceList != null && mOfferPriceList.size() > 0) {
+                                //如果有出价记录
+//                                for (int i = 0; i < mOfferPriceList.size(); i++) {
+//                                    if (YunApplication.getmUserVo().getId() == mOfferPriceList.get(i).getMember().getId()) {
+//                                        offeredPrice = Double.parseDouble(mOfferPriceList.get(i).getPrice()); //个人出价（最高）
+//                                        break;
+//                                    }
+//                                }
+                                offeredPrice = Double.parseDouble(sellingArtVo.getCurrent_user_highest_price());
+                                addPrice = topPrice - offeredPrice + Double.parseDouble(sellingArtVo.getPrice_increment());
+                            } else {
+                                addPrice = Double.parseDouble(sellingArtVo.getStart_price()); //如果没有出价记录，加价为起拍价
+                            }
+                            initOfferPriceWindow(topPrice, offeredPrice, addPrice);
                         }
                     }
                 }
@@ -429,6 +440,18 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
             }
         });
+    }
+
+    private double getSumOfferPrice(List<OfferPriceBean> offerPriceList) {
+        double sumOfferPrice = 0.0;
+        for (int i = 0; i < offerPriceList.size(); i++) {
+            try {
+                sumOfferPrice += Double.parseDouble(offerPriceList.get(i).getPrice());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return sumOfferPrice;
     }
 
     private void queryAccountInfo() {
@@ -574,6 +597,12 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         }
         mDataBinding.tvStartAuctionPrice.setText(getString(R.string.auction_start_price_, sellingArtVo.getStart_price()));//起拍价
         mDataBinding.tvAuctionPieces.setText(getString(R.string.auction_pieces_, String.valueOf(sellingArtVo.getAmount())));//拍卖份数
+        mDataBinding.tvAuctionProtocol.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(AuctionRuleActivity.class);
+            }
+        });
         mDataBinding.centifyAddr.setText(getString(R.string.nft_address, sellingArtVo.getArt().getItem_hash()));
         String royalty = sellingArtVo.getArt().getRoyalty() == null ? "0" : sellingArtVo.getArt().getRoyalty().toPlainString();
         mDataBinding.rotailDate.setText(getString(R.string.royalty_date, sellingArtVo.getArt().getRoyalty_expired_at() == 0 ?
@@ -1106,9 +1135,9 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         RequestManager.instance().auctionArtInfo(request_art_id, new MinerCallback<BaseResponseVo<AuctionArtVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
+                dismissLoading();
                 if (response.isSuccessful()) {
-                    if (response.body().getBody() != null) {
-                        dismissLoading();
+                    if (response.body() != null) {
                         sellingArtVo = response.body().getBody();
                         initPageData();
                     }
@@ -1117,12 +1146,12 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
             @Override
             public void onError(Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
     }
@@ -1146,7 +1175,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         confirmOrCancelPopwindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
     }
 
-    private void initOfferPriceWindow(String currentPrice, String hasOfferPrice, String priceUnit, String needOfferPrice) {
+    private void initOfferPriceWindow(double currentHighestPrice, double hasOfferedPrice, double addPrice) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.pop_offer_price_layout, null);
 
         TextView currentPriceTv = contentView.findViewById(R.id.tv_current_price);
@@ -1156,10 +1185,11 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         ImageView closeBtn = contentView.findViewById(R.id.img_close);
 
 
-        currentPriceTv.setText("¥" + currentPrice);
-        hasOfferPriceHintTv.setText(getString(R.string.has_offered_price, hasOfferPrice));
-        priceUnitTv.setText(getString(R.string.need_offered_price, priceUnit));
-        confirmBtn.setText(getString(R.string.offer_price_now, needOfferPrice));
+        currentPriceTv.setText(getString(R.string.price_holder, String.valueOf(currentHighestPrice)));
+        hasOfferPriceHintTv.setText(getString(R.string.has_offered_price, String.valueOf(hasOfferedPrice)));
+        priceUnitTv.setText(getString(R.string.need_offered_price, String.valueOf(addPrice)));
+        double needOfferPrice = hasOfferedPrice + addPrice; //立即出价金额= 已出价 + 还需加价
+        confirmBtn.setText(getString(R.string.offer_price_now, String.valueOf(needOfferPrice)));
 
         mOfferPricePopwindow = new BasePopupWindow(this);
         mOfferPricePopwindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1249,26 +1279,29 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     }
 
     //出价艺术品拍卖
-    private void offerPrice(String price) {
+    private void offerPrice(double price) {
+        showLoading(R.string.progress_loading);
         HashMap<String, String> params = new HashMap<>();
-        params.put("price", price);
+        params.put("price", String.valueOf(price));
         RequestManager.instance().offerPrice(String.valueOf(sellingArtVo.getId()), params, new MinerCallback<BaseResponseVo<OfferPriceBean>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<OfferPriceBean>> call, Response<BaseResponseVo<OfferPriceBean>> response) {
+                dismissLoading();
                 if (response.isSuccessful()) {
                     ToastManager.showShort("出价成功");
                     requestArtInfo();
+                    getOfferPriceList(false, String.valueOf(sellingArtVo.getId()));
                 }
             }
 
             @Override
             public void onError(Call<BaseResponseVo<OfferPriceBean>> call, Response<BaseResponseVo<OfferPriceBean>> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
     }

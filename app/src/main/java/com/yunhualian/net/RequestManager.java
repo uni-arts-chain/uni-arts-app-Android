@@ -692,4 +692,9 @@ public class RequestManager {
         Call<BaseResponseVo<List<AuctionArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryFinishAuctions(page, page_size);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
+
+    public void queryAuctionRules(MinerCallback<BaseResponseVo<String>> mCallBack) {
+        Call<BaseResponseVo<String>> mCall = NetworkManager.instance().getmRemoteService().queryAuctionRules();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
 }

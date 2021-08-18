@@ -214,7 +214,6 @@
                             android:paddingTop="@dimen/dp_2"
                             android:paddingRight="3dp"
                             android:paddingBottom="@dimen/dp_2"
-                            android:text="15000"
                             android:textColor="@color/_D70000"
                             android:textSize="18sp" />
 
@@ -224,7 +223,6 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:text="@string/auction_pieces"
                             android:textColor="@color/_101010"
                             android:textSize="14sp" />
                     </RelativeLayout>

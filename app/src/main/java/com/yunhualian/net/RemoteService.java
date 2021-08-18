@@ -406,5 +406,9 @@ public interface RemoteService {
     // 我的已结束拍卖列表
     @GET("/api/v2/auctions/finish")
     Call<BaseResponseVo<List<AuctionArtVo>>> queryFinishAuctions(@Query("page") int page, @Query("per_page") int pageSize);
+
+    // 竞拍须知
+    @GET("/v2/auctions/notice")
+    Call<BaseResponseVo<String>> queryAuctionRules();
 }
 
