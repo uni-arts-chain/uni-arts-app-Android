@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class DateUtil {
 
@@ -77,5 +78,12 @@ public class DateUtil {
         long ts = date.getTime() / 1000;
         res = String.valueOf(ts);
         return res;
+    }
+
+    public static String dateToTime(long millSeconds) {
+        String pattern = "HH:mm:ss";
+        long mills = millSeconds - TimeZone.getDefault().getRawOffset();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(new Date(mills));
     }
 }

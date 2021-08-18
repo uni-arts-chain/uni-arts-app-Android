@@ -129,7 +129,6 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
         mBinding.sortList.setAdapter(sortAdapter);
         mBinding.typeList.setAdapter(typeAdapter);
         mBinding.prizeList.setAdapter(prizeAdapter);
-        getAuctions(param);
     }
 
     public void initSelectedListener() {
@@ -240,6 +239,7 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
     @Override
     public void onResume() {
         super.onResume();
+        getAuctions(param);
     }
 
     @Override

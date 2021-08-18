@@ -4,6 +4,7 @@ package com.yunhualian.adapter;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -41,19 +42,28 @@ public class AuctionPicturesAdapter extends BaseQuickAdapter<AuctionArtVo, Aucti
 
     @Override
     protected void convert(TaskNewViewHolder helper, AuctionArtVo item) {
-
-        helper.countDownTimer = new CountDownTimer((item.getEnd_time() - item.getServer_timestamp()) * 1000, 1000) {
+        long countTime = 0;
+        if (item.getServer_timestamp() < item.getStart_time()) {
+            countTime = item.getStart_time() - item.getServer_timestamp();
+        } else if (item.getServer_timestamp() < item.getEnd_time()) {
+            countTime = item.getEnd_time() - item.getServer_timestamp();
+        }
+        helper.countDownTimer = new CountDownTimer(countTime * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                helper.setText(R.id.tv_auction_time, DateUtil.dateToStringWithTime(millisUntilFinished));
+                helper.setText(R.id.tv_auction_time, DateUtil.dateToTime(millisUntilFinished));
             }
 
             @Override
             public void onFinish() {
-
+                helper.countDownTimer.cancel();
             }
         };
-        helper.countDownTimer.start();
+
+        if (countTime != 0) {
+            helper.countDownTimer.start();
+        }
+
 
         ImageView ivImage = helper.getView(R.id.hot_picture);
         helper.setText(R.id.picture_name, item.getArt().getName());
