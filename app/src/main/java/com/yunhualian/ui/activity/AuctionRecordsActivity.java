@@ -15,6 +15,7 @@ import java.util.Arrays;
 public class AuctionRecordsActivity extends BaseActivity<ActivityAuctionRecordLayoutBinding> implements MyHomePageAdapter.TabPagerListener {
 
     private MyHomePageAdapter pageAdapter;
+    private int index;
 
     @Override
     public int getLayoutId() {
@@ -31,7 +32,9 @@ public class AuctionRecordsActivity extends BaseActivity<ActivityAuctionRecordLa
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleString = "拍卖记录";
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
-
+        if (getIntent() != null) {
+            index = getIntent().getIntExtra("page_index", 0);
+        }
         initViewPager();
     }
 
@@ -41,17 +44,18 @@ public class AuctionRecordsActivity extends BaseActivity<ActivityAuctionRecordLa
         mDataBinding.vpRecords.setAdapter(pageAdapter);
         mDataBinding.tabLayout.setupWithViewPager(mDataBinding.vpRecords);
         mDataBinding.tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mDataBinding.vpRecords.setCurrentItem(index);
     }
 
     @Override
     public Fragment getFragment(int position) {
         if (position == 0) {
-           return  AuctionRecordsFragment.newInstance("attend");
+            return AuctionRecordsFragment.newInstance("attend");
         } else if (position == 1) {
             return AuctionRecordsFragment.newInstance("bid");
         } else if (position == 2) {
             return AuctionRecordsFragment.newInstance("win");
-        }else{
+        } else {
             return AuctionRecordsFragment.newInstance("finish");
         }
     }

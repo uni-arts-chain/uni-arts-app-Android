@@ -50,7 +50,6 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
         if (getArguments() != null) {
             mState = getArguments().getString("state");
         }
-
         initRecyclerView();
         if (mState.equals("attend")) {
             queryAttendAuctions();
@@ -233,10 +232,8 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
                             } else {
                                 mList.addAll(list);
                             }
+                            mAdapter.setNewData(mList);
                             page++;
-                            if (mList.size() > 0) {
-                                mAdapter.setNewData(mList);
-                            }
                             if (page > 1) {
                                 mAdapter.loadMoreEnd();
                             }

@@ -27,6 +27,7 @@ import com.yunhualian.base.YunApplication;
 import com.yunhualian.constant.AppConstant;
 import com.yunhualian.databinding.FragmentMineBinding;
 import com.yunhualian.entity.AccountVo;
+import com.yunhualian.entity.AuctionArtVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.StdoutLogger;
 import com.yunhualian.entity.UserVo;
@@ -75,6 +76,9 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
     private long time_space = 1000 * 1;
     private String accountRemain = "0";
 
+    private boolean hasWinNft = false;
+    private int page_index;
+
     public static BaseFragment newInstance() {
         MineFragment fragment = new MineFragment();
         return fragment;
@@ -92,6 +96,7 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
 
     @Override
     protected void initView() {
+        queryWinAuctions();
         initList();
         View[] views = {mBinding.setting, mBinding.fans, mBinding.follow, mBinding.mineCount, mBinding.mineMoney, mBinding.mineTitleImg};
         ClickUtils.applyGlobalDebouncing(views, this);
@@ -164,8 +169,8 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
 
                 break;
             case R.id.mine_money:
-                Intent intent = new Intent(requireContext(),CashAccountActivity.class);
-                intent.putExtra("account_remain",accountRemain);
+                Intent intent = new Intent(requireContext(), CashAccountActivity.class);
+                intent.putExtra("account_remain", accountRemain);
                 startActivity(intent);
                 break;
 
@@ -198,7 +203,9 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
                 startActivity(MessagesActivity.class);
                 break;
             case AUCTIONS:
-                startActivity(AuctionRecordsActivity.class);
+                Intent intent = new Intent(requireActivity(), AuctionRecordsActivity.class);
+                intent.putExtra("page_index", page_index);
+                startActivity(intent);
                 break;
             case MINE_PAGE:
                 startActivity(MyHomePageActivity.class);
@@ -208,7 +215,6 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
                 break;
             case UPGRADE_ARTS:
                 startActivity(UploadArtActivity.class);
-//                startActivity(VideoPlayerActivity.class);
                 break;
             case ABOUT_US:
                 if (YunApplication.getmUserVo() != null)
@@ -250,11 +256,11 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
                 if (response.isSuccessful()) {
                     List<AccountVo> accounts = response.body().getBody();
                     if (accounts != null && accounts.size() > 0) {
-                        for (int i = 0; i < accounts.size(); i++){
-                            if(accounts.get(i).getCurrency_code().equals("rmb")){
+                        for (int i = 0; i < accounts.size(); i++) {
+                            if (accounts.get(i).getCurrency_code().equals("rmb")) {
                                 accountRemain = accounts.get(i).getBalance();
-                                mBinding.mineMoney.setText(getString(R.string.cash_account,accountRemain));
-                                return ;
+                                mBinding.mineMoney.setText(getString(R.string.cash_account, accountRemain));
+                                return;
                             }
                         }
                     }
@@ -298,5 +304,34 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
             Extras.balance = s;
             mBinding.mineCount.setText(getString(R.string.mine_acount, s));
         }
+    }
+
+    private void queryWinAuctions() {
+        RequestManager.instance().queryWinAuctions(1, 20, new MinerCallback<BaseResponseVo<List<AuctionArtVo>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        List<AuctionArtVo> list = response.body().getBody();
+                        if (list != null && list.size() > 0) {
+                            hasWinNft = true;
+                            page_index = 2;
+                        } else {
+                            hasWinNft = false;
+                            page_index = 0;
+                        }
+                        mineActionAdapter.setWinTag(hasWinNft);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+            }
+        });
     }
 }
