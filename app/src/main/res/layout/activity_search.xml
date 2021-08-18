@@ -84,44 +84,30 @@
                 android:layout_marginRight="@dimen/dp_15" />
         </RelativeLayout>
 
-<!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-<!--            android:id="@+id/srl_shooping_mall"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-<!--            <androidx.core.widget.NestedScrollView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:focusableInTouchMode="true">-->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/white"
+                app:tabIndicatorColor="@color/_101010"
+                app:tabIndicatorFullWidth="false"
+                app:tabSelectedTextColor="@color/_101010"
+                app:tabTextColor="@color/_101010" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tabLayout"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/tabLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="38dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        android:background="@color/white"
-                        app:tabIndicatorColor="@color/_101010"
-                        app:tabIndicatorFullWidth="false"
-                        app:tabSelectedTextColor="@color/_101010"
-                        app:tabTextColor="@color/_101010" />
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/viewpager"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tabLayout"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-                </RelativeLayout>
-
-<!--            </androidx.core.widget.NestedScrollView>-->
-
-<!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+        </RelativeLayout>
 
     </LinearLayout>
 

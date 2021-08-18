@@ -299,6 +299,13 @@ public class RequestManager {
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
+    /*
+     * 搜索拍卖作品
+     * */
+    public void searchAuctions(HashMap<String, String> params, MinerCallback<BaseResponseVo<List<AuctionArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<AuctionArtVo>>> mCall = NetworkManager.instance().getmRemoteService().searchAuctions(params);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
 
     /*
      * 搜索作品

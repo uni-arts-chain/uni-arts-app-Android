@@ -5,14 +5,15 @@ import android.content.Intent;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.yunhualian.R;
-import com.yunhualian.adapter.PicturesAdapter;
+import com.yunhualian.adapter.AuctionPicturesAdapter;
 import com.yunhualian.base.BaseFragment;
 import com.yunhualian.databinding.FragmentSearchResultLayoutBinding;
+import com.yunhualian.entity.AuctionArtVo;
 import com.yunhualian.entity.BaseResponseVo;
-import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.art.ArtDetailActivity;
+import com.yunhualian.ui.activity.art.AuctionArtDetailActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,10 +22,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class SearchResultFragment extends BaseFragment<FragmentSearchResultLayoutBinding> {
+public class SearchAuctionsFragment extends BaseFragment<FragmentSearchResultLayoutBinding> {
 
-    private List<SellingArtVo> mArtList = new ArrayList<>();
-    private PicturesAdapter mAdapter;
+    private List<AuctionArtVo> mAuctionList = new ArrayList<>();
+    private AuctionPicturesAdapter mAdapter;
     private String mKeyWord;
 
     @Override
@@ -40,14 +41,14 @@ public class SearchResultFragment extends BaseFragment<FragmentSearchResultLayou
     @Override
     protected void initView() {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mAdapter = new PicturesAdapter(mArtList);
+        mAdapter = new AuctionPicturesAdapter(mAuctionList);
         mBinding.rvSearchResult.setLayoutManager(layoutManager);
         mAdapter.setEmptyView(R.layout.layout_entrust_empty, mBinding.rvSearchResult);
         mBinding.rvSearchResult.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (mArtList != null && mArtList.size() > 0) {
-                Intent intent = new Intent(requireContext(), ArtDetailActivity.class);
-                intent.putExtra(ArtDetailActivity.ART_ID, mArtList.get(position).getId());
+            if (mAuctionList != null && mAuctionList.size() > 0) {
+                Intent intent = new Intent(requireContext(), AuctionArtDetailActivity.class);
+                intent.putExtra(ArtDetailActivity.ART_ID, mAuctionList.get(position).getId());
                 startActivity(intent);
             }
         });
@@ -56,40 +57,38 @@ public class SearchResultFragment extends BaseFragment<FragmentSearchResultLayou
             searchKeyWords(mKeyWord);
             mBinding.srlSearch.setRefreshing(false);
         });
-
     }
 
     public void searchKeyWords(String keyWords) {
         mKeyWord = keyWords;
         if (mAdapter == null) {
-            mAdapter = new PicturesAdapter(mArtList);
+            mAdapter = new AuctionPicturesAdapter(mAuctionList);
         }
-        mArtList.clear();
-        searchSellProduct(mKeyWord);
+        mAuctionList.clear();
+        searchAuctionProduct(keyWords);
     }
 
-    private void searchSellProduct(String keyWords) {
+    private void searchAuctionProduct(String keyWords) {
         showLoading(R.string.progress_loading);
         HashMap<String, String> params = new HashMap<>();
         params.put("q", keyWords);
         params.put("page", "1");
         params.put("per_page", "100");
-        RequestManager.instance().searchArts(params, new MinerCallback<BaseResponseVo<List<SellingArtVo>>>() {
+        RequestManager.instance().searchAuctions(params, new MinerCallback<BaseResponseVo<List<AuctionArtVo>>>() {
             @Override
-            public void onSuccess(Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
+            public void onSuccess(Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
                 dismissLoading();
                 if (response.isSuccessful()) {
-                    {
-                        if (response.body() != null) {
-                            mArtList = response.body().getBody();
-                            mAdapter.setNewData(mArtList);
-                        }
+                    if (response.body() != null) {
+                        mAuctionList = response.body().getBody();
+                        mAdapter.setNewData(mAuctionList);
                     }
                 }
+
             }
 
             @Override
-            public void onError(Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
+            public void onError(Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
                 dismissLoading();
             }
 

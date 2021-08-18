@@ -200,6 +200,9 @@ public interface RemoteService {
     @GET("/api/v2/arts/search")
     Call<BaseResponseVo<List<SellingArtVo>>> searchArt(@QueryMap HashMap<String, String> map);
 
+    @GET("/api/v2/auctions/search")
+    Call<BaseResponseVo<List<AuctionArtVo>>> searchAuctions(@QueryMap HashMap<String, String> map);
+
     @GET("/api/v2/members/{id}/arts")
     Call<BaseResponseVo<List<SellingArtVo>>> queryUserArts(@Path("id") String id);
 
