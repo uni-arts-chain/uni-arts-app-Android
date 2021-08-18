@@ -16,6 +16,7 @@ public class AuctionRecordsActivity extends BaseActivity<ActivityAuctionRecordLa
 
     private MyHomePageAdapter pageAdapter;
     private int index;
+    private AuctionRecordsFragment attendAuctionRecordFragment, bidAuctionRecordFragment, winAuctionRecordFragment, finishAuctionRecordFragment;
 
     @Override
     public int getLayoutId() {
@@ -35,6 +36,10 @@ public class AuctionRecordsActivity extends BaseActivity<ActivityAuctionRecordLa
         if (getIntent() != null) {
             index = getIntent().getIntExtra("page_index", 0);
         }
+        attendAuctionRecordFragment = new AuctionRecordsFragment("attend");
+        bidAuctionRecordFragment = new AuctionRecordsFragment("bid");
+        winAuctionRecordFragment = new AuctionRecordsFragment("win");
+        finishAuctionRecordFragment = new AuctionRecordsFragment("finish");
         initViewPager();
     }
 
@@ -44,19 +49,20 @@ public class AuctionRecordsActivity extends BaseActivity<ActivityAuctionRecordLa
         mDataBinding.vpRecords.setAdapter(pageAdapter);
         mDataBinding.tabLayout.setupWithViewPager(mDataBinding.vpRecords);
         mDataBinding.tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mDataBinding.vpRecords.setOffscreenPageLimit(4);
         mDataBinding.vpRecords.setCurrentItem(index);
     }
 
     @Override
     public Fragment getFragment(int position) {
         if (position == 0) {
-            return AuctionRecordsFragment.newInstance("attend");
+            return attendAuctionRecordFragment;
         } else if (position == 1) {
-            return AuctionRecordsFragment.newInstance("bid");
+            return bidAuctionRecordFragment;
         } else if (position == 2) {
-            return AuctionRecordsFragment.newInstance("win");
+            return winAuctionRecordFragment;
         } else {
-            return AuctionRecordsFragment.newInstance("finish");
+            return finishAuctionRecordFragment;
         }
     }
 }

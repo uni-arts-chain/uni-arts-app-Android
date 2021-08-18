@@ -43,7 +43,6 @@ public class MyHomePageActivity extends BaseActivity<ActivityMyHomePageBinding> 
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleId = R.string.my_page;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
-//        mDataBinding.collapsingToolbar.setTitle("我的主页");
         mDataBinding.collapsingToolbar.setExpandedTitleColor(Color.BLACK);//设置未收缩状态下的字体颜色
         mDataBinding.collapsingToolbar.setCollapsedTitleTextColor(Color.BLACK);
         adapter = new MyHomePageAdapter(getSupportFragmentManager(), 3, Arrays.asList(getResources().getStringArray(R.array.my_page_tabs)), this);

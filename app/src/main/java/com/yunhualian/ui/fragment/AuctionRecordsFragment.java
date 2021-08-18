@@ -1,8 +1,5 @@
 package com.yunhualian.ui.fragment;
 
-import android.os.Bundle;
-import android.widget.LinearLayout;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.yunhualian.R;
@@ -27,12 +24,8 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
     private List<AuctionArtVo> mList = new ArrayList<>();
     private String mState;
 
-    public static BaseFragment newInstance(String state) {
-        AuctionRecordsFragment fragment = new AuctionRecordsFragment();
-        Bundle args = new Bundle();
-        args.putString("state", state);
-        fragment.setArguments(args);
-        return fragment;
+    public AuctionRecordsFragment(String state) {
+        this.mState = state;
     }
 
     @Override
@@ -47,9 +40,6 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
 
     @Override
     protected void initView() {
-        if (getArguments() != null) {
-            mState = getArguments().getString("state");
-        }
         initRecyclerView();
         if (mState.equals("attend")) {
             queryAttendAuctions();
