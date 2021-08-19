@@ -3,9 +3,13 @@ package com.yunhualian.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import androidx.core.content.ContextCompat;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.bumptech.glide.Glide;
@@ -21,9 +25,10 @@ import com.yunhualian.utils.DisplayUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, BaseViewHolder> {
+public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, AuctionRecordsAdapter.CountDownTimeViewHolder> {
     private static final int TIME = 1000;
     private String mState;
     private static final String ATTEND = "attend";
@@ -31,6 +36,7 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, BaseVi
     private static final String WIN = "win";
     private static final String FINISH = "finish";
     private Context mContext;
+    private List<CountDownTimer> mTimerList = new ArrayList<>();
 
     public AuctionRecordsAdapter(Context context, List<AuctionArtVo> data, String state) {
         super(R.layout.item_auction_record_layout, data);
@@ -39,7 +45,7 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, BaseVi
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, AuctionArtVo item) {
+    protected void convert(CountDownTimeViewHolder helper, AuctionArtVo item) {
         helper.setText(R.id.order_time, DateUtil.dateToStringWith(item.getCreated_at() * TIME));
         if (mState.equals(ATTEND)) {
             helper.setVisible(R.id.order_cost_layout, true);
@@ -60,7 +66,20 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, BaseVi
             helper.setVisible(R.id.tv_to_pay, true);
             helper.setText(R.id.tv_to_pay, "去支付 ¥" + item.getWin_price());
             helper.setVisible(R.id.tv_count_time_hint, true);
-            helper.setText(R.id.tv_count_time_hint, mContext.getString(R.string.count_time_hint, DateUtil.dateToStringWithTime((item.getEnd_time() + item.getPay_timeout() - item.getServer_timestamp()) * 1000)));
+            helper.countDownTimer = new CountDownTimer((item.getEnd_time() + item.getPay_timeout() - item.getServer_timestamp()) * 1000, 1000) {
+                @Override
+                public void onTick(long l) {
+                    helper.setText(R.id.tv_count_time_hint, mContext.getString(R.string.count_time_hint, DateUtil.dateToTime(l)));
+                }
+
+                @Override
+                public void onFinish() {
+                    helper.countDownTimer.cancel();
+                    helper.setText(R.id.tv_to_pay, "超时未支付，已扣除保证金");
+                    helper.setBackgroundRes(R.id.tv_to_pay,R.drawable.shape_bg_gray);
+                }
+            }.start();
+            mTimerList.add(helper.countDownTimer);
         } else if (mState.equals(FINISH)) {
             helper.setVisible(R.id.order_cost_layout, true);
             helper.setGone(R.id.tv_to_pay, false);
@@ -115,6 +134,25 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, BaseVi
         });
         Glide.with(mContext).load(item.getArt().getImg_main_file1().getUrl()) //图片地址
                 .into(imageView);
+        helper.addOnClickListener(R.id.tv_to_pay);
 
+    }
+
+    public void clearAllTimer() {
+        if (mTimerList != null && mTimerList.size() > 0) {
+            for (CountDownTimer timer : mTimerList) {
+                timer.cancel();
+            }
+            mTimerList.clear();
+        }
+    }
+
+    static class CountDownTimeViewHolder extends BaseViewHolder {
+
+        CountDownTimer countDownTimer = null;
+
+        public CountDownTimeViewHolder(View view) {
+            super(view);
+        }
     }
 }

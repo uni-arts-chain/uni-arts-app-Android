@@ -45,7 +45,11 @@ public class SellAndBuyAdapter extends BaseQuickAdapter<BoughtArtVo, BaseViewHol
     protected void convert(BaseViewHolder helper, BoughtArtVo item) {
         helper.setText(R.id.order_time, DateUtil.dateToStringWith(item.getFinished_at() * TIME));
         String price;
-
+        if (item.getTrade_refer().equals("Auction")) {
+            helper.setVisible(R.id.img_auction_tag, true);
+        } else {
+            helper.setVisible(R.id.img_auction_tag, false);
+        }
 
         price = new BigDecimal(item.getAmount()).multiply(new BigDecimal(item.getPrice())).stripTrailingZeros().toPlainString();
         if (orderType == BigDecimal.ZERO.intValue()) {

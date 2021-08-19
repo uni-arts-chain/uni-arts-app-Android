@@ -70,8 +70,10 @@ public class MyHomePageAuctionsAdapter extends BaseQuickAdapter<AuctionArtVo, Ba
         });
         Glide.with(mContext).load(item.getArt().getImg_main_file1().getUrl()).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.ALL).into(ivImage);
         if(item.isCan_cancel()){
+            helper.setTextColor(R.id.cancelAuction,mContext.getResources().getColor(R.color._101010));
             helper.setBackgroundRes(R.id.cancelAuction,R.drawable.shape_bg_black);
         }else{
+            helper.setTextColor(R.id.cancelAuction,mContext.getResources().getColor(R.color._999999));
             helper.setBackgroundRes(R.id.cancelAuction,R.drawable.shape_bg_gray);
         }
         helper.addOnClickListener(R.id.cancelAuction);

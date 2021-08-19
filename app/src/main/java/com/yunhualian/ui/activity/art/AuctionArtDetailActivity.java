@@ -657,7 +657,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                 mDataBinding.tvCountHour.setText("00");
                 mDataBinding.tvCountMinute.setText("00");
                 mDataBinding.tvCountSecond.setText("00");
-                mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_end));
+                mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
             } else {
                 //进行中
                 long countDownTime = sellingArtVo.getEnd_time() - sellingArtVo.getServer_timestamp();
@@ -671,6 +671,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                 long countDownTime = sellingArtVo.getStart_time() - sellingArtVo.getServer_timestamp();
                 initCountTimer(countDownTime * 1000);
                 mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_yet));
+                mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
             } else if (sellingArtVo.getServer_timestamp() > sellingArtVo.getEnd_time()) {
                 //已结束
                 mDataBinding.tvCountHour.setText("00");
@@ -679,18 +680,32 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                 mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_end));
                 if (sellingArtVo.getBuyer() != null) {
                     if (YunApplication.getmUserVo().getId() == sellingArtVo.getBuyer().getId()) {
-                        mDataBinding.buyNow.setText("中标去支付");
+                        if (sellingArtVo.isBuyer_paid()) {
+                            mDataBinding.buyNow.setText("中标已支付");
+                            mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
+                        } else {
+                            if (sellingArtVo.getServer_timestamp() >= (sellingArtVo.getEnd_time() + sellingArtVo.getPay_timeout())) {
+                                mDataBinding.buyNow.setText("超时未支付");
+                                mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
+                            } else {
+                                mDataBinding.buyNow.setText("中标去支付");
+                                mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_red));
+                            }
+                        }
                     } else {
                         mDataBinding.buyNow.setText("已结束");
+                        mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
                     }
                 } else {
                     mDataBinding.buyNow.setText("已结束");
+                    mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
                 }
             } else {
                 //拍卖中
                 mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_ing));
                 long countDownTime = sellingArtVo.getEnd_time() - sellingArtVo.getServer_timestamp();
                 initCountTimer(countDownTime * 1000);
+                mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_red));
                 if (sellingArtVo.isDeposit_paid()) {
                     mDataBinding.buyNow.setText("出价");
                 } else {
@@ -787,12 +802,14 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
             case "中标去支付":
                 Intent intent = new Intent(AuctionArtDetailActivity.this, CreateAuctionOrderActivity.class);
-                intent.putExtra("id", sellingArtVo.getId());
+                intent.putExtra("id", String.valueOf(sellingArtVo.getId()));
                 startActivity(intent);
                 break;
 
             case "未开始":
             case "已结束":
+            case "超时未支付":
+            case "中标已支付":
 
                 break;
         }

@@ -15,7 +15,6 @@ import com.yunhualian.constant.AppConstant;
 import com.yunhualian.databinding.ActivityGoAuctionLayoutBinding;
 import com.yunhualian.entity.AccountIdVo;
 import com.yunhualian.entity.AuctionArtVo;
-import com.yunhualian.entity.AuctionVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.StdoutLogger;
@@ -49,8 +48,9 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
     private int defaultAmount = 1; //初始拍卖份数
     private String receiveAddress = "";
     public SocketService rxWebSocket;
-    private AuctionDatePicker mTimerPicker;
-
+    private AuctionDatePicker mStartTimePicker;
+    private AuctionDatePicker mEndTimePicker;
+    private long mDefaultEndTimeMills;
     @Override
     public int getLayoutId() {
         return R.layout.activity_go_auction_layout;
@@ -67,7 +67,8 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
         mToolBarOptions.titleId = R.string.start_auction_;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
 
-        initTimerPicker();
+        initStartTimer();
+        initEndTimer();
 
         rxWebSocket = new SocketService(new Gson(), new StdoutLogger(), new WebSocketFactory(), i -> 0);
         rxWebSocket.start(AppConstant.RPC);
@@ -96,6 +97,7 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
             mDataBinding.cut.setClickable(false);
         }
         mDataBinding.tvStartAuctionTime.setText(DateUtil.dateToStringWithAll(DateUtil.getCurrentTime()));
+        mDataBinding.tvStartAuctionTime.setOnClickListener(this);
         mDataBinding.tvEndAuctionTime.setText(DateUtil.dateToStringWithAll(DateUtil.getTomorrowCurrentTime()));
         mDataBinding.tvEndAuctionTime.setOnClickListener(this);
         initListener();
@@ -104,15 +106,47 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
 
     }
 
-    private void initTimerPicker() {
+    private void initStartTimer() {
+
+        String beginTime = DateFormatUtils.long2Str(DateUtil.getCurrentTime(), true);
+        String endTime = DateFormatUtils.long2Str(System.currentTimeMillis() + 315360000000L, true);
+        mStartTimePicker = new AuctionDatePicker(this, new AuctionDatePicker.Callback() {
+            @Override
+            public void onTimeSelected(long timestamp) {
+                String selectTime = DateFormatUtils.long2Str(timestamp, true).substring(0, 16) + ":00";
+                mDefaultEndTimeMills = timestamp + 86400000;
+                String defaultEndTime = DateFormatUtils.long2Str(mDefaultEndTimeMills, true).substring(0, 16) + ":00";
+                mDataBinding.tvStartAuctionTime.setText(selectTime);
+                mDataBinding.tvEndAuctionTime.setText(defaultEndTime);
+            }
+        }, beginTime, endTime);
+        // 允许点击屏幕或物理返回键关闭
+        mStartTimePicker.setCancelable(true);
+        // 显示时和分
+        mStartTimePicker.setCanShowPreciseTime(true);
+        // 允许循环滚动
+        mStartTimePicker.setScrollLoop(true);
+        // 允许滚动动画
+        mStartTimePicker.setCanShowAnim(true);
+    }
+
+    private void initEndTimer() {
         //24 * 60 * 60 * 3 * 1000
-        long oneWeekTimeMills = 24 * 60 * 60 * 1000 * 7;
-        String beginTime = DateFormatUtils.long2Str(System.currentTimeMillis(), true);
-        String endTime = DateFormatUtils.long2Str(System.currentTimeMillis() + oneWeekTimeMills, true);
+        long oneWeekTimeMills = 24 * 60 * 60 * 1000 * 6;
+        String beginTime;
+        String endTime;
+        if(mDefaultEndTimeMills == 0){
+            beginTime = DateFormatUtils.long2Str(DateUtil.getTomorrowCurrentTime(), true);
+            endTime = DateFormatUtils.long2Str(DateUtil.getTomorrowCurrentTime() + oneWeekTimeMills, true);
+        }else{
+            beginTime = DateFormatUtils.long2Str(mDefaultEndTimeMills, true);
+            endTime = DateFormatUtils.long2Str(mDefaultEndTimeMills + oneWeekTimeMills, true);
+        }
+
 
 
         // 通过日期字符串初始化日期，格式请用：yyyy-MM-dd HH:mm
-        mTimerPicker = new AuctionDatePicker(this, new AuctionDatePicker.Callback() {
+        mEndTimePicker = new AuctionDatePicker(this, new AuctionDatePicker.Callback() {
             @Override
             public void onTimeSelected(long timestamp) {
                 String selectTime = DateFormatUtils.long2Str(timestamp, true).substring(0, 16) + ":00";
@@ -121,13 +155,13 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
             }
         }, beginTime, endTime);
         // 允许点击屏幕或物理返回键关闭
-        mTimerPicker.setCancelable(true);
+        mEndTimePicker.setCancelable(true);
         // 显示时和分
-        mTimerPicker.setCanShowPreciseTime(true);
+        mEndTimePicker.setCanShowPreciseTime(true);
         // 允许循环滚动
-        mTimerPicker.setScrollLoop(true);
+        mEndTimePicker.setScrollLoop(true);
         // 允许滚动动画
-        mTimerPicker.setCanShowAnim(true);
+        mEndTimePicker.setCanShowAnim(true);
     }
 
     private void initListener() {
@@ -258,8 +292,12 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
                 mDataBinding.inputAmount.setText(String.valueOf(defaultAmount));
                 mDataBinding.inputAmount.setSelection(String.valueOf(defaultAmount).length());
             }
-        } else if (view.getId() == R.id.tv_end_auction_time) {
-            mTimerPicker.show(mDataBinding.tvEndAuctionTime.getText().toString());
+        } else if(view.getId() == R.id.tv_start_auction_time){
+            initStartTimer();
+            mStartTimePicker.show(mDataBinding.tvStartAuctionTime.getText().toString());
+        }else if (view.getId() == R.id.tv_end_auction_time) {
+            initEndTimer();
+            mEndTimePicker.show(mDataBinding.tvEndAuctionTime.getText().toString());
         } else if (view.getId() == R.id.btn_auction) {
             if (TextUtils.isEmpty(mDataBinding.edStartAuctionPrice.getText().toString()) ||
                     TextUtils.isEmpty(mDataBinding.edAuctionUnitPrice.getText().toString())) {

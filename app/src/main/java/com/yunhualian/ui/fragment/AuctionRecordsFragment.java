@@ -1,7 +1,13 @@
 package com.yunhualian.ui.fragment;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunhualian.R;
 import com.yunhualian.adapter.AuctionRecordsAdapter;
 import com.yunhualian.base.BaseFragment;
@@ -10,6 +16,8 @@ import com.yunhualian.entity.AuctionArtVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.art.AuctionArtDetailActivity;
+import com.yunhualian.ui.activity.user.CreateAuctionOrderActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,10 +76,32 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
         } else if (mState.equals("finish")) {
             mAdapter.setOnLoadMoreListener(this::queryFinishedAuctions, mBinding.rvAuctions);
         }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (mList.size() > 0) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(AuctionArtDetailActivity.ART_KEY, mList.get(position));
+                bundle.putInt(AuctionArtDetailActivity.ART_ID, mList.get(position).getId());
+                startActivity(AuctionArtDetailActivity.class, bundle);
+            }
+        });
+
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            if (view.getId() == R.id.tv_to_pay) {
+                TextView textView = (TextView) view;
+                if (textView.getText().toString().contains("去支付")) {
+                    Intent intent = new Intent(requireActivity(), CreateAuctionOrderActivity.class);
+                    intent.putExtra("id", String.valueOf(mList.get(position).getId()));
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private void initRefresh() {
         mBinding.srlLayout.setOnRefreshListener(() -> {
+            if (mAdapter != null) {
+                mAdapter.clearAllTimer();
+            }
             page = 1;
             if (mState.equals("attend")) {
                 queryAttendAuctions();
@@ -244,4 +274,11 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mAdapter != null) {
+            mAdapter.clearAllTimer();
+        }
+    }
 }

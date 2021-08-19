@@ -66,7 +66,11 @@ public class SellAndBuyActivity extends BaseActivity<ActivityMessagesBinding> {
             Bundle bundle = new Bundle();
             bundle.putSerializable(OrderDetailActivity.BOUGHT_KEY, artVoList.get(position));
             bundle.putInt(OrderDetailActivity.ORDER_TYPE, from.equals(SELL) ? sell : bought);
-            startActivity(OrderDetailActivity.class, bundle);
+            if (artVoList.get(position).getTrade_refer().equals("Bid")) {
+                startActivity(OrderDetailActivity.class, bundle);
+            } else {
+                startActivity(AuctionOrderDetailActivity.class, bundle);
+            }
         });
         messagesAdapter.setOnLoadMoreListener(isSold ? this::querySold : this::queryBought, mDataBinding.messageList);
         mDataBinding.swipeRefresh.setOnRefreshListener(() -> {

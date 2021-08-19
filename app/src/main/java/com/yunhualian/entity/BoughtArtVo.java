@@ -27,10 +27,15 @@ public class BoughtArtVo implements Serializable {
     private String total_price;
     private long finished_at;
     private String pay_type;
+    private String royalty;
+    private String deposit;
+    private String assm_state;
+    private String created_at;
+    private String trade_refer;
     private ArtBean art;
     private BuyerBean buyer;
     private SellerBean seller;
-    private String royalty;
+    private AuctionArtVo auction;
 
     public String getRoyalty() {
         return royalty;
@@ -134,6 +139,46 @@ public class BoughtArtVo implements Serializable {
 
     public void setSeller(SellerBean seller) {
         this.seller = seller;
+    }
+
+    public String getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(String deposit) {
+        this.deposit = deposit;
+    }
+
+    public String getAssm_state() {
+        return assm_state;
+    }
+
+    public void setAssm_state(String assm_state) {
+        this.assm_state = assm_state;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getTrade_refer() {
+        return trade_refer;
+    }
+
+    public void setTrade_refer(String trade_refer) {
+        this.trade_refer = trade_refer;
+    }
+
+    public AuctionArtVo getAuction() {
+        return auction;
+    }
+
+    public void setAuction(AuctionArtVo auction) {
+        this.auction = auction;
     }
 
     public static class ArtBean implements Serializable {
@@ -1771,6 +1816,209 @@ public class BoughtArtVo implements Serializable {
             public void setUrl(String url) {
                 this.url = url;
             }
+        }
+    }
+
+    public static class AuctionArtVo implements Serializable {
+
+        private int id;
+
+        private String currency_code;
+
+        private String start_price;
+
+        private int amount;
+
+        private String price_increment;
+
+        private String current_price;
+
+        private String win_price;
+
+        private long start_time;
+
+        private long end_time;
+
+        private long created_at;
+
+        private String deposit_amount;
+
+        private boolean can_cancel;
+
+        private long server_timestamp;
+
+        private boolean deposit_paid;
+
+        private boolean buyer_paid;
+
+        private String current_user_highest_price;
+
+        private boolean is_owner;
+
+        private long pay_timeout;
+
+        private BuyerBean buyer;
+
+        private AuctionArtVo art;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getCurrency_code() {
+            return currency_code;
+        }
+
+        public void setCurrency_code(String currency_code) {
+            this.currency_code = currency_code;
+        }
+
+        public String getStart_price() {
+            return start_price;
+        }
+
+        public void setStart_price(String start_price) {
+            this.start_price = start_price;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setAmount(int amount) {
+            this.amount = amount;
+        }
+
+        public String getPrice_increment() {
+            return price_increment;
+        }
+
+        public void setPrice_increment(String price_increment) {
+            this.price_increment = price_increment;
+        }
+
+        public String getCurrent_price() {
+            return current_price;
+        }
+
+        public void setCurrent_price(String current_price) {
+            this.current_price = current_price;
+        }
+
+        public String getWin_price() {
+            return win_price;
+        }
+
+        public void setWin_price(String win_price) {
+            this.win_price = win_price;
+        }
+
+        public long getStart_time() {
+            return start_time;
+        }
+
+        public void setStart_time(long start_time) {
+            this.start_time = start_time;
+        }
+
+        public long getEnd_time() {
+            return end_time;
+        }
+
+        public void setEnd_time(long end_time) {
+            this.end_time = end_time;
+        }
+
+        public long getCreated_at() {
+            return created_at;
+        }
+
+        public void setCreated_at(long created_at) {
+            this.created_at = created_at;
+        }
+
+        public String getDeposit_amount() {
+            return deposit_amount;
+        }
+
+        public void setDeposit_amount(String deposit_amount) {
+            this.deposit_amount = deposit_amount;
+        }
+
+        public boolean isCan_cancel() {
+            return can_cancel;
+        }
+
+        public void setCan_cancel(boolean can_cancel) {
+            this.can_cancel = can_cancel;
+        }
+
+        public long getServer_timestamp() {
+            return server_timestamp;
+        }
+
+        public void setServer_timestamp(long server_timestamp) {
+            this.server_timestamp = server_timestamp;
+        }
+
+        public boolean isDeposit_paid() {
+            return deposit_paid;
+        }
+
+        public void setDeposit_paid(boolean deposit_paid) {
+            this.deposit_paid = deposit_paid;
+        }
+
+        public boolean isIs_owner() {
+            return is_owner;
+        }
+
+        public void setIs_owner(boolean is_owner) {
+            this.is_owner = is_owner;
+        }
+
+        public long getPay_timeout() {
+            return pay_timeout;
+        }
+
+        public void setPay_timeout(long pay_timeout) {
+            this.pay_timeout = pay_timeout;
+        }
+
+        public BuyerBean getBuyer() {
+            return buyer;
+        }
+
+        public void setBuyer(BuyerBean buyer) {
+            this.buyer = buyer;
+        }
+
+        public AuctionArtVo getArt() {
+            return art;
+        }
+
+        public void setArt(AuctionArtVo art) {
+            this.art = art;
+        }
+
+        public boolean isBuyer_paid() {
+            return buyer_paid;
+        }
+
+        public void setBuyer_paid(boolean buyer_paid) {
+            this.buyer_paid = buyer_paid;
+        }
+
+        public String getCurrent_user_highest_price() {
+            return current_user_highest_price;
+        }
+
+        public void setCurrent_user_highest_price(String current_user_highest_price) {
+            this.current_user_highest_price = current_user_highest_price;
         }
     }
 }

@@ -80,7 +80,6 @@ public class CreateAuctionOrderActivity extends BaseActivity<ActivityCreateAucti
         }
         initPasswordPopwindow();
         requestArtInfo();
-        queryAccountInfo();
     }
 
     public void requestArtInfo() {
@@ -93,6 +92,7 @@ public class CreateAuctionOrderActivity extends BaseActivity<ActivityCreateAucti
                     if (response.body() != null) {
                         sellingArtVo = response.body().getBody();
                         initPageData();
+                        queryAccountInfo();
                     }
                 }
             }
@@ -295,18 +295,20 @@ public class CreateAuctionOrderActivity extends BaseActivity<ActivityCreateAucti
             @Override
             public void onSuccess(Call<BaseResponseVo<List<AccountVo>>> call, Response<BaseResponseVo<List<AccountVo>>> response) {
                 if (response.isSuccessful()) {
-                    List<AccountVo> accounts = response.body().getBody();
-                    if (accounts != null && accounts.size() > 0) {
-                        for (int i = 0; i < accounts.size(); i++) {
-                            if (accounts.get(i).getCurrency_code().equals("rmb")) {
-                                accountRemain = accounts.get(i).getBalance();
-                                mDataBinding.tvRemainValue.setText(getString(R.string.account_remain_v, accountRemain));
-                                if (Double.parseDouble(accountRemain) >= Double.parseDouble(totalPrice)) {
-                                    mDataBinding.remain.performClick();
-                                } else {
-                                    mDataBinding.weichatPay.performClick();
+                    if (response.body() != null) {
+                        List<AccountVo> accounts = response.body().getBody();
+                        if (accounts != null && accounts.size() > 0) {
+                            for (int i = 0; i < accounts.size(); i++) {
+                                if (accounts.get(i).getCurrency_code().equals("rmb")) {
+                                    accountRemain = accounts.get(i).getBalance();
+                                    mDataBinding.tvRemainValue.setText(getString(R.string.account_remain_v, accountRemain));
+                                    if (Double.parseDouble(accountRemain) >= Double.parseDouble(totalPrice)) {
+                                        mDataBinding.remain.performClick();
+                                    } else {
+                                        mDataBinding.weichatPay.performClick();
+                                    }
+                                    return;
                                 }
-                                return;
                             }
                         }
                     }
