@@ -108,17 +108,18 @@
                                 android:id="@+id/tv_auction_status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="距结束"
                                 android:textColor="@color/white"
                                 android:textSize="13sp" />
 
                             <TextView
                                 android:id="@+id/tv_count_hour"
-                                android:layout_width="21dp"
-                                android:layout_height="20dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
                                 android:background="@drawable/shape_count_time_bg"
                                 android:gravity="center"
+                                android:minWidth="22dp"
+                                android:padding="3dp"
                                 android:textColor="#FF7F1F"
                                 android:textSize="13sp" />
 
@@ -133,11 +134,13 @@
 
                             <TextView
                                 android:id="@+id/tv_count_minute"
-                                android:layout_width="21dp"
-                                android:layout_height="20dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
                                 android:background="@drawable/shape_count_time_bg"
                                 android:gravity="center"
-                                android:layout_marginStart="5dp"
+                                android:minWidth="22dp"
+                                android:padding="3dp"
                                 android:textColor="#FF7F1F"
                                 android:textSize="13sp" />
 
@@ -152,11 +155,13 @@
 
                             <TextView
                                 android:id="@+id/tv_count_second"
-                                android:layout_width="21dp"
-                                android:layout_height="20dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
                                 android:background="@drawable/shape_count_time_bg"
                                 android:gravity="center"
+                                android:minWidth="22dp"
+                                android:padding="3dp"
                                 android:textColor="#FF7F1F"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -169,8 +174,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="15dp"
-                            android:drawablePadding="5dp"
                             android:drawableEnd="@mipmap/icon_white_a"
+                            android:drawablePadding="5dp"
                             android:text="竞拍须知"
                             android:textColor="@color/white"
                             android:textSize="13sp" />
@@ -182,8 +187,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/rl_auction_count_time"
-                        android:text="--"
                         android:layout_marginTop="15dp"
+                        android:text="--"
                         android:textColor="@color/picture_name_color"
                         android:textSize="@dimen/sp_19"
                         android:textStyle="bold" />

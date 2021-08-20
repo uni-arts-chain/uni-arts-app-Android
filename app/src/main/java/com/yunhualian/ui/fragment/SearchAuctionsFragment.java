@@ -65,6 +65,7 @@ public class SearchAuctionsFragment extends BaseFragment<FragmentSearchResultLay
             mAdapter = new AuctionPicturesAdapter(mAuctionList);
         }
         mAuctionList.clear();
+        mAdapter.clearAllTimer();
         searchAuctionProduct(keyWords);
     }
 
@@ -97,5 +98,13 @@ public class SearchAuctionsFragment extends BaseFragment<FragmentSearchResultLay
                 dismissLoading();
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mAdapter != null){
+            mAdapter.clearAllTimer();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.yunhualian.ui.activity.user;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.yunhualian.entity.NoticeVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.ui.activity.AuctionRecordsActivity;
 import com.yunhualian.ui.activity.blindbox.BlindBoxDetailActivity;
 import com.yunhualian.ui.activity.order.SellAndBuyActivity;
 import com.yunhualian.ui.activity.user.MyHomePageActivity;
@@ -38,6 +40,8 @@ public class MessagesActivity extends BaseActivity<ActivityMessagesBinding> {
     public final String ART = "art";
     public final String ARTTRADE = "arttrade";
     public final String BLINDBOX = "blindboxdrawgroup";
+    public final String AUCTION = "Auction";
+
     MessagesAdapter messagesAdapter;
     List<MessagesVo> messagesVoList;
     int page = 1;
@@ -86,6 +90,10 @@ public class MessagesActivity extends BaseActivity<ActivityMessagesBinding> {
                 Bundle bundle = new Bundle();
                 bundle.putString("id", parame[1]);
                 startActivity(BlindBoxDetailActivity.class, bundle);
+            } else if (messagesVoList.get(position).getResource_type().equals(AUCTION)) {
+                Intent intent = new Intent(MessagesActivity.this, AuctionRecordsActivity.class);
+                intent.putExtra("page_index", 2);
+                startActivity(intent);
             }
         });
         messagesAdapter.setOnLoadMoreListener(this::queryMessage, mDataBinding.messageList);

@@ -27,7 +27,7 @@ public class AppConstant {
     //    public static final String ADDRESS = (BuildConfig.DEBUG ? "http" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
     public static final String ADDRESS = (BuildConfig.DEBUG ? "https" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
 
-    private static final String RPC_DEBUG = "wss://testnet.uniarts.me";
+    private static final String RPC_DEBUG = "wss://testnet.uniarts.network";
     private static final String RPC_RELEASE = "wss://mainnet.uniarts.vip:9443";
     private static final String GenesisHash_DEBUG = "55940785b92be6342ba1007488a3f46fdbef213cd1b412d35236b03528079aaa";
     private static final String GenesisHash_RELEASE = "bc20e8f3a4a9340f31bcf5be6288a98e064d84f67a94e41ed9e65d10e15e0077";

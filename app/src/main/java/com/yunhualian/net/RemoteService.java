@@ -206,6 +206,10 @@ public interface RemoteService {
     @GET("/api/v2/members/{id}/arts")
     Call<BaseResponseVo<List<SellingArtVo>>> queryUserArts(@Path("id") String id);
 
+    @GET("/api/v2/members/{id}/auctions")
+    Call<BaseResponseVo<List<AuctionArtVo>>> searchUserAuctionArts(@Path("id") String id);
+
+
     @GET("/api/v2/arts/{id}/orders")
     Call<BaseResponseVo<List<OrderAmountVo>>> queryOrderAmount(@Path("id") String id);
 
@@ -355,15 +359,6 @@ public interface RemoteService {
     // 获取推荐拍卖列表
     @GET("/api/v2/auctions/popular")
     Call<BaseResponseVo<List<AuctionArtVo>>> queryHomePageAuctions(@Query("page") int page, @Query("per_page") int pageSize);
-
-    //拍卖点赞
-    @POST("/api/v2/arts/{id}/like")
-    @FormUrlEncoded
-    Call<BaseResponseVo<AuctionArtVo>> auctionLike(@Path("id") String id, @FieldMap HashMap<String, String> map);
-
-    @POST("/api/v2/arts/{id}/cancel_like")
-    @FormUrlEncoded
-    Call<BaseResponseVo<AuctionArtVo>> auctionCancleLike(@Path("id") String id, @FieldMap HashMap<String, String> map);
 
     // 拍卖艺术品详情
     @GET("/api/v2/auctions/{id}")

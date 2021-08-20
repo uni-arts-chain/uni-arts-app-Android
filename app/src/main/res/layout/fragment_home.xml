@@ -16,255 +16,278 @@
             android:id="@+id/title_layout"
             layout="@layout/layout_toolbar_home" />
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/srl_shooping_mall"
+        <!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+        <!--            android:id="@+id/srl_shooping_mall"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/dp_10">-->
+        <!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp_10">
+            android:layout_height="match_parent">
 
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/scrollView"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/mAppBarLayout"
+                style="@style/AppTheme.AppBarOverlay"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusableInTouchMode="true">
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true">
 
-                <LinearLayout
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/collapsingToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-
-                    <com.zhouwei.mzbanner.MZBannerView
-                        android:id="@+id/banner"
+                    <androidx.core.widget.NestedScrollView
+                        android:id="@+id/scrollView"
                         android:layout_width="match_parent"
-                        android:layout_height="170dp"
-                        app:canLoop="true"
-                        app:indicatorAlign="center"
-                        app:middle_page_cover="false"
-                        app:open_mz_mode="true" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_15"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
+                        android:layout_height="match_parent"
+                        android:fillViewport="true"
+                        android:focusableInTouchMode="true">
 
                         <LinearLayout
-                            android:id="@+id/certify_search"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_height="match_parent"
                             android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="65dp"
-                                android:layout_height="65dp"
-                                android:layout_gravity="center"
-                                android:background="@mipmap/img_certification_apply" />
+
+                            <com.zhouwei.mzbanner.MZBannerView
+                                android:id="@+id/banner"
+                                android:layout_width="match_parent"
+                                android:layout_height="170dp"
+                                app:canLoop="true"
+                                app:indicatorAlign="center"
+                                app:middle_page_cover="false"
+                                app:open_mz_mode="true" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_15"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+
+                                <LinearLayout
+                                    android:id="@+id/certify_search"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:layout_width="65dp"
+                                        android:layout_height="65dp"
+                                        android:layout_gravity="center"
+                                        android:background="@mipmap/img_certification_apply" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:padding="@dimen/dp_5"
+                                        android:text="@string/certify_search"
+                                        android:textColor="@color/picture_name_color"
+                                        android:textSize="@dimen/sp_14" />
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:id="@+id/apply_layout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:layout_width="65dp"
+                                        android:layout_height="65dp"
+                                        android:layout_gravity="center"
+                                        android:background="@mipmap/img_certification_search" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:padding="@dimen/dp_5"
+                                        android:text="@string/certify_apply"
+                                        android:textColor="@color/picture_name_color"
+                                        android:textSize="@dimen/sp_14" />
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:id="@+id/wallet"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:layout_width="65dp"
+                                        android:layout_height="65dp"
+                                        android:layout_gravity="center"
+                                        android:background="@mipmap/img_backpage_count" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:padding="@dimen/dp_5"
+                                        android:text="@string/count_bage"
+                                        android:textColor="@color/picture_name_color"
+                                        android:textSize="@dimen/sp_14" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp"
+                                android:layout_margin="@dimen/dp_15"
+                                android:background="@drawable/bg_market_block"
+                                android:elevation="@dimen/dp_2"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/dp_10">
+
+                                <RelativeLayout
+                                    android:layout_width="@dimen/dp_72"
+                                    android:layout_height="@dimen/dp_50"
+                                    android:background="@mipmap/bg_news"
+                                    android:padding="5dp">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        android:src="@mipmap/icon_news_word" />
+
+                                    <TextView
+                                        android:id="@+id/currentTime"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_alignParentBottom="true"
+                                        android:background="@drawable/button_grant_bg"
+                                        android:paddingLeft="@dimen/dp_2"
+                                        android:paddingTop="@dimen/dp_1"
+                                        android:paddingRight="@dimen/dp_2"
+                                        android:paddingBottom="@dimen/dp_1"
+                                        android:text="8月20日"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/sp_9" />
+                                </RelativeLayout>
+
+                                <ViewFlipper
+                                    android:id="@+id/notice_flipper"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="@dimen/dp_15"
+                                    android:layout_weight="1"
+                                    android:autoStart="true"
+                                    android:flipInterval="3000"
+                                    android:inAnimation="@anim/anim_come_in"
+                                    android:outAnimation="@anim/anim_come_out" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/auctionLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:id="@+id/auction"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:gravity="center"
+                                        android:padding="@dimen/dp_10"
+                                        android:text="@string/auction"
+                                        android:textColor="@color/picture_name_color"
+                                        android:textSize="@dimen/sp_20"
+                                        android:textStyle="bold" />
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginRight="@dimen/dp_10"
+                                        android:layout_toLeftOf="@+id/auction"
+                                        android:src="@mipmap/icon_auction_left" />
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginLeft="@dimen/dp_10"
+                                        android:layout_toRightOf="@+id/auction"
+                                        android:src="@mipmap/icon_auction_right" />
+                                </RelativeLayout>
+
+                                <com.zhouwei.mzbanner.MZBannerView
+                                    android:id="@+id/auctionList"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="380dp"
+                                    app:canLoop="false"
+                                    app:indicatorAlign="center"
+                                    app:middle_page_cover="false"
+                                    app:open_mz_mode="false" />
+                            </LinearLayout>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:padding="@dimen/dp_5"
-                                android:text="@string/certify_search"
-                                android:textColor="@color/picture_name_color"
-                                android:textSize="@dimen/sp_14" />
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:id="@+id/apply_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="65dp"
-                                android:layout_height="65dp"
-                                android:layout_gravity="center"
-                                android:background="@mipmap/img_certification_search" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:padding="@dimen/dp_5"
-                                android:text="@string/certify_apply"
-                                android:textColor="@color/picture_name_color"
-                                android:textSize="@dimen/sp_14" />
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:id="@+id/wallet"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="65dp"
-                                android:layout_height="65dp"
-                                android:layout_gravity="center"
-                                android:background="@mipmap/img_backpage_count" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:padding="@dimen/dp_5"
-                                android:text="@string/count_bage"
-                                android:textColor="@color/picture_name_color"
-                                android:textSize="@dimen/sp_14" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_margin="@dimen/dp_15"
-                        android:background="@drawable/bg_market_block"
-                        android:elevation="@dimen/dp_2"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/dp_10">
-
-                        <RelativeLayout
-                            android:layout_width="@dimen/dp_72"
-                            android:layout_height="@dimen/dp_50"
-                            android:background="@mipmap/bg_news"
-                            android:padding="5dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:src="@mipmap/icon_news_word" />
-
-                            <TextView
-                                android:id="@+id/currentTime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_alignParentBottom="true"
-                                android:background="@drawable/button_grant_bg"
-                                android:paddingLeft="@dimen/dp_2"
-                                android:paddingTop="@dimen/dp_1"
-                                android:paddingRight="@dimen/dp_2"
-                                android:paddingBottom="@dimen/dp_1"
-                                android:text="8月20日"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/sp_9" />
-                        </RelativeLayout>
-
-                        <ViewFlipper
-                            android:id="@+id/notice_flipper"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/dp_15"
-                            android:layout_weight="1"
-                            android:autoStart="true"
-                            android:flipInterval="3000"
-                            android:inAnimation="@anim/anim_come_in"
-                            android:outAnimation="@anim/anim_come_out" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/auctionLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/auction"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
                                 android:gravity="center"
                                 android:padding="@dimen/dp_10"
-                                android:text="@string/auction"
+                                android:text="@string/theme"
                                 android:textColor="@color/picture_name_color"
-                                android:textSize="@dimen/sp_20"
-                                android:textStyle="bold" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="@dimen/dp_10"
-                                android:layout_toLeftOf="@+id/auction"
-                                android:src="@mipmap/icon_auction_left" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/dp_10"
-                                android:layout_toRightOf="@+id/auction"
-                                android:src="@mipmap/icon_auction_right" />
-                        </RelativeLayout>
-
-                        <com.zhouwei.mzbanner.MZBannerView
-                            android:id="@+id/auctionList"
-                            android:layout_width="match_parent"
-                            android:layout_height="380dp"
-                            app:canLoop="false"
-                            app:indicatorAlign="center"
-                            app:middle_page_cover="false"
-                            app:open_mz_mode="false" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="@dimen/dp_10"
-                        android:text="@string/theme"
-                        android:textColor="@color/picture_name_color"
-                        android:textSize="@dimen/sp_19"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
+                                android:textSize="@dimen/sp_19"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
 
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/theme_"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/theme_"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
 
-                        <com.google.android.material.tabs.TabLayout
-                            android:id="@+id/tabLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="38dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginBottom="15dp"
-                            android:background="@color/white"
-                            app:tabIndicatorColor="@color/_101010"
-                            app:tabIndicatorFullWidth="false"
-                            app:tabSelectedTextColor="@color/_101010"
-                            app:tabTextColor="@color/_101010" />
+                        </LinearLayout>
 
-                        <androidx.viewpager.widget.ViewPager
-                            android:id="@+id/vp_sell_auction"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                    </androidx.core.widget.NestedScrollView>
 
-                </LinearLayout>
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-            </androidx.core.widget.NestedScrollView>
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/white"
+                    app:tabIndicatorColor="@color/_101010"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabSelectedTextColor="@color/_101010"
+                    app:tabTextColor="@color/_101010" />
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vp_sell_auction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </LinearLayout>
 

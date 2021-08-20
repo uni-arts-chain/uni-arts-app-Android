@@ -308,10 +308,18 @@ public class RequestManager {
     }
 
     /*
-     * 搜索作品
+     * 他们在售NFT
      * */
     public void searchUserArts(String uid, MinerCallback<BaseResponseVo<List<SellingArtVo>>> mCallBack) {
         Call<BaseResponseVo<List<SellingArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryUserArts(uid);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    /*
+     * 他们拍卖NFT
+     * */
+    public void searchUserAuctionArts(String uid, MinerCallback<BaseResponseVo<List<AuctionArtVo>>> mCallBack) {
+        Call<BaseResponseVo<List<AuctionArtVo>>> mCall = NetworkManager.instance().getmRemoteService().searchUserAuctionArts(uid);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
@@ -630,16 +638,6 @@ public class RequestManager {
      * */
     public void queryHomePageAuctions(int page, int limit, MinerCallback<BaseResponseVo<List<AuctionArtVo>>> mCallBack) {
         Call<BaseResponseVo<List<AuctionArtVo>>> mCall = NetworkManager.instance().getmRemoteService().queryHomePageAuctions(page, limit);
-        NetworkManager.instance().postReq(mCallBack, mCall);
-    }
-
-    public void auctionLike(String art_id, HashMap<String, String> map, MinerCallback<BaseResponseVo<AuctionArtVo>> mCallBack) {
-        Call<BaseResponseVo<AuctionArtVo>> mCall = NetworkManager.instance().getmRemoteService().auctionLike(art_id, map);
-        NetworkManager.instance().postReq(mCallBack, mCall);
-    }
-
-    public void auctionCancelLike(String art_id, HashMap<String, String> map, MinerCallback<BaseResponseVo<AuctionArtVo>> mCallBack) {
-        Call<BaseResponseVo<AuctionArtVo>> mCall = NetworkManager.instance().getmRemoteService().auctionCancleLike(art_id, map);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 

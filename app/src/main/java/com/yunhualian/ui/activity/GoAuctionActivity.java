@@ -136,7 +136,7 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
         String beginTime;
         String endTime;
         if(mDefaultEndTimeMills == 0){
-            beginTime = DateFormatUtils.long2Str(DateUtil.getTomorrowCurrentTime(), true);
+            beginTime = DateFormatUtils.long2Str(System.currentTimeMillis(), true);
             endTime = DateFormatUtils.long2Str(DateUtil.getTomorrowCurrentTime() + oneWeekTimeMills, true);
         }else{
             beginTime = DateFormatUtils.long2Str(mDefaultEndTimeMills, true);

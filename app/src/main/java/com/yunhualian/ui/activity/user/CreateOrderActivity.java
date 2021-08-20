@@ -130,24 +130,38 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
                 totalPrice));
         mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.weichatPay.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked && mDataBinding.aliPay.isChecked()) {
+            if (isChecked) {
                 payType = "wepay";
                 mDataBinding.aliPay.setChecked(false);
                 mDataBinding.remain.setChecked(false);
+            } else {
+                if (!mDataBinding.aliPay.isChecked() && !mDataBinding.remain.isChecked()) {
+                    mDataBinding.weichatPay.setChecked(true);
+                }
             }
         });
         mDataBinding.aliPay.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
-            if (isChecked && mDataBinding.weichatPay.isChecked()) {
+            if (isChecked) {
                 payType = "alipay";
                 mDataBinding.weichatPay.setChecked(false);
                 mDataBinding.remain.setChecked(false);
+            } else {
+                if (!mDataBinding.weichatPay.isChecked() && !mDataBinding.remain.isChecked()) {
+                    mDataBinding.aliPay.setChecked(true);
+                }
             }
         });
+
         mDataBinding.remain.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            payType = "account";
-            mDataBinding.aliPay.setChecked(false);
-            mDataBinding.weichatPay.setChecked(false);
+            if (isChecked) {
+                payType = "account";
+                mDataBinding.weichatPay.setChecked(false);
+                mDataBinding.aliPay.setChecked(false);
+            } else {
+                if (!mDataBinding.weichatPay.isChecked() && !mDataBinding.weichatPay.isChecked()) {
+                    mDataBinding.remain.setChecked(true);
+                }
+            }
         });
     }
 

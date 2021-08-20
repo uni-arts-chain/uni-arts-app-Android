@@ -133,19 +133,31 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
     }
 
+    private String getTv(long l) {
+        if (l >= 10) {
+            return l + "";
+        } else {
+            return "0" + l;//小于10,,前面补位一个"0"
+        }
+    }
+
     private void initCountTimer(long millSeconds) {
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
         }
         mCountDownTimer = new CountDownTimer(millSeconds, 1000) {
             @Override
-            public void onTick(long millisUntilFinished) {
-                String[] time = DateUtil.dateToTime(millisUntilFinished).split(":");
-                if (time.length == 3) {
-                    mDataBinding.tvCountHour.setText(time[0]);
-                    mDataBinding.tvCountMinute.setText(time[1]);
-                    mDataBinding.tvCountSecond.setText(time[2]);
-                }
+            public void onTick(long seconds) {
+
+                long hours = seconds / (3600 * 1000);            //转换小时
+                seconds = seconds % (3600 * 1000);
+                long minutes = seconds / (60 * 1000);            //转换分钟
+                seconds = seconds % (60 * 1000);
+                seconds = seconds / 1000;                       //转换秒钟
+
+                mDataBinding.tvCountHour.setText(getTv(hours));
+                mDataBinding.tvCountMinute.setText(getTv(minutes));
+                mDataBinding.tvCountSecond.setText(getTv(seconds));
             }
 
             @Override
@@ -166,7 +178,10 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         sellingArtVo = (AuctionArtVo) getIntent().getExtras().getSerializable(ART_KEY);
         request_art_id = String.valueOf(getIntent().getIntExtra(ART_ID, 0));
-        getOfferPriceList(false, request_art_id);
+
+        requestArtInfo(); //获取拍卖艺术品相关信息
+        getOfferPriceList(false, request_art_id); //获取出价记录列表
+
         initArtDetails();
         mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.zan.setOnClickListener(this);
@@ -550,7 +565,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             }
         }
 
-        art_id = String.valueOf(sellingArtVo.getId()); //艺术品ID
+        art_id = String.valueOf(sellingArtVo.getArt().getId()); //艺术品ID
         mDataBinding.pictureName.setText(sellingArtVo.getArt().getName());
         if (sellingArtVo.getCurrent_price() != null) {
             mDataBinding.tvCurPriceV.setText("¥ " + sellingArtVo.getCurrent_price());//当前价
@@ -627,7 +642,6 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             mDataBinding.artAppreciationLayout.setVisibility(View.GONE);
         } else
             mDataBinding.artAppreciation.setText(sellingArtVo.getArt().getDetails());
-
         initBtnStatus();
     }
 
@@ -640,7 +654,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         if (sellingArtVo.isIs_owner()) {
             //持有者为开始可以取消拍卖
             mDataBinding.buyNow.setText("取消拍卖");
-            if (sellingArtVo.isCan_cancel() && (System.currentTimeMillis() / 1000) < sellingArtVo.getEnd_time()) {
+            if (sellingArtVo.isCan_cancel() && sellingArtVo.getServer_timestamp() < sellingArtVo.getEnd_time()) {
                 mDataBinding.buyNow.setClickable(true);
                 mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_red));
             } else {
@@ -649,17 +663,20 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             }
             if (sellingArtVo.getServer_timestamp() < sellingArtVo.getStart_time()) {
                 //未开始
+                mDataBinding.tvAuctionStatus.setText("距开始");
                 long countDownTime = sellingArtVo.getStart_time() - sellingArtVo.getServer_timestamp();
                 initCountTimer(countDownTime * 1000);
                 mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_yet));
             } else if (sellingArtVo.getServer_timestamp() > sellingArtVo.getEnd_time()) {
                 //已结束
+                mDataBinding.tvAuctionStatus.setText("距结束");
                 mDataBinding.tvCountHour.setText("00");
                 mDataBinding.tvCountMinute.setText("00");
                 mDataBinding.tvCountSecond.setText("00");
                 mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
             } else {
                 //进行中
+                mDataBinding.tvAuctionStatus.setText("距结束");
                 long countDownTime = sellingArtVo.getEnd_time() - sellingArtVo.getServer_timestamp();
                 initCountTimer(countDownTime * 1000);
                 mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_ing));
@@ -668,40 +685,54 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             if (sellingArtVo.getServer_timestamp() < sellingArtVo.getStart_time()) {
                 //未开始
                 mDataBinding.buyNow.setText("未开始");
+                mDataBinding.tvAuctionStatus.setText("距开始");
                 long countDownTime = sellingArtVo.getStart_time() - sellingArtVo.getServer_timestamp();
                 initCountTimer(countDownTime * 1000);
                 mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_yet));
                 mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
             } else if (sellingArtVo.getServer_timestamp() > sellingArtVo.getEnd_time()) {
                 //已结束
+                mDataBinding.tvAuctionStatus.setText("距结束");
                 mDataBinding.tvCountHour.setText("00");
                 mDataBinding.tvCountMinute.setText("00");
                 mDataBinding.tvCountSecond.setText("00");
                 mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_end));
-                if (sellingArtVo.getBuyer() != null) {
-                    if (YunApplication.getmUserVo().getId() == sellingArtVo.getBuyer().getId()) {
-                        if (sellingArtVo.isBuyer_paid()) {
-                            mDataBinding.buyNow.setText("中标已支付");
-                            mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
-                        } else {
-                            if (sellingArtVo.getServer_timestamp() >= (sellingArtVo.getEnd_time() + sellingArtVo.getPay_timeout())) {
-                                mDataBinding.buyNow.setText("超时未支付");
+
+                if (sellingArtVo.isIs_settlement()) {
+                    mDataBinding.buyNow.setText("正在结算中");
+                    mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
+                } else {
+                    if (sellingArtVo.getBuyer() != null) {
+                        if (YunApplication.getmUserVo().getId() == sellingArtVo.getBuyer().getId()) {
+                            if (sellingArtVo.isIs_paying()) {
+                                mDataBinding.buyNow.setText("正在支付中");
                                 mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
                             } else {
-                                mDataBinding.buyNow.setText("中标去支付");
-                                mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_red));
+                                if (sellingArtVo.isBuyer_paid()) {
+                                    mDataBinding.buyNow.setText("中标已支付");
+                                    mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
+                                } else {
+                                    if (sellingArtVo.getServer_timestamp() >= (sellingArtVo.getEnd_time() + sellingArtVo.getPay_timeout())) {
+                                        mDataBinding.buyNow.setText("超时未支付");
+                                        mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
+                                    } else {
+                                        mDataBinding.buyNow.setText("中标去支付");
+                                        mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_red));
+                                    }
+                                }
                             }
+                        } else {
+                            mDataBinding.buyNow.setText("已结束");
+                            mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
                         }
                     } else {
                         mDataBinding.buyNow.setText("已结束");
                         mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
                     }
-                } else {
-                    mDataBinding.buyNow.setText("已结束");
-                    mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
                 }
             } else {
                 //拍卖中
+                mDataBinding.tvAuctionStatus.setText("距结束");
                 mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_ing));
                 long countDownTime = sellingArtVo.getEnd_time() - sellingArtVo.getServer_timestamp();
                 initCountTimer(countDownTime * 1000);
@@ -734,18 +765,18 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             case R.id.zan:
 
                 if (sellingArtVo.getArt().isLiked_by_me()) {
-                    cancleLike();
+                    cancelLike();
                 } else like();
 
                 break;
             case R.id.cai:
                 if (sellingArtVo.getArt().isDisliked_by_me()) {
-                    cancleDisLike();
+                    cancelDislike();
                 } else disLike();
                 break;
             case R.id.collect:
                 if (sellingArtVo.getArt().isFavorite_by_me())
-                    cancleCollect();
+                    cancelCollect();
                 else collect();
                 break;
             case R.id.go_home_page:
@@ -810,7 +841,8 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             case "已结束":
             case "超时未支付":
             case "中标已支付":
-
+            case "正在结算中":
+            case "正在支付中":
                 break;
         }
 
@@ -870,68 +902,12 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     public void like() {
         HashMap<String, String> params = new HashMap<>();
         params.put("art_id", art_id);
-        RequestManager.instance().auctionLike(art_id, params, new MinerCallback<BaseResponseVo<AuctionArtVo>>() {
-            @Override
-            public void onSuccess(Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().getBody() != null) {
-                        sellingArtVo = response.body().getBody();
-                        initPageData();
-                    }
-                }
-            }
-
-            @Override
-            public void onError
-                    (Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<?> call, Throwable t) {
-
-            }
-        });
-    }
-
-    /*取消点赞*/
-    public void cancleLike() {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("art_id", art_id);
-        RequestManager.instance().auctionCancelLike(art_id, params, new MinerCallback<BaseResponseVo<AuctionArtVo>>() {
-            @Override
-            public void onSuccess(Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().getBody() != null) {
-                        sellingArtVo = response.body().getBody();
-                        initPageData();
-                    }
-                }
-            }
-
-            @Override
-            public void onError
-                    (Call<BaseResponseVo<AuctionArtVo>> call, Response<BaseResponseVo<AuctionArtVo>> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<?> call, Throwable t) {
-
-            }
-        });
-    }
-
-    public void disLike() {
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("art_id", art_id);
-        RequestManager.instance().dislike(art_id, params, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
+        RequestManager.instance().like(art_id, params, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getBody() != null) {
-//                        sellingArtVo = response.body().getBody();
+                    if (response.body() != null) {
+                        sellingArtVo.setArt(response.body().getBody());
                         initPageData();
                     }
                 }
@@ -950,15 +926,71 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         });
     }
 
-    public void cancleDisLike() {
+    /*取消点赞*/
+    public void cancelLike() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("art_id", art_id);
+        RequestManager.instance().canclelike(art_id, params, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        sellingArtVo.setArt(response.body().getBody());
+                        initPageData();
+                    }
+                }
+            }
+
+            @Override
+            public void onError
+                    (Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void disLike() {
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("art_id", art_id);
+        RequestManager.instance().dislike(art_id, params, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        sellingArtVo.setArt(response.body().getBody());
+                        initPageData();
+                    }
+                }
+            }
+
+            @Override
+            public void onError
+                    (Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void cancelDislike() {
         HashMap<String, String> params = new HashMap<>();
         params.put("art_id", art_id);
         RequestManager.instance().cancleDislike(art_id, params, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getBody() != null) {
-//                        sellingArtVo = response.body().getBody();
+                    if (response.body() != null) {
+                        sellingArtVo.setArt(response.body().getBody());
                         initPageData();
                     }
                 }
@@ -984,8 +1016,8 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             @Override
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getBody() != null) {
-//                        sellingArtVo = response.body().getBody();
+                    if (response.body() != null) {
+                        sellingArtVo.setArt(response.body().getBody());
                         initPageData();
                     }
                 }
@@ -1004,18 +1036,17 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         });
     }
 
-    public void cancleCollect() {
+    public void cancelCollect() {
         HashMap<String, String> params = new HashMap<>();
         params.put("art_id", art_id);
         RequestManager.instance().discollect(art_id, params, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getBody() != null) {
-//                        sellingArtVo = response.body().getBody();
+                    if (response.body() != null) {
+                        sellingArtVo.setArt(response.body().getBody());
                         initPageData();
                     }
-
                 }
             }
 
@@ -1098,7 +1129,6 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     @Override
     protected void onResume() {
         super.onResume();
-        requestArtInfo();
     }
 
     public void requestArtInfo() {

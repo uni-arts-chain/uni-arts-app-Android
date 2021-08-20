@@ -144,9 +144,9 @@
     <string name="theme">主题推荐/THEME</string>
     <string name="bind_phone">绑定手机号</string>
     <string name="bind_success">绑定成功</string>
-    <string name="auction_time_start">距离开始还有</string>
+    <string name="auction_time_start">距开始%1$s</string>
 
-    <string name="auction_time_end">距离结束还有</string>
+    <string name="auction_time_end">距结束%1$s</string>
     <!--我的-->
     <string name="buy_in">买入订单</string>
     <string name="sell_out">卖出订单</string>
@@ -437,9 +437,14 @@ UniArts提供技术支持</string>
     <string name="offer_price_now">立即出价 ¥%1$s</string>
     <string name="count_time_hint">请在%1$s内完成支付，否则将扣除保证金</string>
     <string name="price_holder">¥%1$s</string>
+    <string name="time_holder">%1$s:%2$s:%3$s</string>
     <string-array name="mall_tabs">
         <item>寄售</item>
         <item>拍卖</item>
+    </string-array>
+    <string-array name="user_tabs">
+        <item>寄售的NFT</item>
+        <item>拍卖的NFT</item>
     </string-array>
     <string-array name="home_tabs">
         <item>热门原创</item>

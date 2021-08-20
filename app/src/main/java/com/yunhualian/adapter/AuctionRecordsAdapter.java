@@ -44,6 +44,14 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, Auctio
         this.mContext = context;
     }
 
+    private String getTv(long l) {
+        if (l >= 10) {
+            return l + "";
+        } else {
+            return "0" + l;//小于10,,前面补位一个"0"
+        }
+    }
+
     @Override
     protected void convert(CountDownTimeViewHolder helper, AuctionArtVo item) {
         helper.setText(R.id.order_time, DateUtil.dateToStringWith(item.getCreated_at() * TIME));
@@ -68,15 +76,22 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, Auctio
             helper.setVisible(R.id.tv_count_time_hint, true);
             helper.countDownTimer = new CountDownTimer((item.getEnd_time() + item.getPay_timeout() - item.getServer_timestamp()) * 1000, 1000) {
                 @Override
-                public void onTick(long l) {
-                    helper.setText(R.id.tv_count_time_hint, mContext.getString(R.string.count_time_hint, DateUtil.dateToTime(l)));
+                public void onTick(long seconds) {
+                    long hours = seconds / (3600 * 1000);            //转换小时
+                    seconds = seconds % (3600 * 1000);
+                    long minutes = seconds / (60 * 1000);            //转换分钟
+                    seconds = seconds % (60 * 1000);
+                    seconds = seconds / 1000;                       //转换秒钟
+                    String countTime = mContext.getString(R.string.time_holder, getTv(hours), getTv(minutes), getTv(seconds));
+                    helper.setText(R.id.tv_auction_time, mContext.getString(R.string.time_holder, getTv(hours), getTv(minutes), getTv(seconds)));
+                    helper.setText(R.id.tv_count_time_hint, mContext.getString(R.string.count_time_hint, countTime));
                 }
 
                 @Override
                 public void onFinish() {
                     helper.countDownTimer.cancel();
                     helper.setText(R.id.tv_to_pay, "超时未支付，已扣除保证金");
-                    helper.setBackgroundRes(R.id.tv_to_pay,R.drawable.shape_bg_gray);
+                    helper.setBackgroundRes(R.id.tv_to_pay, R.drawable.shape_bg_gray);
                 }
             }.start();
             mTimerList.add(helper.countDownTimer);
@@ -85,14 +100,22 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, Auctio
             helper.setGone(R.id.tv_to_pay, false);
             helper.setGone(R.id.tv_count_time_hint, false);
             helper.setGone(R.id.order_cost, false);
-            if (item.getBuyer() != null && item.getBuyer().getId() == YunApplication.getmUserVo().getId()) {
-                if (item.isBuyer_paid()) {
-                    helper.setText(R.id.order_type, "中标已支付");
+            if(item.isIs_settlement()){
+                helper.setText(R.id.order_type,"正在结算中");
+            }else{
+                if (item.getBuyer() != null && item.getBuyer().getId() == YunApplication.getmUserVo().getId()) {
+                    if(item.isIs_paying()){
+                        helper.setText(R.id.order_type, "正在支付中");
+                    }else{
+                        if (item.isBuyer_paid()) {
+                            helper.setText(R.id.order_type, "中标已支付");
+                        } else {
+                            helper.setText(R.id.order_type, "中标未支付，已扣除保证金");
+                        }
+                    }
                 } else {
-                    helper.setText(R.id.order_type, "中标未支付，已扣除保证金");
+                    helper.setText(R.id.order_type, "未中标");
                 }
-            } else {
-                helper.setText(R.id.order_type, "未中标");
             }
         }
 

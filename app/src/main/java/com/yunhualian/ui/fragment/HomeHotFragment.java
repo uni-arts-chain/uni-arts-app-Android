@@ -42,6 +42,7 @@ public class HomeHotFragment extends BaseFragment<FragmentHomeHotLayoutBinding> 
         StaggeredGridLayoutManager hotManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mBinding.rvHomeHot.setLayoutManager(hotManager);
         hotManager.invalidateSpanAssignments();
+        popularAdapter.setEmptyView(R.layout.layout_entrust_empty,mBinding.rvHomeHot);
         mBinding.rvHomeHot.setAdapter(popularAdapter);
         popularAdapter.setOnItemClickListener(this);
     }

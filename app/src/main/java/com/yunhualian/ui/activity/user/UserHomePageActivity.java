@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -12,11 +13,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.tabs.TabLayout;
 import com.yunhualian.R;
+import com.yunhualian.adapter.MyHomePageAdapter;
 import com.yunhualian.adapter.UserHomePagePicturesAdapter;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.databinding.ActivityUserHomePageBinding;
+import com.yunhualian.entity.AuctionArtVo;
 import com.yunhualian.entity.BaseResponseVo;
 import com.yunhualian.entity.MemberInfo;
 import com.yunhualian.entity.SellingArtVo;
@@ -24,20 +28,28 @@ import com.yunhualian.entity.UserVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.art.ArtDetailActivity;
+import com.yunhualian.ui.fragment.HomeAuctionFragment;
+import com.yunhualian.ui.fragment.HomeHotFragment;
 import com.yunhualian.utils.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBinding> {
+public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBinding> implements MyHomePageAdapter.TabPagerListener {
     public static final String UID = "uid";
-    List<SellingArtVo> artBeanList;
-    UserHomePagePicturesAdapter adapter;
     int uid;
     MemberInfo memberInfo;
+    private List<SellingArtVo> popularList = new ArrayList<>();
+    private List<AuctionArtVo> auctionList = new ArrayList<>();
+    private HomeHotFragment homeHotFragment;
+    private HomeAuctionFragment homeAuctionFragment;
+    private MyHomePageAdapter pageAdapter;
+
 
     @Override
     public int getLayoutId() {
@@ -56,28 +68,20 @@ public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBindi
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
 
         uid = getIntent().getIntExtra(UID, 0);
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-
-        mDataBinding.artList.setLayoutManager(layoutManager);
-        adapter = new UserHomePagePicturesAdapter(artBeanList);
-        adapter.setEmptyView(R.layout.layout_entrust_empty_for_homepage, mDataBinding.artList);
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(ArtDetailActivity.ART_KEY, artBeanList.get(position));
-            bundle.putInt(ArtDetailActivity.ART_ID, artBeanList.get(position).getId());
-            startActivity(ArtDetailActivity.class, bundle);
-        });
-        mDataBinding.artList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                layoutManager.invalidateSpanAssignments();
-            }
-        });
-        mDataBinding.artList.setAdapter(adapter);
+        initFragments();
         getPopular(String.valueOf(uid));
+        getAuctions(String.valueOf(uid));
         getMemberInfo(String.valueOf(uid));
+    }
+
+    private void initFragments() {
+        homeHotFragment = new HomeHotFragment(popularList);
+        homeAuctionFragment = new HomeAuctionFragment(auctionList);
+        pageAdapter = new MyHomePageAdapter(getSupportFragmentManager(), 2, Arrays.asList(getResources().getStringArray(R.array.user_tabs)), this);
+        pageAdapter.setListener(this);
+        mDataBinding.vpSellAuction.setAdapter(pageAdapter);
+        mDataBinding.tabLayout.setupWithViewPager(mDataBinding.vpSellAuction);
+        mDataBinding.tabLayout.setTabMode(TabLayout.MODE_FIXED);
     }
 
     public void initPageData() {
@@ -114,10 +118,12 @@ public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBindi
         RequestManager.instance().searchUserArts(uid, new MinerCallback<BaseResponseVo<List<SellingArtVo>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<SellingArtVo>>> call, Response<BaseResponseVo<List<SellingArtVo>>> response) {
-                if (response.isSuccessful()) {
-                    artBeanList = response.body().getBody();
-//                    if (artBeanList.size() > 0)
-                    adapter.setNewData(artBeanList);
+                {
+                    if (response.body() != null)
+                        popularList = response.body().getBody();
+                    if (popularList != null && popularList.size() > 0) {
+                        homeHotFragment.updateData(popularList);
+                    }
                 }
             }
 
@@ -133,6 +139,34 @@ public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBindi
             }
         });
 
+    }
+
+    private void getAuctions(String uid) {
+        RequestManager.instance().searchUserAuctionArts(uid, new MinerCallback<BaseResponseVo<List<AuctionArtVo>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() == null) return;
+                    if (response.body().getBody() != null)
+                        auctionList = response.body().getBody();
+
+                    if (auctionList != null && auctionList.size() > 0) {
+                        homeAuctionFragment.updateData(auctionList);
+                    }
+                }
+            }
+
+            @Override
+            public void onError
+                    (Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
     }
 
     public void getMemberInfo(String uid) {
@@ -213,5 +247,13 @@ public class UserHomePageActivity extends BaseActivity<ActivityUserHomePageBindi
 
             }
         });
+    }
+
+    @Override
+    public Fragment getFragment(int position) {
+        if (position == 0) {
+            return homeHotFragment;
+        }
+        return homeAuctionFragment;
     }
 }

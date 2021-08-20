@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -36,8 +37,28 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class AuctionPicturesAdapter extends BaseQuickAdapter<AuctionArtVo, AuctionPicturesAdapter.TaskNewViewHolder> {
 
+    private String type;
+    private List<CountDownTimer> mTimerList = new ArrayList<>();
+
     public AuctionPicturesAdapter(List<AuctionArtVo> data) {
         super(R.layout.fragment_auction_sort_pictures_item, data);
+    }
+
+    private String getTv(long l) {
+        if (l >= 10) {
+            return l + "";
+        } else {
+            return "0" + l;//小于10,,前面补位一个"0"
+        }
+    }
+
+    public void clearAllTimer() {
+        if (mTimerList != null && mTimerList.size() > 0) {
+            for (CountDownTimer timer : mTimerList) {
+                timer.cancel();
+            }
+            mTimerList.clear();
+        }
     }
 
     @Override
@@ -45,30 +66,45 @@ public class AuctionPicturesAdapter extends BaseQuickAdapter<AuctionArtVo, Aucti
         long countTime = 0;
         if (item.getServer_timestamp() < item.getStart_time()) {
             countTime = item.getStart_time() - item.getServer_timestamp();
+            type = "yet";
+            helper.setVisible(R.id.img_clock, false);
+            helper.setGone(R.id.tv_status, true);
+            helper.setText(R.id.tv_status, "距开始");
         } else if (item.getServer_timestamp() < item.getEnd_time()) {
             countTime = item.getEnd_time() - item.getServer_timestamp();
+            type = "start";
+            helper.setGone(R.id.tv_status, false);
+            helper.setVisible(R.id.img_clock, true);
+            helper.setText(R.id.tv_status, "");
+        } else {
+            type = "end";
+            helper.setGone(R.id.tv_status, false);
+            helper.setVisible(R.id.img_clock, true);
+            helper.setText(R.id.tv_status, "");
         }
+
         helper.countDownTimer = new CountDownTimer(countTime * 1000, 1000) {
             @Override
-            public void onTick(long millisUntilFinished) {
-                helper.setText(R.id.tv_auction_time, DateUtil.dateToTime(millisUntilFinished));
+            public void onTick(long seconds) {
+                long hours = seconds / (3600 * 1000);            //转换小时
+                seconds = seconds % (3600 * 1000);
+                long minutes = seconds / (60 * 1000);            //转换分钟
+                seconds = seconds % (60 * 1000);
+                seconds = seconds / 1000;                       //转换秒钟
+                helper.setText(R.id.tv_auction_time, mContext.getString(R.string.time_holder, getTv(hours), getTv(minutes), getTv(seconds)));
             }
 
             @Override
             public void onFinish() {
                 helper.countDownTimer.cancel();
             }
-        };
-
-        if (countTime != 0) {
-            helper.countDownTimer.start();
-        }
-
+        }.start();
+        mTimerList.add(helper.countDownTimer);
 
         ImageView ivImage = helper.getView(R.id.hot_picture);
         helper.setText(R.id.picture_name, item.getArt().getName());
 
-        helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(" " + item.getArt().getPrice()));
+        helper.setText(R.id.picture_prize, YunApplication.PAY_CURRENCY.concat(" " + item.getStart_price()));
         if (!TextUtils.isEmpty(item.getArt().getResource_type())) {
             if (item.getArt().getResource_type().equals("4")) {
                 helper.setVisible(R.id.tv_video_tag, true);

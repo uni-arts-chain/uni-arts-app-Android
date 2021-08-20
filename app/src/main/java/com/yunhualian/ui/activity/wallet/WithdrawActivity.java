@@ -107,6 +107,8 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
         mDataBinding.imgDeleteZfb.setOnClickListener(this);
         mDataBinding.imgDeleteWx.setOnClickListener(this);
         mDataBinding.btnWithdraw.setOnClickListener(this);
+        mDataBinding.imgZfbCode.setOnClickListener(this);
+        mDataBinding.imgWxCode.setOnClickListener(this);
         initCodeImg();
         initPhoto();
         initBtnStatus();
@@ -137,44 +139,46 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
     }
 
     private void updatePageInfo() {
-        if (fileMap != null) {
-            File alipayFile = fileMap.get("alipay_code");
-            if (alipayFile != null) {
-                showZfbCode(alipayFile.getAbsolutePath());
+        File alipayFile = fileMap.get("alipay_code");
+        if (alipayFile != null) {
+            showZfbCode(alipayFile.getAbsolutePath());
+        } else {
+            if (!TextUtils.isEmpty(mImgUrlMap.get("alipay_url"))) {
+                mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
+                mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
+                mDataBinding.rlWxSelect.setVisibility(View.GONE);
+                mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
             } else {
-                if (!TextUtils.isEmpty(mImgUrlMap.get("alipay_url"))) {
-                    mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
-                    mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
-                    return;
-                }
                 mDataBinding.imgDeleteZfb.setVisibility(View.GONE);
                 mDataBinding.imgZfbCode.setVisibility(View.GONE);
                 mDataBinding.rlZfbSelect.setVisibility(View.GONE);
                 mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
             }
+        }
 
-            File wechatFile = fileMap.get("wechat_code");
-            if (wechatFile != null) {
-                showWxCode(wechatFile.getAbsolutePath());
-            } else {
-                if (!TextUtils.isEmpty(mImgUrlMap.get("wechat_url"))) {
-                    if (alipayFile != null || !TextUtils.isEmpty(mImgUrlMap.get("alipay_url"))) {
-                        mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
-                        mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
-                    }
-                    return;
+        File wechatFile = fileMap.get("wechat_code");
+        if (wechatFile != null) {
+            showWxCode(wechatFile.getAbsolutePath());
+        } else {
+            if (!TextUtils.isEmpty(mImgUrlMap.get("wechat_url"))) {
+                mDataBinding.imgZfbCode.setVisibility(View.VISIBLE);
+                mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
+                if (mImgUrlMap.get("alipay_url") != null || fileMap.get("alipay_code") != null) {
+                    mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
+                    mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
+                    mDataBinding.rlWxSelect.setVisibility(View.GONE);
+                    mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
+                } else {
+                    mDataBinding.rlWxSelect.setVisibility(View.VISIBLE);
+                    mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
+                    mDataBinding.rlZfbSelect.setVisibility(View.GONE);
+                    mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
                 }
-                mDataBinding.imgDeleteWx.setVisibility(View.GONE);
+            } else {
                 mDataBinding.imgWxCode.setVisibility(View.GONE);
                 mDataBinding.rlWxSelect.setVisibility(View.GONE);
+                mDataBinding.imgDeleteWx.setVisibility(View.GONE);
                 mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
-            }
-
-            if (alipayFile != null) {
-                mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
-                mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
-            } else if (wechatFile != null) {
-                mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
             }
         }
         initBtnStatus();
@@ -184,16 +188,25 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
         mDataBinding.imgZfbCode.setVisibility(View.VISIBLE);
         mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
         mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
+        mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
+        mDataBinding.rlWxSelect.setVisibility(View.GONE);
+        mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
         Glide.with(this).load(path).apply(options).into(mDataBinding.imgZfbCode);
     }
 
     private void showWxCode(String path) {
         mDataBinding.imgWxCode.setVisibility(View.VISIBLE);
         mDataBinding.imgDeleteWx.setVisibility(View.VISIBLE);
-        if (fileMap.get("alipay_code") != null) {
+        if (fileMap.get("alipay_code") != null || mImgUrlMap.get("alipay_url") != null) {
+            mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
+            mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
             mDataBinding.rlWxSelect.setVisibility(View.GONE);
+            mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
         } else {
+            mDataBinding.rlZfbSelect.setVisibility(View.GONE);
+            mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
             mDataBinding.rlWxSelect.setVisibility(View.VISIBLE);
+            mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
         }
         Glide.with(this).load(path).apply(options).into(mDataBinding.imgWxCode);
     }
@@ -391,16 +404,16 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
         });
     }
 
-    private void withDraws(String type){
+    private void withDraws(String type) {
         showLoading(getString(R.string.progress_loading));
-        HashMap<String,String> params = new HashMap<>();
-        params.put("amount","10");
-        params.put("pay_type",type);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("amount", "10");
+        params.put("pay_type", type);
         RequestManager.instance().withdraws(params, new MinerCallback<BaseResponseVo<WithDrawsBean>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<WithDrawsBean>> call, Response<BaseResponseVo<WithDrawsBean>> response) {
                 dismissLoading();
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ToastUtils.showShort("提现申请已提交");
                     finish();
                 }
@@ -436,54 +449,38 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
             case R.id.img_delete_zfb:
                 if (!TextUtils.isEmpty(mImgUrlMap.get("alipay_url"))) {
                     mImgUrlMap.remove("alipay_url");
-                    mDataBinding.imgDeleteZfb.setVisibility(View.GONE);
-                    mDataBinding.imgZfbCode.setVisibility(View.GONE);
-                    mDataBinding.rlZfbSelect.setVisibility(View.GONE);
-                    mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
-                    if (!TextUtils.isEmpty(mImgUrlMap.get("wechat_url"))) {
-                        mDataBinding.imgWxCode.setVisibility(View.VISIBLE);
-                        mDataBinding.imgDeleteWx.setVisibility(View.VISIBLE);
-                        mDataBinding.rlWxSelect.setVisibility(View.VISIBLE);
-                        mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
-                    }
-                    initBtnStatus();
                 } else {
                     if (fileMap.get("alipay_code") != null) {
                         fileMap.remove("alipay_code");
                     }
-                    updatePageInfo();
                 }
+                updatePageInfo();
                 break;
 
             case R.id.img_delete_wx:
                 if (!TextUtils.isEmpty(mImgUrlMap.get("wechat_url"))) {
                     mImgUrlMap.remove("wechat_url");
-                    mDataBinding.imgDeleteWx.setVisibility(View.GONE);
-                    mDataBinding.imgWxCode.setVisibility(View.GONE);
-                    mDataBinding.rlWxSelect.setVisibility(View.GONE);
-                    mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
-                    initBtnStatus();
                 } else {
                     if (fileMap.get("wechat_code") != null) {
                         fileMap.remove("wechat_code");
                     }
-                    updatePageInfo();
                 }
+                updatePageInfo();
                 break;
 
             case R.id.btn_withdraw:
-                if(mImgUrlMap.size() > 0){ //当前用户已上传支付图片
-                    if(!TextUtils.isEmpty(mImgUrlMap.get("alipay_url")) && !TextUtils.isEmpty(mImgUrlMap.get("wechat_url")) ){
+                if (mImgUrlMap.size() > 0) { //当前用户已上传支付图片
+                    if (!TextUtils.isEmpty(mImgUrlMap.get("alipay_url")) && !TextUtils.isEmpty(mImgUrlMap.get("wechat_url"))) {
                         //当前用户已上传支付宝二维码以及微信二维码，则直接提现
                         withDraws("alipay");
-                    }else if(!TextUtils.isEmpty("alipay_url")){
+                    } else if (!TextUtils.isEmpty("alipay_url")) {
                         //当前用户已上传支付宝二维码,但是无微信二维码，则上传微信二维码后提现
                         updateCode("wechat");
-                    }else if(!TextUtils.isEmpty("wechat_url")){
+                    } else if (!TextUtils.isEmpty("wechat_url")) {
                         //当前用户已上传微信二维码,但是无支付宝二维码，则上传支付宝二维码后提现
                         updateCode("alipay");
                     }
-                }else{
+                } else {
                     //当前用户没有上传任何支付图片或想重新上传图片
                     if (YunApplication.getmUserVo() != null) {
                         if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
@@ -499,6 +496,25 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                     }
                 }
                 break;
+
+            case R.id.img_zfb_code:
+                if (mImgUrlMap.get("alipay_url") != null || fileMap.get("alipay_code") != null) {
+                    mDataBinding.rlWxSelect.setVisibility(View.GONE);
+                    mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
+                    mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
+                    mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
+                }
+                break;
+
+            case R.id.img_wx_code:
+                if (mImgUrlMap.get("wechat_url") != null || fileMap.get("wechat_code") != null) {
+                    mDataBinding.rlZfbSelect.setVisibility(View.GONE);
+                    mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
+                    mDataBinding.rlWxSelect.setVisibility(View.VISIBLE);
+                    mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
+                }
+                break;
+
         }
     }
 }

@@ -80,7 +80,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     private HomePageThemeAdapter themeAdapter;
     private List<BannersVo> bannersVoList;
     private List<AnnouncementVo> announcementVoList;
-    private List<ArtAuctionVo> artAuctionVoList;
     private List<SellingArtVo> popularList = new ArrayList<>();
     private List<AuctionArtVo> auctionList = new ArrayList<>();
     private List<ArtTopicVo> themeList;
@@ -197,12 +196,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     }
 
     private void initRefresh() {
-        mBinding.srlShoopingMall.setColorSchemeResources(R.color.colorAccent);
-        mBinding.srlShoopingMall.setDistanceToTriggerSync(500);
-        mBinding.srlShoopingMall.setOnRefreshListener(() -> {
-            mBinding.srlShoopingMall.setRefreshing(false);
-            loginByAddress(false);
-        });
+//        mBinding.srlShoopingMall.setColorSchemeResources(R.color.colorAccent);
+//        mBinding.srlShoopingMall.setDistanceToTriggerSync(500);
+//        mBinding.srlShoopingMall.setOnRefreshListener(() -> {
+//            mBinding.srlShoopingMall.setRefreshing(false);
+//            loginByAddress(false);
+//        });
     }
 
     @Override
