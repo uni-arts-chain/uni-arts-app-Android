@@ -374,6 +374,7 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                passwdEd.setText("");
                 mPasswordPopwindow.dismiss();
             }
         });

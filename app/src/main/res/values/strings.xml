@@ -407,7 +407,7 @@ UniArts提供技术支持</string>
     <string name="auction_count_time_hint">请在%1$s内完成支付，否则将会扣除保证金</string>
     <string name="deal_close_hint">未支付%1$s，已扣除保证金</string>
     <string name="auction_pieces_">拍卖份数：%1$s</string>
-    <string name="auction_start_price_">起拍价：%1$s</string>
+    <string name="auction_start_price_">起拍价：¥%1$s</string>
     <string name="auction_start_price_key">起拍价：%1$s</string>
     <string name="auction_add_unit_">加价幅度：¥%1$s</string>
     <string name="auction_start_time_">开始时间：%1$s</string>
@@ -438,6 +438,7 @@ UniArts提供技术支持</string>
     <string name="count_time_hint">请在%1$s内完成支付，否则将扣除保证金</string>
     <string name="price_holder">¥%1$s</string>
     <string name="time_holder">%1$s:%2$s:%3$s</string>
+    <string name="pay_deposit">缴纳保证金¥%1$s</string>
     <string-array name="mall_tabs">
         <item>寄售</item>
         <item>拍卖</item>

@@ -30,7 +30,7 @@ public class OfferPriceListAllAdapter extends BaseQuickAdapter<OfferPriceBean, B
             helper.setText(R.id.tv_price, "领先¥" + item.getPrice());
         }else{
             helper.setTextColor(R.id.tv_price,mContext.getColor(R.color._101010));
-            helper.setText(R.id.tv_price, "¥" + item.getPrice());
+            helper.setText(R.id.tv_price, "出局¥" + item.getPrice());
         }
 
     }

@@ -18,8 +18,10 @@ import com.yunhualian.MainActivity;
 import com.yunhualian.R;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.entity.ReceiverPushBean;
+import com.yunhualian.ui.activity.AuctionRecordsActivity;
 import com.yunhualian.ui.activity.blindbox.BlindBoxDetailActivity;
 import com.yunhualian.ui.activity.order.SellAndBuyActivity;
+import com.yunhualian.ui.activity.user.MessagesActivity;
 import com.yunhualian.ui.activity.user.MyHomePageActivity;
 
 public class NotificationUtil extends ContextWrapper {
@@ -33,6 +35,7 @@ public class NotificationUtil extends ContextWrapper {
     public static final String ART = "art";
     public static final String TRADE = "trade";
     public static final String BLINDBOX = "blind_box";
+    public static final String AUCTIONS = "Auction";
 
     public NotificationUtil(Context context) {
         super(context);
@@ -89,6 +92,11 @@ public class NotificationUtil extends ContextWrapper {
                         bundle.putString("id", blindBoxId);
                         intent.putExtras(bundle);
 //                        startActivity(intent);
+                        break;
+
+                    case AUCTIONS:
+                        intent = new Intent(YunApplication.getInstance(), AuctionRecordsActivity.class);
+                        intent.putExtra("page_index", 2);
                         break;
                     default:
                         intent = new Intent(YunApplication.getInstance(), MainActivity.class);

@@ -97,10 +97,16 @@ public class MyHomePageAuctionFragment extends BaseFragment<FragmentMyPageAuctio
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (picturesAdapter != null) {
+            picturesAdapter.clearAllTimer();
+        }
     }
 
 
     private void queryArts() {
+        if (picturesAdapter != null) {
+            picturesAdapter.clearAllTimer();
+        }
         if (mBinding.swipeRefresh.isRefreshing()) {
             mBinding.swipeRefresh.setRefreshing(false);
         }
@@ -171,4 +177,5 @@ public class MyHomePageAuctionFragment extends BaseFragment<FragmentMyPageAuctio
             }
         });
     }
+
 }

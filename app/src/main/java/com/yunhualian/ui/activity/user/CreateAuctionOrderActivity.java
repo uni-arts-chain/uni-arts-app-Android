@@ -257,6 +257,7 @@ public class CreateAuctionOrderActivity extends BaseActivity<ActivityCreateAucti
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                passwdEd.setText("");
                 mPasswordPopwindow.dismiss();
             }
         });

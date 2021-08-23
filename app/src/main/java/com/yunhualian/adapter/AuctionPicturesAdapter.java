@@ -69,7 +69,7 @@ public class AuctionPicturesAdapter extends BaseQuickAdapter<AuctionArtVo, Aucti
             type = "yet";
             helper.setVisible(R.id.img_clock, false);
             helper.setGone(R.id.tv_status, true);
-            helper.setText(R.id.tv_status, "距开始");
+            helper.setText(R.id.tv_status, "距开始：");
         } else if (item.getServer_timestamp() < item.getEnd_time()) {
             countTime = item.getEnd_time() - item.getServer_timestamp();
             type = "start";

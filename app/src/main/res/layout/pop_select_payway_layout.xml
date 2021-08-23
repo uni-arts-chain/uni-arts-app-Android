@@ -84,8 +84,7 @@
                     android:id="@+id/remainLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:paddingBottom="@dimen/dp_10">
+                    android:layout_marginTop="10dp">
 
                     <TextView
                         android:id="@+id/tv_remains"

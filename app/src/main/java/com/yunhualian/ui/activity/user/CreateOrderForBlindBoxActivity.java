@@ -210,6 +210,7 @@ public class CreateOrderForBlindBoxActivity extends BaseActivity<ActivityCreateO
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                passwdEd.setText("");
                 mPasswordPopwindow.dismiss();
             }
         });

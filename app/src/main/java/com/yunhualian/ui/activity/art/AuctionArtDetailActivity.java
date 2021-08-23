@@ -37,6 +37,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.lljjcoder.style.citylist.Toast.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.tools.ToastManage;
 import com.yunhualian.R;
 import com.yunhualian.adapter.ArtDetailImgAdapter;
 import com.yunhualian.adapter.OfferPriceListAdapter;
@@ -55,7 +56,6 @@ import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.AuctionRuleActivity;
-import com.yunhualian.ui.activity.CustomerServiceActivity;
 import com.yunhualian.ui.activity.OfferPriceListActivity;
 import com.yunhualian.ui.activity.ShowNetBigImgActivity;
 import com.yunhualian.ui.activity.user.CreateAuctionOrderActivity;
@@ -228,10 +228,11 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             @Override
             public void onPerformClick() {
                 uploadSuccessPopUpWindow.dismiss();
-                startActivity(CustomerServiceActivity.class);
+//                startActivity(CustomerServiceActivity.class);
             }
         });
-        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.text_call_service));
+        uploadSuccessPopUpWindow.setOneKey(true);
+        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.confirm));
         uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
         uploadSuccessPopUpWindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
         EventBus.getDefault().removeAllStickyEvents();
@@ -284,6 +285,30 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         CheckBox remainsCheck = contentView.findViewById(R.id.check_remain);
         CheckBox wxCheck = contentView.findViewById(R.id.check_weichatPay);
         CheckBox aliCheck = contentView.findViewById(R.id.check_aliPay);
+
+        RelativeLayout remainLayout = contentView.findViewById(R.id.remainLayout);
+        RelativeLayout zfbLayout = contentView.findViewById(R.id.aPayLayout);
+        RelativeLayout wxLayout = contentView.findViewById(R.id.weiPayLayout);
+
+        remainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                remainsCheck.setChecked(true);
+            }
+        });
+        zfbLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                aliCheck.setChecked(true);
+            }
+        });
+        wxLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                wxCheck.setChecked(true);
+            }
+        });
+
         ImageView closeImg = contentView.findViewById(R.id.img_close);
         mDepositPopwindow = new BasePopupWindow(this);
         mDepositPopwindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -389,14 +414,14 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                             if (sellingArtVo.getCurrent_price() != null) {
                                 topPrice = Double.parseDouble(sellingArtVo.getCurrent_price()); //表示当前商品最高价格
                             } else {
-                                topPrice = 0; //表示当前商品最高价格
+                                topPrice = Double.parseDouble(sellingArtVo.getStart_price()); //如果没有最高价（无人出价），则显示起拍价
                             }
 
                             if (mOfferPriceList != null && mOfferPriceList.size() > 0) {
                                 offeredPrice = Double.parseDouble(sellingArtVo.getCurrent_user_highest_price());
                                 addPrice = topPrice - offeredPrice + Double.parseDouble(sellingArtVo.getPrice_increment());
                             } else {
-                                addPrice = Double.parseDouble(sellingArtVo.getStart_price()); //如果没有出价记录，加价为起拍价
+                                addPrice = 0; //如果没有出价记录，加价为0
                             }
                             initOfferPriceWindow(topPrice, offeredPrice, addPrice);
                         }
@@ -674,6 +699,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                 mDataBinding.tvCountMinute.setText("00");
                 mDataBinding.tvCountSecond.setText("00");
                 mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_btn_gray));
+                mDataBinding.rlAuctionCountTime.setBackground(ContextCompat.getDrawable(this, R.mipmap.bg_auction_end));
             } else {
                 //进行中
                 mDataBinding.tvAuctionStatus.setText("距结束");
@@ -740,7 +766,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                 if (sellingArtVo.isDeposit_paid()) {
                     mDataBinding.buyNow.setText("出价");
                 } else {
-                    mDataBinding.buyNow.setText("缴纳保证金");
+                    mDataBinding.buyNow.setText(getString(R.string.pay_deposit, sellingArtVo.getDeposit_amount()));
                 }
             }
         }
@@ -808,7 +834,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
             case R.id.rl_offer_price:
                 Intent intent = new Intent(AuctionArtDetailActivity.this, OfferPriceListActivity.class);
-                intent.putExtra("art_id", art_id);
+                intent.putExtra("art_id", String.valueOf(sellingArtVo.getId()));
                 startActivity(intent);
                 break;
         }
@@ -827,10 +853,6 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                 getOfferPriceList(true, String.valueOf(sellingArtVo.getId()));
                 break;
 
-            case "缴纳保证金":
-                queryAccountInfo();
-                break;
-
             case "中标去支付":
                 Intent intent = new Intent(AuctionArtDetailActivity.this, CreateAuctionOrderActivity.class);
                 intent.putExtra("id", String.valueOf(sellingArtVo.getId()));
@@ -843,6 +865,10 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             case "中标已支付":
             case "正在结算中":
             case "正在支付中":
+                break;
+
+            default:
+                queryAccountInfo();
                 break;
         }
 
@@ -1189,7 +1215,12 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         currentPriceTv.setText(getString(R.string.price_holder, String.valueOf(currentHighestPrice)));
         hasOfferPriceHintTv.setText(getString(R.string.has_offered_price, String.valueOf(hasOfferedPrice)));
         priceUnitTv.setText(getString(R.string.need_offered_price, String.valueOf(addPrice)));
-        double needOfferPrice = hasOfferedPrice + addPrice; //立即出价金额= 已出价 + 还需加价
+        double needOfferPrice;
+        if (addPrice == 0) {
+            needOfferPrice = currentHighestPrice; //立即出价金额= 已出价 + 还需加价
+        } else {
+            needOfferPrice = hasOfferedPrice + addPrice; //立即出价金额= 已出价 + 还需加价
+        }
         confirmBtn.setText(getString(R.string.offer_price_now, String.valueOf(needOfferPrice)));
 
         mOfferPricePopwindow = new BasePopupWindow(this);
@@ -1199,6 +1230,13 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         mOfferPricePopwindow.setTouchable(true);
         mOfferPricePopwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
 
+        if(hasOfferedPrice != 0 && currentHighestPrice == hasOfferedPrice){
+            confirmBtn.setEnabled(false);
+            confirmBtn.setBackgroundColor(ContextCompat.getColor(this,R.color.gray_line));
+        }else{
+            confirmBtn.setEnabled(true);
+            confirmBtn.setBackgroundColor(ContextCompat.getColor(this,R.color._101010));
+        }
         closeBtn.setOnClickListener(view -> {
             mOfferPricePopwindow.dismiss();
         });

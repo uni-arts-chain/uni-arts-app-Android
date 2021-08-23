@@ -4,8 +4,16 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import com.yunhualian.R;
@@ -21,6 +29,7 @@ import com.yunhualian.entity.StdoutLogger;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.art.AuctionArtDetailActivity;
+import com.yunhualian.ui.activity.user.CreateAuctionOrderActivity;
 import com.yunhualian.ui.activity.user.SellArtActivity;
 import com.yunhualian.ui.fragment.SendIntegrationTest;
 import com.yunhualian.ui.fragment.ToHexV28Kt;
@@ -29,6 +38,7 @@ import com.yunhualian.utils.DateUtil;
 import com.yunhualian.utils.SharedPreUtils;
 import com.yunhualian.utils.ToastManager;
 import com.yunhualian.widget.AuctionDatePicker;
+import com.yunhualian.widget.BasePopupWindow;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -51,6 +61,9 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
     private AuctionDatePicker mStartTimePicker;
     private AuctionDatePicker mEndTimePicker;
     private long mDefaultEndTimeMills;
+    private String passwd;
+    private PopupWindow mPasswordPopwindow;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_go_auction_layout;
@@ -92,18 +105,26 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
             mDataBinding.add.setClickable(true);
             mDataBinding.cut.setClickable(true);
         } else {
+            if (!isCanCut) {
+                mDataBinding.add.setVisibility(View.INVISIBLE);
+                mDataBinding.cut.setVisibility(View.INVISIBLE);
+                mDataBinding.add.setClickable(false);
+                mDataBinding.cut.setClickable(false);
+            } else {
+                mDataBinding.add.setVisibility(View.VISIBLE);
+                mDataBinding.cut.setVisibility(View.VISIBLE);
+                mDataBinding.add.setClickable(false);
+                mDataBinding.cut.setClickable(false);
+            }
             mDataBinding.inputAmount.setEnabled(false);
-            mDataBinding.add.setClickable(false);
-            mDataBinding.cut.setClickable(false);
         }
         mDataBinding.tvStartAuctionTime.setText(DateUtil.dateToStringWithAll(DateUtil.getCurrentTime()));
         mDataBinding.tvStartAuctionTime.setOnClickListener(this);
         mDataBinding.tvEndAuctionTime.setText(DateUtil.dateToStringWithAll(DateUtil.getTomorrowCurrentTime()));
         mDataBinding.tvEndAuctionTime.setOnClickListener(this);
         initListener();
+        initPasswordPopwindow();
         getAddress();
-
-
     }
 
     private void initStartTimer() {
@@ -135,14 +156,13 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
         long oneWeekTimeMills = 24 * 60 * 60 * 1000 * 6;
         String beginTime;
         String endTime;
-        if(mDefaultEndTimeMills == 0){
+        if (mDefaultEndTimeMills == 0) {
             beginTime = DateFormatUtils.long2Str(System.currentTimeMillis(), true);
             endTime = DateFormatUtils.long2Str(DateUtil.getTomorrowCurrentTime() + oneWeekTimeMills, true);
-        }else{
+        } else {
             beginTime = DateFormatUtils.long2Str(mDefaultEndTimeMills, true);
             endTime = DateFormatUtils.long2Str(mDefaultEndTimeMills + oneWeekTimeMills, true);
         }
-
 
 
         // 通过日期字符串初始化日期，格式请用：yyyy-MM-dd HH:mm
@@ -278,6 +298,66 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
         });
     }
 
+    private void initPasswordPopwindow() {
+        View contentView = LayoutInflater.from(this).inflate(
+                R.layout.pop_passwd_layout, null);
+        ImageView closeBtn = contentView.findViewById(R.id.img_close);
+        TextView confirmBtn = contentView.findViewById(R.id.confirm);
+        TextView passwdHintTv = contentView.findViewById(R.id.tv_passwd_len_hint);
+        EditText passwdEd = contentView.findViewById(R.id.ed_password);
+        mPasswordPopwindow = new BasePopupWindow(this);
+        mPasswordPopwindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPasswordPopwindow.setContentView(contentView);
+        mPasswordPopwindow.setOutsideTouchable(false);
+        mPasswordPopwindow.setTouchable(true);
+        mPasswordPopwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+
+        passwdEd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (TextUtils.isEmpty(charSequence.toString())) {
+                    passwdHintTv.setText("0/6");
+                } else {
+                    passwdHintTv.setText(charSequence.toString().length() + "/6");
+                    passwd = charSequence.toString();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (passwd.equals(SharedPreUtils.getString(GoAuctionActivity.this, SharedPreUtils.KEY_PIN))) {
+                    try {
+                        startAuction();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    ToastUtils.showShort("密码错误");
+                }
+            }
+        });
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                passwdEd.setText("");
+                mPasswordPopwindow.dismiss();
+            }
+        });
+
+    }
+
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.add) {
@@ -292,10 +372,10 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
                 mDataBinding.inputAmount.setText(String.valueOf(defaultAmount));
                 mDataBinding.inputAmount.setSelection(String.valueOf(defaultAmount).length());
             }
-        } else if(view.getId() == R.id.tv_start_auction_time){
+        } else if (view.getId() == R.id.tv_start_auction_time) {
             initStartTimer();
             mStartTimePicker.show(mDataBinding.tvStartAuctionTime.getText().toString());
-        }else if (view.getId() == R.id.tv_end_auction_time) {
+        } else if (view.getId() == R.id.tv_end_auction_time) {
             initEndTimer();
             mEndTimePicker.show(mDataBinding.tvEndAuctionTime.getText().toString());
         } else if (view.getId() == R.id.btn_auction) {
@@ -303,11 +383,7 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
                     TextUtils.isEmpty(mDataBinding.edAuctionUnitPrice.getText().toString())) {
                 ToastManager.showShort("请将数据填写完整");
             } else {
-                try {
-                    startAuction();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                mPasswordPopwindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
             }
         }
     }

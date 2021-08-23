@@ -35,7 +35,6 @@ import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
 import com.yunhualian.ui.activity.AuctionRecordsActivity;
 import com.yunhualian.ui.activity.CashAccountActivity;
-import com.yunhualian.ui.activity.CustomerServiceActivity;
 import com.yunhualian.ui.activity.ExchangeNFTActivity;
 import com.yunhualian.ui.activity.order.SellAndBuyActivity;
 import com.yunhualian.ui.activity.user.FollowAndFansActivity;

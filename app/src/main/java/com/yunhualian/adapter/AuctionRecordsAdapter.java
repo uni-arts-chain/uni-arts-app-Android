@@ -67,7 +67,8 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, Auctio
             helper.setVisible(R.id.order_cost, true);
             helper.setGone(R.id.tv_to_pay, false);
             helper.setGone(R.id.tv_count_time_hint, false);
-            helper.setText(R.id.order_type, "已出价" + item.getCurrent_user_highest_price());
+            helper.setText(R.id.order_type, "已出价");
+            helper.setText(R.id.order_cost, "¥" + item.getCurrent_user_highest_price());
         } else if (mState.equals(WIN)) {
             helper.setGone(R.id.order_cost_layout, false);
             helper.setGone(R.id.order_cost, false);
@@ -83,7 +84,7 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, Auctio
                     seconds = seconds % (60 * 1000);
                     seconds = seconds / 1000;                       //转换秒钟
                     String countTime = mContext.getString(R.string.time_holder, getTv(hours), getTv(minutes), getTv(seconds));
-                    helper.setText(R.id.tv_auction_time, mContext.getString(R.string.time_holder, getTv(hours), getTv(minutes), getTv(seconds)));
+//                    helper.setText(R.id.tv_auction_time, mContext.getString(R.string.time_holder, getTv(hours), getTv(minutes), getTv(seconds)));
                     helper.setText(R.id.tv_count_time_hint, mContext.getString(R.string.count_time_hint, countTime));
                 }
 
@@ -100,13 +101,13 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, Auctio
             helper.setGone(R.id.tv_to_pay, false);
             helper.setGone(R.id.tv_count_time_hint, false);
             helper.setGone(R.id.order_cost, false);
-            if(item.isIs_settlement()){
-                helper.setText(R.id.order_type,"正在结算中");
-            }else{
+            if (item.isIs_settlement()) {
+                helper.setText(R.id.order_type, "正在结算中");
+            } else {
                 if (item.getBuyer() != null && item.getBuyer().getId() == YunApplication.getmUserVo().getId()) {
-                    if(item.isIs_paying()){
+                    if (item.isIs_paying()) {
                         helper.setText(R.id.order_type, "正在支付中");
-                    }else{
+                    } else {
                         if (item.isBuyer_paid()) {
                             helper.setText(R.id.order_type, "中标已支付");
                         } else {

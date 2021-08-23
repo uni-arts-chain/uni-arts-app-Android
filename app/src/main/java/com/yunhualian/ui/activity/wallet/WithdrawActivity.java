@@ -252,34 +252,38 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
     private void initCodeImg() {
         mImgUrlMap.clear();
         if (YunApplication.getmUserVo() != null) {
-            if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
-                mImgUrlMap.put("alipay_url", YunApplication.getmUserVo().getAlipay_img().getUrl());
-                mDataBinding.imgZfbCode.setVisibility(View.VISIBLE);
-                mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
-                mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
-                mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
-                Glide.with(this).load(YunApplication.getmUserVo().getAlipay_img().getUrl()).apply(options).into(mDataBinding.imgZfbCode);
-            } else {
-                mDataBinding.imgDeleteZfb.setVisibility(View.GONE);
-                mDataBinding.imgZfbCode.setVisibility(View.GONE);
-                mDataBinding.rlZfbSelect.setVisibility(View.GONE);
-                mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
+            if (YunApplication.getmUserVo().getAlipay_img() != null) {
+                if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
+                    mImgUrlMap.put("alipay_url", YunApplication.getmUserVo().getAlipay_img().getUrl());
+                    mDataBinding.imgZfbCode.setVisibility(View.VISIBLE);
+                    mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
+                    mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
+                    mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
+                    Glide.with(this).load(YunApplication.getmUserVo().getAlipay_img().getUrl()).apply(options).into(mDataBinding.imgZfbCode);
+                } else {
+                    mDataBinding.imgDeleteZfb.setVisibility(View.GONE);
+                    mDataBinding.imgZfbCode.setVisibility(View.GONE);
+                    mDataBinding.rlZfbSelect.setVisibility(View.GONE);
+                    mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
+                }
             }
 
-            if (!TextUtils.isEmpty(YunApplication.getmUserVo().getWeixin_img().getUrl())) {
-                mImgUrlMap.put("wechat_url", YunApplication.getmUserVo().getAlipay_img().getUrl());
-                mDataBinding.imgWxCode.setVisibility(View.VISIBLE);
-                mDataBinding.imgDeleteWx.setVisibility(View.VISIBLE);
-                if (TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
-                    mDataBinding.rlWxSelect.setVisibility(View.VISIBLE);
-                    mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
+            if (YunApplication.getmUserVo().getWeixin_img() != null) {
+                if (!TextUtils.isEmpty(YunApplication.getmUserVo().getWeixin_img().getUrl())) {
+                    mImgUrlMap.put("wechat_url", YunApplication.getmUserVo().getAlipay_img().getUrl());
+                    mDataBinding.imgWxCode.setVisibility(View.VISIBLE);
+                    mDataBinding.imgDeleteWx.setVisibility(View.VISIBLE);
+                    if (TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
+                        mDataBinding.rlWxSelect.setVisibility(View.VISIBLE);
+                        mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
+                    }
+                    Glide.with(this).load(YunApplication.getmUserVo().getWeixin_img().getUrl()).apply(options).into(mDataBinding.imgWxCode);
+                } else {
+                    mDataBinding.imgDeleteWx.setVisibility(View.GONE);
+                    mDataBinding.imgWxCode.setVisibility(View.GONE);
+                    mDataBinding.rlWxSelect.setVisibility(View.GONE);
+                    mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
                 }
-                Glide.with(this).load(YunApplication.getmUserVo().getWeixin_img().getUrl()).apply(options).into(mDataBinding.imgWxCode);
-            } else {
-                mDataBinding.imgDeleteWx.setVisibility(View.GONE);
-                mDataBinding.imgWxCode.setVisibility(View.GONE);
-                mDataBinding.rlWxSelect.setVisibility(View.GONE);
-                mDataBinding.llWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.shape_add_bg));
             }
         }
     }

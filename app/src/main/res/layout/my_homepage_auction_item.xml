@@ -110,6 +110,46 @@
                 android:textColor="@color/_101010"
                 android:textSize="11sp"/>
 
+            <RelativeLayout
+                android:id="@+id/rl_auction_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_above="@+id/textLayout"
+                android:layout_gravity="bottom"
+                android:background="@drawable/bg_auction_time"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/img_clock"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:background="@mipmap/icon_clock"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toRightOf="@id/img_clock"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tv_auction_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/tv_status"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

@@ -49,7 +49,6 @@ import com.yunhualian.entity.OrderAmountVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
-import com.yunhualian.ui.activity.CustomerServiceActivity;
 import com.yunhualian.ui.activity.PinCodeKtActivity;
 import com.yunhualian.ui.activity.ShowNetBigImgActivity;
 import com.yunhualian.ui.activity.user.CreateOrderActivity;
@@ -174,10 +173,11 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
             @Override
             public void onPerformClick() {
                 uploadSuccessPopUpWindow.dismiss();
-                startActivity(CustomerServiceActivity.class);
+//                startActivity(CustomerServiceActivity.class);
             }
         });
-        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.text_call_service));
+        uploadSuccessPopUpWindow.setOneKey(true);
+        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.confirm));
         uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
         uploadSuccessPopUpWindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
         EventBus.getDefault().removeAllStickyEvents();

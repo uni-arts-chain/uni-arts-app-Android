@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +20,6 @@ import com.yunhualian.entity.EventBusMessageEvent;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
-import com.yunhualian.ui.activity.CustomerServiceActivity;
 import com.yunhualian.ui.activity.GoAuctionActivity;
 import com.yunhualian.ui.activity.TransferActivity;
 import com.yunhualian.ui.activity.art.ArtDetailActivity;
@@ -151,10 +149,11 @@ public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePi
                 @Override
                 public void onPerformClick() {
                     uploadSuccessPopUpWindow.dismiss();
-                    startActivity(CustomerServiceActivity.class);
+//                    startActivity(CustomerServiceActivity.class);
                 }
             });
-        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.text_call_service));
+        uploadSuccessPopUpWindow.setOneKey(true);
+        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.confirm));
         uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
         uploadSuccessPopUpWindow.showAtLocation(mBinding.swipeRefresh, Gravity.CENTER, 0, 0);
         EventBus.getDefault().removeAllStickyEvents();

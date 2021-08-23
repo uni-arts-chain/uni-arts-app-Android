@@ -36,6 +36,7 @@ import com.yunhualian.entity.PayResyltVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.UploadLive2dVo;
 import com.yunhualian.entity.UserAggrementVo;
+import com.yunhualian.entity.UserAuctionsVo;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.entity.WithDrawsBean;
 
@@ -691,8 +692,8 @@ public class RequestManager {
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
-    public void queryAuctionRules(MinerCallback<BaseResponseVo<String>> mCallBack) {
-        Call<BaseResponseVo<String>> mCall = NetworkManager.instance().getmRemoteService().queryAuctionRules();
+    public void queryAuctionRules(MinerCallback<BaseResponseVo<UserAuctionsVo>> mCallBack) {
+        Call<BaseResponseVo<UserAuctionsVo>> mCall = NetworkManager.instance().getmRemoteService().queryAuctionRules();
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 }

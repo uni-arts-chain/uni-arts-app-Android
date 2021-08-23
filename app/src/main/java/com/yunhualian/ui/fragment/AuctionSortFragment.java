@@ -250,6 +250,9 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (picturesAdapter != null) {
+            picturesAdapter.clearAllTimer();
+        }
     }
 
 
@@ -264,6 +267,9 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
     }
 
     public void getAuctions(HashMap<String, String> params) {
+        if (picturesAdapter != null) {
+            picturesAdapter.clearAllTimer();
+        }
         showLoading(getString(R.string.progress_loading));
         params.put("code", "rmb");
         params.put("page", String.valueOf(page));

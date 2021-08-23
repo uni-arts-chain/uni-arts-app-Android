@@ -33,6 +33,7 @@ import com.yunhualian.entity.PayResyltVo;
 import com.yunhualian.entity.SellingArtVo;
 import com.yunhualian.entity.UploadLive2dVo;
 import com.yunhualian.entity.UserAggrementVo;
+import com.yunhualian.entity.UserAuctionsVo;
 import com.yunhualian.entity.UserVo;
 import com.yunhualian.entity.WithDrawsBean;
 
@@ -403,7 +404,7 @@ public interface RemoteService {
     Call<BaseResponseVo<List<AuctionArtVo>>> queryFinishAuctions(@Query("page") int page, @Query("per_page") int pageSize);
 
     // 竞拍须知
-    @GET("/v2/auctions/notice")
-    Call<BaseResponseVo<String>> queryAuctionRules();
+    @GET("/api/v2/auctions/notice")
+    Call<BaseResponseVo<UserAuctionsVo>> queryAuctionRules();
 }
 

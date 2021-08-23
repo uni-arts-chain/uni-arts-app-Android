@@ -83,17 +83,33 @@
                         android:textSize="@dimen/sp_13" />
                 </LinearLayout>
 
-
-                <TextView
-                    android:id="@+id/prize"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginRight="15dp"
-                    android:layout_weight="2"
-                    android:gravity="end"
-                    android:text=""
-                    android:textColor="@color/_212121"
-                    android:textSize="@dimen/sp_13" />
+                    android:layout_weight="2">
+
+                    <TextView
+                        android:id="@+id/count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="x1"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/_212121"
+                        android:textSize="@dimen/sp_13" />
+
+                    <TextView
+                        android:id="@+id/prize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="end"
+                        android:text=""
+                        android:textColor="@color/_212121"
+                        android:textSize="@dimen/sp_13" />
+                </RelativeLayout>
+
             </LinearLayout>
 
             <TextView
