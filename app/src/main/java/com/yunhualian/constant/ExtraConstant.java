@@ -55,8 +55,4 @@ public class ExtraConstant {
     public static final String EVENT_PAY_SUCCESS = "EVENT_PAY_SUCCESS";
     //质押成功
     public static final String EVENT_PLEDGE_SUCCESS = "EVENT_PLEDGE_SUCCESS";
-
-    public static final String EVENT_SELL_SUCCESS = "sell_success";
-
-    public static final String EVENT_SELL_SUCCESS_FROM_DETAIL = "sell_success_from_detail";
 }

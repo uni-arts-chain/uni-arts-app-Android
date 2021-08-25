@@ -161,9 +161,9 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
             showWxCode(wechatFile.getAbsolutePath());
         } else {
             if (!TextUtils.isEmpty(mImgUrlMap.get("wechat_url"))) {
-                mDataBinding.imgZfbCode.setVisibility(View.VISIBLE);
-                mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
                 if (mImgUrlMap.get("alipay_url") != null || fileMap.get("alipay_code") != null) {
+                    mDataBinding.imgZfbCode.setVisibility(View.VISIBLE);
+                    mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
                     mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
                     mDataBinding.llZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
                     mDataBinding.rlWxSelect.setVisibility(View.GONE);
@@ -386,10 +386,15 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                         UploadCodeBean data = response.body().getBody();
                         if (data != null) {
                             if (data.getPay_type().equals("1")) {
-                                YunApplication.getmUserVo().getAlipay_img().setUrl(data.getImg().getUrl());
+                                YunApplication.getmUserVo().getWeixin_img().setUrl(data.getImg().getUrl());
                             }
                             if (data.getPay_type().equals("2")) {
-                                YunApplication.getmUserVo().getWeixin_img().setUrl(data.getImg().getUrl());
+                                YunApplication.getmUserVo().getAlipay_img().setUrl(data.getImg().getUrl());
+                            }
+                            if(!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())){
+                                withDraws("alipay");
+                            }else{
+                                withDraws("weixin");
                             }
                         }
                     }
@@ -477,10 +482,10 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                     if (!TextUtils.isEmpty(mImgUrlMap.get("alipay_url")) && !TextUtils.isEmpty(mImgUrlMap.get("wechat_url"))) {
                         //当前用户已上传支付宝二维码以及微信二维码，则直接提现
                         withDraws("alipay");
-                    } else if (!TextUtils.isEmpty("alipay_url")) {
+                    } else if (!TextUtils.isEmpty(mImgUrlMap.get("alipay_url"))) {
                         //当前用户已上传支付宝二维码,但是无微信二维码，则上传微信二维码后提现
                         updateCode("wechat");
-                    } else if (!TextUtils.isEmpty("wechat_url")) {
+                    } else if (!TextUtils.isEmpty(mImgUrlMap.get("wechat_url"))) {
                         //当前用户已上传微信二维码,但是无支付宝二维码，则上传支付宝二维码后提现
                         updateCode("alipay");
                     }

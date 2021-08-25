@@ -17,6 +17,8 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -24,7 +26,6 @@ import com.bumptech.glide.request.transition.Transition;
 import com.yunhualian.R;
 import com.yunhualian.base.BaseActivity;
 import com.yunhualian.base.ToolBarOptions;
-import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.ActivityCreateAuctionOrderBinding;
 import com.yunhualian.entity.AccountVo;
 import com.yunhualian.entity.AuctionArtVo;
@@ -109,23 +110,45 @@ public class CreateAuctionOrderActivity extends BaseActivity<ActivityCreateAucti
         });
     }
 
+    private String getTv(long l) {
+        if (l >= 10) {
+            return l + "";
+        } else {
+            return "0" + l;//小于10,,前面补位一个"0"
+        }
+    }
+
     public void initPageData() {
+
         if (sellingArtVo == null) {
             return;
         }
         mCountDownTimer = new CountDownTimer((sellingArtVo.getEnd_time() + sellingArtVo.getPay_timeout() - sellingArtVo.getServer_timestamp()) * 1000, 1000) {
             @Override
-            public void onTick(long millisUntilFinished) {
-                mDataBinding.tvCountTimeHint.setText(getString(R.string.count_time_hint, DateUtil.dateToStringWithTime(millisUntilFinished)));
+            public void onTick(long seconds) {
+                long hours = seconds / (3600 * 1000);            //转换小时
+                seconds = seconds % (3600 * 1000);
+                long minutes = seconds / (60 * 1000);            //转换分钟
+                seconds = seconds % (60 * 1000);
+                seconds = seconds / 1000;                       //转换秒钟
+
+                String time = getString(R.string.time_holder, getTv(hours), getTv(minutes), getTv(seconds));
+                mDataBinding.tvCountTimeHint.setText(getString(R.string.count_time_hint,time));
             }
 
             @Override
             public void onFinish() {
-
+                if (mCountDownTimer != null) {
+                    mCountDownTimer.cancel();
+                }
+                mDataBinding.tvBuy.setText("超时未支付");
+                mDataBinding.buyNow.setEnabled(false);
+                mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(CreateAuctionOrderActivity.this,R.drawable.shape_btn_gray));
             }
-        };
+        }.start();
         showImage();
         mDataBinding.name.setText(sellingArtVo.getArt().getName());
+        mDataBinding.tvAuctionAmountValue.setText(String.valueOf(sellingArtVo.getAmount()));
         String royaltyRate = sellingArtVo.getArt().getRoyalty() == null ? "0" : sellingArtVo.getArt().getRoyalty().toPlainString();
         mDataBinding.rotayRate.setText(getString(R.string.royalty_rate_value,
                 TextUtils.isEmpty(royaltyRate) ?
@@ -135,16 +158,10 @@ public class CreateAuctionOrderActivity extends BaseActivity<ActivityCreateAucti
         mDataBinding.rotayPrice.setText(getString(R.string.text_buy_amount,
                 new BigDecimal(sellingArtVo.getWin_price())
                         .multiply(new BigDecimal(royaltyRate)).setScale(ROUND, RoundingMode.UP).stripTrailingZeros().toPlainString()));
+        mDataBinding.tvDepositValue.setText("¥" + sellingArtVo.getDeposit_amount());
         mDataBinding.artName.setText(sellingArtVo.getArt().getAuthor().getDisplay_name());
 
         mDataBinding.addr.setText(getString(R.string.nft_address, sellingArtVo.getArt().getItem_hash()));
-        if (sellingArtVo.getArt().getCollection_mode() != 3) {
-            mDataBinding.cut.setVisibility(View.GONE);
-            mDataBinding.add.setVisibility(View.GONE);
-            mDataBinding.inputAmount.setFocusable(false);
-            mDataBinding.inputAmount.setEnabled(false);
-            mDataBinding.lastAmount.setVisibility(View.INVISIBLE);
-        }
         mDataBinding.weiPayLayout.setOnClickListener(this);
         mDataBinding.aPayLayout.setOnClickListener(this);
         mDataBinding.remainLayout.setOnClickListener(this);
@@ -156,24 +173,37 @@ public class CreateAuctionOrderActivity extends BaseActivity<ActivityCreateAucti
                 totalPrice));
         mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.weichatPay.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked && mDataBinding.aliPay.isChecked()) {
+            if (isChecked) {
                 payType = "wepay";
                 mDataBinding.aliPay.setChecked(false);
                 mDataBinding.remain.setChecked(false);
+            } else {
+                if (!mDataBinding.aliPay.isChecked() && !mDataBinding.remain.isChecked()) {
+                    mDataBinding.weichatPay.setChecked(true);
+                }
             }
         });
         mDataBinding.aliPay.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
-            if (isChecked && mDataBinding.weichatPay.isChecked()) {
+            if (isChecked) {
                 payType = "alipay";
                 mDataBinding.weichatPay.setChecked(false);
                 mDataBinding.remain.setChecked(false);
+            } else {
+                if (!mDataBinding.weichatPay.isChecked() && !mDataBinding.remain.isChecked()) {
+                    mDataBinding.aliPay.setChecked(true);
+                }
             }
         });
         mDataBinding.remain.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            payType = "account";
-            mDataBinding.aliPay.setChecked(false);
-            mDataBinding.weichatPay.setChecked(false);
+            if (isChecked) {
+                payType = "account";
+                mDataBinding.weichatPay.setChecked(false);
+                mDataBinding.aliPay.setChecked(false);
+            } else {
+                if (!mDataBinding.weichatPay.isChecked() && !mDataBinding.aliPay.isChecked()) {
+                    mDataBinding.remain.setChecked(true);
+                }
+            }
         });
     }
 
@@ -373,5 +403,13 @@ public class CreateAuctionOrderActivity extends BaseActivity<ActivityCreateAucti
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
     }
 }

@@ -139,6 +139,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         mBinding.prizeList.setAdapter(prizeAdapter);
         if(priceVos != null && priceVos.size() > 1){
             param.put("price_sort", String.valueOf(priceVos.get(0).getId()));
+            curPriceClickPos = 1;
             prizeAdapter.selectTag(1,false);
         }
         getPopular(param);

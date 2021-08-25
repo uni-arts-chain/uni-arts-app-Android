@@ -95,7 +95,6 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
 
     @Override
     protected void initView() {
-        queryWinAuctions();
         initList();
         View[] views = {mBinding.setting, mBinding.fans, mBinding.follow, mBinding.mineCount, mBinding.mineMoney, mBinding.mineTitleImg};
         ClickUtils.applyGlobalDebouncing(views, this);
@@ -119,6 +118,7 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
         getUserInfo();
         queryAccountInfo();
         getBalance();
+        queryWinAuctions();
     }
 
     @SuppressLint("CheckResult")

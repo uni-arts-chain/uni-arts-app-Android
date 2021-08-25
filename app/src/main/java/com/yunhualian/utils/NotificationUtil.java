@@ -35,7 +35,7 @@ public class NotificationUtil extends ContextWrapper {
     public static final String ART = "art";
     public static final String TRADE = "trade";
     public static final String BLINDBOX = "blind_box";
-    public static final String AUCTIONS = "Auction";
+    public static final String AUCTIONS = "auction";
 
     public NotificationUtil(Context context) {
         super(context);

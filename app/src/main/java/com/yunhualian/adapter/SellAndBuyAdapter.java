@@ -43,22 +43,51 @@ public class SellAndBuyAdapter extends BaseQuickAdapter<BoughtArtVo, BaseViewHol
 
     @Override
     protected void convert(BaseViewHolder helper, BoughtArtVo item) {
-        helper.setText(R.id.order_time, DateUtil.dateToStringWith(item.getFinished_at() * TIME));
+        helper.setText(R.id.order_time, DateUtil.dateToStringWithoutYear(item.getFinished_at() * TIME));
         String price;
-        if (item.getTrade_refer().equals("Auction")) {
-            helper.setVisible(R.id.img_auction_tag, true);
-        } else {
-            helper.setVisible(R.id.img_auction_tag, false);
-        }
-
-        price = new BigDecimal(item.getAmount()).multiply(new BigDecimal(item.getPrice())).stripTrailingZeros().toPlainString();
-        if (orderType == BigDecimal.ZERO.intValue()) {
-            helper.setText(R.id.order_cost, YunApplication.PAY_CURRENCY.concat(price));
+        double royaltyValue;
+        double royalty = 0;
+        if (item.getArt().getRoyalty() == null) {
             helper.setGone(R.id.rotailRate, false);
         } else {
-            helper.setVisible(R.id.rotailRate, true);
-            helper.setText(R.id.rotailRate, mContext.getString(R.string.text_contain_royalty, item.getRoyalty()));
-            helper.setText(R.id.order_cost, YunApplication.PAY_CURRENCY.concat(item.getTotal_price()));
+            if (Double.parseDouble(item.getArt().getRoyalty()) == 0) {
+                helper.setGone(R.id.rotailRate, false);
+            } else {
+                royalty = Double.parseDouble(item.getArt().getRoyalty());
+                helper.setGone(R.id.rotailRate, true);
+                if (item.getTrade_refer().equals("Auction")) {
+                    double winPrice = Double.parseDouble(item.getAuction().getWin_price());
+                    royaltyValue = winPrice * royalty;
+                } else {
+                    double totalPrice = Double.parseDouble(item.getTotal_price());
+                    royaltyValue = totalPrice * royalty;
+                }
+                BigDecimal bigDecimal = new BigDecimal(royaltyValue);
+                double royaltyDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                helper.setText(R.id.rotailRate, mContext.getString(R.string.text_contain_royalty, String.valueOf(royaltyDecimal)));
+            }
+        }
+
+
+        if (item.getTrade_refer().equals("Auction")) {
+            helper.setVisible(R.id.img_auction_tag, true);
+            if (orderType == BigDecimal.ZERO.intValue()) {
+                price = item.getAuction().getWin_price();
+            } else {
+                double winPrice = Double.parseDouble(item.getAuction().getWin_price());
+                double deposit = Double.parseDouble(item.getAuction().getDeposit_amount());
+                royaltyValue = winPrice * royalty;
+                price = new BigDecimal(winPrice + deposit + royaltyValue).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+            }
+            helper.setText(R.id.order_cost, YunApplication.PAY_CURRENCY.concat(price));
+        } else {
+            helper.setVisible(R.id.img_auction_tag, false);
+            if (orderType == BigDecimal.ZERO.intValue()) {
+                price = new BigDecimal(item.getAmount()).multiply(new BigDecimal(item.getPrice())).stripTrailingZeros().toPlainString();
+                helper.setText(R.id.order_cost, YunApplication.PAY_CURRENCY.concat(price));
+            } else {
+                helper.setText(R.id.order_cost, YunApplication.PAY_CURRENCY.concat(item.getTotal_price()));
+            }
         }
         helper.setText(R.id.name, item.getArt().getName());
         helper.setText(R.id.order_no, item.getSn());

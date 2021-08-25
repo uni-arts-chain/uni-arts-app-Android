@@ -67,20 +67,14 @@ public class AuctionPicturesAdapter extends BaseQuickAdapter<AuctionArtVo, Aucti
         if (item.getServer_timestamp() < item.getStart_time()) {
             countTime = item.getStart_time() - item.getServer_timestamp();
             type = "yet";
-            helper.setVisible(R.id.img_clock, false);
-            helper.setGone(R.id.tv_status, true);
-            helper.setText(R.id.tv_status, "距开始：");
+            helper.setText(R.id.tv_status, "距开始");
         } else if (item.getServer_timestamp() < item.getEnd_time()) {
             countTime = item.getEnd_time() - item.getServer_timestamp();
             type = "start";
-            helper.setGone(R.id.tv_status, false);
-            helper.setVisible(R.id.img_clock, true);
-            helper.setText(R.id.tv_status, "");
+            helper.setText(R.id.tv_status, "距结束");
         } else {
             type = "end";
-            helper.setGone(R.id.tv_status, false);
-            helper.setVisible(R.id.img_clock, true);
-            helper.setText(R.id.tv_status, "");
+            helper.setText(R.id.tv_status, "已结束");
         }
 
         helper.countDownTimer = new CountDownTimer(countTime * 1000, 1000) {
@@ -96,7 +90,9 @@ public class AuctionPicturesAdapter extends BaseQuickAdapter<AuctionArtVo, Aucti
 
             @Override
             public void onFinish() {
-                helper.countDownTimer.cancel();
+                if (helper.countDownTimer != null) {
+                    helper.countDownTimer.cancel();
+                }
             }
         }.start();
         mTimerList.add(helper.countDownTimer);

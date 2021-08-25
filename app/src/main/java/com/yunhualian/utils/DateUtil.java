@@ -8,6 +8,10 @@ import java.util.TimeZone;
 
 public class DateUtil {
 
+    public static String dateToStringWithoutYear(Long date) {
+        return new SimpleDateFormat("MM/dd HH:mm:ss").format(date);
+    }
+
     public static String dateToStringWithAll(Long date) {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
     }

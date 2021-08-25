@@ -261,6 +261,12 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
     }
 
     private String signStr() {
+        int amount = 0;
+        try {
+            amount = Integer.parseInt(mDataBinding.inputAmount.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String privateKey = SharedPreUtils.getString(this, SharedPreUtils.KEY_PRIVATE);
         String publicKey = SharedPreUtils.getString(this, SharedPreUtils.KEY_PUBLICKEY);
         String nonce = SharedPreUtils.getString(this, SharedPreUtils.KEY_NONCE);
@@ -270,7 +276,7 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
         EncodableStruct<SubmittableExtrinsicV28> sigStr
                 = sendIntegrationTest.shouldfee(
                 receiveAddress.substring(2),
-                1,
+                amount,
                 sellingArtVo.getCollection_id(),
                 sellingArtVo.getItem_id(), privateKey, publicKey, nonce.substring(2), rxWebSocket, signer, AppConstant.genesisHash);
         return ToHexV28Kt.toHex(sigStr);

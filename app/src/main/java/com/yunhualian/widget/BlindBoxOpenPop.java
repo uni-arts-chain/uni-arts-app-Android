@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -44,9 +45,8 @@ public class BlindBoxOpenPop extends BasePopupWindow {
     MZBannerView bannerView;
     public static final String Live2d = "3";
 
-    public BlindBoxOpenPop(Context context, List<BlindBoxOpenVo> lists, OnPopItemClickListener listener) {
+    public BlindBoxOpenPop(Context context, OnPopItemClickListener listener) {
         super(context);
-        this.lists = lists;
         this.listener = listener;
     }
 
@@ -86,6 +86,24 @@ public class BlindBoxOpenPop extends BasePopupWindow {
             mBinding.bannerView.setIndicatorVisible(false);
             mBinding.bannerView.start();
         }
+        mBinding.bannerView.addPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(lists != null && lists.size() > 0){
+                    mBinding.cardName.setText(lists.get(position).getName());
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         mBinding.goMainPage.setOnClickListener(v -> {
             listener.onPopItemClick(v, 0);
         });
@@ -117,7 +135,15 @@ public class BlindBoxOpenPop extends BasePopupWindow {
         }
     }
 
+    public void setCardName(String cardName) {
+        mBinding.cardName.setText(cardName);
+    }
+
     public void setLists(List<BlindBoxOpenVo> lists) {
+        this.lists = lists;
+        if(lists != null && lists.size() > 0){
+            mBinding.cardName.setText(lists.get(0).getName());
+        }
         mBinding.bannerView.setPages(lists, BannerViewHolder::new);
     }
 
@@ -137,7 +163,6 @@ public class BlindBoxOpenPop extends BasePopupWindow {
 
         @Override
         public void onBind(Context context, int position, BlindBoxOpenVo data) {
-
             Glide.with(context).asBitmap().load(data.getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
@@ -179,9 +204,8 @@ public class BlindBoxOpenPop extends BasePopupWindow {
                 seldom.setVisibility(View.GONE);
             } else seldom.setVisibility(View.VISIBLE);
 
-
             mImageView.setOnClickListener(v -> {
-                ToastUtils.showLong("click" + position);
+//                ToastUtils.showLong("click" + position);
             });
         }
     }

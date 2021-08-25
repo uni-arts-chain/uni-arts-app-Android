@@ -42,6 +42,7 @@
                     android:layout_width="19dp"
                     android:layout_height="19dp"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_10"
                     android:background="@drawable/bg_market_block_unselected">
 
@@ -66,13 +67,14 @@
                     android:inputType="number"
                     android:maxLines="1"
                     android:text="1"
-                    android:textColor="@color/_333333"
-                    android:textSize="@dimen/sp_13" />
+                    android:textColor="@color/_101010"
+                    android:textSize="@dimen/sp_16" />
 
                 <RelativeLayout
                     android:id="@+id/cut"
                     android:layout_width="19dp"
                     android:layout_height="19dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@+id/input_amount"
                     android:background="@drawable/bg_market_block_unselected">

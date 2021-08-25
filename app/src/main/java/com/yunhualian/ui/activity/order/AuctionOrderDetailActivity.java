@@ -64,29 +64,40 @@ public class AuctionOrderDetailActivity extends BaseActivity<ActivityAuctionOrde
         mDataBinding.orderCreateTime.setText(getString(R.string.order_create_time, DateUtil.dateToStringWith(boughtArtVo.getFinished_at() * 1000)));
         mDataBinding.name.setText(boughtArtVo.getArt().getName());
         mDataBinding.orderInfo.setText(boughtArtVo.getSn());
+        double royaltyValue;
+        double royalty = 0;
+        if(boughtArtVo.getArt().getRoyalty() == null){
+            mDataBinding.rlRotateLayout.setVisibility(View.GONE);
+        }else{
+            if (Double.parseDouble(boughtArtVo.getArt().getRoyalty()) == 0) {
+                mDataBinding.rlRotateLayout.setVisibility(View.GONE);
+            } else {
+                mDataBinding.rlRotateLayout.setVisibility(View.VISIBLE);
+                royalty = Double.parseDouble(boughtArtVo.getArt().getRoyalty());
+                int royaltyPercent = (int) (royalty * 100);
+                mDataBinding.rotayRate.setText("(" + royaltyPercent + "%)");
+
+                double winPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price());
+                royaltyValue = winPrice * royalty;
+                BigDecimal bigDecimal = new BigDecimal(royaltyValue);
+                rotalyPrice = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                mDataBinding.rotayPrice.setText(getString(R.string.text_contain_royalty, String.valueOf(rotalyPrice)));
+            }
+        }
 
         if (boughtArtVo.getAuction() != null) {
-            rotalyPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price()) * Double.parseDouble(boughtArtVo.getRoyalty()) / 100; //版税
             depositPrice = Double.parseDouble(boughtArtVo.getDeposit()); //保证金
-            winPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price()); //拍中价
-            realPrice = winPrice + rotalyPrice - depositPrice; //实付款
+            winPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price()) + depositPrice; //拍中价
+            realPrice = winPrice + rotalyPrice; //实付款
         }
 
         if (orderType == 1) {
             mDataBinding.llBuyIn.setVisibility(View.VISIBLE);
             mDataBinding.llSoldOut.setVisibility(View.GONE);
             mDataBinding.memo.setText("1");
-            mDataBinding.tvAuctionPriceV.setText("¥" + boughtArtVo.getAuction().getWin_price());
-            //版税
-            if (Double.parseDouble(boughtArtVo.getRoyalty()) == 0) {
-                mDataBinding.rotayRate.setText("(0%)");
-                mDataBinding.rotayPrice.setText("¥0");
-            } else {
-                mDataBinding.rotayRate.setText(boughtArtVo.getRoyalty() + "%");
-                mDataBinding.rotayPrice.setText("¥" + rotalyPrice);
-            }
+            mDataBinding.tvAuctionPriceV.setText("¥" + new BigDecimal(winPrice).setScale(2, BigDecimal.ROUND_HALF_UP));
             mDataBinding.tvDepositValue.setText("¥" + boughtArtVo.getDeposit());
-            mDataBinding.tvTotalPriceValue.setText("¥" + realPrice);
+            mDataBinding.tvTotalPriceValue.setText("¥" + new BigDecimal(realPrice).setScale(2, BigDecimal.ROUND_HALF_UP));
         } else {
             mDataBinding.llBuyIn.setVisibility(View.GONE);
             mDataBinding.llSoldOut.setVisibility(View.VISIBLE);

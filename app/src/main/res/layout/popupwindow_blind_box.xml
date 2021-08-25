@@ -103,7 +103,6 @@
                 android:layout_below="@+id/bannerView"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dp_20"
-                android:text="恭喜获得"
                 android:textColor="@color/_101010"
                 android:textSize="@dimen/sp_16"
                 android:textStyle="bold" />

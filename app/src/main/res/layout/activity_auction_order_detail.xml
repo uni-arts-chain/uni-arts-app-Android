@@ -326,8 +326,6 @@
                         android:id="@+id/tv_total_price_key"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_toLeftOf="@id/tv_total_price_value"
                         android:text="实付款："
                         android:textColor="@color/_333333"
                         android:textSize="@dimen/sp_15" />

@@ -128,7 +128,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
 
     @Override
     public void initView() {
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
         fistLoad = true;
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleId = R.string.title_detail;
@@ -154,34 +154,34 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(EventBusMessageEvent mEventBusMessageEvent) {
-        if (null != mEventBusMessageEvent && !TextUtils.isEmpty(mEventBusMessageEvent.getmMessage())) {
-            if (TextUtils.equals(ExtraConstant.EVENT_SELL_SUCCESS_FROM_DETAIL, mEventBusMessageEvent.getmMessage())) {
-                showPopWindow();
-            }
-        }
-    }
-
-    private void showPopWindow() {
-        uploadSuccessPopUpWindow = new UploadSuccessPopUpWindow(ArtDetailActivity.this, new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
-            @Override
-            public void onCancleClick() {
-                uploadSuccessPopUpWindow.dismiss();
-            }
-
-            @Override
-            public void onPerformClick() {
-                uploadSuccessPopUpWindow.dismiss();
-//                startActivity(CustomerServiceActivity.class);
-            }
-        });
-        uploadSuccessPopUpWindow.setOneKey(true);
-        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.confirm));
-        uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
-        uploadSuccessPopUpWindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
-        EventBus.getDefault().removeAllStickyEvents();
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void Event(EventBusMessageEvent mEventBusMessageEvent) {
+//        if (null != mEventBusMessageEvent && !TextUtils.isEmpty(mEventBusMessageEvent.getmMessage())) {
+//            if (TextUtils.equals(ExtraConstant.EVENT_SELL_SUCCESS_FROM_DETAIL, mEventBusMessageEvent.getmMessage())) {
+//                showPopWindow();
+//            }
+//        }
+//    }
+//
+//    private void showPopWindow() {
+//        uploadSuccessPopUpWindow = new UploadSuccessPopUpWindow(ArtDetailActivity.this, new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
+//            @Override
+//            public void onCancleClick() {
+//                uploadSuccessPopUpWindow.dismiss();
+//            }
+//
+//            @Override
+//            public void onPerformClick() {
+//                uploadSuccessPopUpWindow.dismiss();
+////                startActivity(CustomerServiceActivity.class);
+//            }
+//        });
+//        uploadSuccessPopUpWindow.setOneKey(true);
+//        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.confirm));
+//        uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
+//        uploadSuccessPopUpWindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
+//        EventBus.getDefault().removeAllStickyEvents();
+//    }
 
     private void initZhengShuPopwindow() {
         View contentView = LayoutInflater.from(this).inflate(

@@ -158,7 +158,7 @@ public class CreateOrderActivity extends BaseActivity<ActivityCreateOrderBinding
                 mDataBinding.weichatPay.setChecked(false);
                 mDataBinding.aliPay.setChecked(false);
             } else {
-                if (!mDataBinding.weichatPay.isChecked() && !mDataBinding.weichatPay.isChecked()) {
+                if (!mDataBinding.weichatPay.isChecked() && !mDataBinding.aliPay.isChecked()) {
                     mDataBinding.remain.setChecked(true);
                 }
             }

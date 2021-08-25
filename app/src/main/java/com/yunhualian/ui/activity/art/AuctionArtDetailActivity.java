@@ -171,7 +171,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
 
     @Override
     public void initView() {
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
         fistLoad = true;
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleId = R.string.title_detail;
@@ -182,7 +182,6 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         requestArtInfo(); //获取拍卖艺术品相关信息
         getOfferPriceList(false, request_art_id); //获取出价记录列表
 
-        initArtDetails();
         mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.zan.setOnClickListener(this);
         mDataBinding.cai.setOnClickListener(this);
@@ -209,34 +208,34 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(EventBusMessageEvent mEventBusMessageEvent) {
-        if (null != mEventBusMessageEvent && !TextUtils.isEmpty(mEventBusMessageEvent.getmMessage())) {
-            if (TextUtils.equals(ExtraConstant.EVENT_SELL_SUCCESS, mEventBusMessageEvent.getmMessage())) {
-                showPopWindow();
-            }
-        }
-    }
-
-    private void showPopWindow() {
-        uploadSuccessPopUpWindow = new UploadSuccessPopUpWindow(AuctionArtDetailActivity.this, new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
-            @Override
-            public void onCancleClick() {
-                uploadSuccessPopUpWindow.dismiss();
-            }
-
-            @Override
-            public void onPerformClick() {
-                uploadSuccessPopUpWindow.dismiss();
-//                startActivity(CustomerServiceActivity.class);
-            }
-        });
-        uploadSuccessPopUpWindow.setOneKey(true);
-        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.confirm));
-        uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
-        uploadSuccessPopUpWindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
-        EventBus.getDefault().removeAllStickyEvents();
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void Event(EventBusMessageEvent mEventBusMessageEvent) {
+//        if (null != mEventBusMessageEvent && !TextUtils.isEmpty(mEventBusMessageEvent.getmMessage())) {
+//            if (TextUtils.equals(ExtraConstant.EVENT_SELL_SUCCESS, mEventBusMessageEvent.getmMessage())) {
+//                showPopWindow();
+//            }
+//        }
+//    }
+//
+//    private void showPopWindow() {
+//        uploadSuccessPopUpWindow = new UploadSuccessPopUpWindow(AuctionArtDetailActivity.this, new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
+//            @Override
+//            public void onCancleClick() {
+//                uploadSuccessPopUpWindow.dismiss();
+//            }
+//
+//            @Override
+//            public void onPerformClick() {
+//                uploadSuccessPopUpWindow.dismiss();
+////                startActivity(CustomerServiceActivity.class);
+//            }
+//        });
+//        uploadSuccessPopUpWindow.setOneKey(true);
+//        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.confirm));
+//        uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
+//        uploadSuccessPopUpWindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
+//        EventBus.getDefault().removeAllStickyEvents();
+//    }
 
     private void initZhengShuPopwindow() {
         View contentView = LayoutInflater.from(this).inflate(
@@ -589,7 +588,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
                 artDetailUrls.add(sellingArtVo.getArt().getImg_detail_file3().getUrl());
             }
         }
-
+        initArtDetails();
         art_id = String.valueOf(sellingArtVo.getArt().getId()); //艺术品ID
         mDataBinding.pictureName.setText(sellingArtVo.getArt().getName());
         if (sellingArtVo.getCurrent_price() != null) {
@@ -1230,12 +1229,12 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         mOfferPricePopwindow.setTouchable(true);
         mOfferPricePopwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
 
-        if(hasOfferedPrice != 0 && currentHighestPrice == hasOfferedPrice){
+        if (hasOfferedPrice != 0 && currentHighestPrice == hasOfferedPrice) {
             confirmBtn.setEnabled(false);
-            confirmBtn.setBackgroundColor(ContextCompat.getColor(this,R.color.gray_line));
-        }else{
+            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_line));
+        } else {
             confirmBtn.setEnabled(true);
-            confirmBtn.setBackgroundColor(ContextCompat.getColor(this,R.color._101010));
+            confirmBtn.setBackgroundColor(ContextCompat.getColor(this, R.color._101010));
         }
         closeBtn.setOnClickListener(view -> {
             mOfferPricePopwindow.dismiss();

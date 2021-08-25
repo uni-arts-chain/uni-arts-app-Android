@@ -90,7 +90,9 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, Auctio
 
                 @Override
                 public void onFinish() {
-                    helper.countDownTimer.cancel();
+                    if (helper.countDownTimer != null) {
+                        helper.countDownTimer.cancel();
+                    }
                     helper.setText(R.id.tv_to_pay, "超时未支付，已扣除保证金");
                     helper.setBackgroundRes(R.id.tv_to_pay, R.drawable.shape_bg_gray);
                 }
@@ -120,46 +122,49 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, Auctio
             }
         }
 
-        helper.setText(R.id.name, item.getArt().getName());
-        if (TextUtils.isEmpty(item.getArt().getAuthor().getDisplay_name()))
-            helper.setText(R.id.art_name, "");
-        else
-            helper.setText(R.id.art_name, item.getArt().getAuthor().getDisplay_name());
-        helper.setText(R.id.addr, mContext.getString(R.string.nft_address, item.getArt().getItem_hash()));
-
-        ImageView imageView = helper.getView(R.id.hot_picture);
-
-        Glide.with(mContext).asBitmap().load(item.getArt().getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-                int height = DisplayUtils.px2dp(mContext, bitmap.getHeight());
-                int width = DisplayUtils.px2dp(mContext, bitmap.getWidth());
-                int imageViewWidth = 102;
-                int imageViewHeigt = 76;
-                BigDecimal width_ = new BigDecimal(String.valueOf(imageViewHeigt))
-                        .divide(new BigDecimal(String.valueOf(height)), 2, RoundingMode.HALF_DOWN)
-                        .multiply(new BigDecimal(String.valueOf(width)));
-                BigDecimal height_ = new BigDecimal(String.valueOf(imageViewWidth))
-                        .divide(new BigDecimal(String.valueOf(width)), 2, RoundingMode.HALF_DOWN)
-                        .multiply(new BigDecimal(String.valueOf(height)));
-                if (width > height) {
-                    LogUtils.e("width > height " + height_.floatValue());
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DisplayUtils.dp2px(mContext, imageViewWidth),
-                            DisplayUtils.dp2px(mContext, height_.floatValue()));
-                    layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-                    imageView.setLayoutParams(layoutParams);
-                } else {
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DisplayUtils.dp2px(mContext, width_.floatValue()),
-                            DisplayUtils.dp2px(mContext, imageViewHeigt));
-                    layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-                    imageView.setLayoutParams(layoutParams);
-                }
+        if (item.getArt() != null) {
+            if (item.getArt().getName() != null) {
+                helper.setText(R.id.name, item.getArt().getName());
             }
-        });
-        Glide.with(mContext).load(item.getArt().getImg_main_file1().getUrl()) //图片地址
-                .into(imageView);
-        helper.addOnClickListener(R.id.tv_to_pay);
+            if (TextUtils.isEmpty(item.getArt().getAuthor().getDisplay_name()))
+                helper.setText(R.id.art_name, "");
+            else
+                helper.setText(R.id.art_name, item.getArt().getAuthor().getDisplay_name());
+            helper.setText(R.id.addr, mContext.getString(R.string.nft_address, item.getArt().getItem_hash()));
 
+            ImageView imageView = helper.getView(R.id.hot_picture);
+
+            Glide.with(mContext).asBitmap().load(item.getArt().getImg_main_file1().getUrl()).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                    int height = DisplayUtils.px2dp(mContext, bitmap.getHeight());
+                    int width = DisplayUtils.px2dp(mContext, bitmap.getWidth());
+                    int imageViewWidth = 102;
+                    int imageViewHeigt = 76;
+                    BigDecimal width_ = new BigDecimal(String.valueOf(imageViewHeigt))
+                            .divide(new BigDecimal(String.valueOf(height)), 2, RoundingMode.HALF_DOWN)
+                            .multiply(new BigDecimal(String.valueOf(width)));
+                    BigDecimal height_ = new BigDecimal(String.valueOf(imageViewWidth))
+                            .divide(new BigDecimal(String.valueOf(width)), 2, RoundingMode.HALF_DOWN)
+                            .multiply(new BigDecimal(String.valueOf(height)));
+                    if (width > height) {
+                        LogUtils.e("width > height " + height_.floatValue());
+                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DisplayUtils.dp2px(mContext, imageViewWidth),
+                                DisplayUtils.dp2px(mContext, height_.floatValue()));
+                        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+                        imageView.setLayoutParams(layoutParams);
+                    } else {
+                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DisplayUtils.dp2px(mContext, width_.floatValue()),
+                                DisplayUtils.dp2px(mContext, imageViewHeigt));
+                        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+                        imageView.setLayoutParams(layoutParams);
+                    }
+                }
+            });
+            Glide.with(mContext).load(item.getArt().getImg_main_file1().getUrl()) //图片地址
+                    .into(imageView);
+        }
+        helper.addOnClickListener(R.id.tv_to_pay);
     }
 
     public void clearAllTimer() {

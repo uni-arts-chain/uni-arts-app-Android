@@ -1070,7 +1070,11 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
                     multipartBody.addFormDataPart("img_main_file2", file.getName(), requestFrontFile);
                 }
             } else {
-                resourceType = PIC;
+                if (isLive2d && uploadLive2dVo != null) {
+                    resourceType = LIVE2D;
+                }else{
+                    resourceType = PIC;
+                }
                 requestFrontFile = RequestBody.create(MediaType.parse("image/*"), file);
                 multipartBody.addFormDataPart("img_main_file" + (fileList.indexOf(file) + 1), StringUtils.getFileNameNoEx(file.getName()), requestFrontFile);
             }
@@ -1104,7 +1108,6 @@ public class UploadArtActivity extends BaseActivity<ActivityUploadArtBinding> im
         if (!TextUtils.isEmpty(mDataBinding.artPriceInput.getText().toString())) {
             multipartBody.addFormDataPart("price", mDataBinding.artPriceInput.getText().toString());
         }
-
         multipartBody.addFormDataPart("resource_type", String.valueOf(resourceType));
         if (date != 0)
             multipartBody.addFormDataPart("royalty_expired_at", String.valueOf(date));

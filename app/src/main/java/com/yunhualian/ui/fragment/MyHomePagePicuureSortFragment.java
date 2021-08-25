@@ -79,9 +79,9 @@ public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePi
 
     @Override
     protected void initView() {
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
+//        if (!EventBus.getDefault().isRegistered(this)) {
+//            EventBus.getDefault().register(this);
+//        }
         state = getArguments().getString(STATE);
         picturesAdapter = new MyHomePageArtAdapter(artVoList);
         StaggeredGridLayoutManager sortLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -129,35 +129,35 @@ public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePi
         mBinding.swipeRefresh.setOnRefreshListener(this::queryArts);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(EventBusMessageEvent mEventBusMessageEvent) {
-        if (null != mEventBusMessageEvent && !TextUtils.isEmpty(mEventBusMessageEvent.getmMessage())) {
-            if (TextUtils.equals(ExtraConstant.EVENT_SELL_SUCCESS, mEventBusMessageEvent.getmMessage())) {
-                showPopWindow();
-            }
-        }
-    }
-
-    private void showPopWindow() {
-        if (mActivity != null)
-            uploadSuccessPopUpWindow = new UploadSuccessPopUpWindow(mActivity, new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
-                @Override
-                public void onCancleClick() {
-                    uploadSuccessPopUpWindow.dismiss();
-                }
-
-                @Override
-                public void onPerformClick() {
-                    uploadSuccessPopUpWindow.dismiss();
-//                    startActivity(CustomerServiceActivity.class);
-                }
-            });
-        uploadSuccessPopUpWindow.setOneKey(true);
-        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.confirm));
-        uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
-        uploadSuccessPopUpWindow.showAtLocation(mBinding.swipeRefresh, Gravity.CENTER, 0, 0);
-        EventBus.getDefault().removeAllStickyEvents();
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void Event(EventBusMessageEvent mEventBusMessageEvent) {
+//        if (null != mEventBusMessageEvent && !TextUtils.isEmpty(mEventBusMessageEvent.getmMessage())) {
+//            if (TextUtils.equals(ExtraConstant.EVENT_SELL_SUCCESS, mEventBusMessageEvent.getmMessage())) {
+//                showPopWindow();
+//            }
+//        }
+//    }
+//
+//    private void showPopWindow() {
+//        if (mActivity != null)
+//            uploadSuccessPopUpWindow = new UploadSuccessPopUpWindow(mActivity, new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
+//                @Override
+//                public void onCancleClick() {
+//                    uploadSuccessPopUpWindow.dismiss();
+//                }
+//
+//                @Override
+//                public void onPerformClick() {
+//                    uploadSuccessPopUpWindow.dismiss();
+////                    startActivity(CustomerServiceActivity.class);
+//                }
+//            });
+//        uploadSuccessPopUpWindow.setOneKey(true);
+//        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.confirm));
+//        uploadSuccessPopUpWindow.setContent(getString(R.string.text_sell_tips));
+//        uploadSuccessPopUpWindow.showAtLocation(mBinding.swipeRefresh, Gravity.CENTER, 0, 0);
+//        EventBus.getDefault().removeAllStickyEvents();
+//    }
 
     @Override
     public void onResume() {

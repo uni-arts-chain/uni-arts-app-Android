@@ -58,7 +58,6 @@ public class MyHomePageArtAdapter extends BaseQuickAdapter<SellingArtVo, BaseVie
             helper.setVisible(R.id.tv_video_tag, false);
             helper.setVisible(R.id.tv_live2d_tag, false);
         }
-
         helper.addOnClickListener(R.id.sellAction);
         helper.addOnClickListener(R.id.transferAction);
         helper.addOnClickListener(R.id.auctionAction);

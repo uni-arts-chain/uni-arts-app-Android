@@ -105,7 +105,7 @@ public class BlindBoxDetailActivity extends BaseActivity<ActivityBlindBoxDetailB
             staggeredGridLayoutManager.invalidateSpanAssignments();
         });
         mDataBinding.itemList.setAdapter(adapter);
-        blindBoxOpenPop = new BlindBoxOpenPop(this, null, (view, position) -> {
+        blindBoxOpenPop = new BlindBoxOpenPop(this, (view, position) -> {
             blindBoxOpenPop.dismiss();
             startActivity(MyHomePageActivity.class);
         });

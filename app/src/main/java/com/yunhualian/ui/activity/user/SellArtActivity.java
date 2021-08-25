@@ -73,7 +73,7 @@ public class SellArtActivity extends BaseActivity<ActivitySellArtBinding> {
         mToolBarOptions.titleId = R.string.title_sell;
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         sellingArtVo = (SellingArtVo) getIntent().getSerializableExtra(ARTINFO);
-        isFromDetail = getIntent().getBooleanExtra("is_from_detail",false);
+        isFromDetail = getIntent().getBooleanExtra("is_from_detail", false);
         if (sellingArtVo != null) {
             initPageData();
         }
@@ -208,6 +208,12 @@ public class SellArtActivity extends BaseActivity<ActivitySellArtBinding> {
     }
 
     private String signStr() {
+        int amount = 0;
+        try {
+            amount = Integer.parseInt(mDataBinding.amountInput.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String privateKey = SharedPreUtils.getString(this, SharedPreUtils.KEY_PRIVATE);
         String publicKey = SharedPreUtils.getString(this, SharedPreUtils.KEY_PUBLICKEY);
         String nonce = SharedPreUtils.getString(this, SharedPreUtils.KEY_NONCE);
@@ -217,9 +223,9 @@ public class SellArtActivity extends BaseActivity<ActivitySellArtBinding> {
         EncodableStruct<SubmittableExtrinsicV28> sigStr
                 = sendIntegrationTest.shouldfee(
                 receiveAddress.substring(2),
-                1,
+                amount,
                 sellingArtVo.getCollection_id(),
-                sellingArtVo.getItem_id(), privateKey, publicKey, nonce.substring(2), rxWebSocket, signer,AppConstant.genesisHash);
+                sellingArtVo.getItem_id(), privateKey, publicKey, nonce.substring(2), rxWebSocket, signer, AppConstant.genesisHash);
         String hexStr = ToHexV28Kt.toHex(sigStr);
         LogUtils.e("str == " + hexStr);
         return hexStr;
@@ -244,15 +250,9 @@ public class SellArtActivity extends BaseActivity<ActivitySellArtBinding> {
         RequestManager.instance().sellArt(param, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+                dismissLoading();
                 if (response.isSuccessful()) {
-                    dismissLoading();
-//                    ToastUtils.showShort("success");
-                    if(isFromDetail){
-                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS_FROM_DETAIL, null));
-                    }else{
-                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS, null));
-                    }
-
+                    ToastUtils.showShort("挂单成功");
                     finish();
                 }
             }

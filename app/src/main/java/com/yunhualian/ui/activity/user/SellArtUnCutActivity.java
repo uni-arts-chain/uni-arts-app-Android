@@ -175,12 +175,12 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
             @Override
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
-//                    ToastUtils.showShort("success");
-                    if(isFromDetail){
-                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS_FROM_DETAIL, null));
-                    }else{
-                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS, null));
-                    }
+                    ToastUtils.showShort("挂单成功");
+//                    if(isFromDetail){
+//                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS_FROM_DETAIL, null));
+//                    }else{
+//                        EventBus.getDefault().postSticky(new EventBusMessageEvent(ExtraConstant.EVENT_SELL_SUCCESS, null));
+//                    }
                     finish();
                 }
             }
