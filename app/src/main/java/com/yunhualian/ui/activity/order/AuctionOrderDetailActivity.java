@@ -66,25 +66,25 @@ public class AuctionOrderDetailActivity extends BaseActivity<ActivityAuctionOrde
         mDataBinding.orderInfo.setText(boughtArtVo.getSn());
         double royaltyValue;
         double royalty = 0;
-        if(orderType == 0){
+        if (orderType == 0) {
             mDataBinding.rlRotateLayout.setVisibility(View.GONE);
-        }else{
-            if(boughtArtVo.getArt().getRoyalty() == null){
+        } else {
+            if (boughtArtVo.getAuction().getRoyalty() == null) {
                 mDataBinding.rlRotateLayout.setVisibility(View.GONE);
-            }else{
-                if (Double.parseDouble(boughtArtVo.getArt().getRoyalty()) == 0) {
+            } else {
+                if (Double.parseDouble(boughtArtVo.getAuction().getRoyalty()) == 0) {
                     mDataBinding.rlRotateLayout.setVisibility(View.GONE);
                 } else {
                     mDataBinding.rlRotateLayout.setVisibility(View.VISIBLE);
                     royalty = Double.parseDouble(boughtArtVo.getArt().getRoyalty());
                     int royaltyPercent = (int) (royalty * 100);
                     mDataBinding.rotayRate.setText("(" + royaltyPercent + "%)");
-
-                    double winPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price());
-                    royaltyValue = winPrice * royalty;
-                    BigDecimal bigDecimal = new BigDecimal(royaltyValue);
-                    rotalyPrice = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    mDataBinding.rotayPrice.setText(getString(R.string.text_contain_royalty, String.valueOf(rotalyPrice)));
+                    rotalyPrice = Double.valueOf(boughtArtVo.getAuction().getRoyalty());
+//                    double winPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price());
+//                    royaltyValue = winPrice * royalty;
+//                    BigDecimal bigDecimal = new BigDecimal(royaltyValue);
+//                    rotalyPrice = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    mDataBinding.rotayPrice.setText(getString(R.string.text_contain_royalty, boughtArtVo.getAuction().getRoyalty()));
                 }
             }
         }

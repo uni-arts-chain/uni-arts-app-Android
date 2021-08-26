@@ -20,19 +20,18 @@ import com.blankj.utilcode.util.LogUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.igexin.sdk.PushManager;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.upbest.arouter.EventEntity;
 import com.yunhualian.R;
-import com.yunhualian.adapter.HomePagePopularAdapter;
 import com.yunhualian.adapter.HomePageThemeAdapter;
 import com.yunhualian.adapter.MyHomePageAdapter;
 import com.yunhualian.base.BaseFragment;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.FragmentHomeBinding;
 import com.yunhualian.entity.AnnouncementVo;
-import com.yunhualian.entity.ArtAuctionVo;
 import com.yunhualian.entity.ArtPriceVo;
 import com.yunhualian.entity.ArtTopicVo;
 import com.yunhualian.entity.ArtTypeVo;
@@ -159,11 +158,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         mBinding.applyLayout.setOnClickListener(this);
         mBinding.certifySearch.setOnClickListener(this);
         mBinding.wallet.setOnClickListener(this);
-        LogUtils.e(DateUtil.dateToStringWith(System.currentTimeMillis()));
         mBinding.currentTime.setText(DateUtil.dateToStringWithZh(System.currentTimeMillis()));
         messageIcon.setOnClickListener(v -> startActivity(MessagesActivity.class));
         kefuIcon.setOnClickListener(v -> startActivity(CustomerServiceActivity.class));
-
+        mBinding.mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset >= 0) {
+                    mBinding.srlShoopingMall.setEnabled(true);
+                } else {
+                    mBinding.srlShoopingMall.setEnabled(false);
+                }
+            }
+        });
         loginByAddress(false);
     }
 
@@ -196,12 +203,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     }
 
     private void initRefresh() {
-//        mBinding.srlShoopingMall.setColorSchemeResources(R.color.colorAccent);
-//        mBinding.srlShoopingMall.setDistanceToTriggerSync(500);
-//        mBinding.srlShoopingMall.setOnRefreshListener(() -> {
-//            mBinding.srlShoopingMall.setRefreshing(false);
-//            loginByAddress(false);
-//        });
+        mBinding.srlShoopingMall.setColorSchemeResources(R.color.colorAccent);
+        mBinding.srlShoopingMall.setDistanceToTriggerSync(300);
+        mBinding.srlShoopingMall.setOnRefreshListener(() -> {
+            mBinding.srlShoopingMall.setRefreshing(false);
+            loginByAddress(false);
+        });
     }
 
     @Override

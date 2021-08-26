@@ -254,19 +254,21 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         TextView mNftAddressTv = contentView.findViewById(R.id.tv_nft_address);
         RelativeLayout mNftCloseBtn = contentView.findViewById(R.id.layout_close);
         if (sellingArtVo != null) {
-            if (!TextUtils.isEmpty(sellingArtVo.getArt().getName())) {
-                mNftNameTv.setText(getString(R.string.nft_name, sellingArtVo.getArt().getName()));
-            }
-            if (YunApplication.getArtThemeVoList() != null && !YunApplication.getArtThemeVoList().isEmpty()) {
-                for (int i = 0; i < YunApplication.getArtThemeVoList().size(); i++) {
-                    if (YunApplication.getArtThemeVoList().get(i).getId() == sellingArtVo.getArt().getCategory_id()) {
-                        mNftThemeTv.setText(getString(R.string.nft_theme, YunApplication.getArtThemeVoList().get(i).getTitle()));
+            if (sellingArtVo.getArt() != null) {
+                if (!TextUtils.isEmpty(sellingArtVo.getArt().getName())) {
+                    mNftNameTv.setText(getString(R.string.nft_name, sellingArtVo.getArt().getName()));
+                }
+                if (YunApplication.getArtThemeVoList() != null && !YunApplication.getArtThemeVoList().isEmpty()) {
+                    for (int i = 0; i < YunApplication.getArtThemeVoList().size(); i++) {
+                        if (YunApplication.getArtThemeVoList().get(i).getId() == sellingArtVo.getArt().getCategory_id()) {
+                            mNftThemeTv.setText(getString(R.string.nft_theme, YunApplication.getArtThemeVoList().get(i).getTitle()));
+                        }
                     }
                 }
-            }
-            mNftCountTv.setText(getString(R.string.nft_count, String.valueOf(sellingArtVo.getArt().getTotal_amount())));
-            if (!TextUtils.isEmpty(sellingArtVo.getArt().getItem_hash())) {
-                mNftAddressTv.setText(sellingArtVo.getArt().getItem_hash());
+                mNftCountTv.setText(getString(R.string.nft_count, String.valueOf(sellingArtVo.getArt().getTotal_amount())));
+                if (!TextUtils.isEmpty(sellingArtVo.getArt().getItem_hash())) {
+                    mNftAddressTv.setText(sellingArtVo.getArt().getItem_hash());
+                }
             }
         }
         mZhengshuPopwinow = new BasePopupWindow(this);
@@ -613,7 +615,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     /*初始化页面信息*/
     public void initPageData() {
 
-        if (sellingArtVo == null) return;
+        if (sellingArtVo == null || sellingArtVo.getArt() == null) return;
         if (!TextUtils.isEmpty(sellingArtVo.getArt().getResource_type())) {
             if (sellingArtVo.getArt().getResource_type().equals("4")) {
                 if (!TextUtils.isEmpty(sellingArtVo.getArt().getImg_main_file2().getUrl()) && sellingArtVo.getArt().getImg_main_file2().getUrl().endsWith("mp4")) {

@@ -149,7 +149,6 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                 mDataBinding.rlAddZfbLayout.setVisibility(View.VISIBLE);
                 mDataBinding.rlZfbLayout.setVisibility(View.GONE);
                 mDataBinding.imgDeleteZfb.setVisibility(View.GONE);
-                mDataBinding.imgZfbCode.setVisibility(View.GONE);
                 mDataBinding.rlZfbSelect.setVisibility(View.GONE);
                 mDataBinding.rlZfbCodeLayout.setBackground(null);
             }
@@ -166,7 +165,6 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                     mDataBinding.rlAddZfbLayout.setVisibility(View.GONE);
                     mDataBinding.rlZfbLayout.setVisibility(View.VISIBLE);
 
-                    mDataBinding.imgZfbCode.setVisibility(View.VISIBLE);
                     mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
                     mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
                     mDataBinding.rlWxSelect.setVisibility(View.GONE);
@@ -191,7 +189,6 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
     private void showZfbCode(String path) {
         mDataBinding.rlAddZfbLayout.setVisibility(View.GONE);
         mDataBinding.rlZfbLayout.setVisibility(View.VISIBLE);
-        mDataBinding.imgZfbCode.setVisibility(View.VISIBLE);
         mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
         mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
         mDataBinding.rlZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
@@ -264,7 +261,6 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                     mDataBinding.rlAddZfbLayout.setVisibility(View.GONE);
                     mDataBinding.rlZfbLayout.setVisibility(View.VISIBLE);
 
-                    mDataBinding.imgZfbCode.setVisibility(View.VISIBLE);
                     mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
                     mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
                     mDataBinding.rlZfbCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
@@ -274,10 +270,16 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                     mDataBinding.rlZfbLayout.setVisibility(View.GONE);
 
                     mDataBinding.imgDeleteZfb.setVisibility(View.GONE);
-                    mDataBinding.imgZfbCode.setVisibility(View.GONE);
                     mDataBinding.rlZfbSelect.setVisibility(View.GONE);
                     mDataBinding.rlZfbCodeLayout.setBackground(null);
                 }
+            } else {
+                mDataBinding.rlAddZfbLayout.setVisibility(View.VISIBLE);
+                mDataBinding.rlZfbLayout.setVisibility(View.GONE);
+
+                mDataBinding.imgDeleteZfb.setVisibility(View.GONE);
+                mDataBinding.rlZfbSelect.setVisibility(View.GONE);
+                mDataBinding.rlZfbCodeLayout.setBackground(null);
             }
 
             if (YunApplication.getmUserVo().getWeixin_img() != null) {
@@ -297,10 +299,16 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                     mDataBinding.rlWxLayout.setVisibility(View.GONE);
 
                     mDataBinding.imgDeleteWx.setVisibility(View.GONE);
-                    mDataBinding.imgWxCode.setVisibility(View.GONE);
                     mDataBinding.rlWxSelect.setVisibility(View.GONE);
                     mDataBinding.rlWxCodeLayout.setBackground(null);
                 }
+            } else {
+                mDataBinding.rlAddWxLayout.setVisibility(View.VISIBLE);
+                mDataBinding.rlWxLayout.setVisibility(View.GONE);
+
+                mDataBinding.imgDeleteWx.setVisibility(View.GONE);
+                mDataBinding.rlWxSelect.setVisibility(View.GONE);
+                mDataBinding.rlWxCodeLayout.setBackground(null);
             }
         }
     }
@@ -352,6 +360,11 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                             }
                             if (data.getPay_type().equals("2")) {
                                 YunApplication.getmUserVo().getWeixin_img().setUrl(data.getImg().getUrl());
+                            }
+                            if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
+                                withDraws("alipay");
+                            } else if (!TextUtils.isEmpty(YunApplication.getmUserVo().getWeixin_img().getUrl())) {
+                                withDraws("weixin");
                             }
                         }
                     }
@@ -410,7 +423,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                             }
                             if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
                                 withDraws("alipay");
-                            } else {
+                            } else if (!TextUtils.isEmpty(YunApplication.getmUserVo().getWeixin_img().getUrl())) {
                                 withDraws("weixin");
                             }
                         }
@@ -509,13 +522,21 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                 } else {
                     //当前用户没有上传任何支付图片或想重新上传图片
                     if (YunApplication.getmUserVo() != null) {
-                        if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
-                            updateCode("alipay");
+                        if (YunApplication.getmUserVo().getAlipay_img() != null) {
+                            if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
+                                updateCode("alipay");
+                            } else {
+                                uploadCode("alipay");
+                            }
                         } else {
                             uploadCode("alipay");
                         }
-                        if (!TextUtils.isEmpty(YunApplication.getmUserVo().getWeixin_img().getUrl())) {
-                            updateCode("wechat");
+                        if (YunApplication.getmUserVo().getWeixin_img() != null) {
+                            if (!TextUtils.isEmpty(YunApplication.getmUserVo().getWeixin_img().getUrl())) {
+                                updateCode("wechat");
+                            } else {
+                                uploadCode("wechat");
+                            }
                         } else {
                             uploadCode("wechat");
                         }

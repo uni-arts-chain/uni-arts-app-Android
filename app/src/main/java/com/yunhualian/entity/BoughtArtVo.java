@@ -1859,7 +1859,9 @@ public class BoughtArtVo implements Serializable {
 
         private BuyerBean buyer;
 
-        private AuctionArtVo art;
+        private String royalty;
+
+        private ArtBean art;
 
         public int getId() {
             return id;
@@ -1997,12 +1999,20 @@ public class BoughtArtVo implements Serializable {
             this.buyer = buyer;
         }
 
-        public AuctionArtVo getArt() {
+        public ArtBean getArt() {
             return art;
         }
 
-        public void setArt(AuctionArtVo art) {
+        public void setArt(ArtBean art) {
             this.art = art;
+        }
+
+        public String getRoyalty() {
+            return royalty;
+        }
+
+        public void setRoyalty(String royalty) {
+            this.royalty = royalty;
         }
 
         public boolean isBuyer_paid() {
