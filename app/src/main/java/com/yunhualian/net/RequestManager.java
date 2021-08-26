@@ -593,8 +593,8 @@ public class RequestManager {
     /**
      * 查询账单明细
      */
-    public void queryAccountHistory(int page, MinerCallback<BaseResponseVo<List<HistoriesBean>>> mCallBack) {
-        Call<BaseResponseVo<List<HistoriesBean>>> mCall = NetworkManager.instance().getmRemoteService().queryAccountHistory(page);
+    public void queryAccountHistory(int page,int pageSize, MinerCallback<BaseResponseVo<List<HistoriesBean>>> mCallBack) {
+        Call<BaseResponseVo<List<HistoriesBean>>> mCall = NetworkManager.instance().getmRemoteService().queryAccountHistory(page,pageSize);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 

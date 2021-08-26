@@ -54,7 +54,7 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, Auctio
 
     @Override
     protected void convert(CountDownTimeViewHolder helper, AuctionArtVo item) {
-        helper.setText(R.id.order_time, DateUtil.dateToStringWith(item.getCreated_at() * TIME));
+        helper.setText(R.id.order_time, DateUtil.dateToStringWithoutYear(item.getCreated_at() * TIME));
         if (mState.equals(ATTEND)) {
             helper.setVisible(R.id.order_cost_layout, true);
             helper.setGone(R.id.tv_to_pay, false);

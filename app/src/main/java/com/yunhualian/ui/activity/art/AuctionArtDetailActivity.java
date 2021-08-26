@@ -8,13 +8,16 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -59,6 +62,7 @@ import com.yunhualian.ui.activity.AuctionRuleActivity;
 import com.yunhualian.ui.activity.OfferPriceListActivity;
 import com.yunhualian.ui.activity.ShowNetBigImgActivity;
 import com.yunhualian.ui.activity.user.CreateAuctionOrderActivity;
+import com.yunhualian.ui.activity.user.CreateOrderActivity;
 import com.yunhualian.ui.activity.user.MyHomePageActivity;
 import com.yunhualian.ui.activity.user.UserHomePageActivity;
 import com.yunhualian.ui.x5.WebViewActivity;
@@ -67,6 +71,7 @@ import com.yunhualian.ui.x5.X5WebViewForAliPayActivity;
 import com.yunhualian.utils.DateUtil;
 import com.yunhualian.utils.DisplayUtils;
 import com.yunhualian.utils.FileHelper;
+import com.yunhualian.utils.SharedPreUtils;
 import com.yunhualian.utils.ToastManager;
 import com.yunhualian.widget.BasePopupWindow;
 import com.yunhualian.widget.ConfirmOrCancelPopwindow;
@@ -122,6 +127,8 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
     private OfferPriceListAdapter mOfferPriceAdapter;
     private List<OfferPriceBean> mOfferPriceList;
 
+    private PopupWindow mPasswordPopwindow;
+    private String passwd;
 
     @Override
     public int getLayoutId() {
@@ -192,6 +199,7 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
         mDataBinding.imgVideo.setOnClickListener(this);
         mDataBinding.rlOfferPrice.setOnClickListener(this);
         initZhengShuPopwindow();
+        initPasswordPopwindow();
         mOfferPriceList = new ArrayList<>();
         mOfferPriceAdapter = new OfferPriceListAdapter(this, mOfferPriceList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -381,8 +389,65 @@ public class AuctionArtDetailActivity extends BaseActivity<ActivityAuctionArtDet
             mDepositPopwindow.dismiss();
         });
         payBtn.setOnClickListener(view -> {
-            goToPayDeposit();
             mDepositPopwindow.dismiss();
+            mPasswordPopwindow.showAtLocation(mDataBinding.parentLayout, Gravity.CENTER, 0, 0);
+        });
+
+    }
+
+    private void initPasswordPopwindow() {
+        View contentView = LayoutInflater.from(this).inflate(
+                R.layout.pop_passwd_layout, null);
+        ImageView closeBtn = contentView.findViewById(R.id.img_close);
+        TextView confirmBtn = contentView.findViewById(R.id.confirm);
+        TextView passwdHintTv = contentView.findViewById(R.id.tv_passwd_len_hint);
+        EditText passwdEd = contentView.findViewById(R.id.ed_password);
+        mPasswordPopwindow = new BasePopupWindow(this);
+        mPasswordPopwindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPasswordPopwindow.setContentView(contentView);
+        mPasswordPopwindow.setOutsideTouchable(false);
+        mPasswordPopwindow.setTouchable(true);
+        mPasswordPopwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+
+        passwdEd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (TextUtils.isEmpty(editable.toString())) {
+                    passwdHintTv.setText("0/6");
+                } else {
+                    passwdHintTv.setText(editable.toString().length() + "/6");
+                    passwd = editable.toString();
+                }
+            }
+        });
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (passwd.equals(SharedPreUtils.getString(AuctionArtDetailActivity.this, SharedPreUtils.KEY_PIN))) {
+                    mPasswordPopwindow.dismiss();
+                    goToPayDeposit();
+                } else {
+                    com.blankj.utilcode.util.ToastUtils.showShort("密码错误");
+                }
+            }
+        });
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                passwdEd.setText("");
+                mPasswordPopwindow.dismiss();
+            }
         });
 
     }

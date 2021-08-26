@@ -105,7 +105,7 @@ public class CreateOrderForBlindBoxActivity extends BaseActivity<ActivityCreateO
                 mDataBinding.weichatPay.setChecked(false);
                 mDataBinding.aliPay.setChecked(false);
             } else {
-                if (!mDataBinding.weichatPay.isChecked() && !mDataBinding.weichatPay.isChecked()) {
+                if (!mDataBinding.weichatPay.isChecked() && !mDataBinding.aliPay.isChecked()) {
                     mDataBinding.remain.setChecked(true);
                 }
             }
@@ -264,7 +264,7 @@ public class CreateOrderForBlindBoxActivity extends BaseActivity<ActivityCreateO
             public void onSuccess(Call<BaseResponseVo<PayResult>> call, Response<BaseResponseVo<PayResult>> response) {
                 dismissLoading();
                 if (response.isSuccessful()) {
-                    if (payType == "account") {
+                    if (payType.equals("account")) {
                         finish();
                     } else {
                         String url = response.body().getBody().getUrl();

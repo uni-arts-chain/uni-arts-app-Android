@@ -2,12 +2,10 @@ package com.yunhualian.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunhualian.R;
 import com.yunhualian.adapter.AuctionRecordsAdapter;
 import com.yunhualian.base.BaseFragment;
@@ -49,15 +47,6 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
     @Override
     protected void initView() {
         initRecyclerView();
-        if (mState.equals("attend")) {
-            queryAttendAuctions();
-        } else if (mState.equals("bid")) {
-            queryBidAuctions();
-        } else if (mState.equals("win")) {
-            queryWinAuctions();
-        } else if (mState.equals("finish")) {
-            queryFinishedAuctions();
-        }
         initRefresh();
     }
 
@@ -114,6 +103,20 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
             }
             mBinding.srlLayout.setRefreshing(false);
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mState.equals("attend")) {
+            queryAttendAuctions();
+        } else if (mState.equals("bid")) {
+            queryBidAuctions();
+        } else if (mState.equals("win")) {
+            queryWinAuctions();
+        } else if (mState.equals("finish")) {
+            queryFinishedAuctions();
+        }
     }
 
     private void queryAttendAuctions() {

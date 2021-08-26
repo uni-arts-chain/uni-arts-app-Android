@@ -47,27 +47,30 @@ public class SellAndBuyAdapter extends BaseQuickAdapter<BoughtArtVo, BaseViewHol
         String price;
         double royaltyValue;
         double royalty = 0;
-        if (item.getArt().getRoyalty() == null) {
+        if (orderType == 0) { //卖出订单
             helper.setGone(R.id.rotailRate, false);
         } else {
-            if (Double.parseDouble(item.getArt().getRoyalty()) == 0) {
+            if (item.getArt().getRoyalty() == null) {
                 helper.setGone(R.id.rotailRate, false);
             } else {
-                royalty = Double.parseDouble(item.getArt().getRoyalty());
-                helper.setGone(R.id.rotailRate, true);
-                if (item.getTrade_refer().equals("Auction")) {
-                    double winPrice = Double.parseDouble(item.getAuction().getWin_price());
-                    royaltyValue = winPrice * royalty;
+                if (Double.parseDouble(item.getArt().getRoyalty()) == 0) {
+                    helper.setGone(R.id.rotailRate, false);
                 } else {
-                    double totalPrice = Double.parseDouble(item.getTotal_price());
-                    royaltyValue = totalPrice * royalty;
+                    royalty = Double.parseDouble(item.getArt().getRoyalty());
+                    helper.setGone(R.id.rotailRate, true);
+                    if (item.getTrade_refer().equals("Auction")) {
+                        double winPrice = Double.parseDouble(item.getAuction().getWin_price());
+                        royaltyValue = winPrice * royalty;
+                    } else {
+                        double totalPrice = Double.parseDouble(item.getTotal_price());
+                        royaltyValue = totalPrice * royalty;
+                    }
+                    BigDecimal bigDecimal = new BigDecimal(royaltyValue);
+                    double royaltyDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    helper.setText(R.id.rotailRate, mContext.getString(R.string.text_contain_royalty, String.valueOf(royaltyDecimal)));
                 }
-                BigDecimal bigDecimal = new BigDecimal(royaltyValue);
-                double royaltyDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                helper.setText(R.id.rotailRate, mContext.getString(R.string.text_contain_royalty, String.valueOf(royaltyDecimal)));
             }
         }
-
 
         if (item.getTrade_refer().equals("Auction")) {
             helper.setVisible(R.id.img_auction_tag, true);
@@ -77,7 +80,7 @@ public class SellAndBuyAdapter extends BaseQuickAdapter<BoughtArtVo, BaseViewHol
                 double winPrice = Double.parseDouble(item.getAuction().getWin_price());
                 double deposit = Double.parseDouble(item.getAuction().getDeposit_amount());
                 royaltyValue = winPrice * royalty;
-                price = new BigDecimal(winPrice + deposit + royaltyValue).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+                price = new BigDecimal(winPrice + royaltyValue).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
             }
             helper.setText(R.id.order_cost, YunApplication.PAY_CURRENCY.concat(price));
         } else {

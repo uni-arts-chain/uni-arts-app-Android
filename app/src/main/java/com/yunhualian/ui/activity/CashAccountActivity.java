@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yunhualian.R;
 import com.yunhualian.adapter.AccountHistoryAdapter;
 import com.yunhualian.base.BaseActivity;
@@ -61,8 +62,14 @@ public class CashAccountActivity extends BaseActivity<ActivityCashAccountLayoutB
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mDataBinding.rvBills.setLayoutManager(layoutManager);
         adapter.setEmptyView(R.layout.layout_entrust_empty, mDataBinding.rvBills);
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                queryHistories();
+            }
+        },mDataBinding.rvBills);
         mDataBinding.rvBills.setAdapter(adapter);
-        adapter.setOnLoadMoreListener(this::queryHistories, mDataBinding.rvBills);
         initRefresh();
         queryHistories();
 
@@ -71,7 +78,7 @@ public class CashAccountActivity extends BaseActivity<ActivityCashAccountLayoutB
 
     private void queryHistories() {
         showLoading(getString(R.string.progress_loading));
-        RequestManager.instance().queryAccountHistory(page, new MinerCallback<BaseResponseVo<List<HistoriesBean>>>() {
+        RequestManager.instance().queryAccountHistory(page, 20,new MinerCallback<BaseResponseVo<List<HistoriesBean>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<HistoriesBean>>> call, Response<BaseResponseVo<List<HistoriesBean>>> response) {
                 dismissLoading();
@@ -89,6 +96,7 @@ public class CashAccountActivity extends BaseActivity<ActivityCashAccountLayoutB
                             if (list.size() > 0) {
                                 adapter.setNewData(list);
                             }
+                        }else{
                             if (page > 1) {
                                 adapter.loadMoreEnd();
                             }
@@ -100,11 +108,13 @@ public class CashAccountActivity extends BaseActivity<ActivityCashAccountLayoutB
             @Override
             public void onError(Call<BaseResponseVo<List<HistoriesBean>>> call, Response<BaseResponseVo<List<HistoriesBean>>> response) {
                 dismissLoading();
+                adapter.loadMoreEnd();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
                 dismissLoading();
+                adapter.loadMoreEnd();
             }
         });
     }

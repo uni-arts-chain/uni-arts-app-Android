@@ -338,7 +338,7 @@ public interface RemoteService {
 
     /*账单明细*/
     @GET("/api/v2/account_histories")
-    Call<BaseResponseVo<List<HistoriesBean>>> queryAccountHistory(@Query("page") int page);
+    Call<BaseResponseVo<List<HistoriesBean>>> queryAccountHistory(@Query("page") int page,@Query("per_page") int pageSize);
 
     // 上传wx和alipay收款二维码
     @POST("/api/v2/payment_methods")

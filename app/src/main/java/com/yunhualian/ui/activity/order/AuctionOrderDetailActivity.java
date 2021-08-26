@@ -66,28 +66,33 @@ public class AuctionOrderDetailActivity extends BaseActivity<ActivityAuctionOrde
         mDataBinding.orderInfo.setText(boughtArtVo.getSn());
         double royaltyValue;
         double royalty = 0;
-        if(boughtArtVo.getArt().getRoyalty() == null){
+        if(orderType == 0){
             mDataBinding.rlRotateLayout.setVisibility(View.GONE);
         }else{
-            if (Double.parseDouble(boughtArtVo.getArt().getRoyalty()) == 0) {
+            if(boughtArtVo.getArt().getRoyalty() == null){
                 mDataBinding.rlRotateLayout.setVisibility(View.GONE);
-            } else {
-                mDataBinding.rlRotateLayout.setVisibility(View.VISIBLE);
-                royalty = Double.parseDouble(boughtArtVo.getArt().getRoyalty());
-                int royaltyPercent = (int) (royalty * 100);
-                mDataBinding.rotayRate.setText("(" + royaltyPercent + "%)");
+            }else{
+                if (Double.parseDouble(boughtArtVo.getArt().getRoyalty()) == 0) {
+                    mDataBinding.rlRotateLayout.setVisibility(View.GONE);
+                } else {
+                    mDataBinding.rlRotateLayout.setVisibility(View.VISIBLE);
+                    royalty = Double.parseDouble(boughtArtVo.getArt().getRoyalty());
+                    int royaltyPercent = (int) (royalty * 100);
+                    mDataBinding.rotayRate.setText("(" + royaltyPercent + "%)");
 
-                double winPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price());
-                royaltyValue = winPrice * royalty;
-                BigDecimal bigDecimal = new BigDecimal(royaltyValue);
-                rotalyPrice = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                mDataBinding.rotayPrice.setText(getString(R.string.text_contain_royalty, String.valueOf(rotalyPrice)));
+                    double winPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price());
+                    royaltyValue = winPrice * royalty;
+                    BigDecimal bigDecimal = new BigDecimal(royaltyValue);
+                    rotalyPrice = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    mDataBinding.rotayPrice.setText(getString(R.string.text_contain_royalty, String.valueOf(rotalyPrice)));
+                }
             }
         }
 
+
         if (boughtArtVo.getAuction() != null) {
             depositPrice = Double.parseDouble(boughtArtVo.getDeposit()); //保证金
-            winPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price()) + depositPrice; //拍中价
+            winPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price()); //拍中价
             realPrice = winPrice + rotalyPrice; //实付款
         }
 

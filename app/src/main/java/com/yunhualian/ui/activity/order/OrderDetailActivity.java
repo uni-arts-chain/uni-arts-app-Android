@@ -68,26 +68,31 @@ public class OrderDetailActivity extends BaseActivity<ActivityOrderDetailBinding
 
         double royaltyValue;
         double royalty = 0;
-        if (boughtArtVo.getArt().getRoyalty() == null) {
+        if(orderType == 0){
             mDataBinding.rotailRate.setVisibility(View.GONE);
-        } else {
-            if (Double.parseDouble(boughtArtVo.getArt().getRoyalty()) == 0) {
+        }else{
+            if (boughtArtVo.getArt().getRoyalty() == null) {
                 mDataBinding.rotailRate.setVisibility(View.GONE);
             } else {
-                royalty = Double.parseDouble(boughtArtVo.getArt().getRoyalty());
-                mDataBinding.rotailRate.setVisibility(View.VISIBLE);
-                if (boughtArtVo.getTrade_refer().equals("Auction")) {
-                    double winPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price());
-                    royaltyValue = winPrice * royalty;
+                if (Double.parseDouble(boughtArtVo.getArt().getRoyalty()) == 0) {
+                    mDataBinding.rotailRate.setVisibility(View.GONE);
                 } else {
-                    double totalPrice = Double.parseDouble(boughtArtVo.getTotal_price());
-                    royaltyValue = totalPrice * royalty;
+                    royalty = Double.parseDouble(boughtArtVo.getArt().getRoyalty());
+                    mDataBinding.rotailRate.setVisibility(View.VISIBLE);
+                    if (boughtArtVo.getTrade_refer().equals("Auction")) {
+                        double winPrice = Double.parseDouble(boughtArtVo.getAuction().getWin_price());
+                        royaltyValue = winPrice * royalty;
+                    } else {
+                        double totalPrice = Double.parseDouble(boughtArtVo.getTotal_price());
+                        royaltyValue = totalPrice * royalty;
+                    }
+                    BigDecimal bigDecimal = new BigDecimal(royaltyValue);
+                    double royaltyDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    mDataBinding.rotailRate.setText(getString(R.string.text_contain_royalty, String.valueOf(royaltyDecimal)));
                 }
-                BigDecimal bigDecimal = new BigDecimal(royaltyValue);
-                double royaltyDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                mDataBinding.rotailRate.setText(getString(R.string.text_contain_royalty, String.valueOf(royaltyDecimal)));
             }
         }
+
 
         if (orderType == BigDecimal.ZERO.intValue()) {
             mDataBinding.artPrize.setText(YunApplication.PAY_CURRENCY.concat(new BigDecimal(boughtArtVo.getPrice()).multiply(new BigDecimal(boughtArtVo.getAmount())).stripTrailingZeros().toPlainString()));
