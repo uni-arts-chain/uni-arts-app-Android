@@ -135,10 +135,9 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
                             } else {
                                 mList.addAll(list);
                             }
+                            mAdapter.setNewData(mList);
                             page++;
-                            if (mList.size() > 0) {
-                                mAdapter.setNewData(mList);
-                            }
+                        } else {
                             if (page > 1) {
                                 mAdapter.loadMoreEnd();
                             }
@@ -175,10 +174,9 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
                             } else {
                                 mList.addAll(list);
                             }
+                            mAdapter.setNewData(mList);
                             page++;
-                            if (mList.size() > 0) {
-                                mAdapter.setNewData(mList);
-                            }
+                        } else {
                             if (page > 1) {
                                 mAdapter.loadMoreEnd();
                             }
@@ -215,10 +213,9 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
                             } else {
                                 mList.addAll(list);
                             }
+                            mAdapter.setNewData(mList);
                             page++;
-                            if (mList.size() > 0) {
-                                mAdapter.setNewData(mList);
-                            }
+                        } else {
                             if (page > 1) {
                                 mAdapter.loadMoreEnd();
                             }
@@ -257,6 +254,7 @@ public class AuctionRecordsFragment extends BaseFragment<FragmentAuctionRecordLa
                             }
                             mAdapter.setNewData(mList);
                             page++;
+                        } else {
                             if (page > 1) {
                                 mAdapter.loadMoreEnd();
                             }

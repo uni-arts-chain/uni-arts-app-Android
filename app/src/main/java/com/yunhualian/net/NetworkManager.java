@@ -50,9 +50,9 @@ import com.yunhualian.BuildConfig;
 import com.yunhualian.service.TokenInterceptor;
 
 public class NetworkManager {
-    private static final int HTTP_CONNECT_TIMEOUT = 30;
-    private static final int HTTP_READ_TIMEOUT = 30;
-    private static final int HTTP_WRITE_TIMEOUT = 30;
+    private static final int HTTP_CONNECT_TIMEOUT = 60;
+    private static final int HTTP_READ_TIMEOUT = 60;
+    private static final int HTTP_WRITE_TIMEOUT = 60;
 
     private static final int HTTP_CONNECT_TIMEOUT_LONG = 30;
     private static final int HTTP_READ_TIMEOUT_LONG = 30;

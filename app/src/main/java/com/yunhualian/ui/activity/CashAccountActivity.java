@@ -1,5 +1,6 @@
 package com.yunhualian.ui.activity;
 
+import android.content.Intent;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -165,7 +166,9 @@ public class CashAccountActivity extends BaseActivity<ActivityCashAccountLayoutB
                 ToastUtils.showShort("没有可用余额");
                 return;
             }
-            startActivity(WithdrawActivity.class);
+            Intent intent = new Intent(CashAccountActivity.this,WithdrawActivity.class);
+            intent.putExtra("remains",accountRemain);
+            startActivity(intent);
         }
     }
 }

@@ -48,6 +48,8 @@ public class AuctionArtVo implements Serializable {
 
     private SellingArtVo art;
 
+    private String royalty;
+
     public int getId() {
         return id;
     }
@@ -222,6 +224,14 @@ public class AuctionArtVo implements Serializable {
 
     public void setCurrent_user_highest_price(String current_user_highest_price) {
         this.current_user_highest_price = current_user_highest_price;
+    }
+
+    public String getRoyalty() {
+        return royalty;
+    }
+
+    public void setRoyalty(String royalty) {
+        this.royalty = royalty;
     }
 
     public static class BuyerBean implements Serializable {

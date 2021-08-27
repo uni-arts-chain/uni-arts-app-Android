@@ -133,7 +133,7 @@ public class CreateAuctionOrderActivity extends BaseActivity<ActivityCreateAucti
                 seconds = seconds / 1000;                       //转换秒钟
 
                 String time = getString(R.string.time_holder, getTv(hours), getTv(minutes), getTv(seconds));
-                mDataBinding.tvCountTimeHint.setText(getString(R.string.count_time_hint,time));
+                mDataBinding.tvCountTimeHint.setText(getString(R.string.count_time_hint, time));
             }
 
             @Override
@@ -143,21 +143,24 @@ public class CreateAuctionOrderActivity extends BaseActivity<ActivityCreateAucti
                 }
                 mDataBinding.tvBuy.setText("超时未支付");
                 mDataBinding.buyNow.setEnabled(false);
-                mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(CreateAuctionOrderActivity.this,R.drawable.shape_btn_gray));
+                mDataBinding.buyNow.setBackground(ContextCompat.getDrawable(CreateAuctionOrderActivity.this, R.drawable.shape_btn_gray));
             }
         }.start();
         showImage();
+
         mDataBinding.name.setText(sellingArtVo.getArt().getName());
         mDataBinding.tvAuctionAmountValue.setText(String.valueOf(sellingArtVo.getAmount()));
-        String royaltyRate = sellingArtVo.getArt().getRoyalty() == null ? "0" : sellingArtVo.getArt().getRoyalty().toPlainString();
-        mDataBinding.rotayRate.setText(getString(R.string.royalty_rate_value,
-                TextUtils.isEmpty(royaltyRate) ?
-                        "0%" :
-                        new BigDecimal(royaltyRate).multiply(new BigDecimal("100")).stripTrailingZeros().toPlainString().concat("%")));
-
-        mDataBinding.rotayPrice.setText(getString(R.string.text_buy_amount,
-                new BigDecimal(sellingArtVo.getWin_price())
-                        .multiply(new BigDecimal(royaltyRate)).setScale(ROUND, RoundingMode.UP).stripTrailingZeros().toPlainString()));
+        if (sellingArtVo.getRoyalty() != null && Double.parseDouble(sellingArtVo.getRoyalty()) != 0) {
+            mDataBinding.rlRotateLayout.setVisibility(View.VISIBLE);
+            String royaltyRate = sellingArtVo.getArt().getRoyalty() == null ? "0" : sellingArtVo.getArt().getRoyalty().toPlainString();
+            mDataBinding.rotayRate.setText(getString(R.string.royalty_rate_value,
+                    TextUtils.isEmpty(royaltyRate) ?
+                            "0%" :
+                            new BigDecimal(royaltyRate).multiply(new BigDecimal("100")).stripTrailingZeros().toPlainString().concat("%")));
+            mDataBinding.rotayPrice.setText(getString(R.string.text_buy_amount, sellingArtVo.getRoyalty()));
+        } else {
+            mDataBinding.rlRotateLayout.setVisibility(View.GONE);
+        }
         mDataBinding.tvDepositValue.setText("¥" + sellingArtVo.getDeposit_amount());
         mDataBinding.artName.setText(sellingArtVo.getArt().getAuthor().getDisplay_name());
 
@@ -166,9 +169,20 @@ public class CreateAuctionOrderActivity extends BaseActivity<ActivityCreateAucti
         mDataBinding.aPayLayout.setOnClickListener(this);
         mDataBinding.remainLayout.setOnClickListener(this);
         mDataBinding.price.setText(getString(R.string.text_buy_amount, new BigDecimal(sellingArtVo.getWin_price()).stripTrailingZeros().toPlainString()));
-        totalPrice =
-                new BigDecimal(sellingArtVo.getWin_price()).add(new BigDecimal(sellingArtVo.getWin_price())
-                        .multiply(new BigDecimal(royaltyRate)).setScale(ROUND, BigDecimal.ROUND_UP)).stripTrailingZeros().toPlainString();
+        if (sellingArtVo.getRoyalty() == null || Double.parseDouble(sellingArtVo.getRoyalty()) == 0) {
+            totalPrice = (new BigDecimal(sellingArtVo.getWin_price()).
+                    subtract(new BigDecimal(sellingArtVo.getDeposit_amount()))).
+                    setScale(2, BigDecimal.ROUND_UP).
+                    stripTrailingZeros().
+                    toPlainString();
+        } else {
+            totalPrice = (new BigDecimal(sellingArtVo.getWin_price()).
+                    subtract(new BigDecimal(sellingArtVo.getDeposit_amount()))
+                    .add(new BigDecimal(sellingArtVo.getRoyalty()))).
+                    setScale(2, BigDecimal.ROUND_UP).
+                    stripTrailingZeros().
+                    toPlainString();
+        }
         mDataBinding.priceTotal.setText(getString(R.string.text_buy_amount,
                 totalPrice));
         mDataBinding.buyNow.setOnClickListener(this);

@@ -31,9 +31,11 @@ import com.yunhualian.base.ToolBarOptions;
 import com.yunhualian.base.YunApplication;
 import com.yunhualian.databinding.ActivityWithdrawLayoutBinding;
 import com.yunhualian.entity.BaseResponseVo;
+import com.yunhualian.entity.UserVo;
 import com.yunhualian.entity.WithDrawsBean;
 import com.yunhualian.net.MinerCallback;
 import com.yunhualian.net.RequestManager;
+import com.yunhualian.utils.StringUtils;
 
 import java.io.File;
 import java.util.HashMap;
@@ -59,6 +61,8 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
     private RequestOptions options;
     private Map<String, File> fileMap = new HashMap<>();
     private Map<String, String> mImgUrlMap = new HashMap<>();
+    private String payType = "alipay";
+    private String remains;
 
     @Override
     public int getLayoutId() {
@@ -98,6 +102,9 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                 .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
 
+        if (getIntent() != null) {
+            remains = getIntent().getStringExtra("remains");
+        }
         mDataBinding.imgZfbAdd.setOnClickListener(this);
         mDataBinding.imgWxAdd.setOnClickListener(this);
         mDataBinding.imgDeleteZfb.setOnClickListener(this);
@@ -140,6 +147,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
             showZfbCode(alipayFile.getAbsolutePath());
         } else {
             if (!TextUtils.isEmpty(mImgUrlMap.get("alipay_url"))) {
+                payType = "alipay";
                 mDataBinding.rlAddZfbLayout.setVisibility(View.GONE);
                 mDataBinding.rlZfbLayout.setVisibility(View.VISIBLE);
                 mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
@@ -162,6 +170,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                 mDataBinding.rlAddWxLayout.setVisibility(View.GONE);
                 mDataBinding.rlWxLayout.setVisibility(View.VISIBLE);
                 if (mImgUrlMap.get("alipay_url") != null || fileMap.get("alipay_code") != null) {
+                    payType = "alipay";
                     mDataBinding.rlAddZfbLayout.setVisibility(View.GONE);
                     mDataBinding.rlZfbLayout.setVisibility(View.VISIBLE);
 
@@ -169,6 +178,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                     mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
                     mDataBinding.rlWxSelect.setVisibility(View.GONE);
                 } else {
+                    payType = "weixin";
                     mDataBinding.rlAddZfbLayout.setVisibility(View.VISIBLE);
                     mDataBinding.rlZfbLayout.setVisibility(View.GONE);
 
@@ -187,6 +197,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
     }
 
     private void showZfbCode(String path) {
+        payType = "alipay";
         mDataBinding.rlAddZfbLayout.setVisibility(View.GONE);
         mDataBinding.rlZfbLayout.setVisibility(View.VISIBLE);
         mDataBinding.imgDeleteZfb.setVisibility(View.VISIBLE);
@@ -203,10 +214,12 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
         mDataBinding.imgDeleteWx.setVisibility(View.VISIBLE);
 
         if (fileMap.get("alipay_code") != null || mImgUrlMap.get("alipay_url") != null) {
+            payType = "alipay";
             mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
             mDataBinding.rlWxSelect.setVisibility(View.GONE);
             mDataBinding.rlWxCodeLayout.setBackground(null);
         } else {
+            payType = "weixin";
             mDataBinding.rlZfbSelect.setVisibility(View.GONE);
             mDataBinding.rlWxSelect.setVisibility(View.VISIBLE);
             mDataBinding.rlWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
@@ -257,6 +270,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
         if (YunApplication.getmUserVo() != null) {
             if (YunApplication.getmUserVo().getAlipay_img() != null) {
                 if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
+                    payType = "alipay";
                     mImgUrlMap.put("alipay_url", YunApplication.getmUserVo().getAlipay_img().getUrl());
                     mDataBinding.rlAddZfbLayout.setVisibility(View.GONE);
                     mDataBinding.rlZfbLayout.setVisibility(View.VISIBLE);
@@ -290,6 +304,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
 
                     mDataBinding.imgDeleteWx.setVisibility(View.VISIBLE);
                     if (TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
+                        payType = "weixin";
                         mDataBinding.rlWxSelect.setVisibility(View.VISIBLE);
                         mDataBinding.rlWxCodeLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_yellow_selected));
                     }
@@ -336,14 +351,14 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                 return;
             }
             RequestBody alipayFrontFile = RequestBody.create(MediaType.parse("image/*"), alipayFile);
-            multipartBody.addFormDataPart("alipay_img", alipayFile.getName(), alipayFrontFile);
+            multipartBody.addFormDataPart("alipay_img", StringUtils.getFileNameNoEx(alipayFile.getName()), alipayFrontFile);
         } else {
             File wechatFile = fileMap.get("wechat_code");
             if (wechatFile == null) {
                 return;
             }
             RequestBody wechatFrontFile = RequestBody.create(MediaType.parse("image/*"), wechatFile);
-            multipartBody.addFormDataPart("weixin_img", wechatFile.getName(), wechatFrontFile);
+            multipartBody.addFormDataPart("weixin_img", StringUtils.getFileNameNoEx(wechatFile.getName()), wechatFrontFile);
         }
 
         RequestBody mRequestBody = multipartBody.build();
@@ -355,17 +370,14 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                     if (response.body().getBody() != null) {
                         UploadCodeBean data = response.body().getBody();
                         if (data != null) {
-                            if (data.getPay_type().equals("1")) {
+                            if (type.equals("alipay")) {
+                                YunApplication.getmUserVo().setAlipay_img(new UserVo.AlipayImg());
                                 YunApplication.getmUserVo().getAlipay_img().setUrl(data.getImg().getUrl());
-                            }
-                            if (data.getPay_type().equals("2")) {
+                            } else {
+                                YunApplication.getmUserVo().setWeixin_img(new UserVo.WechatImg());
                                 YunApplication.getmUserVo().getWeixin_img().setUrl(data.getImg().getUrl());
                             }
-                            if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
-                                withDraws("alipay");
-                            } else if (!TextUtils.isEmpty(YunApplication.getmUserVo().getWeixin_img().getUrl())) {
-                                withDraws("weixin");
-                            }
+                            withDraws();
                         }
                     }
                 }
@@ -397,14 +409,14 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                 return;
             }
             RequestBody alipayFrontFile = RequestBody.create(MediaType.parse("image/*"), alipayFile);
-            multipartBody.addFormDataPart("alipay_img", alipayFile.getName(), alipayFrontFile);
+            multipartBody.addFormDataPart("alipay_img", StringUtils.getFileNameNoEx(alipayFile.getName()), alipayFrontFile);
         } else {
             File wechatFile = fileMap.get("wechat_code");
             if (wechatFile == null) {
                 return;
             }
             RequestBody wechatFrontFile = RequestBody.create(MediaType.parse("image/*"), wechatFile);
-            multipartBody.addFormDataPart("weixin_img", wechatFile.getName(), wechatFrontFile);
+            multipartBody.addFormDataPart("weixin_img", StringUtils.getFileNameNoEx(wechatFile.getName()), wechatFrontFile);
         }
         RequestBody mRequestBody = multipartBody.build();
         RequestManager.instance().updateQrCode(mRequestBody, new MinerCallback<BaseResponseVo<UploadCodeBean>>() {
@@ -415,17 +427,14 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
                     if (response.body().getBody() != null) {
                         UploadCodeBean data = response.body().getBody();
                         if (data != null) {
-                            if (data.getPay_type().equals("1")) {
+                            if (type.equals("alipay")) {
+                                YunApplication.getmUserVo().setAlipay_img(new UserVo.AlipayImg());
+                                YunApplication.getmUserVo().getAlipay_img().setUrl(data.getImg().getUrl());
+                            } else {
+                                YunApplication.getmUserVo().setWeixin_img(new UserVo.WechatImg());
                                 YunApplication.getmUserVo().getWeixin_img().setUrl(data.getImg().getUrl());
                             }
-                            if (data.getPay_type().equals("2")) {
-                                YunApplication.getmUserVo().getAlipay_img().setUrl(data.getImg().getUrl());
-                            }
-                            if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
-                                withDraws("alipay");
-                            } else if (!TextUtils.isEmpty(YunApplication.getmUserVo().getWeixin_img().getUrl())) {
-                                withDraws("weixin");
-                            }
+                            withDraws();
                         }
                     }
                 }
@@ -443,11 +452,11 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
         });
     }
 
-    private void withDraws(String type) {
+    private void withDraws() {
         showLoading(getString(R.string.progress_loading));
         HashMap<String, String> params = new HashMap<>();
-        params.put("amount", "10");
-        params.put("pay_type", type);
+        params.put("amount", remains);
+        params.put("pay_type", payType);
         RequestManager.instance().withdraws(params, new MinerCallback<BaseResponseVo<WithDrawsBean>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<WithDrawsBean>> call, Response<BaseResponseVo<WithDrawsBean>> response) {
@@ -510,42 +519,57 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
             case R.id.btn_withdraw:
                 if (mImgUrlMap.size() > 0) { //当前用户已上传支付图片
                     if (!TextUtils.isEmpty(mImgUrlMap.get("alipay_url")) && !TextUtils.isEmpty(mImgUrlMap.get("wechat_url"))) {
-                        //当前用户已上传支付宝二维码以及微信二维码，则直接提现
-                        withDraws("alipay");
-                    } else if (!TextUtils.isEmpty(mImgUrlMap.get("alipay_url"))) {
-                        //当前用户已上传支付宝二维码,但是无微信二维码，则上传微信二维码后提现
-                        updateCode("wechat");
-                    } else if (!TextUtils.isEmpty(mImgUrlMap.get("wechat_url"))) {
-                        //当前用户已上传微信二维码,但是无支付宝二维码，则上传支付宝二维码后提现
-                        updateCode("alipay");
+                        withDraws();
+                    } else {
+                        if (payType.equals("alipay")) {
+                            if (!TextUtils.isEmpty(mImgUrlMap.get("alipay_url"))) {
+                                withDraws();
+                            } else {
+                                if (YunApplication.getmUserVo().getAlipay_img() != null) {
+                                    updateCode("alipay");
+                                } else {
+                                    uploadCode("alipay");
+                                }
+                            }
+                            return;
+                        }
+
+                        if (payType.equals("weixin")) {
+                            if (!TextUtils.isEmpty(mImgUrlMap.get("wechat_url"))) {
+                                withDraws();
+                            } else {
+                                if (YunApplication.getmUserVo().getWeixin_img() != null) {
+                                    updateCode("wechat");
+                                } else {
+                                    uploadCode("wechat");
+                                }
+                            }
+                        }
                     }
                 } else {
                     //当前用户没有上传任何支付图片或想重新上传图片
-                    if (YunApplication.getmUserVo() != null) {
+                    if (payType.equals("alipay")) {
                         if (YunApplication.getmUserVo().getAlipay_img() != null) {
-                            if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAlipay_img().getUrl())) {
-                                updateCode("alipay");
-                            } else {
-                                uploadCode("alipay");
-                            }
+                            updateCode("alipay");
                         } else {
                             uploadCode("alipay");
                         }
+                        return;
+                    }
+                    if (payType.equals("weixin")) {
                         if (YunApplication.getmUserVo().getWeixin_img() != null) {
-                            if (!TextUtils.isEmpty(YunApplication.getmUserVo().getWeixin_img().getUrl())) {
-                                updateCode("wechat");
-                            } else {
-                                uploadCode("wechat");
-                            }
+                            updateCode("wechat");
                         } else {
                             uploadCode("wechat");
                         }
+                        return;
                     }
                 }
                 break;
 
             case R.id.img_zfb_code:
                 if (mImgUrlMap.get("alipay_url") != null || fileMap.get("alipay_code") != null) {
+                    payType = "alipay";
                     mDataBinding.rlWxSelect.setVisibility(View.GONE);
                     mDataBinding.rlWxCodeLayout.setBackground(null);
                     mDataBinding.rlZfbSelect.setVisibility(View.VISIBLE);
@@ -555,6 +579,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawLayoutBinding
 
             case R.id.img_wx_code:
                 if (mImgUrlMap.get("wechat_url") != null || fileMap.get("wechat_code") != null) {
+                    payType = "weixin";
                     mDataBinding.rlZfbSelect.setVisibility(View.GONE);
                     mDataBinding.rlZfbCodeLayout.setBackground(null);
                     mDataBinding.rlWxSelect.setVisibility(View.VISIBLE);

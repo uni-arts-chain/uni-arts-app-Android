@@ -87,10 +87,9 @@ public class OfferPriceListActivity extends BaseActivity<ActivityOfferPriceRecor
                             } else {
                                 mOfferPriceList.addAll(data);
                             }
+                            mOfferPriceAdapter.setNewData(mOfferPriceList);
                             page++;
-                            if (mOfferPriceList.size() > 0) {
-                                mOfferPriceAdapter.setNewData(mOfferPriceList);
-                            }
+                        } else {
                             if (page > 1) {
                                 mOfferPriceAdapter.loadMoreEnd();
                             }

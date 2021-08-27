@@ -98,8 +98,14 @@ public class CreateOrderForBlindBoxActivity extends BaseActivity<ActivityCreateO
         mDataBinding.priceTotal.setText(getString(R.string.text_buy_amount, totalPay));
         mDataBinding.weiPayLayout.setOnClickListener(this);
         mDataBinding.aPayLayout.setOnClickListener(this);
+        mDataBinding.remainLayout.setOnClickListener(this);
         mDataBinding.buyNow.setOnClickListener(this);
         mDataBinding.remain.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (Double.parseDouble(accountRemain) < Double.parseDouble(totalPay)) {
+                mDataBinding.remain.setChecked(false);
+                ToastUtils.showShort("账户余额不足");
+                return;
+            }
             if (isChecked) {
                 payType = "account";
                 mDataBinding.weichatPay.setChecked(false);

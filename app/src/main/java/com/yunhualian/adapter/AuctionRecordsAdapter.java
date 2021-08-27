@@ -73,7 +73,22 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, Auctio
             helper.setGone(R.id.order_cost_layout, false);
             helper.setGone(R.id.order_cost, false);
             helper.setVisible(R.id.tv_to_pay, true);
-            helper.setText(R.id.tv_to_pay, "去支付 ¥" + item.getWin_price());
+            String totalPrice;
+            if (item.getRoyalty() == null || Double.parseDouble(item.getRoyalty()) == 0) {
+                totalPrice = (new BigDecimal(item.getWin_price()).
+                        subtract(new BigDecimal(item.getDeposit_amount()))).
+                        setScale(2, BigDecimal.ROUND_UP).
+                        stripTrailingZeros().
+                        toPlainString();
+            } else {
+                totalPrice = (new BigDecimal(item.getWin_price()).
+                        subtract(new BigDecimal(item.getDeposit_amount()))
+                        .add(new BigDecimal(item.getRoyalty()))).
+                        setScale(2, BigDecimal.ROUND_UP).
+                        stripTrailingZeros().
+                        toPlainString();
+            }
+            helper.setText(R.id.tv_to_pay, "去支付 ¥" + totalPrice);
             helper.setVisible(R.id.tv_count_time_hint, true);
             helper.countDownTimer = new CountDownTimer((item.getEnd_time() + item.getPay_timeout() - item.getServer_timestamp()) * 1000, 1000) {
                 @Override
@@ -113,7 +128,7 @@ public class AuctionRecordsAdapter extends BaseQuickAdapter<AuctionArtVo, Auctio
                         if (item.isBuyer_paid()) {
                             helper.setText(R.id.order_type, "中标已支付");
                         } else {
-                            helper.setText(R.id.order_type, "中标未支付，已扣除保证金");
+                            helper.setText(R.id.order_type, "中标未支付，已扣除保证金¥" + item.getDeposit_amount());
                         }
                     }
                 } else {

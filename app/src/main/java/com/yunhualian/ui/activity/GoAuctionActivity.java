@@ -129,7 +129,7 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
 
     private void initStartTimer() {
 
-        String beginTime = DateFormatUtils.long2Str(DateUtil.getCurrentTime(), true);
+        String beginTime = DateFormatUtils.long2Str(DateUtil.getTomorrowCurrentTime(), true);
         String endTime = DateFormatUtils.long2Str(System.currentTimeMillis() + 315360000000L, true);
         mStartTimePicker = new AuctionDatePicker(this, new AuctionDatePicker.Callback() {
             @Override
@@ -157,7 +157,7 @@ public class GoAuctionActivity extends BaseActivity<ActivityGoAuctionLayoutBindi
         String beginTime;
         String endTime;
         if (mDefaultEndTimeMills == 0) {
-            beginTime = DateFormatUtils.long2Str(System.currentTimeMillis(), true);
+            beginTime = DateFormatUtils.long2Str(DateUtil.getTomorrowCurrentTime(), true);
             endTime = DateFormatUtils.long2Str(DateUtil.getTomorrowCurrentTime() + oneWeekTimeMills, true);
         } else {
             beginTime = DateFormatUtils.long2Str(mDefaultEndTimeMills, true);

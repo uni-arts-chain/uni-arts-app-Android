@@ -51,16 +51,16 @@ public class SellAndBuyAdapter extends BaseQuickAdapter<BoughtArtVo, BaseViewHol
             helper.setGone(R.id.rotailRate, false);
         } else {
             if (item.getTrade_refer().equals("Auction")) {
-                if (item.getArt().getRoyalty() == null || Double.parseDouble(item.getArt().getRoyalty()) == 0) {
+                if (item.getAuction().getRoyalty() == null || Double.parseDouble(item.getAuction().getRoyalty()) == 0) {
                     helper.setGone(R.id.rotailRate, false);
                 } else {
                     helper.setGone(R.id.rotailRate, true);
-                    royalty = Double.parseDouble(item.getArt().getRoyalty());
-                    double winPrice = Double.parseDouble(item.getAuction().getWin_price());
-                    royaltyValue = winPrice * royalty;
-                    BigDecimal bigDecimal = new BigDecimal(royaltyValue);
-                    double royaltyDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    helper.setText(R.id.rotailRate, mContext.getString(R.string.text_contain_royalty, String.valueOf(royaltyDecimal)));
+//                    royalty = Double.parseDouble(item.getArt().getRoyalty());
+//                    double winPrice = Double.parseDouble(item.getAuction().getWin_price());
+//                    royaltyValue = winPrice * royalty;
+//                    BigDecimal bigDecimal = new BigDecimal(royaltyValue);
+//                    double royaltyDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    helper.setText(R.id.rotailRate, mContext.getString(R.string.text_contain_royalty, item.getAuction().getRoyalty()));
                 }
             } else {
                 if (item.getRoyalty() == null || Double.parseDouble(item.getRoyalty()) == 0) {
