@@ -116,9 +116,7 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
     public void onResume() {
         super.onResume();
         getUserInfo();
-        queryAccountInfo();
         getBalance();
-        queryWinAuctions();
     }
 
     @SuppressLint("CheckResult")
@@ -233,6 +231,8 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
                 if (response.isSuccessful()) {
                     YunApplication.setmUserVo(response.body().getBody());
                     initPageData();
+                    queryAccountInfo();
+                    queryWinAuctions();
                 }
             }
 
