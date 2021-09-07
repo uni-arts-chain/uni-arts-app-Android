@@ -1,6 +1,7 @@
 package com.gammaray.base;
 
 import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +9,8 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.LogUtils;
+import com.gammaray.eth.domain.DaoMaster;
+import com.gammaray.eth.domain.DaoSession;
 import com.igexin.sdk.PushManager;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
@@ -72,6 +75,12 @@ public class YunApplication extends App {
     public static String isCIDOnLine = "";
     public static String cid = "";
 
+    private DaoSession daoSession;
+
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
+
     public static void setArtPriceVoList(List<ArtPriceVo> artPriceVoList) {
         YunApplication.artPriceVoList = artPriceVoList;
     }
@@ -103,6 +112,7 @@ public class YunApplication extends App {
         ARouter.init(this);
         PushManager.getInstance().initialize(this);
         NetworkManager.instance().init();
+        init();
         initX5();
         initUMeng();
 //        initOkhttpUtils();
@@ -111,6 +121,13 @@ public class YunApplication extends App {
         }
         LIVE2D_CACHE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + File.separator.concat("GammaRay/live2d/");
+    }
+
+    private void init(){
+        //创建数据库表
+        DaoMaster.DevOpenHelper mHelper = new DaoMaster.DevOpenHelper(this, "wallet", null);
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        daoSession = new DaoMaster(db).newSession();
     }
 
     private void initX5() {

@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'cn.leo.plugin.magic'
@@ -143,6 +145,9 @@ dependencies {
 //    implementation 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
 //    implementation 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+
+    // greenDao
+    implementation 'org.greenrobot:greendao:3.3.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':libshot')
@@ -174,4 +179,7 @@ dependencies {
 
     deps.common_libs(dependencies)
 
+}
+greendao {
+    schemaVersion 1
 }

@@ -25,7 +25,7 @@ public class AppConstant {
     private static final String IPADDRESS_DEBUG = "app.uniarts.network";
 
     //    public static final String ADDRESS = (BuildConfig.DEBUG ? "http" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
-    public static final String ADDRESS = (BuildConfig.DEBUG ? "https" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_RELEASE : IPADDRESS_RELEASE);
+    public static final String ADDRESS = (BuildConfig.DEBUG ? "https" : "https") + "://" + (BuildConfig.DEBUG ? IPADDRESS_DEBUG : IPADDRESS_RELEASE);
 
     private static final String RPC_DEBUG = "wss://testnet.uniarts.network";
     private static final String RPC_RELEASE = "wss://mainnet.uniarts.vip:9443";
