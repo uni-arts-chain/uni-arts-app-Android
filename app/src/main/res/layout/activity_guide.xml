@@ -8,12 +8,12 @@
 
     </data>
 
-    <com.yunhualian.widget.GuideView
+    <com.gammaray.widget.GuideView
         android:id="@+id/guide_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.activity.GuideActivity">
 
 
-    </com.yunhualian.widget.GuideView>
+    </com.gammaray.widget.GuideView>
 </layout>

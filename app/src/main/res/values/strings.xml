@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">饭团密画</string>
+    <string name="app_name">加码射线</string>
     <!--tab-->
     <string name="tab_home">首页</string>
     <string name="tab_mall">市场</string>
@@ -22,7 +22,6 @@
     <string name="centify_time">签名时间：%1$s</string>
     <string name="sign_cost">签名费用：%1$s</string>
     <string name="sign_amount">已签名：%1$s</string>
-    <string name="count_power">积分权益</string>
     <string name="picture_size">尺寸：%1$s</string>
     <string name="picture_caizhi">材质：%1$s</string>
     <string name="forget_psw">忘记密码？</string>
@@ -39,7 +38,6 @@
     <string name="derive_with_keystore">Keystore</string>
     <string name="derive_with_qrcode">二维码</string>
     <string name="derive_keystore_title">导出Keystore</string>
-    <string name="set_key_store_psw">设置KeyStore密码</string>
     <string name="sign_certify">签名证书</string>
     <string name="import_wallet">导入钱包</string>
     <string name="derive_keystore_tip_title">离线保存</string>
@@ -82,7 +80,6 @@
     <string name="picture_profile">创作者张大中在作品《水墨》系列中以“梅花”作为自己某种观念或隐喻的象征，山林中的梅花不再有寒冷的感觉，红热的梅花体现出了烈焰灼烧的意味，这也代表了创作者心中某种热烈的情感需要爆发。生活只有遵循内心的想法才会精彩，真实从心的想法才会是第一顺位。</string>
     <string name="go_creator_page">进入创作者主页</string>
     <string name="up_id_img">请拍摄以下证件照片,注意避免证件反光</string>
-    <string name="version_download_ing">下载中...</string>
     <string name="version_download_error">下载失败</string>
     <string name="version_error">您所下载的APP解析错误，请重新下载更新</string>
     <string name="dialog_title">操作提示</string>
@@ -93,8 +90,6 @@
     <string name="canel">取消</string>
     <string name="canel_follow">取消关注</string>
     <string name="determine">确定</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="edit_wallet">编辑钱包</string>
     <string name="user_agreement">隐私协议</string>
     <string name="login_txt">登陆</string>
@@ -106,7 +101,6 @@
     <string name="text_cancle_follow_success">取消关注成功</string>
     <string name="no_order_sn">未找到订单编号</string>
     <string name="copy_order_sn">订单编号已编制</string>
-    <string name="register_hint_phone">手机号</string>
     <string name="register_hint_psw">请输入6-18位数字与祖母组合</string>
     <string name="register_hint_code">请输入验证码</string>
     <string name="register_currently_code">请输入正确验证码</string>
@@ -114,23 +108,14 @@
     <string name="input_current_phone_no">请输入正确的手机号</string>
     <string name="please_input_phone_no">请输入手机号</string>
     <!--分类模块-->
-    <string name="sort">分类</string>
     <string name="thpe_theme">主题</string>
     <string name="type">类型</string>
     <string name="prize">价格</string>
     <string name="new_goods">最新上架</string>
-    <string name="sort_prize">价格排序</string>
     <string name="send_success">已发送</string>
 
     <string name="derive_private_key_alert">安全警告：私钥未经加密，导出存在风险，建议使用助记词和keystore进行备份</string>
-    <string name="mnemonic_backup_alert_title">请勿截图</string>
-    <string name="input_your_pin">请输入密码</string>
     <string name="back_up_mnemonic_title">备份助记词</string>
-    <string name="input_your_pin_again">请再次输入密码</string>
-    <string name="error_pin">密码错误</string>
-    <string name="correct_pin">密码正确</string>
-    <string name="set_pin_complete">密码设置完成</string>
-    <string name="pin_not_complare">两次密码不一致</string>
     <!--首页-->
     <string name="certify_search">证书查询</string>
     <string name="certify_search_find">查询</string>
@@ -146,21 +131,14 @@
     <string name="bind_success">绑定成功</string>
     <string name="auction_time_start">距开始%1$s</string>
 
-    <string name="auction_time_end">距结束%1$s</string>
     <!--我的-->
-    <string name="buy_in">买入订单</string>
-    <string name="sell_out">卖出订单</string>
     <string name="message">消息</string>
     <string name="all_read_message">全部已读</string>
     <string name="service">客服</string>
     <string name="my_page">我的主页</string>
-    <string name="upgrade_art">上传作品</string>
-    <string name="add">收货地址</string>
-    <string name="send">发起拍卖</string>
     <string name="advice">意见反馈</string>
     <string name="about_us">关于我们</string>
     <string name="register_user_Agreement">同意《用户协议》</string>
-    <string name="cusomer_service">客服</string>
     <string name="lianxi_type">请通过以下方式联系我们</string>
     <string name="actual_name">真实姓名</string>
     <string name="hint_input_actual_name">请输入姓名</string>
@@ -176,30 +154,18 @@
     <string name="hint_please_input_id_info">请先填写身份信息</string>
     <string name="hint_id_number_illegal">身份证号不合法，请重新输入</string>
     <string name="hint_certification_must_be_over_18_years_old">认证需大于18周岁</string>
-    <string name="hint_liveness_verify_failed">认证失败，请稍候重试</string>
-    <string name="hint_get_verify_info_error">获取认证信息失败，请重新进行人脸认证</string>
-    <string name="hint_pleast_upload_self_id_cards">请上传 %1$s 本人身份证</string>
-    <string name="hint_id_has_expired">身份证已过期，请上传有效身份证件</string>
     <!--创作者-->
     <string name="creator">创作者</string>
     <string name="creator_profile">创作者简介</string>
-    <string name="platform_push">平台推荐</string>
-    <string name="after_push">往期平台推荐</string>
     <string name="after_artist_push">往期平台推荐</string>
     <string name="art_info">作品信息</string>
-    <string name="art_appreciation">艺术品评析</string>
     <string name="art_detail">艺术品细节</string>
-    <string name="add_cart">加入购物车</string>
     <string name="buy_now">立即购买</string>
     <string name="go_pay">去支付</string>
     <string name="organ_profile">机构简介</string>
     <string name="organ_detail">机构详情</string>
     <string name="link_search">链查询</string>
     <!--我到主页-->
-    <string name="already_up">已上架</string>
-    <string name="ever_up">未上架</string>
-    <string name="my_buy_in">我买入的</string>
-    <string name="my_sell_out">我卖出的</string>
     <string name="no_display_name">未设置昵称</string>
     <!--    设置-->
     <string name="settings">设置</string>
@@ -212,9 +178,7 @@
 
     <string name="phone">手机号</string>
 
-    <string name="wechat">微信</string>
     <string name="blind_box_pay">支付</string>
-    <string name="login_psw">登录密码</string>
     <string name="true_man_certify">实人认证</string>
     <string name="alipay_certify">支付宝实名认证</string>
     <string name="verifi_tips">为了您的账户安全，请完成一下认证</string>
@@ -224,10 +188,8 @@
     <string name="quite_login">退出登陆</string>
     <string name="title_sell">出售</string>
     <string name="cancle_sell">下架</string>
-    <string name="text_call_service">联系客服</string>
     <string name="text_downloading">正在下载...</string>
     <string name="text_download_success">下载完成</string>
-    <string name="text_sell_tips">检测到您已提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。</string>
     <string name="balance_zero_tips">当前积分为0，无法进行操作\n（购买NFT卡片可获得积分）</string>
     <!--选择作品-->
     <string name="confirm_tips">请选择作品后确认</string>
@@ -272,14 +234,6 @@
         <item>卖出订单</item>
     </string-array>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
     <string name="follow_num">关注 %1$s</string>
     <string name="fans_num">粉丝 %1$s</string>
     <string name="arts_num">%1$s个作品</string>
@@ -289,7 +243,6 @@
     <string name="upload_tips">注意：信息通过审核后无法修改，请谨慎操作</string>
 
 
-    <string name="order_info">订单号：%1$s</string>
     <string name="order_create_time">创建时间：%1$s</string>
     <string name="order_info_detail">订单详情</string>
 
@@ -303,24 +256,7 @@
     <string name="send_code_success">发送成功</string>
     <string name="transfer_last_amount">(余额%1$d)</string>
     <!--TEST-->
-    <string name="action_settings">Settings</string>
 
-
-    <string name="picker_text_parse">解析数据</string>
-    <string name="picker_text_show">显示省市区选择器</string>
-
-    <string name="picker_custom_lunar">公农历切换</string>
-    <string name="picker_time">时间选择器</string>
-    <string name="picker_province">条件选择器</string>
-
-    <string name="picker_custom_time">时间选择器自定义布局</string>
-    <string name="picker_custom_province">条件选择器自定义布局</string>
-    <string name="picker_custom_parent">自定义父容器</string>
-    <string name="picker_use_circle_divider">使用圆形分割线</string>
-
-    <string name="picker_non_linkage">条件选择器(不联动)</string>
-
-    <string name="picker_json_parse_sample">省市区Json文件解析示例</string>
 
     <string name="pic_detail_last">剩余：%1$s</string>
     <string name="nft_name">名称：%1$s</string>
@@ -332,8 +268,6 @@
 
     <string name="upload_art_tips2">上传作品(支持静态图、GIF)</string>
 
-    <string name="sells_amount">交易次数：%1$s</string>
-
     <string name="blind_buy_amount">购买数量： %1$s</string>
 
     <string name="blind_buy_price">商品总价： </string>
@@ -342,8 +276,6 @@
     <string name="text_collect_amount">收藏</string>
     <string name="title_detail">详情</string>
     <string name="buy_amount">购买数量</string>
-    <string name="art_total_price">商品总价</string>
-    <string name="art_price">商品价格</string>
     <string name="text_buy_amount">￥%1$s</string>
     <string name="text_art_price_now">当前价格</string>
     <string name="text_this_time_sell_price">本次出售价格</string>
@@ -365,10 +297,6 @@
     <string name="confirm_import">继续导入</string>
     <string name="btn_open_once">开启 x1</string>
     <string name="btn_open_ten">开启10次</string>
-    <string name="rule_tips">1. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权\n
-2. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一张卡片。\n
-3. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏。\n
-4. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏或转卖。</string>
 
     <string name="blindbox_open_1">开启1次</string>
     <string name="blindbox_open_10">开启10次</string>
@@ -381,14 +309,13 @@
     <string name="title_exchange_nft">兑换NFT</string>
     <string name="title_exchange_action">兑换</string>
     <string name="text_group_copright">Copyright©2020-2021\n
-饭团密画版权所有\n
+加码射线版权所有\n
 UniArts提供技术支持</string>
 
     <string name="text_exchange_code_null_tips">请输入兑换码</string>
 
     <string name="text_sell_amount_null">请输入本次出售份数</string>
     <string name="text_sell_cut_price_tips">请设置每份价格</string>
-    <string name="text_sell_price_tips">请设置本次出售价格</string>
     <string name="pay_result_success">订单支付成功</string>
     <string name="pay_result_fail">订单支付失败</string>
     <string name="pay_result_cancle">订单支付未完成</string>
@@ -404,11 +331,8 @@ UniArts提供技术支持</string>
     <string name="auction_pieces">拍卖份数</string>
     <string name="start_auction">立即发起</string>
     <string name="office_price_count">出价：%1$s次</string>
-    <string name="auction_count_time_hint">请在%1$s内完成支付，否则将会扣除保证金</string>
-    <string name="deal_close_hint">未支付%1$s，已扣除保证金</string>
     <string name="auction_pieces_">拍卖份数：%1$s</string>
     <string name="auction_start_price_">起拍价：¥%1$s</string>
-    <string name="auction_start_price_key">起拍价：%1$s</string>
     <string name="auction_add_unit_">加价幅度：¥%1$s</string>
     <string name="auction_start_time_">开始时间：%1$s</string>
     <string name="auction_end_time_">结束时间：%1$s</string>
@@ -423,11 +347,6 @@ UniArts提供技术支持</string>
     <string name="day">日</string>
     <string name="hour">时</string>
     <string name="minute">分</string>
-    <string name="second">秒</string>
-    <string name="select_date">选择日期</string>
-    <string name="current_date">当前日期</string>
-    <string name="select_time">选择时间</string>
-    <string name="current_time">当前时间</string>
     <string name="cash_account_">现金账户</string>
     <string name="with_draw">提现</string>
     <string name="with_draw_hint">申请提现后，资金将会在3个工作日内到账，请注意查收！</string>

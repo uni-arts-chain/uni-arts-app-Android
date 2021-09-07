@@ -22,7 +22,7 @@
             android:layout_below="@+id/mAppBarLayout_av"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="70dp"
-            android:src="@mipmap/icon_group_logo" />
+            android:src="@mipmap/icon_logo" />
 
         <TextView
             android:id="@+id/groupDesc"

@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.yunhualian.ui.activity.CoinWalletActivity">
+        tools:context="com.gammaray.ui.activity.CoinWalletActivity">
 
         <include layout="@layout/layout_toolbar_common" />
 
@@ -17,7 +17,7 @@
             android:background="@mipmap/bg_point"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <com.yunhualian.widget.CircleImageView
+            <com.gammaray.widget.CircleImageView
                 android:id="@+id/headImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

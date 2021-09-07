@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.yunhualian.ui.activity.ConfirmDocumentsActivity">
+        tools:context="com.gammaray.ui.activity.ConfirmDocumentsActivity">
 
         <include layout="@layout/layout_toolbar_common" />
 

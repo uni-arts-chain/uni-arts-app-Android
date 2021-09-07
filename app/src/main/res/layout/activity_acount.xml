@@ -19,7 +19,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.yunhualian.ui.activity.wallet.AcountActivity">
+            tools:context="com.gammaray.ui.activity.wallet.AcountActivity">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

@@ -422,7 +422,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_130">
 
-                    <com.yunhualian.widget.CircleImageView
+                    <com.gammaray.widget.CircleImageView
                         android:id="@+id/headImg"
                         android:layout_width="@dimen/dp_110"
                         android:layout_height="@dimen/dp_110"

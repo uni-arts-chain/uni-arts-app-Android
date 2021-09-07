@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:clipToPadding="false"
-    android:fitsSystemWindows="true"
-    android:visibility="visible"
-    tools:ignore="MissingDefaultResource">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
+    <data>
+
+    </data>
+
+
+    <ImageView
+        android:id="@+id/img_splash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/page_launch">
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY" />
 
-    </RelativeLayout>
-
-</RelativeLayout>
+</layout>

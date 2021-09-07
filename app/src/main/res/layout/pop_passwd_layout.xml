@@ -5,7 +5,7 @@
 
         <variable
             name="handlers"
-            type="com.yunhualian.widget.PasswdPopwindow.ClickHandlers" />
+            type="com.gammaray.widget.PasswdPopwindow.ClickHandlers" />
 
     </data>
 
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/img_close"
                 android:layout_centerHorizontal="true"
-                android:text="输入饭团密码完成支付"
+                android:text="输入加码射线密码完成支付"
                 android:textColor="@color/_101010"
                 android:textSize="18sp"
                 android:textStyle="bold" />

@@ -8,7 +8,7 @@
 
         <variable
             name="handlers"
-            type="com.yunhualian.widget.QrPopUpWindow" />
+            type="com.gammaray.widget.QrPopUpWindow" />
 
     </data>
 

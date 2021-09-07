@@ -6,7 +6,7 @@
 
         <variable
             name="handlers"
-            type="com.yunhualian.widget.ExchangeNFTSuccessPopUpWindow" />
+            type="com.gammaray.widget.ExchangeNFTSuccessPopUpWindow" />
 
     </data>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
     <external-files-path
-        name="Android/data/com.yunhualian_android"
+        name="Android/data/com.gammaray_android"
         path="cache" />
     <root-path
         name="root_path"

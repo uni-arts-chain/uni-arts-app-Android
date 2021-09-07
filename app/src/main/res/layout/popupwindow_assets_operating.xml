@@ -6,7 +6,7 @@
 
         <variable
             name="handlers"
-            type="com.yunhualian.widget.UploadNormalPopUpWindow.ClickHandlers" />
+            type="com.gammaray.widget.UploadNormalPopUpWindow.ClickHandlers" />
 
     </data>
 

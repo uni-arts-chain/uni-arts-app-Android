@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'cn.leo.plugin.magic'
 
 static def getTime() {
-    return new Date().format("yyyy_MM_dd HH_mm")
+    return new Date().format("MM_dd HH_mm")
 }
 
 android {
@@ -15,8 +15,8 @@ android {
         applicationId config.applicationId
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
-        versionCode 6
-        versionName "1.0.6"
+        versionCode 10
+        versionName "1.0.9"
         buildConfigField "boolean", "LOG_DEBUG", "false" //不显示log
         multiDexEnabled true
         externalNativeBuild {
@@ -34,9 +34,9 @@ android {
         multiDexEnabled true
         manifestPlaceholders = [
                 //个推应用参数，请填写您申请的 GETUI_APP_ID，GETUI_APP_KEY，GETUI_APP_SECRET 值
-                GETUI_APP_ID    : "1vgAkon7Yu78ofjf5Ng5r9",
-                GETUI_APP_KEY   : "wsbCt4mpXa56dAKUxueNs7",
-                GETUI_APP_SECRET: "YffOF4Agzt90M95RytW0j4",
+                GETUI_APP_ID    : "avcqWpRAeq8e61CldgEd05",
+                GETUI_APP_KEY   : "7HR6zCPZET82DLQA9Elw44",
+                GETUI_APP_SECRET: "Td2XUoHz3IAPA4oISz7tRA",
         ]
     }
     externalNativeBuild {
@@ -64,7 +64,7 @@ android {
     }
     applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "UniArts_V${variant.versionName}_${getTime()}.apk"
+            outputFileName = "GammaRay_V${variant.versionName}_${getTime()}.apk"
         }
     }
 

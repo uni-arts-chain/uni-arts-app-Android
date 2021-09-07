@@ -2,7 +2,7 @@ include ':libshot'
 include ':z_file'
 include ':mango'
 include ':app'
-rootProject.name = "YunHuaLian"
+rootProject.name = "GammaRay"
 include ':wallet-inport'
 include ':feature-wallet-impl'
 include ':feature-wallet-api'

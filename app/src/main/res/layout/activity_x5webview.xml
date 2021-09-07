@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.yunhualian.ui.x5.X5WebView
+            <com.gammaray.ui.x5.X5WebView
                 android:id="@+id/wbv_x5"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" />
