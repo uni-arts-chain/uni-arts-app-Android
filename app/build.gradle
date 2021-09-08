@@ -148,6 +148,14 @@ dependencies {
 
     // greenDao
     implementation 'org.greenrobot:greendao:3.3.0'
+
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.2.0'
+
+    // 以太坊开发库
+    implementation 'org.web3j:core:4.1.0-android'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':libshot')
