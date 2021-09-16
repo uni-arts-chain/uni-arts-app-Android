@@ -20,14 +20,14 @@
             android:padding="@dimen/dp_10"
             android:singleLine="true"
             android:textColor="@color/_333333"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:visibility="gone" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10">
+            android:layout_margin="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/blindBoxList"

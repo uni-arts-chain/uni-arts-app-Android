@@ -11,6 +11,9 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.LogUtils;
 import com.gammaray.eth.domain.DaoMaster;
 import com.gammaray.eth.domain.DaoSession;
+import com.gammaray.eth.repository.RepositoryFactory;
+import com.gammaray.eth.repository.SharedPreferenceRepository;
+import com.google.gson.Gson;
 import com.igexin.sdk.PushManager;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
@@ -77,6 +80,13 @@ public class YunApplication extends App {
 
     private DaoSession daoSession;
 
+    private static OkHttpClient httpClient;
+
+    public static RepositoryFactory repositoryFactory;
+
+
+    public static SharedPreferenceRepository sp;
+
     public DaoSession getDaoSession() {
         return daoSession;
     }
@@ -105,6 +115,14 @@ public class YunApplication extends App {
         YunApplication.artTypelist = artTypelist;
     }
 
+    public static OkHttpClient okHttpClient() {
+        return httpClient;
+    }
+
+    public static RepositoryFactory repositoryFactory() {
+        return repositoryFactory;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -124,6 +142,17 @@ public class YunApplication extends App {
     }
 
     private void init(){
+
+        sp = SharedPreferenceRepository.init(getApplicationContext());
+
+        httpClient = new OkHttpClient.Builder()
+                .addInterceptor(new LogInterceptor())
+                .build();
+
+        Gson gson = new Gson();
+
+        repositoryFactory = RepositoryFactory.init(sp, httpClient, gson);
+
         //创建数据库表
         DaoMaster.DevOpenHelper mHelper = new DaoMaster.DevOpenHelper(this, "wallet", null);
         SQLiteDatabase db = mHelper.getWritableDatabase();

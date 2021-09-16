@@ -50,7 +50,7 @@ public class BlindBoxFragment extends BaseFragment<FragmentShoppingCartBinding> 
 
     @Override
     protected void initView() {
-        mBinding.txtTitle.setText(R.string.tab_assets);
+        mBinding.txtTitle.setText(R.string.tab_find);
         adapter = new BlindBoxAdapter(popularList);
         mBinding.blindBoxList.setLayoutManager(new LinearLayoutManager(getContext()));
 

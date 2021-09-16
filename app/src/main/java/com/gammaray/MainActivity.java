@@ -19,12 +19,6 @@ import com.blankj.utilcode.util.CacheDiskStaticUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.igexin.sdk.PushManager;
-import com.upbest.arouter.ArouterModelPath;
-import com.upbest.arouter.EventEntity;
-import com.upbest.arouter.Extras;
 import com.gammaray.base.BaseActivity;
 import com.gammaray.base.YunApplication;
 import com.gammaray.constant.AppConstant;
@@ -36,8 +30,8 @@ import com.gammaray.entity.ReceiverPushBean;
 import com.gammaray.entity.UserVo;
 import com.gammaray.net.MinerCallback;
 import com.gammaray.net.RequestManager;
-import com.gammaray.ui.fragment.BlindBoxFragment;
 import com.gammaray.ui.fragment.CreatorFragment;
+import com.gammaray.ui.fragment.FindFragment;
 import com.gammaray.ui.fragment.HomeFragment;
 import com.gammaray.ui.fragment.MineFragment;
 import com.gammaray.ui.fragment.NFTMallFragment;
@@ -47,6 +41,12 @@ import com.gammaray.utils.SharedPreUtils;
 import com.gammaray.utils.UserManager;
 import com.gammaray.widget.PermissionDialog;
 import com.gammaray.widget.UpdateDialog;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.igexin.sdk.PushManager;
+import com.upbest.arouter.ArouterModelPath;
+import com.upbest.arouter.EventEntity;
+import com.upbest.arouter.Extras;
 
 import org.bouncycastle.util.encoders.Hex;
 import org.greenrobot.eventbus.EventBus;
@@ -57,7 +57,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 
 import jp.co.soramitsu.fearless_utils.encrypt.EncryptionType;
 import jp.co.soramitsu.fearless_utils.encrypt.SignatureWrapper;
@@ -75,7 +74,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private NFTMallFragment nftMallFragment;
     private MineFragment mineFragment;
     private CreatorFragment creatorFragment;
-    private BlindBoxFragment blindBoxFragment;
+    private FindFragment findFragment;
     private boolean mIsback;
     private Fragment mCurrentFragment;
     private int mCurrentItemId;
@@ -123,7 +122,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("homeFragment");
         nftMallFragment = (NFTMallFragment) getSupportFragmentManager().findFragmentByTag("nftMallFragment");
         creatorFragment = (CreatorFragment) getSupportFragmentManager().findFragmentByTag("creatorFragment");
-        blindBoxFragment = (BlindBoxFragment) getSupportFragmentManager().findFragmentByTag("blindBoxFragment");
+        findFragment = (FindFragment) getSupportFragmentManager().findFragmentByTag("findFragment");
         mineFragment = (MineFragment) getSupportFragmentManager().findFragmentByTag("mineFragment");
         if (null == mCurrentFragment) {
             switch (mCurrentItemId) {
@@ -136,8 +135,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 case R.id.navigation_creator:
                     mCurrentFragment = creatorFragment;
                     break;
-                case R.id.navigation_shop_cart:
-                    mCurrentFragment = blindBoxFragment;
+                case R.id.navigation_find:
+                    mCurrentFragment = findFragment;
                     break;
                 case R.id.navigation_mine:
                     mCurrentFragment = mineFragment;
@@ -185,16 +184,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                     mCurrentFragment = nftMallFragment;
                     break;
 
-                case R.id.navigation_shop_cart:
-                    if (null == blindBoxFragment) {
-                        if (null != getSupportFragmentManager().findFragmentByTag("blindBoxFragment")) {
-                            blindBoxFragment = (BlindBoxFragment) getSupportFragmentManager().findFragmentByTag("blindBoxFragment");
+                case R.id.navigation_find:
+                    if (null == findFragment) {
+                        if (null != getSupportFragmentManager().findFragmentByTag("findFragment")) {
+                            findFragment = (FindFragment) getSupportFragmentManager().findFragmentByTag("findFragment");
                         } else {
-                            blindBoxFragment = (BlindBoxFragment) BlindBoxFragment.newInstance();
-                            mFragmentTransaction.add(R.id.container, blindBoxFragment, "blindBoxFragment");
+                            findFragment = (FindFragment) FindFragment.newInstance();
+                            mFragmentTransaction.add(R.id.container, findFragment, "findFragment");
                         }
                     }
-                    mCurrentFragment = blindBoxFragment;
+                    mCurrentFragment = findFragment;
                     break;
                 case R.id.navigation_creator:
                     if (null == creatorFragment) {

@@ -50,7 +50,7 @@ public class EthereumNetworkRepository {
                     "http://192.168.0.113:8911",
                     "http://192.168.0.113:51067/docs", 1, true),
             new NetworkInfo(ETHEREUM_MAIN_NETWORK_NAME, ETC_SYMBOL,
-                    "https://mainnet.infura.io/v3/7e2855d5896946cb985af8944713a371",
+                    "https://ropsten.infura.io/v3/8ddd215139c849559864f7aaf7097307",
                     "https://classic.trustwalletapp.com",
                     "https://gastracker.io", 61, true),
             new NetworkInfo(POA_NETWORK_NAME, POA_SYMBOL,

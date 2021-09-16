@@ -4,7 +4,7 @@
     <string name="tab_home">首页</string>
     <string name="tab_mall">市场</string>
     <string name="tab_purchased_miner">创作者</string>
-    <string name="tab_assets">盲盒</string>
+    <string name="tab_find">发现</string>
     <string name="tab_mine">我的</string>
     <string name="edit_hint">请输入关键字搜索作品</string>
     <string name="parameter_error">请求参数错误，请稍候重试</string>
@@ -361,6 +361,7 @@ UniArts提供技术支持</string>
     <string-array name="mall_tabs">
         <item>寄售</item>
         <item>拍卖</item>
+        <item>盲盒</item>
     </string-array>
     <string-array name="user_tabs">
         <item>寄售的NFT</item>

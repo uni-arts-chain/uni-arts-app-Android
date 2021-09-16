@@ -31,7 +31,7 @@ public class NFTMallFragment extends BaseFragment<FragmentNftMallLayoutBinding> 
 
     @Override
     protected void initView() {
-        mAdapter = new MyHomePageAdapter(getParentFragmentManager(), 2, Arrays.asList(getResources().getStringArray(R.array.mall_tabs)), requireContext());
+        mAdapter = new MyHomePageAdapter(getParentFragmentManager(), 3, Arrays.asList(getResources().getStringArray(R.array.mall_tabs)), requireContext());
         mAdapter.setListener(this);
 
         mBinding.viewpager.setAdapter(mAdapter);
@@ -44,7 +44,10 @@ public class NFTMallFragment extends BaseFragment<FragmentNftMallLayoutBinding> 
     public Fragment getFragment(int position) {
         if (position == 0)
             return PictureSortFragment.newInstance();
-        else
+        else if(position == 1){
             return AuctionSortFragment.newInstance();
+        }else{
+            return BlindBoxFragment.newInstance();
+        }
     }
 }

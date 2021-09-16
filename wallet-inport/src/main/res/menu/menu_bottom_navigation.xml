@@ -18,7 +18,7 @@
 
 
     <item
-        android:id="@+id/navigation_shop_cart"
+        android:id="@+id/navigation_find"
         android:icon="@drawable/icon_assets_selector"
         android:title="@string/tab_assets" />
 
