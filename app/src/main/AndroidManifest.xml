@@ -304,7 +304,12 @@
         <activity
             android:name="com.gammaray.ui.activity.user.MyCollectActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name="com.gammaray.ui.activity.WalletLinksActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.gammaray.ui.activity.SelectedWalletsActivity"
+            android:screenOrientation="portrait" />
         <meta-data
             android:name="com.gammaray.utils.CustomGlideModule"
             android:value="AppGlideModule" />

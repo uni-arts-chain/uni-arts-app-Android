@@ -228,6 +228,7 @@
         <item>作品收藏</item>
         <item>兑换NFT</item>
         <item>消息</item>
+        <item>现金账户</item>
     </string-array>
     <string-array name="my_sign">
         <item>买入订单</item>
