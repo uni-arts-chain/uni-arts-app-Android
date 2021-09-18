@@ -13,6 +13,7 @@ import com.gammaray.eth.domain.DaoMaster;
 import com.gammaray.eth.domain.DaoSession;
 import com.gammaray.eth.repository.RepositoryFactory;
 import com.gammaray.eth.repository.SharedPreferenceRepository;
+import com.gammaray.eth.util.AppFilePath;
 import com.google.gson.Gson;
 import com.igexin.sdk.PushManager;
 import com.tencent.smtt.sdk.QbSdk;
@@ -130,6 +131,7 @@ public class YunApplication extends App {
         ARouter.init(this);
         PushManager.getInstance().initialize(this);
         NetworkManager.instance().init();
+        AppFilePath.init(this);
         init();
         initX5();
         initUMeng();

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <include
+            android:id="@+id/mAppBarLayout_av"
+            layout="@layout/layout_generic_toolbar" />
+
+        <RelativeLayout
+            android:id="@+id/rl_import_way"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/mAppBarLayout_av">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:text="导入类型"
+                android:textColor="@color/_101010"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_import_way"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:drawableRight="@drawable/ic_pin_white_24"
+                android:drawablePadding="5dp"
+                android:textColor="@color/_101010"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/gray_line" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_wallet_json"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/rl_import_way"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:text="JSON文件"
+                    android:textColor="@color/_101010"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/ed_wallet_json"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="right"
+                    android:hint="粘贴或输入JSON"
+                    android:textColor="@color/_101010"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/gray_line" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_wallet_jsonpwd"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/rl_wallet_json"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:text="JSON密码"
+                    android:textColor="@color/_101010"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/ed_wallet_jsonpwd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="right"
+                    android:hint="设置JSON密码"
+                    android:textColor="@color/_101010"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/gray_line" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/rl_wallet_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/rl_wallet_jsonpwd"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:text="钱包名称"
+                android:textColor="@color/_101010"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/ed_wallet_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="right"
+                android:hint="请输入钱包名"
+                android:textColor="@color/_101010"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/v_line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/rl_wallet_name"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/gray_line" />
+
+        <TextView
+            android:id="@+id/tv_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/v_line1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/icon_wallet_import_notice"
+            android:drawablePadding="5dp"
+            android:text="@string/username_setup_hint"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_raw_data"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@id/tv_hint"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/shape_text_black_boder">
+
+            <EditText
+                android:id="@+id/ed_raw_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_margin="5dp"
+                android:background="@color/white" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_import"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/shape_sign_blue_rounder"
+            android:text="导入"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+</layout>

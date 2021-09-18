@@ -55,6 +55,7 @@ public class SharedPreUtils {
     public static final String KEY_PRIVATE = "private_key";
     public static final String KEY_PUBLICKEY = "public_key";
     public static final String KEY_PIN = "pin";
+    public static final String KEY_MNENONIC = "mnemonic";
 
     /**
      * 序列化对象

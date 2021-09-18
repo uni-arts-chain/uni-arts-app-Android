@@ -125,7 +125,7 @@
     <string name="common_undefined_error_message">Please, try again with another input. If the error appears again, please, contact support.</string>
     <string name="recovery_source_type">导入类型</string>
     <string name="recovery_raw_seed">私钥</string>
-    <string name="recovery_json">Recovery JSON</string>
+    <string name="recovery_json">KeyStore</string>
     <string name="account_import_password_placeholder">Password</string>
     <string name="common_error_general_message">We are working hard to fix the problem. Please, try again later.</string>
     <string name="recover_json_hint">Paste json or upload file...</string>

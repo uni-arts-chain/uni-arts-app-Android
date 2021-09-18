@@ -310,6 +310,10 @@
         <activity
             android:name="com.gammaray.ui.activity.SelectedWalletsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.gammaray.ui.activity.ETHImportWalletActivity"
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="com.gammaray.utils.CustomGlideModule"
             android:value="AppGlideModule" />

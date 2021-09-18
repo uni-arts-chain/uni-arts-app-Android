@@ -169,16 +169,16 @@ class ImportAccountViewModel(
     private fun provideSourceType(): List<ImportSource> {
         return listOf(
                 MnemonicImportSource(),
-//                JsonImportSource(
-//                        networkChooserMixin.selectedNetworkLiveData,
-//                        nameLiveData,
-//                        cryptoTypeChooserMixin.selectedEncryptionTypeLiveData,
-//                        interactor,
-//                        resourceManager,
-//                        clipboardManager,
-//                        fileReader,
-//                        disposables
-//                ),
+                JsonImportSource(
+                        networkChooserMixin.selectedNetworkLiveData,
+                        nameLiveData,
+                        cryptoTypeChooserMixin.selectedEncryptionTypeLiveData,
+                        interactor,
+                        resourceManager,
+                        clipboardManager,
+                        fileReader,
+                        disposables
+                ),
                 RawSeedImportSource()
         )
     }

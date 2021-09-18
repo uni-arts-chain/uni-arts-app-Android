@@ -17,6 +17,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.gammaray.ui.activity.WalletLinksActivity;
 import com.google.gson.Gson;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import com.upbest.arouter.Extras;
@@ -69,6 +70,7 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
     public static final int COLLECT_ARTS = 5;
     public static final int ABOUT_US = 6;
     public static final int NEWS = 7;
+    public static final int CASH_ACCOUNT = 8;
 
     SocketService socketService;
     long lastClickTime = 0;
@@ -96,7 +98,7 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
     @Override
     protected void initView() {
         initList();
-        View[] views = {mBinding.setting, mBinding.fans, mBinding.follow, mBinding.mineCount, mBinding.mineMoney, mBinding.mineTitleImg};
+        View[] views = {mBinding.setting, mBinding.fans, mBinding.follow, mBinding.layoutMainWallet, mBinding.layoutSubWallet, mBinding.mineTitleImg};
         ClickUtils.applyGlobalDebouncing(views, this);
         socketService = new SocketService(new Gson(), new StdoutLogger(), new WebSocketFactory(), i -> 0);
         socketService.start(AppConstant.RPC);
@@ -161,14 +163,12 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
                 startActivity(FollowAndFansActivity.class, bundle2);
                 break;
 
-            case R.id.mine_count:
+            case R.id.layout_main_wallet:
                 startActivity(AcountActivity.class);
 
                 break;
-            case R.id.mine_money:
-                Intent intent = new Intent(requireContext(), CashAccountActivity.class);
-                intent.putExtra("account_remain", accountRemain);
-                startActivity(intent);
+            case R.id.layout_sub_wallet:
+                startActivity(WalletLinksActivity.class);
                 break;
 
             case R.id.mine_title_img:
@@ -221,6 +221,11 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
                         ToastUtils.showShort("请先绑定手机号");
                     }
                 break;
+            case CASH_ACCOUNT:
+                Intent cashIntent = new Intent(requireContext(), CashAccountActivity.class);
+                cashIntent.putExtra("account_remain", accountRemain);
+                startActivity(cashIntent);
+                break;
         }
     }
 
@@ -258,7 +263,6 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
                         for (int i = 0; i < accounts.size(); i++) {
                             if (accounts.get(i).getCurrency_code().equals("rmb")) {
                                 accountRemain = accounts.get(i).getBalance();
-                                mBinding.mineMoney.setText(getString(R.string.cash_account, accountRemain));
                                 return;
                             }
                         }
@@ -301,7 +305,7 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Extras.balance = s;
-            mBinding.mineCount.setText(getString(R.string.mine_acount, s));
+//            mBinding.mineCount.setText(getString(R.string.mine_acount, s));
         }
     }
 

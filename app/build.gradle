@@ -156,6 +156,9 @@ dependencies {
     // 以太坊开发库
     implementation 'org.web3j:core:4.1.0-android'
 
+    // bitcoinj
+    implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':libshot')

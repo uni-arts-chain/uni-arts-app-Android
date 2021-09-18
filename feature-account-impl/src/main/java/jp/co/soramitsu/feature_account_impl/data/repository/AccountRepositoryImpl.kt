@@ -42,17 +42,17 @@ import org.bouncycastle.util.encoders.Hex
 import java.util.*
 
 class AccountRepositoryImpl(
-        private val accountDataSource: AccountDataSource,
-        private val accountDao: AccountDao,
-        private val nodeDao: NodeDao,
-        private val bip39: Bip39,
-        private val sS58Encoder: SS58Encoder,
-        private val junctionDecoder: JunctionDecoder,
-        private val keypairFactory: KeypairFactory,
-        private val jsonSeedDecoder: JsonSeedDecoder,
-        private val jsonSeedEncoder: JsonSeedEncoder,
-        private val languagesHolder: LanguagesHolder,
-        private val accountSubstrateSource: AccountSubstrateSource
+    private val accountDataSource: AccountDataSource,
+    private val accountDao: AccountDao,
+    private val nodeDao: NodeDao,
+    private val bip39: Bip39,
+    private val sS58Encoder: SS58Encoder,
+    private val junctionDecoder: JunctionDecoder,
+    private val keypairFactory: KeypairFactory,
+    private val jsonSeedDecoder: JsonSeedDecoder,
+    private val jsonSeedEncoder: JsonSeedEncoder,
+    private val languagesHolder: LanguagesHolder,
+    private val accountSubstrateSource: AccountSubstrateSource
 ) : AccountRepository {
 
     override fun getEncryptionTypes(): Single<List<CryptoType>> {
@@ -61,20 +61,20 @@ class AccountRepositoryImpl(
 
     override fun getNodes(): Observable<List<Node>> {
         return nodeDao.getNodes()
-                .map { it.map(::mapNodeLocalToNode) }
+            .map { it.map(::mapNodeLocalToNode) }
     }
 
     override fun getNode(nodeId: Int): Single<Node> {
         return nodeDao.getNodeById(nodeId)
-                .map(::mapNodeLocalToNode)
+            .map(::mapNodeLocalToNode)
     }
 
     override fun getNetworks(): Single<List<Network>> {
         return getNodes()
-                .filter { it.isNotEmpty() }
-                .map { it.map(Node::networkType) }
-                .map { it.map(::getNetworkForType).distinct() }
-                .firstOrError()
+            .filter { it.isNotEmpty() }
+            .map { it.map(Node::networkType) }
+            .map { it.map(::getNetworkForType).distinct() }
+            .firstOrError()
     }
 
     override fun getSelectedNode(): Single<Node> {
@@ -136,30 +136,30 @@ class AccountRepositoryImpl(
     }
 
     override fun createAccount(
-            accountName: String,
-            mnemonic: String,
-            encryptionType: CryptoType,
-            derivationPath: String,
-            networkType: Node.NetworkType
+        accountName: String,
+        mnemonic: String,
+        encryptionType: CryptoType,
+        derivationPath: String,
+        networkType: Node.NetworkType
     ): Completable {
         return saveFromMnemonic(
-                accountName,
-                mnemonic,
-                derivationPath,
-                encryptionType,
-                networkType,
-                isImport = false
+            accountName,
+            mnemonic,
+            derivationPath,
+            encryptionType,
+            networkType,
+            isImport = false
         ).flatMapCompletable(this::switchToAccount)
     }
 
     override fun observeAccounts(): Observable<List<Account>> {
         return accountDao.observeAccounts()
-                .map { it.map(::mapAccountLocalToAccount) }
+            .map { it.map(::mapAccountLocalToAccount) }
     }
 
     override fun getAccount(address: String): Single<Account> {
         return accountDao.getAccount(address)
-                .map(::mapAccountLocalToAccount)
+            .map(::mapAccountLocalToAccount)
     }
 
     override fun getMyAccounts(query: String, networkType: Node.NetworkType): Single<Set<String>> {
@@ -167,47 +167,54 @@ class AccountRepositoryImpl(
     }
 
     override fun importFromMnemonic(
-            keyString: String,
-            username: String,
-            derivationPath: String,
-            selectedEncryptionType: CryptoType,
-            networkType: Node.NetworkType
+        keyString: String,
+        username: String,
+        derivationPath: String,
+        selectedEncryptionType: CryptoType,
+        networkType: Node.NetworkType
     ): Completable {
         return saveFromMnemonic(
-                username,
-                keyString,
-                derivationPath,
-                selectedEncryptionType,
-                networkType,
-                isImport = true
+            username,
+            keyString,
+            derivationPath,
+            selectedEncryptionType,
+            networkType,
+            isImport = true
         ).flatMapCompletable { switchToAccount(it) }
     }
 
     override fun importFromSeed(
-            seed: String,
-            username: String,
-            derivationPath: String,
-            selectedEncryptionType: CryptoType,
-            networkType: Node.NetworkType
+        seed: String,
+        username: String,
+        derivationPath: String,
+        selectedEncryptionType: CryptoType,
+        networkType: Node.NetworkType
     ): Completable {
         return Single.fromCallable {
             val seedBytes = Hex.decode(seed.removePrefix("0x"))
 
             val keys = keypairFactory.generate(
-                    mapCryptoTypeToEncryption(selectedEncryptionType),
-                    seedBytes,
-                    derivationPath
+                mapCryptoTypeToEncryption(selectedEncryptionType),
+                seedBytes,
+                derivationPath
             )
 
             val signingData = mapKeyPairToSigningData(keys)
 
             val address = sS58Encoder.encode(keys.publicKey, networkType)
 
-            val securitySource = SecuritySource.Specified.Seed(seedBytes, signingData, derivationPath)
+            val securitySource =
+                SecuritySource.Specified.Seed(seedBytes, signingData, derivationPath)
 
             val publicKeyEncoded = Hex.toHexString(keys.publicKey)
 
-            val accountLocal = insertAccount(address, username, publicKeyEncoded, selectedEncryptionType, networkType)
+            val accountLocal = insertAccount(
+                address,
+                username,
+                publicKeyEncoded,
+                selectedEncryptionType,
+                networkType
+            )
 
             Extras.nonce = keys.nonce?.toHexString(withPrefix = true)
             Extras.publicKey = publicKeyEncoded
@@ -222,10 +229,10 @@ class AccountRepositoryImpl(
     }
 
     override fun importFromJson(
-            json: String,
-            password: String,
-            networkType: Node.NetworkType,
-            name: String
+        json: String,
+        password: String,
+        networkType: Node.NetworkType,
+        name: String
     ): Completable {
         return Single.fromCallable {
             val importData = jsonSeedDecoder.decode(json, password)
@@ -241,7 +248,8 @@ class AccountRepositoryImpl(
 
                 val actualAddress = sS58Encoder.encode(keypair.publicKey, networkType)
 
-                val accountLocal = insertAccount(actualAddress, name, publicKeyEncoded, cryptoType, networkType)
+                val accountLocal =
+                    insertAccount(actualAddress, name, publicKeyEncoded, cryptoType, networkType)
 
                 Extras.nonce = Hex.toHexString(keypair.nonce)
                 Extras.publicKey = publicKeyEncoded
@@ -343,7 +351,7 @@ class AccountRepositoryImpl(
 
     override fun getCurrentSecuritySource(): Single<SecuritySource> {
         return observeSelectedAccount().firstOrError()
-                .map { accountDataSource.getSecuritySource(it.address) }
+            .map { accountDataSource.getSecuritySource(it.address) }
     }
 
     override fun getSecuritySource(accountAddress: String): Single<SecuritySource> {
@@ -364,30 +372,31 @@ class AccountRepositoryImpl(
 //            val jsonSeedEncoderCustom = JsonSeedEncoderCustom(Gson(), Random(), SS58Encoder())
 
             jsonSeedEncoder.generate(
-                    keypair = keypair,
-                    seed = seed,
-                    password = password,
-                    name = account.name.orEmpty(),
-                    encryptionType = cryptoType,
-                    genesisHash = "0x" + runtimeConfiguration.genesisHash,
-                    addressByte = runtimeConfiguration.addressByte
+                keypair = keypair,
+                seed = seed,
+                password = password,
+                name = account.name.orEmpty(),
+                encryptionType = cryptoType,
+                genesisHash = "0x" + runtimeConfiguration.genesisHash,
+                addressByte = runtimeConfiguration.addressByte
             )
         }
     }
 
     private fun saveFromMnemonic(
-            accountName: String,
-            mnemonic: String,
-            derivationPath: String,
-            cryptoType: CryptoType,
-            networkType: Node.NetworkType,
-            isImport: Boolean
+        accountName: String,
+        mnemonic: String,
+        derivationPath: String,
+        cryptoType: CryptoType,
+        networkType: Node.NetworkType,
+        isImport: Boolean
     ): Single<Account> {
         return Single.fromCallable {
             val entropy = bip39.generateEntropy(mnemonic)
             val password = junctionDecoder.getPassword(derivationPath)
             val seed = bip39.generateSeed(entropy, password)
-            val keys = keypairFactory.generate(mapCryptoTypeToEncryption(cryptoType), seed, derivationPath)
+            val keys =
+                keypairFactory.generate(mapCryptoTypeToEncryption(cryptoType), seed, derivationPath)
             val address = sS58Encoder.encode(keys.publicKey, networkType)
             val signingData = mapKeyPairToSigningData(keys)
             val securitySource: SecuritySource.Specified = if (isImport) {
@@ -402,7 +411,9 @@ class AccountRepositoryImpl(
             Extras.privateKey = Hex.toHexString(keys.privateKey)
             Extras.Address = address
             Extras.seed = Hex.toHexString(seed)
-            val accountLocal = insertAccount(address, accountName, publicKeyEncoded, cryptoType, networkType)
+            Extras.mnemonic = mnemonic
+            val accountLocal =
+                insertAccount(address, accountName, publicKeyEncoded, cryptoType, networkType)
             accountDataSource.saveSecuritySource(address, securitySource)
 
             mapAccountLocalToAccount(accountLocal)
@@ -436,9 +447,9 @@ class AccountRepositoryImpl(
     private fun mapKeyPairToSigningData(keyPair: Keypair): SigningData {
         return with(keyPair) {
             SigningData(
-                    publicKey = publicKey,
-                    privateKey = privateKey,
-                    nonce = nonce
+                publicKey = publicKey,
+                privateKey = privateKey,
+                nonce = nonce
             )
         }
     }
@@ -446,9 +457,9 @@ class AccountRepositoryImpl(
     private fun mapSigningDataToKeypair(singingData: SigningData): Keypair {
         return with(singingData) {
             Keypair(
-                    publicKey = publicKey,
-                    privateKey = privateKey,
-                    nonce = nonce
+                publicKey = publicKey,
+                privateKey = privateKey,
+                nonce = nonce
             )
         }
     }
@@ -458,12 +469,12 @@ class AccountRepositoryImpl(
 
         return with(accountLocal) {
             Account(
-                    address = address,
-                    name = username,
-                    publicKey = publicKey,
-                    cryptoType = CryptoType.values()[accountLocal.cryptoType],
-                    network = network,
-                    position = position
+                address = address,
+                name = username,
+                publicKey = publicKey,
+                cryptoType = CryptoType.values()[accountLocal.cryptoType],
+                network = network,
+                position = position
             )
         }
     }
@@ -473,39 +484,39 @@ class AccountRepositoryImpl(
 
         return with(account) {
             AccountLocal(
-                    address = address,
-                    username = nameLocal,
-                    cryptoType = cryptoType.ordinal,
-                    networkType = network.type,
-                    publicKey = publicKey,
-                    position = position
+                address = address,
+                username = nameLocal,
+                cryptoType = cryptoType.ordinal,
+                networkType = network.type,
+                publicKey = publicKey,
+                position = position
             )
         }
     }
 
     private fun switchToAccount(account: Account): Completable {
         return selectAccount(account)
-                .andThen(selectNode(account.network.defaultNode))
+            .andThen(selectNode(account.network.defaultNode))
     }
 
     private fun insertAccount(
-            address: String,
-            accountName: String,
-            publicKeyEncoded: String,
-            cryptoType: CryptoType,
-            networkType: Node.NetworkType
+        address: String,
+        accountName: String,
+        publicKeyEncoded: String,
+        cryptoType: CryptoType,
+        networkType: Node.NetworkType
     ) = try {
         val cryptoTypeLocal = cryptoType.ordinal
 
         val positionInGroup = accountDao.getNextPosition()
 
         val account = AccountLocal(
-                address = address,
-                username = accountName,
-                publicKey = publicKeyEncoded,
-                cryptoType = cryptoTypeLocal,
-                networkType = networkType,
-                position = positionInGroup
+            address = address,
+            username = accountName,
+            publicKey = publicKeyEncoded,
+            cryptoType = cryptoTypeLocal,
+            networkType = networkType,
+            position = positionInGroup
         )
 
 //        accountDao.remove(address)
@@ -515,8 +526,12 @@ class AccountRepositoryImpl(
         throw AccountAlreadyExistsException()
     } finally {
         val network = getNetworkForType(networkType)
-        switchToAccount(account = Account(address, accountName, publicKeyEncoded,
-                cryptoType, accountDao.getNextPosition(), network))
+        switchToAccount(
+            account = Account(
+                address, accountName, publicKeyEncoded,
+                cryptoType, accountDao.getNextPosition(), network
+            )
+        )
     }
 
     private fun getNetworkForType(networkType: Node.NetworkType): Network {
@@ -537,7 +552,7 @@ class AccountRepositoryImpl(
 
     override fun observeNodes(): Observable<List<Node>> {
         return getNodes()
-                .filter { it.isNotEmpty() }
+            .filter { it.isNotEmpty() }
     }
 
     override fun observeSelectedNode(): Observable<Node> {
@@ -558,14 +573,23 @@ class AccountRepositoryImpl(
         }
     }
 
-    override fun addNode(nodeName: String, nodeHost: String, networkType: Node.NetworkType): Completable {
+    override fun addNode(
+        nodeName: String,
+        nodeHost: String,
+        networkType: Node.NetworkType
+    ): Completable {
         return Completable.fromAction {
             val nodeLocal = NodeLocal(nodeName, nodeHost, networkType.ordinal, false)
             nodeDao.insert(nodeLocal)
         }
     }
 
-    override fun updateNode(nodeId: Int, newName: String, newHost: String, networkType: Node.NetworkType): Completable {
+    override fun updateNode(
+        nodeId: Int,
+        newName: String,
+        newHost: String,
+        networkType: Node.NetworkType
+    ): Completable {
         return nodeDao.updateNode(nodeId, newName, newHost, networkType.ordinal)
     }
 
@@ -579,7 +603,7 @@ class AccountRepositoryImpl(
 
     override fun getAccountsByNetworkType(networkType: Node.NetworkType): Single<List<Account>> {
         return accountDao.getAccountsByNetworkType(networkType.ordinal)
-                .map { it.map(::mapAccountLocalToAccount) }
+            .map { it.map(::mapAccountLocalToAccount) }
     }
 
     override fun deleteNode(nodeId: Int): Completable {

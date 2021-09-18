@@ -28,6 +28,9 @@ import com.gammaray.entity.BaseResponseVo;
 import com.gammaray.entity.EventBusMessageEvent;
 import com.gammaray.entity.ReceiverPushBean;
 import com.gammaray.entity.UserVo;
+import com.gammaray.eth.domain.ETHWallet;
+import com.gammaray.eth.interact.CreateWalletInteract;
+import com.gammaray.eth.util.ETHWalletUtils;
 import com.gammaray.net.MinerCallback;
 import com.gammaray.net.RequestManager;
 import com.gammaray.ui.fragment.CreatorFragment;
@@ -83,7 +86,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public UpdateDialog mDialog;
     public UpdateDialog mForceDialog;
     public static final String JUMP_PAGE = "jump_page";
-
+    private String isFirstLoad;
+    private final CreateWalletInteract createWalletInteract = new CreateWalletInteract();
 
     @Override
     public int getLayoutId() {
@@ -114,8 +118,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         DownLoadManager.with().init(MainActivity.this);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void initView() {
+        isFirstLoad = CacheDiskStaticUtils.getString(ExtraConstant.KEY_GUIDE_FLAG);
+        if (isFirstLoad == null || !isFirstLoad.equals("1")) {
+            createWalletInteract.loadWalletByMnemonic(ETHWalletUtils.ETH_JAXX_TYPE, Extras.mnemonic, Extras.pinCode, false).
+                    subscribe(this::loadSuccess, this::onError);
+        }
+//        createWalletInteract.loadWalletByMnemonic(ETHWalletUtils.ETH_JAXX_TYPE, Extras.mnemonic, Extras.pinCode, false).
+//                subscribe(this::loadSuccess, this::onError);
         CacheDiskStaticUtils.put(ExtraConstant.KEY_GUIDE_FLAG, "1");
         saveData();
 //        loginByAddress();
@@ -228,6 +240,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
         mBottomNavigationView.setSelectedItemId(0 != mCurrentItemId ? mCurrentItemId : R.id.navigation_home);
         mBottomNavigationView.setItemIconTintList(null);
+    }
+
+    public void loadSuccess(ETHWallet wallet) {
+        ToastUtils.showShort("导入钱包成功");
+//        if (wallet != null) {
+//            ImportWalletActivity.addr = wallet.getAddress();
+//            ImportWalletActivity.name = wallet.getName();
+//        }
+//        getActivity().finish();
+    }
+
+    public void onError(Throwable e) {
+        ToastUtils.showShort("导入钱包失败");
     }
 
     @Override
@@ -429,6 +454,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         }
         if (!TextUtils.isEmpty(Extras.pinCode)) {
             SharedPreUtils.setString(this, SharedPreUtils.KEY_PIN, Extras.pinCode);
+        }
+        if (!TextUtils.isEmpty(Extras.mnemonic)) {
+            SharedPreUtils.setString(this, SharedPreUtils.KEY_MNENONIC, Extras.mnemonic);
         }
     }
 

@@ -14,4 +14,5 @@ public class Extras {
     public static String exportAddress = "";
     public static String exportJson = "";
     public static String balance = "";
+    public static String mnemonic = "";
 }
