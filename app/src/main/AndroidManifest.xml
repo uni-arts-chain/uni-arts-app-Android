@@ -101,6 +101,9 @@
             android:name="com.gammaray.ui.activity.PinCodeKtActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.gammaray.ui.activity.ETHPinCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.gammaray.ui.activity.PinCodeActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -312,6 +315,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.gammaray.ui.activity.ETHImportWalletActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.gammaray.ui.activity.WalletsDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.gammaray.ui.activity.WalletExportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.gammaray.ui.activity.BackUpETHMnemonicActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

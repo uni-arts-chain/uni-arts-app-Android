@@ -1,5 +1,6 @@
 package com.gammaray.ui.activity;
 
+import android.content.Intent;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,8 @@ import com.gammaray.eth.interact.FetchWalletInteract;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jnr.ffi.annotations.In;
 
 /*
  * ETH钱包列表页面
@@ -42,10 +45,9 @@ public class SelectedWalletsActivity extends BaseActivity<ActivitySelectedWallet
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, toolBarOptions);
 
         fetchWalletInteract = new FetchWalletInteract();
+        fetchWalletInteract.findDefault().subscribe(this::getCurrentWallet);
 
         initRecyclerView();
-
-        fetchWalletInteract.findDefault().subscribe(this::getCurrentWallet);
         mDataBinding.btnImportWallet.setOnClickListener(view -> {
             startActivity(ETHImportWalletActivity.class);
         });
@@ -57,7 +59,10 @@ public class SelectedWalletsActivity extends BaseActivity<ActivitySelectedWallet
         mDataBinding.rvWallets.setLayoutManager(layoutManager);
         mDataBinding.rvWallets.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter, view, position) -> {
-
+            Intent intent = new Intent(SelectedWalletsActivity.this,WalletsDetailActivity.class);
+            intent.putExtra("wallet_name",walletList.get(position).getName());
+            intent.putExtra("wallet_address",walletList.get(position).getAddress());
+            startActivity(intent);
         });
     }
 

@@ -121,17 +121,19 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 0) {
                 String mnemonic = mDataBinding.edRawData.getText().toString();
                 String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
                 createWalletInteract.loadWalletByMnemonic(ethType, mnemonic, walletPwd, false).subscribe(this::loadSuccess, this::onError);
             } else if (requestCode == 1) {
-
+                String privateKey = mDataBinding.edRawData.getText().toString();
+                String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
+                createWalletInteract.loadWalletByPrivateKey(privateKey,walletPwd,false,"ETH").subscribe(this::loadSuccess, this::onError);
             } else if (requestCode == 2) {
-
+                String keyStore = mDataBinding.edRawData.getText().toString();
+                String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
+                createWalletInteract.loadWalletByKeystore(keyStore,walletPwd,false,"ETH").subscribe(this::loadSuccess, this::onError);;
             }
-        }
     }
 
     @Override

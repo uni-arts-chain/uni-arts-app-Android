@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_mnemonic_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/_999999"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_mnemonic_word"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@id/tv_mnemonic_index"
+        android:textColor="@color/_101010"
+        android:textSize="14sp" />
+</RelativeLayout>

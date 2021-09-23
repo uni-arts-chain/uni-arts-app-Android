@@ -379,7 +379,10 @@ UniArts提供技术支持</string>
         <item>已结束</item>
     </string-array>
 
-
+    <string-array name="personal_tabs">
+        <item>TOKENS</item>
+        <item>NFTS</item>
+    </string-array>
     <string name="add_new_property_title">添加新资产</string>
     <string name="mine_wallet_manage">钱包</string>
     <string name="mine_trade_record">交易记录</string>

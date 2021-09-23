@@ -1,27 +1,34 @@
 package com.gammaray.ui.activity
 
+import android.content.Intent
 import android.text.TextUtils
 import android.view.KeyEvent
 import com.blankj.utilcode.util.ToastUtils
 import com.gammaray.R
 import com.gammaray.base.BaseActivity
+import com.gammaray.databinding.ActivityEthPinCodeLayoutBinding
 import com.gammaray.databinding.ActivityPinCodeKtBinding
+import com.gammaray.eth.util.Md5Utils
 import com.gammaray.ui.activity.wallet.WalletEditActivity
 import com.gammaray.utils.SharedPreUtils
+import org.bouncycastle.jcajce.provider.digest.MD5
 
-class PinCodeKtActivity : BaseActivity<ActivityPinCodeKtBinding>() {
+class ETHPinCodeActivity : BaseActivity<ActivityEthPinCodeLayoutBinding>() {
     var firstPsw: String? = null
 
     private var resumeCer = true
     private var reset = false
     private var set = false
     var psw: String? = null
+    var oldpsw: String? = null
     fun pinCodeEntered(code: String) {
 
         if (resumeCer) {
             if (code.equals(psw)) {
                 //验证通过
-                setResult(1)
+                val intent = Intent()
+                intent.putExtra("input_pwd", code)
+                setResult(1, intent)
                 finish()
             } else {
                 mDataBinding.pinCodeView.setTitle("密码错误")
@@ -43,7 +50,9 @@ class PinCodeKtActivity : BaseActivity<ActivityPinCodeKtBinding>() {
                 mDataBinding.pinCodeView.resetInput()
             }
         } else {//重设密码
-            if (code.equals(psw) && !reset) {
+            val intent = Intent()
+            if (Md5Utils.md5(code).equals(psw) && !reset) {
+                oldpsw = code
                 mDataBinding.pinCodeView.setTitle("请输入新密码")
                 mDataBinding.pinCodeView.resetInput()
                 reset = true
@@ -53,8 +62,9 @@ class PinCodeKtActivity : BaseActivity<ActivityPinCodeKtBinding>() {
                     mDataBinding.pinCodeView.setTitle("请再次输入密码")
                     mDataBinding.pinCodeView.resetInput()
                 } else if (firstPsw.equals(code)) {
-                    SharedPreUtils.setString(this, SharedPreUtils.KEY_PIN, code)
-                    ToastUtils.showShort("密码重置完成")
+                    intent.putExtra("input_old_pwd", oldpsw)
+                    intent.putExtra("input_new_pwd", code)
+                    setResult(1, intent)
                     finish()
                 } else {
                     firstPsw = ""
@@ -70,7 +80,7 @@ class PinCodeKtActivity : BaseActivity<ActivityPinCodeKtBinding>() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_pin_code_kt
+        return R.layout.activity_eth_pin_code_layout
     }
 
     override fun initPresenter() {
@@ -78,7 +88,7 @@ class PinCodeKtActivity : BaseActivity<ActivityPinCodeKtBinding>() {
 
     override fun initView() {
         mDataBinding.pinCodeView.setTitle("请输入密码")
-        psw = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN)
+        psw = intent.getStringExtra("wallet_pwd")
         var reset = intent.getBooleanExtra(WalletEditActivity.RESUME_CER, false)
         var setPsw = intent.getBooleanExtra(WalletEditActivity.SET_CER, false)
         resumeCer = !reset
