@@ -1,10 +1,8 @@
 package com.gammaray.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -15,13 +13,9 @@ import com.gammaray.base.ToolBarOptions;
 import com.gammaray.databinding.ActivityWalletExportLayoutBinding;
 import com.gammaray.eth.domain.ETHWallet;
 import com.gammaray.eth.interact.ModifyWalletInteract;
-import com.gammaray.ui.activity.wallet.ConfirmMnemonicActivity;
 import com.gammaray.widget.PrivateKeyDerivetDialog;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayoutBinding> implements View.OnClickListener {
 

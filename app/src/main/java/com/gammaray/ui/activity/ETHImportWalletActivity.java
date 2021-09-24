@@ -112,7 +112,7 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
     }
 
     private void resetPassWord() {
-        Intent intent = new Intent(ETHImportWalletActivity.this, PinCodeKtActivity.class);
+        Intent intent = new Intent(ETHImportWalletActivity.this, ETHPinCodeActivity.class);
         intent.putExtra(RESUME_CER, true);
         intent.putExtra(SET_CER, true);
         startActivityForResult(intent,mDefaultImportType);

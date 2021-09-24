@@ -22,8 +22,10 @@ import com.gammaray.databinding.ActivityWalletDetailLayoutBinding;
 import com.gammaray.eth.domain.ETHWallet;
 import com.gammaray.eth.interact.FetchWalletInteract;
 import com.gammaray.ui.fragment.PersonalAssertFragment;
+import com.gammaray.utils.SharedPreUtils;
 import com.gammaray.widget.QrPopUpWindow;
 import com.google.android.material.tabs.TabLayout;
+import com.upbest.arouter.Extras;
 
 import java.util.Arrays;
 
@@ -58,7 +60,6 @@ public class WalletsDetailActivity extends BaseActivity<ActivityWalletDetailLayo
         ToolBarOptions toolBarOptions = new ToolBarOptions();
         toolBarOptions.titleString = "ETH";
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, toolBarOptions);
-
         if (getIntent() != null) {
             mWalletName = getIntent().getStringExtra("wallet_name");
             mWalletAddress = getIntent().getStringExtra("wallet_address");

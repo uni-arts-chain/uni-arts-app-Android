@@ -35,7 +35,6 @@ class PinCodeKtActivity : BaseActivity<ActivityPinCodeKtBinding>() {
             } else if (firstPsw.equals(code)) {
                 SharedPreUtils.setString(this, SharedPreUtils.KEY_PIN, code)
                 ToastUtils.showShort("密码重置完成")
-                setResult(0)
                 finish()
             } else {
                 firstPsw = ""
