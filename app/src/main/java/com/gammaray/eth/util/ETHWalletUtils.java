@@ -80,12 +80,11 @@ public class ETHWalletUtils {
      * @param pwd  密码
      * @return
      */
-    public static ETHWallet importMnemonic(String path, List<String> list, String pwd) {
+    public static ETHWallet importMnemonic(String walletName,String path, List<String> list, String pwd) {
         if (!path.startsWith("m") && !path.startsWith("M")) {
             //参数非法
             return null;
         }
-        Log.e("tag","list--" + list.size() + "--pwd--" + pwd);
         String[] pathArray = path.split("/");
         if (pathArray.length <= 1) {
             //内容不对
@@ -94,7 +93,7 @@ public class ETHWalletUtils {
         String passphrase = "";
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
         DeterministicSeed ds = new DeterministicSeed(list, null, passphrase, creationTimeSeconds);
-        return generateWalletByMnemonic(generateNewWalletName(), ds, pathArray, pwd);
+        return generateWalletByMnemonic(walletName, ds, pathArray, pwd);
     }
 
     @NonNull
@@ -212,7 +211,7 @@ public class ETHWalletUtils {
      * @param pwd      json文件密码
      * @return
      */
-    public static ETHWallet loadWalletByKeystore(String keystore, String pwd) {
+    public static ETHWallet loadWalletByKeystore(String walletName,String keystore, String pwd) {
         Credentials credentials = null;
         try {
             WalletFile walletFile = null;
@@ -229,7 +228,7 @@ public class ETHWalletUtils {
             e.printStackTrace();
         }
         if (credentials != null) {
-            return generateWallet(generateNewWalletName(), pwd, credentials.getEcKeyPair());
+            return generateWallet(walletName, pwd, credentials.getEcKeyPair());
         }
         return null;
     }
@@ -241,10 +240,10 @@ public class ETHWalletUtils {
      * @param pwd
      * @return
      */
-    public static ETHWallet loadWalletByPrivateKey(String privateKey, String pwd) {
+    public static ETHWallet loadWalletByPrivateKey(String walletName,String privateKey, String pwd) {
         Credentials credentials = null;
         ECKeyPair ecKeyPair = ECKeyPair.create(Numeric.toBigInt(privateKey));
-        return generateWallet(generateNewWalletName(), pwd, ecKeyPair);
+        return generateWallet(walletName, pwd, ecKeyPair);
     }
 
 

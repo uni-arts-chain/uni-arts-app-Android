@@ -166,6 +166,53 @@
             android:background="@color/gray_line" />
 
         <RelativeLayout
+            android:id="@+id/exportKeyStore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/text_normal_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_20"
+                android:paddingBottom="@dimen/dp_20"
+                android:text="备份KeyStore"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/text_normal_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_20"
+                android:paddingBottom="@dimen/dp_20" />
+
+
+            <TextView
+                style="@style/text_normal_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_20"
+                android:paddingBottom="@dimen/dp_20" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/icon_arrow_right" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@color/gray_line" />
+
+        <RelativeLayout
             android:id="@+id/protocal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

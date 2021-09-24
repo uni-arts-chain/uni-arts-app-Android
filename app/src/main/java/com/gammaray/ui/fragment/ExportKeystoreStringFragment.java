@@ -18,10 +18,19 @@ import com.gammaray.databinding.FragmentDeriveKeystoreStringBinding;
 public class ExportKeystoreStringFragment extends BaseFragment<FragmentDeriveKeystoreStringBinding> {
 
 
+    public static BaseFragment newInstance(String keyStore) {
+        ExportKeystoreStringFragment fragment = new ExportKeystoreStringFragment();
+        Bundle args = new Bundle();
+        args.putString("walletKeystore", keyStore);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public void initDatas() {
-        Bundle arguments = getArguments();
-        String walletKeystore = arguments.getString("walletKeystore");
-        mBinding.tvKeystore.setText(walletKeystore);
+        if (getArguments() != null) {
+            String walletKeystore = getArguments().getString("walletKeystore");
+            mBinding.tvKeystore.setText(walletKeystore);
+        }
     }
 
 

@@ -13,6 +13,7 @@ import com.gammaray.base.ToolBarOptions;
 import com.gammaray.databinding.ActivityWalletExportLayoutBinding;
 import com.gammaray.eth.domain.ETHWallet;
 import com.gammaray.eth.interact.ModifyWalletInteract;
+import com.gammaray.ui.activity.wallet.ExportKeystoreActivity;
 import com.gammaray.widget.PrivateKeyDerivetDialog;
 
 import java.math.BigDecimal;
@@ -21,7 +22,7 @@ public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayou
 
     private String mWalletName;
     public static int KEY_PRIVATE = 1;
-    public static int KEY_PSW = 2;
+    public static int KEY_KEYSTORE = 2;
     public static int KEY_PSW_CONFIRM = 3;
     public static int KEY_BACKUP = 4;
     private ModifyWalletInteract modifyWalletInteract;
@@ -67,6 +68,7 @@ public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayou
 
         mDataBinding.editPsw.setOnClickListener(this);
         mDataBinding.exportPrivateKey.setOnClickListener(this);
+        mDataBinding.exportKeyStore.setOnClickListener(this);
         mDataBinding.protocal.setOnClickListener(this);
         mDataBinding.backupMnemonic.setOnClickListener(this);
         mDataBinding.saveAction.setOnClickListener(this);
@@ -88,10 +90,12 @@ public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayou
             startActivity(UserAgreementActivity.class);
         } else if (view.getId() == R.id.backupMnemonic) {
             //备份助记词
-//            startActivityForResult(ETHPinCodeActivity.class, KEY_BACKUP);
-            Intent intent = new Intent(WalletExportActivity.this, BackUpETHMnemonicActivity.class);
-            intent.putExtra("wallet_mnemonic", walletMnemonic);
-            startActivity(intent);
+            startActivityForResult(ETHPinCodeActivity.class, KEY_BACKUP);
+        } else if (view.getId() == R.id.exportKeyStore) {
+            //备份KeyStore
+            Intent intent = new Intent(WalletExportActivity.this, ETHPinCodeActivity.class);
+            intent.putExtra("wallet_pwd", walletPwd);
+            startActivityForResult(intent, KEY_KEYSTORE);
         } else if (view.getId() == R.id.saveAction) {
             //修改钱包名
             String newWalletName = mDataBinding.accountDetailsNameField.getContent().getText().toString();
@@ -134,6 +138,12 @@ public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayou
                 intent.putExtra("wallet_mnemonic", walletMnemonic);
                 startActivity(intent);
             }
+        } else if (requestCode == KEY_KEYSTORE) {
+            if (resultCode == BigDecimal.ONE.intValue()) {
+                showLoading(R.string.progress_loading);
+                String password = data.getStringExtra("input_pwd");
+                modifyWalletInteract.deriveWalletKeystore(walletId, password).subscribe(this::showDeriveKeystore);
+            }
         }
     }
 
@@ -154,5 +164,12 @@ public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayou
         PrivateKeyDerivetDialog privateKeyDerivetDialog = new PrivateKeyDerivetDialog(this);
         privateKeyDerivetDialog.show();
         privateKeyDerivetDialog.setPrivateKey(privateKey);
+    }
+
+    public void showDeriveKeystore(String keystore) {
+        dismissLoading();
+        Intent intent = new Intent(this, ExportKeyStoreActivity.class);
+        intent.putExtra("walletKeystore", keystore);
+        startActivity(intent);
     }
 }

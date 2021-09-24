@@ -30,9 +30,9 @@ public class CreateWalletInteract {
 
     }
 
-    public Single<ETHWallet> loadWalletByKeystore(final String keystore, final String pwd, boolean isMultiple, String symble) {
+    public Single<ETHWallet> loadWalletByKeystore(final String walletName,final String keystore, final String pwd, boolean isMultiple, String symble) {
         return Single.fromCallable(() -> {
-            ETHWallet ethWallet = ETHWalletUtils.loadWalletByKeystore(keystore, pwd);
+            ETHWallet ethWallet = ETHWalletUtils.loadWalletByKeystore(walletName,keystore, pwd);
 
             if (ethWallet != null) {
                 ethWallet.setMultipleCoins(isMultiple);
@@ -45,10 +45,10 @@ public class CreateWalletInteract {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ETHWallet> loadWalletByPrivateKey(final String privateKey, final String pwd, boolean isMultiple, String symble) {
+    public Single<ETHWallet> loadWalletByPrivateKey(final String walletName,final String privateKey, final String pwd, boolean isMultiple, String symble) {
         return Single.fromCallable(() -> {
 
-                    ETHWallet ethWallet = ETHWalletUtils.loadWalletByPrivateKey(privateKey, pwd);
+                    ETHWallet ethWallet = ETHWalletUtils.loadWalletByPrivateKey(walletName,privateKey, pwd);
 
                     if (ethWallet != null) {
                         ethWallet.setMultipleCoins(isMultiple);
@@ -62,9 +62,9 @@ public class CreateWalletInteract {
 
     }
 
-    public Single<ETHWallet> loadWalletByMnemonic(final String bipPath, final String mnemonic, final String pwd, boolean isMultiple) {
+    public Single<ETHWallet> loadWalletByMnemonic(final String walletName,final String bipPath, final String mnemonic, final String pwd, boolean isMultiple) {
         return Single.fromCallable(() -> {
-            ETHWallet ethWallet = ETHWalletUtils.importMnemonic(bipPath
+            ETHWallet ethWallet = ETHWalletUtils.importMnemonic(walletName,bipPath
                     , Arrays.asList(mnemonic.split(" ")), pwd);
 
             if (ethWallet != null) {

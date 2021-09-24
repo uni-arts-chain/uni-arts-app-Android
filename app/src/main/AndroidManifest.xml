@@ -325,7 +325,9 @@
         <activity
             android:name="com.gammaray.ui.activity.BackUpETHMnemonicActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name="com.gammaray.ui.activity.ExportKeyStoreActivity"
+            android:screenOrientation="portrait" />
         <meta-data
             android:name="com.gammaray.utils.CustomGlideModule"
             android:value="AppGlideModule" />

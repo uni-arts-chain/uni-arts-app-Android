@@ -23,9 +23,19 @@ public class ExportKeystoreQRCodeFragment extends BaseFragment<FragmentDeriveKey
 
     String walletKeystore;
 
+    public static BaseFragment newInstance(String keyStore) {
+        ExportKeystoreQRCodeFragment fragment = new ExportKeystoreQRCodeFragment();
+        Bundle args = new Bundle();
+        args.putString("walletKeystore", keyStore);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public void attachView() {
         Bundle arguments = getArguments();
-        walletKeystore = arguments.getString("walletKeystore");
+        if(arguments != null){
+            walletKeystore = arguments.getString("walletKeystore");
+        }
     }
 
     public void initDatas() {

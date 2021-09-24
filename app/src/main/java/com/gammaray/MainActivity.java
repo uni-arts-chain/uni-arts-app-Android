@@ -123,7 +123,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public void initView() {
         isFirstLoad = CacheDiskStaticUtils.getString(ExtraConstant.KEY_GUIDE_FLAG);
         if (isFirstLoad == null || !isFirstLoad.equals("1")) {
-            createWalletInteract.loadWalletByMnemonic(ETHWalletUtils.ETH_JAXX_TYPE, Extras.mnemonic, Extras.pinCode, false).
+            createWalletInteract.loadWalletByMnemonic("walletName",ETHWalletUtils.ETH_JAXX_TYPE, Extras.mnemonic, Extras.pinCode, false).
                     subscribe(this::loadSuccess, this::onError);
         }
 //        createWalletInteract.loadWalletByMnemonic(ETHWalletUtils.ETH_JAXX_TYPE, Extras.mnemonic, Extras.pinCode, false).

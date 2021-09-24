@@ -24,7 +24,7 @@ class ETHPinCodeActivity : BaseActivity<ActivityEthPinCodeLayoutBinding>() {
     fun pinCodeEntered(code: String) {
 
         if (resumeCer) {
-            if (code.equals(psw)) {
+            if (Md5Utils.md5(code).equals(psw)) {
                 //验证通过
                 val intent = Intent()
                 intent.putExtra("input_pwd", code)

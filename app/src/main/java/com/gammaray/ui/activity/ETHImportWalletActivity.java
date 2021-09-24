@@ -2,6 +2,7 @@ package com.gammaray.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,7 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
     private Button mKeyStoreBtn;
     private CreateWalletInteract createWalletInteract;
     private String ethType = ETHWalletUtils.ETH_JAXX_TYPE;
+    private String mWalletName;
 
     @Override
     public int getLayoutId() {
@@ -112,28 +114,34 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
     }
 
     private void resetPassWord() {
+        mWalletName = mDataBinding.edWalletName.getText().toString();
+        if (TextUtils.isEmpty(mWalletName) || mWalletName == null) {
+            ToastUtils.showShort("钱包名不能为空");
+            return;
+        }
         Intent intent = new Intent(ETHImportWalletActivity.this, ETHPinCodeActivity.class);
         intent.putExtra(RESUME_CER, true);
         intent.putExtra(SET_CER, true);
-        startActivityForResult(intent,mDefaultImportType);
+        startActivityForResult(intent, mDefaultImportType);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == 0) {
-                String mnemonic = mDataBinding.edRawData.getText().toString();
-                String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
-                createWalletInteract.loadWalletByMnemonic(ethType, mnemonic, walletPwd, false).subscribe(this::loadSuccess, this::onError);
-            } else if (requestCode == 1) {
-                String privateKey = mDataBinding.edRawData.getText().toString();
-                String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
-                createWalletInteract.loadWalletByPrivateKey(privateKey,walletPwd,false,"ETH").subscribe(this::loadSuccess, this::onError);
-            } else if (requestCode == 2) {
-                String keyStore = mDataBinding.edRawData.getText().toString();
-                String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
-                createWalletInteract.loadWalletByKeystore(keyStore,walletPwd,false,"ETH").subscribe(this::loadSuccess, this::onError);;
-            }
+        if (requestCode == 0) {
+            String mnemonic = mDataBinding.edRawData.getText().toString();
+            String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
+            createWalletInteract.loadWalletByMnemonic(mWalletName, ethType, mnemonic, walletPwd, false).subscribe(this::loadSuccess, this::onError);
+        } else if (requestCode == 1) {
+            String privateKey = mDataBinding.edRawData.getText().toString();
+            String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
+            createWalletInteract.loadWalletByPrivateKey(mWalletName, privateKey, walletPwd, false, "ETH").subscribe(this::loadSuccess, this::onError);
+        } else if (requestCode == 2) {
+            String keyStore = mDataBinding.edRawData.getText().toString();
+            String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
+            createWalletInteract.loadWalletByKeystore(mWalletName, keyStore, walletPwd, false, "ETH").subscribe(this::loadSuccess, this::onError);
+            ;
+        }
     }
 
     @Override
@@ -157,11 +165,11 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
         }
     }
 
-    private void loadSuccess(ETHWallet wallet){
+    private void loadSuccess(ETHWallet wallet) {
         ToastUtils.showShort("导入钱包成功");
     }
 
-    private void onError(Throwable e){
+    private void onError(Throwable e) {
         ToastUtils.showShort("导入钱包失败");
     }
 }
