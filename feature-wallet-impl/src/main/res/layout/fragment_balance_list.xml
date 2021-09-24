@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/walletContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:fitsSystemWindows="true">
 
-    <FrameLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fillViewport="true"
+        android:focusableInTouchMode="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -115,7 +116,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/headLayout"
                 android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:paddingBottom="10dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -146,7 +148,50 @@
                 android:layout_below="@+id/pointLayout"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/gray_disabled2" />
+                android:background="@color/gray_disabled2"
+                android:visibility="gone" />
+
+
+            <RelativeLayout
+                android:id="@+id/btn_import_wallet"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/shape_text_black_boder"
+                android:layout_marginBottom="22dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/icon_wallet"
+                    android:drawablePadding="5dp"
+                    android:layout_centerInParent="true"
+                    android:text="导入钱包"
+                    android:textColor="#101010"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_below="@id/pointLayout"
+                android:background="#F6F6F6"
+                app:tabIndicatorColor="#101010"
+                app:tabIndicatorFullWidth="false"
+                app:tabSelectedTextColor="#101010"
+                app:tabTextColor="#101010" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/btn_import_wallet"
+                android:layout_below="@id/tabLayout"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/container"
@@ -242,43 +287,8 @@
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-            <TextView
-                android:id="@+id/importWallet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:drawablePadding="6dp"
-                android:text="导入钱包"
-                android:textColor="@color/transfer_advanced_setting_help_text_color"
-                android:textSize="17sp"
-                android:visibility="visible" />
-
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/noLayut"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:visibility="gone">
+    </androidx.core.widget.NestedScrollView>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/page_launch">
-
-                <ImageView
-                    android:id="@+id/splash_bottom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="120dp"
-                    android:src="@drawable/img_launch_title"
-                    android:visibility="gone" />
-            </RelativeLayout>
-
-        </RelativeLayout>
-    </FrameLayout>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</FrameLayout>
