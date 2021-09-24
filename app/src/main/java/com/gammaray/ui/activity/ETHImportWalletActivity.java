@@ -140,7 +140,6 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
             String keyStore = mDataBinding.edRawData.getText().toString();
             String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
             createWalletInteract.loadWalletByKeystore(mWalletName, keyStore, walletPwd, false, "ETH").subscribe(this::loadSuccess, this::onError);
-            ;
         }
     }
 
