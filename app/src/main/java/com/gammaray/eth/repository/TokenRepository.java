@@ -70,20 +70,20 @@ public class TokenRepository implements TokenRepositoryType {
         return Observable.create(e -> {
             NetworkInfo defaultNetwork = ethereumNetworkRepository.getDefaultNetwork();
 
-            Token[] tokens = tokenLocalSource.fetch(defaultNetwork, walletAddress)
-                    .map(items -> {
-                        int len = items.length;
-                        Token[] result = new Token[len];
-                        for (int i = 0; i < len; i++) {
-                            result[i] = new Token(items[i], null);
-                        }
-                        return result;
-                    })
-                    .blockingGet();
+//            Token[] tokens = tokenLocalSource.fetch(defaultNetwork, walletAddress)
+//                    .map(items -> {
+//                        int len = items.length;
+//                        Token[] result = new Token[len];
+//                        for (int i = 0; i < len; i++) {
+//                            result[i] = new Token(items[i], null);
+//                        }
+//                        return result;
+//                    })
+//                    .blockingGet();
 //            e.onNext(tokens);
 
 //            updateTokenInfoCache(defaultNetwork, walletAddress);
-            tokens = tokenLocalSource.fetch(defaultNetwork, walletAddress)
+            Token[] tokens = tokenLocalSource.fetch(defaultNetwork, walletAddress)
                     .map(items -> {
                         int len = items.length;
                         Token[] result = new Token[len];

@@ -42,6 +42,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.realm.Realm;
 import jp.co.soramitsu.app.App;
 import okhttp3.OkHttpClient;
 
@@ -133,6 +134,7 @@ public class YunApplication extends App {
         NetworkManager.instance().init();
         AppFilePath.init(this);
         init();
+        Realm.init(this);
         initX5();
         initUMeng();
 //        initOkhttpUtils();

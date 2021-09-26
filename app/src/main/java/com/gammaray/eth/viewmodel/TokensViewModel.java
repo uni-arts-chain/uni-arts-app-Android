@@ -147,7 +147,6 @@ public class TokensViewModel extends BaseViewModel {
     }
 
     public void fetchTokens() {
-        progress.postValue(true);
         LogUtils.e("view model fetchTokens", "fetchTokens");
         disposable = fetchTokensInteract
                 .fetch(defaultWallet.getValue().address)
@@ -156,11 +155,9 @@ public class TokensViewModel extends BaseViewModel {
 
     private void onTokens(Token[] tokens) {
         LogUtils.e("view model Tokens", "onTokens");
-        progress.postValue(false);
         this.tokens.postValue(tokens);
         LogUtils.e("times", System.currentTimeMillis());
-        //  TODO： 是否出现重复调用
-        getTicker("token.tokenInfo.symbol").subscribe(this::onPrice, this::onError);
+//        getTicker("token.tokenInfo.symbol").subscribe(this::onPrice, this::onError);
 //        for (Token token : tokens) {
 //            if (token.balance != null) {
 //
