@@ -120,7 +120,6 @@ public class WalletsDetailActivity extends BaseActivity<ActivityWalletDetailLayo
             WalletTokenBean tokenBean = new WalletTokenBean("ETH", "Ethereum", R.mipmap.icon_eth, tokens[0].balance);
             mWallets.add(tokenBean);
             mTokenAssertFragment.updateData(mWallets);
-//            mWallets.clear();
         }
     }
 

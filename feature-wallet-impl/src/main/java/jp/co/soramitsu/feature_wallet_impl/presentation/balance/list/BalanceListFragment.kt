@@ -16,6 +16,7 @@ import com.upbest.arouter.EventEntity
 import com.upbest.arouter.Extras
 import jp.co.soramitsu.common.base.BaseFragment
 import jp.co.soramitsu.common.di.FeatureUtils
+import jp.co.soramitsu.common.utils.setVisible
 import jp.co.soramitsu.feature_wallet_api.di.WalletFeatureApi
 import jp.co.soramitsu.feature_wallet_impl.R
 import jp.co.soramitsu.feature_wallet_impl.di.WalletFeatureComponent
@@ -56,7 +57,7 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(),
 
     override fun initViews() {
 
-//        noLayut.setVisible(!Extras.isShow)
+        noLayut.setVisible(!Extras.isShow)
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this)
         adapter = BalanceListAdapter(this)
@@ -83,10 +84,10 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(),
             EventBus.getDefault()
                 .postSticky(EventBusMessageEvent(EventEntity.EVENT_SHOW_QR, addr.text))
         }
-        btn_import_wallet.setOnClickListener {
-            EventBus.getDefault()
-                .postSticky(EventBusMessageEvent(EventEntity.EVENT_IMPORT_WALLET, addr.text))
-        }
+//        btn_import_wallet.setOnClickListener {
+//            EventBus.getDefault()
+//                .postSticky(EventBusMessageEvent(EventEntity.EVENT_IMPORT_WALLET, addr.text))
+//        }
         pointLayout.setOnClickListener { viewModel.sendClicked() }
         transfersContainer.setSlidingStateListener(this::setRefreshEnabled)
 

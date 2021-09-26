@@ -30,4 +30,6 @@ public class EventEntity {
     public static final String EVENT_SCREEN_SHORT = "screen_shot";
     public static final String EVENT_LIVE_CLOSE = "live_close";
 
+    public static final String EVENT_IMPORT_ETH_SUCCESS = "import_eth_success";
+
 }

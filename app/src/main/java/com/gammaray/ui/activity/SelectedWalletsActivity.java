@@ -1,5 +1,6 @@
 package com.gammaray.ui.activity;
 
+import android.content.Entity;
 import android.content.Intent;
 import android.view.View;
 
@@ -13,6 +14,12 @@ import com.gammaray.base.ToolBarOptions;
 import com.gammaray.databinding.ActivitySelectedWalletsLayoutBinding;
 import com.gammaray.eth.domain.ETHWallet;
 import com.gammaray.eth.interact.FetchWalletInteract;
+import com.upbest.arouter.EventBusMessageEvent;
+import com.upbest.arouter.EventEntity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +51,8 @@ public class SelectedWalletsActivity extends BaseActivity<ActivitySelectedWallet
         toolBarOptions.titleString = "ETH";
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, toolBarOptions);
 
+        EventBus.getDefault().register(this);
+
         fetchWalletInteract = new FetchWalletInteract();
         fetchWalletInteract.findDefault().subscribe(this::getCurrentWallet);
 
@@ -59,9 +68,9 @@ public class SelectedWalletsActivity extends BaseActivity<ActivitySelectedWallet
         mDataBinding.rvWallets.setLayoutManager(layoutManager);
         mDataBinding.rvWallets.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter, view, position) -> {
-            Intent intent = new Intent(SelectedWalletsActivity.this,WalletsDetailActivity.class);
-            intent.putExtra("wallet_name",walletList.get(position).getName());
-            intent.putExtra("wallet_address",walletList.get(position).getAddress());
+            Intent intent = new Intent(SelectedWalletsActivity.this, WalletsDetailActivity.class);
+            intent.putExtra("wallet_name", walletList.get(position).getName());
+            intent.putExtra("wallet_address", walletList.get(position).getAddress());
             startActivity(intent);
         });
     }
@@ -72,5 +81,20 @@ public class SelectedWalletsActivity extends BaseActivity<ActivitySelectedWallet
             walletList.add(ethWallet);
             adapter.setNewData(walletList);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventBusMessageEvent eventBusMessageEvent) {
+        if (eventBusMessageEvent != null) {
+            if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_IMPORT_ETH_SUCCESS)) {
+                finish();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -23,6 +23,12 @@ import com.gammaray.eth.util.ETHWalletUtils;
 import com.gammaray.ui.activity.wallet.ImportWalletActivity;
 import com.gammaray.utils.SharedPreUtils;
 import com.gammaray.widget.BasePopupWindow;
+import com.upbest.arouter.EventBusMessageEvent;
+import com.upbest.arouter.EventEntity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import static com.gammaray.ui.activity.wallet.WalletEditActivity.RESUME_CER;
 import static com.gammaray.ui.activity.wallet.WalletEditActivity.SET_CER;
@@ -60,6 +66,7 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
         toolBarOptions.titleString = "导入钱包";
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, toolBarOptions);
 
+        EventBus.getDefault().register(this);
         if (getIntent() != null) {
             mWalletType = getIntent().getStringExtra("wallet_type");
         }
@@ -95,12 +102,15 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
     private void initData() {
         if (mDefaultImportType == 0) {
             mDataBinding.tvImportWay.setText("助记词");
-            mDataBinding.edRawData.setHint("请输入助记词，按空格分隔");
+            mDataBinding.tvRawHint.setHint("请输入助记词，按空格分隔");
+            mDataBinding.edRawData.setText("");
         } else if (mDefaultImportType == 1) {
             mDataBinding.tvImportWay.setText("私钥");
-            mDataBinding.edRawData.setHint("请输入私钥");
+            mDataBinding.tvRawHint.setHint("请输入私钥");
+            mDataBinding.edRawData.setText("");
         } else {
             mDataBinding.tvImportWay.setText("KeyStore");
+            mDataBinding.edRawData.setText("");
         }
         if (mDefaultImportType == 0 || mDefaultImportType == 1) {
             mDataBinding.rlWalletJson.setVisibility(View.GONE);
@@ -165,10 +175,23 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
     }
 
     private void loadSuccess(ETHWallet wallet) {
-        ToastUtils.showShort("导入钱包成功");
+        finish();
+        EventBus.getDefault().post(new EventBusMessageEvent(EventEntity.EVENT_IMPORT_ETH_SUCCESS, null));
+//        ToastUtils.showShort("导入钱包成功");
     }
 
     private void onError(Throwable e) {
         ToastUtils.showShort("导入钱包失败");
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventBusMessageEvent eventBusMessageEvent) {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

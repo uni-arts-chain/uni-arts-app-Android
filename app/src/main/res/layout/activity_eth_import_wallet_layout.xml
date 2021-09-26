@@ -200,20 +200,33 @@
         <RelativeLayout
             android:id="@+id/rl_raw_data"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
+            android:minHeight="150dp"
             android:layout_below="@id/tv_hint"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/shape_text_black_boder">
 
+            <TextView
+                android:id="@+id/tv_raw_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_gray"
+                android:layout_margin="10dp"
+                android:textSize="13sp" />
+
             <EditText
                 android:id="@+id/ed_raw_data"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_margin="5dp"
-                android:background="@color/white" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/tv_raw_hint"
+                android:background="@color/white"
+                android:textColor="@color/_101010"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <Button

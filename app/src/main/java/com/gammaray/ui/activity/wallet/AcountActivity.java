@@ -29,6 +29,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.math.BigDecimal;
+
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 import jp.co.soramitsu.feature_wallet_impl.presentation.balance.list.BalanceListFragment;
 
@@ -95,6 +97,11 @@ public class AcountActivity extends BaseActivity<ActivityAcountBinding> {
 
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleId = R.string.count_bage;
+        mToolBarOptions.rightTextString = R.string.import_wallet;
+        mDataBinding.mAppBarLayoutAv.mToolbar.findViewById(R.id.txt_right).setOnClickListener(v ->
+        {
+            showConfirmDialog();
+        });
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         if (YunApplication.getmUserVo() != null && YunApplication.getmUserVo().getAvatar() != null)
             if (!TextUtils.isEmpty(YunApplication.getmUserVo().getAvatar().getUrl()))

@@ -14,6 +14,12 @@ import com.gammaray.base.ToolBarOptions;
 import com.gammaray.databinding.ActivityWalletLinksLayoutBinding;
 import com.gammaray.entity.WalletLinkBean;
 import com.gammaray.ui.activity.wallet.AcountActivity;
+import com.upbest.arouter.EventBusMessageEvent;
+import com.upbest.arouter.EventEntity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +47,8 @@ public class WalletLinksActivity extends BaseActivity<ActivityWalletLinksLayoutB
         toolBarOptions.titleString = "选择链类型";
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, toolBarOptions);
 
+        EventBus.getDefault().register(this);
+
         mList.add(mUartLink);
         mList.add(mETHLink);
 
@@ -56,5 +64,20 @@ public class WalletLinksActivity extends BaseActivity<ActivityWalletLinksLayoutB
                 startActivity(SelectedWalletsActivity.class);
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventBusMessageEvent eventBusMessageEvent) {
+        if (eventBusMessageEvent != null) {
+            if (eventBusMessageEvent.getmMessage().equals(EventEntity.EVENT_IMPORT_ETH_SUCCESS)) {
+                finish();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

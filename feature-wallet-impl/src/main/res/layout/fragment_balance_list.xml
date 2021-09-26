@@ -152,28 +152,6 @@
                 android:visibility="gone" />
 
 
-            <RelativeLayout
-                android:id="@+id/btn_import_wallet"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/shape_text_black_boder"
-                android:layout_marginBottom="22dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/icon_wallet"
-                    android:drawablePadding="5dp"
-                    android:layout_centerInParent="true"
-                    android:text="导入钱包"
-                    android:textColor="#101010"
-                    android:textSize="15sp" />
-
-            </RelativeLayout>
-
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
@@ -189,7 +167,6 @@
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/btn_import_wallet"
                 android:layout_below="@id/tabLayout"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
@@ -286,6 +263,30 @@
                     tools:layout_height="350dp" />
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            <RelativeLayout
+                android:id="@+id/noLayut"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/page_launch">
+
+                    <ImageView
+                        android:id="@+id/splash_bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="120dp"
+                        android:src="@drawable/img_launch_title"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
