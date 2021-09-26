@@ -2,6 +2,7 @@ package com.gammaray.ui.activity;
 
 import android.content.Entity;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +15,9 @@ import com.gammaray.base.ToolBarOptions;
 import com.gammaray.databinding.ActivitySelectedWalletsLayoutBinding;
 import com.gammaray.eth.domain.ETHWallet;
 import com.gammaray.eth.interact.FetchWalletInteract;
+import com.gammaray.ui.activity.wallet.AcountActivity;
+import com.gammaray.ui.activity.wallet.ImportWalletActivity;
+import com.gammaray.widget.UploadSuccessPopUpWindow;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.upbest.arouter.EventEntity;
 
@@ -34,6 +38,7 @@ public class SelectedWalletsActivity extends BaseActivity<ActivitySelectedWallet
     private List<ETHWallet> walletList = new ArrayList<>();
     private FetchWalletInteract fetchWalletInteract;
     private SelectedWalletAdapter adapter;
+    UploadSuccessPopUpWindow uploadSuccessPopUpWindow;
 
     @Override
     public int getLayoutId() {
@@ -58,7 +63,7 @@ public class SelectedWalletsActivity extends BaseActivity<ActivitySelectedWallet
 
         initRecyclerView();
         mDataBinding.btnImportWallet.setOnClickListener(view -> {
-            startActivity(ETHImportWalletActivity.class);
+            showConfirmDialog();
         });
     }
 
@@ -82,6 +87,28 @@ public class SelectedWalletsActivity extends BaseActivity<ActivitySelectedWallet
             adapter.setNewData(walletList);
         }
     }
+
+    private void showConfirmDialog() {
+        uploadSuccessPopUpWindow = new UploadSuccessPopUpWindow(SelectedWalletsActivity.this, clickListener);
+        uploadSuccessPopUpWindow.setContent(getString(R.string.import_wallet_tips));
+        uploadSuccessPopUpWindow.setConfirmText(getString(R.string.confirm_import));
+        uploadSuccessPopUpWindow.showAtLocation(mDataBinding.parent, Gravity.CENTER, 0, 0);
+
+    }
+
+    private UploadSuccessPopUpWindow.OnBottomTextviewClickListener clickListener = new UploadSuccessPopUpWindow.OnBottomTextviewClickListener() {
+        @Override
+        public void onCancleClick() {
+            if (uploadSuccessPopUpWindow.isShowing()) uploadSuccessPopUpWindow.dismiss();
+        }
+
+        @Override
+        public void onPerformClick() {
+            startActivity(ETHImportWalletActivity.class);
+            finish();
+        }
+    };
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventBusMessageEvent eventBusMessageEvent) {

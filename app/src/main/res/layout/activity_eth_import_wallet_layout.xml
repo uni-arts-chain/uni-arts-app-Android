@@ -79,6 +79,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
+                    android:singleLine="true"
+                    android:ellipsize="middle"
                     android:layout_weight="1"
                     android:background="@color/white"
                     android:gravity="right"
@@ -128,6 +130,7 @@
                     android:layout_weight="1"
                     android:background="@color/white"
                     android:gravity="right"
+                    android:inputType="textPassword"
                     android:hint="设置JSON密码"
                     android:textColor="@color/_101010"
                     android:textSize="14sp" />
