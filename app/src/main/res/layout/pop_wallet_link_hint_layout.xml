@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_hint_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="申请授权"
+        android:textColor="@color/_101010"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:id="@+id/tv_hint_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/tv_hint_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp" />
+
+    <TextView
+        android:id="@+id/tv_icon_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_hint_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="申请授权"
+        android:textColor="@color/_101010"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_hint_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_icon_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginRight="45dp"
+        android:text="申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权"
+        android:textColor="@color/_101010"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@id/tv_hint_content"
+        android:layout_marginTop="45dp">
+
+        <CheckBox
+            android:id="@+id/ckbox_never_notice"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/ckbox_never_notice"
+            android:text="下次不再提醒"
+            android:textColor="@color/_999999" />
+    </RelativeLayout>
+
+</RelativeLayout>

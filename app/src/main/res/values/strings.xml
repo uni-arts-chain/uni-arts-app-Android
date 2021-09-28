@@ -390,4 +390,15 @@ UniArts提供技术支持</string>
     <string name="add_new_property_title">添加新资产</string>
     <string name="mine_wallet_manage">钱包</string>
     <string name="mine_trade_record">交易记录</string>
+    <string name="dapp_edit_hint">搜索或输入 DApp 网址</string>
+
+    <string-array name="recent_dapps">
+        <item>收藏</item>
+        <item>最近</item>
+    </string-array>
+
+    <string-array name="all_dapps">
+        <item>ETH</item>
+        <item>UART</item>
+    </string-array>
 </resources>
