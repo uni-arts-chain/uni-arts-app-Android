@@ -160,6 +160,7 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
             ToastUtils.showShort(getString(R.string.text_input_amount_null_tips));
             return;
         }
+        showLoading(R.string.progress_loading);
         HashMap<String, String> param = new HashMap<>();
         param.put("art_id", String.valueOf(sellingArtVo.getId()));
         param.put("amount", String.valueOf(1));
@@ -169,6 +170,7 @@ public class SellArtUnCutActivity extends BaseActivity<ActivitySellArtUnCutBindi
         RequestManager.instance().sellArt(param, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
+                dismissLoading();
                 if (response.isSuccessful()) {
                     ToastUtils.showShort("挂单成功");
 //                    if(isFromDetail){

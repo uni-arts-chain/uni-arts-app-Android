@@ -331,9 +331,11 @@
         <activity
             android:name="com.gammaray.ui.activity.DAppsListActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.gammaray.ui.activity.DAppSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.gammaray.ui.activity.DAppWebActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

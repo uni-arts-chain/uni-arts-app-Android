@@ -1,15 +1,19 @@
 package com.gammaray.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gammaray.R;
 import com.gammaray.adapter.RecentDAppsAdapter;
 import com.gammaray.base.BaseFragment;
 import com.gammaray.databinding.FragmentRecentDappLayoutBinding;
 import com.gammaray.entity.DAppBean;
+import com.gammaray.ui.activity.DAppWebActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,5 +59,11 @@ public class RecentDAppFragment extends BaseFragment<FragmentRecentDappLayoutBin
         mBinding.rvRecentDapp.setLayoutManager(layoutManager);
         mAdapter.setEmptyView(R.layout.dapps_empty_layout,mBinding.rvRecentDapp);
         mBinding.rvRecentDapp.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(requireActivity(), DAppWebActivity.class);
+            intent.putExtra("dapp_name",mDApps.get(position).getAppName());
+            startActivity(intent);
+        });
     }
 }

@@ -142,4 +142,8 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/date_picker_bg</item>
     </style>
+
+    <style name="DappCheckBoxStyle" parent="@android:style/Widget.CompoundButton.CheckBox">
+            <item name="android:button">@drawable/bg_dapp_checkbox</item>
+    </style>
 </resources>

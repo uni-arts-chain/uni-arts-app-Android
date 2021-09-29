@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tv_hint_title"
@@ -28,7 +28,6 @@
         android:layout_below="@id/tv_hint_icon"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="申请授权"
         android:textColor="@color/_101010"
         android:textSize="15sp" />
 
@@ -41,11 +40,11 @@
         android:layout_marginLeft="45dp"
         android:layout_marginTop="36dp"
         android:layout_marginRight="45dp"
-        android:text="申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权申请授权"
         android:textColor="@color/_101010"
         android:textSize="15sp" />
 
     <RelativeLayout
+        android:id="@+id/rl_checkbox"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_below="@id/tv_hint_content"
@@ -53,10 +52,11 @@
 
         <CheckBox
             android:id="@+id/ckbox_never_notice"
+            style="@style/DappCheckBoxStyle"
             android:layout_width="13dp"
             android:layout_height="13dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="22dp" />
+            android:layout_marginLeft="50dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -66,6 +66,34 @@
             android:layout_toRightOf="@id/ckbox_never_notice"
             android:text="下次不再提醒"
             android:textColor="@color/_999999" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_checkbox"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="22dp">
+
+        <Button
+            android:id="@+id/btn_refuse"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/shape_text_black_boder"
+            android:text="拒绝"
+            android:textColor="@color/_101010"
+            android:textSize="15sp" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/dapp_shape_btn_bgcolor_black"
+            android:text="确认"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
     </RelativeLayout>
 
 </RelativeLayout>

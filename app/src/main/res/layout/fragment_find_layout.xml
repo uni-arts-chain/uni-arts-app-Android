@@ -23,14 +23,14 @@
             android:textColor="@color/_101010"
             android:textSize="17sp" />
 
-<!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-<!--            <androidx.core.widget.NestedScrollView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:fillViewport="true">-->
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -156,9 +156,9 @@
 
                 </RelativeLayout>
 
-<!--            </androidx.core.widget.NestedScrollView>-->
+            </androidx.core.widget.NestedScrollView>
 
-<!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 </layout>
