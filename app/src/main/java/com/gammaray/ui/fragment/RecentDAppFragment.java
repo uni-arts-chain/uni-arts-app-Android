@@ -2,14 +2,12 @@ package com.gammaray.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gammaray.R;
-import com.gammaray.adapter.RecentDAppsAdapter;
+import com.gammaray.adapter.FindDAppsAdapter;
 import com.gammaray.base.BaseFragment;
 import com.gammaray.databinding.FragmentRecentDappLayoutBinding;
 import com.gammaray.entity.DAppBean;
@@ -20,7 +18,7 @@ import java.util.List;
 
 public class RecentDAppFragment extends BaseFragment<FragmentRecentDappLayoutBinding> {
 
-    private RecentDAppsAdapter mAdapter;
+    private FindDAppsAdapter mAdapter;
 
     private List<DAppBean> mDApps = new ArrayList<>();
 
@@ -53,7 +51,7 @@ public class RecentDAppFragment extends BaseFragment<FragmentRecentDappLayoutBin
         for (int i = 0; i < 10; i++) {
             mDApps.add(new DAppBean(R.mipmap.icon_eth, "ETH"));
         }
-        mAdapter = new RecentDAppsAdapter(mDApps);
+        mAdapter = new FindDAppsAdapter(mDApps);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         mBinding.rvRecentDapp.setLayoutManager(layoutManager);

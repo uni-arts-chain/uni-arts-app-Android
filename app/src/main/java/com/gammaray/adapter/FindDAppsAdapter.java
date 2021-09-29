@@ -7,9 +7,9 @@ import com.gammaray.entity.DAppBean;
 
 import java.util.List;
 
-public class RecentDAppsAdapter extends BaseQuickAdapter<DAppBean, BaseViewHolder> {
+public class FindDAppsAdapter extends BaseQuickAdapter<DAppBean, BaseViewHolder> {
 
-    public RecentDAppsAdapter(List<DAppBean> data) {
+    public FindDAppsAdapter(List<DAppBean> data) {
         super(R.layout.item_recent_dapp_layout, data);
     }
 
