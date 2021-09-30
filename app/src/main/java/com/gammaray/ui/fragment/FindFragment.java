@@ -194,6 +194,8 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
 
         mEthRecommendAdapter = new DAppsListAdapter(mEthRecommends);
         mBinding.rvEthRecommend.setAdapter(mEthRecommendAdapter);
+        mEthRecommendAdapter.setOnItemClickListener((adapter, view, position) -> ToastUtils.showShort("Eth推荐--" + position));
+
 
         int ethTransferHeight = 0;
         int ethTransferRows = 1;
@@ -226,7 +228,7 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
 
         mEthTransferAdapter = new DAppsListAdapter(mEthTransfers);
         mBinding.rvEthTransfer.setAdapter(mEthTransferAdapter);
-
+        mEthTransferAdapter.setOnItemClickListener((adapter, view, position) -> ToastUtils.showShort("Eth交易--" + position));
     }
 
     private void initUartDAppList() {
@@ -261,6 +263,8 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
 
         mUartRecommendAdapter = new DAppsListAdapter(mUartRecommends);
         mBinding.rvUartRecommend.setAdapter(mUartRecommendAdapter);
+        mUartRecommendAdapter.setOnItemClickListener((adapter, view, position) -> ToastUtils.showShort("Uart推荐--" + position));
+
 
         int uartTransferHeight = 0;
         int uartTransferRows = 1;
@@ -293,7 +297,7 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
 
         mUartTransferAdapter = new DAppsListAdapter(mUartTransfers);
         mBinding.rvUartTransfer.setAdapter(mUartTransferAdapter);
-
+        mUartTransferAdapter.setOnItemClickListener((adapter, view, position) -> ToastUtils.showShort("Uart交易--" + position));
     }
 
     private void scan() {
@@ -344,13 +348,13 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
             mBinding.rvCollects.setVisibility(View.GONE);
             mBinding.rvRecent.setVisibility(View.VISIBLE);
         } else if (view.getId() == R.id.tv_all_app) {
-            Intent intent = new Intent(requireActivity(),DAppsListActivity.class);
+            Intent intent = new Intent(requireActivity(), DAppsListActivity.class);
             if (bIsShowCollect) {
-                intent.putExtra("title","收藏");
-                intent.putExtra("type","0");
+                intent.putExtra("title", "收藏");
+                intent.putExtra("type", "0");
             } else {
-                intent.putExtra("title","最近");
-                intent.putExtra("type","1");
+                intent.putExtra("title", "最近");
+                intent.putExtra("type", "1");
             }
             startActivity(intent);
         } else if (view.getId() == R.id.rl_eth_coin) {
@@ -364,24 +368,24 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
             mBinding.rlEthAppList.setVisibility(View.GONE);
             mBinding.rlUartAppList.setVisibility(View.VISIBLE);
         } else if (view.getId() == R.id.tv_eth_recommend_all) {
-            Intent intent = new Intent(requireActivity(),DAppsListActivity.class);
-            intent.putExtra("title","ETH-推荐");
-            intent.putExtra("type","2");
+            Intent intent = new Intent(requireActivity(), DAppsListActivity.class);
+            intent.putExtra("title", "ETH-推荐");
+            intent.putExtra("type", "2");
             startActivity(intent);
         } else if (view.getId() == R.id.tv_eth_transfer_all) {
-            Intent intent = new Intent(requireActivity(),DAppsListActivity.class);
-            intent.putExtra("title","ETH-交易");
-            intent.putExtra("type","3");
+            Intent intent = new Intent(requireActivity(), DAppsListActivity.class);
+            intent.putExtra("title", "ETH-交易");
+            intent.putExtra("type", "3");
             startActivity(intent);
         } else if (view.getId() == R.id.tv_uart_recommend_all) {
-            Intent intent = new Intent(requireActivity(),DAppsListActivity.class);
-            intent.putExtra("title","UART-推荐");
-            intent.putExtra("type","4");
+            Intent intent = new Intent(requireActivity(), DAppsListActivity.class);
+            intent.putExtra("title", "UART-推荐");
+            intent.putExtra("type", "4");
             startActivity(intent);
         } else if (view.getId() == R.id.tv_uart_transfer_all) {
-            Intent intent = new Intent(requireActivity(),DAppsListActivity.class);
-            intent.putExtra("title","UART-交易");
-            intent.putExtra("type","5");
+            Intent intent = new Intent(requireActivity(), DAppsListActivity.class);
+            intent.putExtra("title", "UART-交易");
+            intent.putExtra("type", "5");
             startActivity(intent);
         }
     }
