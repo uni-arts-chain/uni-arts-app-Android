@@ -20,7 +20,10 @@ import com.gammaray.entity.BlindBoxOrderCheck;
 import com.gammaray.entity.BlindBoxRecordVo;
 import com.gammaray.entity.BlindBoxVo;
 import com.gammaray.entity.BoughtArtVo;
+import com.gammaray.entity.ChainBean;
 import com.gammaray.entity.CollectArtVo;
+import com.gammaray.entity.DAppGroupBean;
+import com.gammaray.entity.DAppRecommendBean;
 import com.gammaray.entity.FollowerVO;
 import com.gammaray.entity.HistoriesBean;
 import com.gammaray.entity.MemberInfo;
@@ -338,7 +341,7 @@ public interface RemoteService {
 
     /*账单明细*/
     @GET("/api/v2/account_histories")
-    Call<BaseResponseVo<List<HistoriesBean>>> queryAccountHistory(@Query("page") int page,@Query("per_page") int pageSize);
+    Call<BaseResponseVo<List<HistoriesBean>>> queryAccountHistory(@Query("page") int page, @Query("per_page") int pageSize);
 
     // 上传wx和alipay收款二维码
     @POST("/api/v2/payment_methods")
@@ -406,5 +409,17 @@ public interface RemoteService {
     // 竞拍须知
     @GET("/api/v2/auctions/notice")
     Call<BaseResponseVo<UserAuctionsVo>> queryAuctionRules();
+
+    //链列表
+    @GET("/api/v2/chains")
+    Call<BaseResponseVo<List<ChainBean>>> queryChainList();
+
+    //获取对应ID下的推荐Dapp列表
+    @GET("/api/v2/chains/{id}/recommend_dapps")
+    Call<BaseResponseVo<List<DAppRecommendBean>>> queryRecommendDApps(@Path("id") String id);
+
+    //获取对应ID下的Dapp列表
+    @GET("/api/v2/chains/{id}/categories")
+    Call<BaseResponseVo<List<DAppGroupBean>>> queryCategoryDApps(@Path("id") String id);
 }
 

@@ -63,7 +63,7 @@ public class DAppSearchActivity extends BaseActivity<ActivityDappSearchLayoutBin
     }
 
     private void initSearchDApp() {
-        mSearchAdapter = new DAppsListAdapter(mResults);
+//        mSearchAdapter = new DAppsListAdapter(mResults);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         mDataBinding.rvSearchResult.setLayoutManager(layoutManager);

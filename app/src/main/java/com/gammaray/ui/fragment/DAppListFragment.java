@@ -1,37 +1,41 @@
 package com.gammaray.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RelativeLayout;
 
-import com.blankj.utilcode.util.ScreenUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.gammaray.R;
-import com.gammaray.adapter.DAppsListAdapter;
+import com.gammaray.adapter.DAppGroupsAdapter;
 import com.gammaray.base.BaseFragment;
 import com.gammaray.databinding.FragmentDappListLayoutBinding;
-import com.gammaray.entity.WalletLinkBean;
-import com.gammaray.ui.activity.DAppsListActivity;
-import com.gammaray.utils.DisplayUtils;
-import com.gammaray.widget.pager.PagerGridLayoutManager;
-import com.gammaray.widget.pager.PagerGridSnapHelper;
+import com.gammaray.entity.BaseResponseVo;
+import com.gammaray.entity.DAppGroupBean;
+import com.gammaray.entity.DAppRecommendBean;
+import com.gammaray.net.MinerCallback;
+import com.gammaray.net.RequestManager;
+import com.gammaray.utils.ToastManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Response;
+
 public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding> {
 
-    private DAppsListAdapter mAdapter;
+    private DAppGroupsAdapter mAdapter;
 
-    private List<WalletLinkBean> mList = new ArrayList<>();
+    private List<DAppRecommendBean> mDAppRecommendBeans = new ArrayList<>();
 
-    private String mCoinType;
+    private List<DAppGroupBean> mDAppGroupBeans = new ArrayList<>();
+
+    private String mChainId;
 
 
-    static BaseFragment newInstance(String coinType) {
+    static BaseFragment newInstance(String chainId) {
         DAppListFragment dAppListFragment = new DAppListFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("coin_type", coinType);
+        bundle.putString("chain_id", chainId);
         dAppListFragment.setArguments(bundle);
         return dAppListFragment;
     }
@@ -50,73 +54,92 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
     protected void initView() {
 
         if (getArguments() != null) {
-            mCoinType = getArguments().getString("coin_type");
+            mChainId = getArguments().getString("chain_id");
         }
-        for (int i = 0; i < 10; i++) {
-            mList.add(new WalletLinkBean("ETH", "ETHETHETHETH", R.mipmap.icon_eth));
-        }
-
-        initRecommendDApp();
-        initTransferDApp();
+        initData();
+        queryRecommendDapps();
     }
 
-    private void initRecommendDApp() {
-        // 1.水平分页布局管理器
-        PagerGridLayoutManager layoutManager = new PagerGridLayoutManager(3, 1, PagerGridLayoutManager.HORIZONTAL);
-        mBinding.rvRecommend.setLayoutManager(layoutManager);
+    private void initData() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        mAdapter = new DAppGroupsAdapter(mDAppGroupBeans, requireContext());
+        mBinding.rvDappGroups.setLayoutManager(layoutManager);
+        mBinding.rvDappGroups.setAdapter(mAdapter);
 
-        int screenWidth = ScreenUtils.getScreenWidth() / 12 * 11;
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screenWidth, DisplayUtils.dp2px(requireContext(), 240));
-        params.addRule(RelativeLayout.BELOW, R.id.rl_recommend_title);
-        mBinding.rvRecommend.setLayoutParams(params);
-
-        // 2.设置滚动辅助工具
-        PagerGridSnapHelper pageSnapHelper = new PagerGridSnapHelper();
-        pageSnapHelper.attachToRecyclerView(mBinding.rvRecommend);
-
-        mAdapter = new DAppsListAdapter(mList);
-        mBinding.rvRecommend.setAdapter(mAdapter);
-
-        mBinding.tvRecommendAll.setOnClickListener(view -> {
-            Intent intent = new Intent(requireActivity(), DAppsListActivity.class);
-            intent.putExtra("title", "推荐");
-            if (mCoinType.equals("ETH")) {
-                intent.putExtra("type", 2);
-                startActivity(intent);
-            } else if (mCoinType.equals("UART")) {
-                intent.putExtra("type", 4);
-                startActivity(intent);
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            if (view.getId() == R.id.tv_dapp_list_all) {
+                //todo 每个组的全部点击事件
+                ToastManager.showShort("全部---" + position);
             }
         });
     }
 
-    private void initTransferDApp() {
-        // 1.水平分页布局管理器
-        PagerGridLayoutManager layoutManager = new PagerGridLayoutManager(3, 1, PagerGridLayoutManager.HORIZONTAL);
-        mBinding.rvTransfer.setLayoutManager(layoutManager);
-
-        int screenWidth = ScreenUtils.getScreenWidth() / 12 * 11;
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screenWidth, DisplayUtils.dp2px(requireContext(), 240));
-        params.addRule(RelativeLayout.BELOW, R.id.rl_transfer_title);
-        mBinding.rvTransfer.setLayoutParams(params);
-
-        // 2.设置滚动辅助工具
-        PagerGridSnapHelper pageSnapHelper = new PagerGridSnapHelper();
-        pageSnapHelper.attachToRecyclerView(mBinding.rvTransfer);
-
-        mAdapter = new DAppsListAdapter(mList);
-        mBinding.rvTransfer.setAdapter(mAdapter);
-
-        mBinding.tvTransferAll.setOnClickListener(view -> {
-            Intent intent = new Intent(requireActivity(), DAppsListActivity.class);
-            intent.putExtra("title", "交易");
-            if (mCoinType.equals("ETH")) {
-                intent.putExtra("type", 3);
-            } else if (mCoinType.equals("UART")) {
-                intent.putExtra("type", 5);
+    private void queryRecommendDapps() {
+        RequestManager.instance().queryRecommendDApps(mChainId, new MinerCallback<BaseResponseVo<List<DAppRecommendBean>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<DAppRecommendBean>>> call, Response<BaseResponseVo<List<DAppRecommendBean>>> response) {
+                if (response != null) {
+                    if (response.body() != null) {
+                        mDAppRecommendBeans = response.body().getBody();
+                        if (mDAppRecommendBeans.size() > 0) {
+                            int id = mDAppRecommendBeans.get(0).getChain_category().getId(); //最外层的ID
+                            String title = mDAppRecommendBeans.get(0).getChain_category().getTitle(); //最外层的标题
+                            //将推荐数据重新整合到Group数据中
+                            DAppGroupBean dAppGroupBean = new DAppGroupBean();
+                            dAppGroupBean.setId(id);
+                            dAppGroupBean.setTitle(title);
+                            List<DAppGroupBean.DApps> dApps = new ArrayList<>();
+                            for (int i = 0; i < mDAppRecommendBeans.size(); i++) {
+                                DAppGroupBean.DApps dapp = new DAppGroupBean.DApps();
+                                dapp.setId(mDAppRecommendBeans.get(i).getId());
+                                dapp.setTitle(mDAppRecommendBeans.get(i).getTitle());
+                                dapp.setDesc(mDAppRecommendBeans.get(i).getDesc());
+                                dapp.setWebsite_url(mDAppRecommendBeans.get(i).getWebsite_url());
+                                dapp.setLogo(mDAppRecommendBeans.get(i).getLogo());
+                                dApps.add(dapp);
+                            }
+                            dAppGroupBean.setDapps(dApps);
+                            mDAppGroupBeans.add(dAppGroupBean);
+                        }
+                        queryCategoryDapps();
+                    }
+                }
             }
-            startActivity(intent);
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<DAppRecommendBean>>> call, Response<BaseResponseVo<List<DAppRecommendBean>>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
         });
     }
 
+    private void queryCategoryDapps() {
+        RequestManager.instance().queryCategoryDApps(mChainId, new MinerCallback<BaseResponseVo<List<DAppGroupBean>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<DAppGroupBean>>> call, Response<BaseResponseVo<List<DAppGroupBean>>> response) {
+                if (response != null) {
+                    if (response.body() != null) {
+                        List<DAppGroupBean> dAppGroupBeans = response.body().getBody();
+                        mDAppGroupBeans.addAll(dAppGroupBeans);
+                        mAdapter.setNewData(mDAppGroupBeans);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<DAppGroupBean>>> call, Response<BaseResponseVo<List<DAppGroupBean>>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
 }

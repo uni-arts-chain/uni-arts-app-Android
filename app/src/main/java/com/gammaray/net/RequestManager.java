@@ -1,5 +1,8 @@
 package com.gammaray.net;
 
+import com.gammaray.entity.ChainBean;
+import com.gammaray.entity.DAppGroupBean;
+import com.gammaray.entity.DAppRecommendBean;
 import com.google.gson.JsonObject;
 import com.gammaray.R;
 import com.gammaray.adapter.UploadCodeBean;
@@ -694,6 +697,21 @@ public class RequestManager {
 
     public void queryAuctionRules(MinerCallback<BaseResponseVo<UserAuctionsVo>> mCallBack) {
         Call<BaseResponseVo<UserAuctionsVo>> mCall = NetworkManager.instance().getmRemoteService().queryAuctionRules();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryChainList(MinerCallback<BaseResponseVo<List<ChainBean>>> mCallBack) {
+        Call<BaseResponseVo<List<ChainBean>>> mCall = NetworkManager.instance().getmRemoteService().queryChainList();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryRecommendDApps(String chainId,MinerCallback<BaseResponseVo<List<DAppRecommendBean>>> mCallBack) {
+        Call<BaseResponseVo<List<DAppRecommendBean>>> mCall = NetworkManager.instance().getmRemoteService().queryRecommendDApps(chainId);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryCategoryDApps(String chainId,MinerCallback<BaseResponseVo<List<DAppGroupBean>>> mCallBack) {
+        Call<BaseResponseVo<List<DAppGroupBean>>> mCall = NetworkManager.instance().getmRemoteService().queryCategoryDApps(chainId);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 }

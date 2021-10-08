@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -181,238 +180,23 @@
                     </RelativeLayout>
                     <!--页面收藏/最近DApp栏 end-->
 
-                    <!--页面Coin类型DApp栏 begin-->
-                    <RelativeLayout
-                        android:id="@+id/rl_coins"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
                         android:layout_below="@id/rl_apps"
-                        android:layout_marginTop="15dp">
+                        android:layout_marginBottom="15dp"
+                        android:background="@color/white"
+                        app:tabIndicatorColor="@color/_101010"
+                        app:tabIndicatorFullWidth="false"
+                        app:tabSelectedTextColor="@color/_101010" />
 
-                        <RelativeLayout
-                            android:id="@+id/rl_eth_coin"
-                            android:layout_width="60dp"
-                            android:layout_height="38dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="ETH"
-                                android:textColor="@color/_101010"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/tv_eth_line"
-                                android:layout_width="19dp"
-                                android:layout_height="2dp"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:background="@color/_101010"
-                                android:visibility="gone" />
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/rl_uart_coin"
-                            android:layout_width="60dp"
-                            android:layout_height="38dp"
-                            android:layout_toRightOf="@id/rl_eth_coin">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="UART"
-                                android:textColor="@color/_101010"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/tv_uart_line"
-                                android:layout_width="19dp"
-                                android:layout_height="2dp"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:background="@color/_101010"
-                                android:visibility="gone" />
-                        </RelativeLayout>
-
-                        <!--页面Coin类型DApp栏 end-->
-
-                        <!--页面ETH类型DApp栏 begin-->
-                        <RelativeLayout
-                            android:id="@+id/rl_eth_app_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_below="@id/rl_eth_coin"
-                            android:clipChildren="false">
-
-                            <RelativeLayout
-                                android:id="@+id/rl_eth_recommend_title"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/tv_eth_recommend_name"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginTop="15dp"
-                                    android:text="推荐"
-                                    android:textColor="@color/_101010"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/tv_eth_recommend_all"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:paddingLeft="15dp"
-                                    android:paddingTop="15dp"
-                                    android:paddingRight="15dp"
-                                    android:text="全部"
-                                    android:textColor="@color/text_gray"
-                                    android:textSize="14sp" />
-
-                            </RelativeLayout>
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_eth_recommend"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/rl_eth_recommend_title"
-                                tools:listitem="@layout/item_dapp_list_layout" />
-
-                            <RelativeLayout
-                                android:id="@+id/rl_eth_transfer_title"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/rv_eth_recommend">
-
-                                <TextView
-                                    android:id="@+id/tv_eth_transfer_name"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginTop="15dp"
-                                    android:text="交易"
-                                    android:textColor="@color/_101010"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/tv_eth_transfer_all"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:paddingLeft="15dp"
-                                    android:paddingTop="15dp"
-                                    android:paddingRight="15dp"
-                                    android:text="全部"
-                                    android:textColor="@color/text_gray"
-                                    android:textSize="14sp" />
-
-                            </RelativeLayout>
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_eth_transfer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/rl_eth_transfer_title"
-                                tools:listitem="@layout/item_dapp_list_layout" />
-
-                        </RelativeLayout>
-                        <!--页面ETH类型DApp栏 end-->
-
-                        <!--页面UART类型DApp栏 begin-->
-                        <RelativeLayout
-                            android:id="@+id/rl_uart_app_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_below="@id/rl_eth_coin"
-                            android:clipChildren="false"
-                            android:visibility="gone">
-
-                            <RelativeLayout
-                                android:id="@+id/rl_uart_recommend_title"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/tv_uart_recommend_name"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginTop="15dp"
-                                    android:text="推荐"
-                                    android:textColor="@color/_101010"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/tv_uart_recommend_all"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:paddingLeft="15dp"
-                                    android:paddingTop="15dp"
-                                    android:paddingRight="15dp"
-                                    android:text="全部"
-                                    android:textColor="@color/text_gray"
-                                    android:textSize="14sp" />
-
-                            </RelativeLayout>
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_uart_recommend"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/rl_uart_recommend_title"
-                                tools:listitem="@layout/item_dapp_list_layout" />
-
-                            <RelativeLayout
-                                android:id="@+id/rl_uart_transfer_title"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/rv_uart_recommend">
-
-                                <TextView
-                                    android:id="@+id/tv_uart_transfer_name"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginTop="15dp"
-                                    android:text="交易"
-                                    android:textColor="@color/_101010"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/tv_uart_transfer_all"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:paddingLeft="15dp"
-                                    android:paddingTop="15dp"
-                                    android:paddingRight="15dp"
-                                    android:text="全部"
-                                    android:textColor="@color/text_gray"
-                                    android:textSize="14sp" />
-
-                            </RelativeLayout>
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_uart_transfer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/rl_uart_transfer_title"
-                                tools:listitem="@layout/item_dapp_list_layout" />
-
-                        </RelativeLayout>
-
-                        <!--页面UART类型DApp栏 end-->
-
-                    </RelativeLayout>
+                    <com.gammaray.widget.NoScrollViewPager
+                        android:id="@+id/vp_chains"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/tabLayout"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
                 </RelativeLayout>
 
