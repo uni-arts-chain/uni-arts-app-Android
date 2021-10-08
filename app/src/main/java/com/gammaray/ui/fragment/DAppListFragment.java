@@ -61,7 +61,13 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
     }
 
     private void initData() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        //若ViewPager嵌套的RecyclerView，且NestscrollView需要整体滑动，则需要重写ViewPager并使用下方LayoutManager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         mAdapter = new DAppGroupsAdapter(mDAppGroupBeans, requireContext());
         mBinding.rvDappGroups.setLayoutManager(layoutManager);
         mBinding.rvDappGroups.setAdapter(mAdapter);

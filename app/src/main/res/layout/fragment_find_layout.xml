@@ -10,199 +10,206 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
+            <!--页面标题栏-->
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="发现"
+                android:textColor="@color/_101010"
+                android:textSize="17sp" />
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:orientation="vertical">
+                android:layout_below="@id/tv_title"
+                android:fillViewport="true">
 
-                <!--页面标题栏-->
-                <TextView
-                    android:id="@+id/tv_title"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center"
-                    android:text="发现"
-                    android:textColor="@color/_101010"
-                    android:textSize="17sp" />
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="vertical">
 
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <!--页面搜索/扫码栏 begin-->
-                    <LinearLayout
-                        android:id="@+id/ll_search_app"
-                        android:layout_width="match_parent"
-                        android:layout_height="31dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:background="@drawable/shape_btn_bgcolor"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_go_search"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/dp_15"
-                            android:layout_weight="5"
-                            android:background="@null"
-                            android:drawableLeft="@mipmap/icon_search"
-                            android:drawablePadding="10dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/dapp_edit_hint"
-                            android:textColor="#AAAAAA"
-                            android:textSize="13sp" />
-
-                        <RelativeLayout
-                            android:id="@+id/rl_saoma"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="15dp"
-                                android:background="@mipmap/icon_saoma" />
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-                    <!--页面搜索/扫码栏 end-->
-
-                    <!--页面收藏/最近DApp栏 begin-->
                     <RelativeLayout
-                        android:id="@+id/rl_apps"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/ll_search_app"
-                        android:layout_marginTop="15dp">
+                        android:layout_height="match_parent">
 
-                        <RelativeLayout
-                            android:id="@+id/rl_collect"
-                            android:layout_width="60dp"
-                            android:layout_height="38dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="收藏"
-                                android:textColor="@color/_101010"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/tv_collect_line"
-                                android:layout_width="19dp"
-                                android:layout_height="2dp"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:background="@color/_101010"
-                                android:visibility="gone" />
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/rl_recent"
-                            android:layout_width="60dp"
-                            android:layout_height="38dp"
-                            android:layout_toRightOf="@id/rl_collect">
+                        <!--页面搜索/扫码栏 begin-->
+                        <LinearLayout
+                            android:id="@+id/ll_search_app"
+                            android:layout_width="match_parent"
+                            android:layout_height="31dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:background="@drawable/shape_btn_bgcolor"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="最近"
-                                android:textColor="@color/_101010"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/tv_recent_line"
-                                android:layout_width="19dp"
-                                android:layout_height="2dp"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:background="@color/_101010"
-                                android:visibility="gone" />
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/rl_all"
-                            android:layout_width="60dp"
-                            android:layout_height="38dp"
-                            android:layout_alignParentRight="true">
-
-                            <TextView
-                                android:id="@+id/tv_all_app"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="全部"
-                                android:textColor="@color/_999999"
+                                android:id="@+id/tv_go_search"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_weight="5"
+                                android:background="@null"
+                                android:drawableLeft="@mipmap/icon_search"
+                                android:drawablePadding="10dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/dapp_edit_hint"
+                                android:textColor="#AAAAAA"
                                 android:textSize="13sp" />
 
+                            <RelativeLayout
+                                android:id="@+id/rl_saoma"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="15dp"
+                                    android:background="@mipmap/icon_saoma" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+                        <!--页面搜索/扫码栏 end-->
+
+                        <!--页面收藏/最近DApp栏 begin-->
+                        <RelativeLayout
+                            android:id="@+id/rl_apps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ll_search_app"
+                            android:layout_marginTop="15dp">
+
+                            <RelativeLayout
+                                android:id="@+id/rl_collect"
+                                android:layout_width="60dp"
+                                android:layout_height="38dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="收藏"
+                                    android:textColor="@color/_101010"
+                                    android:textSize="14sp" />
+
+                                <View
+                                    android:id="@+id/tv_collect_line"
+                                    android:layout_width="19dp"
+                                    android:layout_height="2dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:background="@color/_101010"
+                                    android:visibility="gone" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/rl_recent"
+                                android:layout_width="60dp"
+                                android:layout_height="38dp"
+                                android:layout_toRightOf="@id/rl_collect">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="最近"
+                                    android:textColor="@color/_101010"
+                                    android:textSize="14sp" />
+
+                                <View
+                                    android:id="@+id/tv_recent_line"
+                                    android:layout_width="19dp"
+                                    android:layout_height="2dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:background="@color/_101010"
+                                    android:visibility="gone" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/rl_all"
+                                android:layout_width="60dp"
+                                android:layout_height="38dp"
+                                android:layout_alignParentRight="true">
+
+                                <TextView
+                                    android:id="@+id/tv_all_app"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="全部"
+                                    android:textColor="@color/_999999"
+                                    android:textSize="13sp" />
+
+                            </RelativeLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_collects"
+                                android:layout_width="match_parent"
+                                android:layout_height="90dp"
+                                android:layout_below="@id/rl_collect"
+                                android:visibility="gone" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_recent"
+                                android:layout_width="match_parent"
+                                android:layout_height="90dp"
+                                android:layout_below="@id/rl_recent"
+                                android:visibility="gone" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@id/rl_collect"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="90dp"
+                                android:layout_marginRight="15dp"
+                                android:background="@color/gray_line" />
                         </RelativeLayout>
+                        <!--页面收藏/最近DApp栏 end-->
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_collects"
-                            android:layout_width="match_parent"
-                            android:layout_height="90dp"
-                            android:layout_below="@id/rl_collect"
-                            android:visibility="gone" />
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tabLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="38dp"
+                            android:layout_below="@id/rl_apps"
+                            android:layout_marginBottom="15dp"
+                            android:background="@color/white"
+                            app:tabIndicatorColor="@color/_101010"
+                            app:tabIndicatorFullWidth="false"
+                            app:tabSelectedTextColor="@color/_101010" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_recent"
+                        <com.gammaray.widget.NoScrollViewPager
+                            android:id="@+id/vp_chains"
                             android:layout_width="match_parent"
-                            android:layout_height="90dp"
-                            android:layout_below="@id/rl_recent"
-                            android:visibility="gone" />
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/tabLayout"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_below="@id/rl_collect"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="90dp"
-                            android:layout_marginRight="15dp"
-                            android:background="@color/gray_line" />
                     </RelativeLayout>
-                    <!--页面收藏/最近DApp栏 end-->
 
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/tabLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="38dp"
-                        android:layout_below="@id/rl_apps"
-                        android:layout_marginBottom="15dp"
-                        android:background="@color/white"
-                        app:tabIndicatorColor="@color/_101010"
-                        app:tabIndicatorFullWidth="false"
-                        app:tabSelectedTextColor="@color/_101010" />
+                </LinearLayout>
 
-                    <com.gammaray.widget.NoScrollViewPager
-                        android:id="@+id/vp_chains"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@+id/tabLayout"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            </androidx.core.widget.NestedScrollView>
 
-                </RelativeLayout>
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
+        </RelativeLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
