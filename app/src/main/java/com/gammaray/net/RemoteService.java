@@ -22,8 +22,10 @@ import com.gammaray.entity.BlindBoxVo;
 import com.gammaray.entity.BoughtArtVo;
 import com.gammaray.entity.ChainBean;
 import com.gammaray.entity.CollectArtVo;
+import com.gammaray.entity.DAppFavouriteBean;
 import com.gammaray.entity.DAppGroupBean;
-import com.gammaray.entity.DAppRecommendBean;
+import com.gammaray.entity.DAppItemBean;
+import com.gammaray.entity.DAppRecentlyBean;
 import com.gammaray.entity.FollowerVO;
 import com.gammaray.entity.HistoriesBean;
 import com.gammaray.entity.MemberInfo;
@@ -416,10 +418,35 @@ public interface RemoteService {
 
     //获取对应ID下的推荐Dapp列表
     @GET("/api/v2/chains/{id}/recommend_dapps")
-    Call<BaseResponseVo<List<DAppRecommendBean>>> queryRecommendDApps(@Path("id") String id);
+    Call<BaseResponseVo<List<DAppItemBean>>> queryRecommendDApps(@Path("id") String id);
 
     //获取对应ID下的Dapp列表
     @GET("/api/v2/chains/{id}/categories")
     Call<BaseResponseVo<List<DAppGroupBean>>> queryCategoryDApps(@Path("id") String id);
+
+    //获取收藏DApp列表
+    @GET("/api/v2/dapps/favorites")
+    Call<BaseResponseVo<List<DAppFavouriteBean>>> queryCollectedDApps(@Query("page") int page, @Query("per_page") int pageSize);
+
+    //获取热门搜索DApp列表
+    @GET("/api/v2/dapps/hot_search_dapps")
+    Call<BaseResponseVo<List<DAppGroupBean>>> queryHotSearchDApps();
+
+    //获取最近DApp列表
+    @GET("/api/v2/member_recently_dapps")
+    Call<BaseResponseVo<List<DAppRecentlyBean>>> queryRecentlyDApps(@Query("page") int page, @Query("per_page") int pageSize);
+
+    //上传最近DApp id
+    @POST("/api/v2/member_recently_dapps")
+    @FormUrlEncoded
+    Call<BaseResponseVo<DAppRecentlyBean>> sendRecentlyDApps(@FieldMap HashMap<String, String> map);
+
+    //收藏DApp
+    @POST("/api/v2/dapps/{id}/favorite")
+    Call<BaseResponseVo<DAppItemBean>> favoriteDApp(@Path("id") String id);
+
+    //取消收藏DApp
+    @POST("/api/v2/dapps/{id}/unfavorite")
+    Call<BaseResponseVo<String>> unfavoriteDApp(@Path("id") String id);
 }
 

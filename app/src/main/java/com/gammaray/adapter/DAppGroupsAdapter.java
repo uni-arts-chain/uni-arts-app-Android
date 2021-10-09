@@ -35,22 +35,22 @@ public class DAppGroupsAdapter extends BaseQuickAdapter<DAppGroupBean, BaseViewH
 
         RecyclerView dappRV = helper.itemView.findViewById(R.id.rv_dapp_list);
         int count = item.getDapps().size();
-        int itemHeight = 400;
-        int itemRows = 5;
-//        if (count > 0) {
-//            if (count == 1) {
-//                itemHeight = 80;
-//                itemRows = 1;
-//            } else if (count == 2) {
-//                itemHeight = 160;
-//                itemRows = 2;
-//            } else {
-//                itemHeight = 240;
-//                itemRows = 3;
-//            }
-//        } else {
-//            helper.setVisible(R.id.rl_title, false);
-//        }
+        int itemHeight = 0;
+        int itemRows = 1;
+        if (count > 0) {
+            if (count == 1) {
+                itemHeight = 80;
+                itemRows = 1;
+            } else if (count == 2) {
+                itemHeight = 160;
+                itemRows = 2;
+            } else {
+                itemHeight = 240;
+                itemRows = 3;
+            }
+        } /*else {
+            helper.setVisible(R.id.rl_title, false);
+        }*/
 
         PagerGridLayoutManager layoutManager = new PagerGridLayoutManager(itemRows, 1, PagerGridLayoutManager.HORIZONTAL);
         dappRV.setLayoutManager(layoutManager);

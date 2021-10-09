@@ -2,7 +2,7 @@ package com.gammaray.entity;
 
 import java.io.Serializable;
 
-public class DAppRecommendBean implements Serializable {
+public class DAppItemBean implements Serializable {
 
     private int id;
 

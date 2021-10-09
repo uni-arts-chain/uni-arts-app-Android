@@ -15,22 +15,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.gammaray.R;
-import com.gammaray.adapter.FindDAppsAdapter;
+import com.gammaray.adapter.CollectedDAppsAdapter;
 import com.gammaray.adapter.MyHomePageAdapter;
+import com.gammaray.adapter.RecentlyDAppsAdapter;
 import com.gammaray.base.BaseFragment;
 import com.gammaray.constant.AppConstant;
 import com.gammaray.databinding.FragmentFindLayoutBinding;
 import com.gammaray.entity.BaseResponseVo;
 import com.gammaray.entity.ChainBean;
-import com.gammaray.entity.DAppBean;
+import com.gammaray.entity.DAppFavouriteBean;
+import com.gammaray.entity.DAppItemBean;
+import com.gammaray.entity.DAppRecentlyBean;
 import com.gammaray.net.MinerCallback;
 import com.gammaray.net.RequestManager;
+import com.gammaray.ui.activity.CollectedDAppsActivity;
 import com.gammaray.ui.activity.DAppSearchActivity;
 import com.gammaray.ui.activity.DAppsListActivity;
 import com.gammaray.ui.activity.QrScanActivity;
+import com.gammaray.ui.activity.RecentlyDAppsActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,15 +49,13 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         return new FindFragment();
     }
 
-    private final List<DAppBean> mCollectApps = new ArrayList<>();
+    private List<DAppFavouriteBean> mCollectApps = new ArrayList<>();
 
-    private final List<DAppBean> mRecentApps = new ArrayList<>();
+    private List<DAppRecentlyBean> mRecentApps = new ArrayList<>();
 
-    private FindDAppsAdapter mCollectAdapter;
+    private CollectedDAppsAdapter mCollectAdapter;
 
-    private FindDAppsAdapter mRecentAdapter;
-
-    private int mScreenWidth;
+    private RecentlyDAppsAdapter mRecentAdapter;
 
     private boolean bIsShowCollect = true;
 
@@ -60,6 +64,11 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
     private List<ChainBean> mChainList = new ArrayList<>();
 
     private MyHomePageAdapter mChainPageAdapter;
+
+    //默认只展示9条数据
+    private int mPage = 1;
+
+    private int mPerPage = 9;
 
     @Override
     protected int getLayoutResource() {
@@ -76,8 +85,6 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
 
         initSelfDApps();
 
-        initCoinDApps();
-
         mBinding.tvGoSearch.setOnClickListener(view -> {
             startActivity(DAppSearchActivity.class);
         });
@@ -87,6 +94,9 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         });
 
         getChainList(); //获取链列表
+        getCollectedDApps(); //获取收藏DApps
+        getRecentlyDApps();//获取最近DApps
+
     }
 
     private void initSelfDApps() {
@@ -99,14 +109,7 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         mBinding.rlRecent.setOnClickListener(this);
         mBinding.tvAllApp.setOnClickListener(this);
 
-        for (int i = 0; i < 10; i++) {
-            mCollectApps.add(new DAppBean(R.mipmap.icon_eth, "ETH"));
-        }
-        for (int i = 0; i < 10; i++) {
-            mRecentApps.add(new DAppBean(R.mipmap.icon_uart, "UART"));
-        }
-
-        mCollectAdapter = new FindDAppsAdapter(mCollectApps);
+        mCollectAdapter = new CollectedDAppsAdapter(requireContext(), mCollectApps);
         LinearLayoutManager collectLayoutManager = new LinearLayoutManager(requireContext());
         collectLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         mBinding.rvCollects.setLayoutManager(collectLayoutManager);
@@ -115,17 +118,12 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
 
         LinearLayoutManager recentLayoutManager = new LinearLayoutManager(requireContext());
         recentLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        mRecentAdapter = new FindDAppsAdapter(mRecentApps);
+        mRecentAdapter = new RecentlyDAppsAdapter(requireContext(), mRecentApps);
         mBinding.rvRecent.setLayoutManager(recentLayoutManager);
         mRecentAdapter.setEmptyView(R.layout.dapps_empty_layout, mBinding.rvRecent);
         mBinding.rvRecent.setAdapter(mRecentAdapter);
 
     }
-
-    private void initCoinDApps() {
-
-    }
-
 
     private void scan() {
 
@@ -175,13 +173,13 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
             mBinding.rvCollects.setVisibility(View.GONE);
             mBinding.rvRecent.setVisibility(View.VISIBLE);
         } else if (view.getId() == R.id.tv_all_app) {
-            Intent intent = new Intent(requireActivity(), DAppsListActivity.class);
+            Intent intent;
             if (bIsShowCollect) {
+                intent = new Intent(requireActivity(), CollectedDAppsActivity.class);
                 intent.putExtra("title", "收藏");
-                intent.putExtra("type", "0");
             } else {
+                intent = new Intent(requireActivity(), RecentlyDAppsActivity.class);
                 intent.putExtra("title", "最近");
-                intent.putExtra("type", "1");
             }
             startActivity(intent);
         }
@@ -192,6 +190,7 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         return DAppListFragment.newInstance(String.valueOf(mChainList.get(position).getId()));
     }
 
+    //获取链列表，获取ChainId
     private void getChainList() {
         RequestManager.instance().queryChainList(new MinerCallback<BaseResponseVo<List<ChainBean>>>() {
             @Override
@@ -228,5 +227,95 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         mBinding.vpChains.setAdapter(mChainPageAdapter);
         mBinding.tabLayout.setupWithViewPager(mBinding.vpChains);
         mBinding.tabLayout.setTabMode(TabLayout.MODE_FIXED);
+    }
+
+    private void getCollectedDApps() {
+        RequestManager.instance().queryCollectedDApps(mPage, mPerPage, new MinerCallback<BaseResponseVo<List<DAppFavouriteBean>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<DAppFavouriteBean>>> call, Response<BaseResponseVo<List<DAppFavouriteBean>>> response) {
+                if (response != null && response.isSuccessful()) {
+                    if (response.body() != null) {
+                        mCollectApps = response.body().getBody();
+                        mCollectAdapter.setNewData(mCollectApps);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<DAppFavouriteBean>>> call, Response<BaseResponseVo<List<DAppFavouriteBean>>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getRecentlyDApps() {
+        RequestManager.instance().queryRecentlyDApps(mPage, mPerPage, new MinerCallback<BaseResponseVo<List<DAppRecentlyBean>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<DAppRecentlyBean>>> call, Response<BaseResponseVo<List<DAppRecentlyBean>>> response) {
+                if (response != null && response.isSuccessful()) {
+                    if (response.body() != null) {
+                        mRecentApps = response.body().getBody();
+                        mRecentAdapter.setNewData(mRecentApps);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<DAppRecentlyBean>>> call, Response<BaseResponseVo<List<DAppRecentlyBean>>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void sendRecentlyDApps(String id) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("dapp_id", id);
+        RequestManager.instance().sendRecentlyDApps(params, new MinerCallback<BaseResponseVo<DAppRecentlyBean>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<DAppRecentlyBean>> call, Response<BaseResponseVo<DAppRecentlyBean>> response) {
+
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<DAppRecentlyBean>> call, Response<BaseResponseVo<DAppRecentlyBean>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void favoriteDApp(String id) {
+        RequestManager.instance().favoriteDApp(id, new MinerCallback<BaseResponseVo<DAppItemBean>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<DAppItemBean>> call, Response<BaseResponseVo<DAppItemBean>> response) {
+                if (response != null && response.isSuccessful()) {
+
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<DAppItemBean>> call, Response<BaseResponseVo<DAppItemBean>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
     }
 }

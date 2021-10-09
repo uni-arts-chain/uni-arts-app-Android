@@ -10,7 +10,7 @@ import com.gammaray.base.BaseFragment;
 import com.gammaray.databinding.FragmentDappListLayoutBinding;
 import com.gammaray.entity.BaseResponseVo;
 import com.gammaray.entity.DAppGroupBean;
-import com.gammaray.entity.DAppRecommendBean;
+import com.gammaray.entity.DAppItemBean;
 import com.gammaray.net.MinerCallback;
 import com.gammaray.net.RequestManager;
 import com.gammaray.utils.ToastManager;
@@ -25,7 +25,7 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
 
     private DAppGroupsAdapter mAdapter;
 
-    private List<DAppRecommendBean> mDAppRecommendBeans = new ArrayList<>();
+    private List<DAppItemBean> mDAppItemBeans = new ArrayList<>();
 
     private List<DAppGroupBean> mDAppGroupBeans = new ArrayList<>();
 
@@ -81,27 +81,27 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
     }
 
     private void queryRecommendDapps() {
-        RequestManager.instance().queryRecommendDApps(mChainId, new MinerCallback<BaseResponseVo<List<DAppRecommendBean>>>() {
+        RequestManager.instance().queryRecommendDApps(mChainId, new MinerCallback<BaseResponseVo<List<DAppItemBean>>>() {
             @Override
-            public void onSuccess(Call<BaseResponseVo<List<DAppRecommendBean>>> call, Response<BaseResponseVo<List<DAppRecommendBean>>> response) {
+            public void onSuccess(Call<BaseResponseVo<List<DAppItemBean>>> call, Response<BaseResponseVo<List<DAppItemBean>>> response) {
                 if (response != null) {
                     if (response.body() != null) {
-                        mDAppRecommendBeans = response.body().getBody();
-                        if (mDAppRecommendBeans.size() > 0) {
-                            int id = mDAppRecommendBeans.get(0).getChain_category().getId(); //最外层的ID
-                            String title = mDAppRecommendBeans.get(0).getChain_category().getTitle(); //最外层的标题
+                        mDAppItemBeans = response.body().getBody();
+                        if (mDAppItemBeans.size() > 0) {
+                            int id = mDAppItemBeans.get(0).getChain_category().getId(); //最外层的ID
+                            String title = mDAppItemBeans.get(0).getChain_category().getTitle(); //最外层的标题
                             //将推荐数据重新整合到Group数据中
                             DAppGroupBean dAppGroupBean = new DAppGroupBean();
                             dAppGroupBean.setId(id);
                             dAppGroupBean.setTitle(title);
                             List<DAppGroupBean.DApps> dApps = new ArrayList<>();
-                            for (int i = 0; i < mDAppRecommendBeans.size(); i++) {
+                            for (int i = 0; i < mDAppItemBeans.size(); i++) {
                                 DAppGroupBean.DApps dapp = new DAppGroupBean.DApps();
-                                dapp.setId(mDAppRecommendBeans.get(i).getId());
-                                dapp.setTitle(mDAppRecommendBeans.get(i).getTitle());
-                                dapp.setDesc(mDAppRecommendBeans.get(i).getDesc());
-                                dapp.setWebsite_url(mDAppRecommendBeans.get(i).getWebsite_url());
-                                dapp.setLogo(mDAppRecommendBeans.get(i).getLogo());
+                                dapp.setId(mDAppItemBeans.get(i).getId());
+                                dapp.setTitle(mDAppItemBeans.get(i).getTitle());
+                                dapp.setDesc(mDAppItemBeans.get(i).getDesc());
+                                dapp.setWebsite_url(mDAppItemBeans.get(i).getWebsite_url());
+                                dapp.setLogo(mDAppItemBeans.get(i).getLogo());
                                 dApps.add(dapp);
                             }
                             dAppGroupBean.setDapps(dApps);
@@ -113,7 +113,7 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
             }
 
             @Override
-            public void onError(Call<BaseResponseVo<List<DAppRecommendBean>>> call, Response<BaseResponseVo<List<DAppRecommendBean>>> response) {
+            public void onError(Call<BaseResponseVo<List<DAppItemBean>>> call, Response<BaseResponseVo<List<DAppItemBean>>> response) {
 
             }
 

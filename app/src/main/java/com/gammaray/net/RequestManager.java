@@ -1,8 +1,10 @@
 package com.gammaray.net;
 
 import com.gammaray.entity.ChainBean;
+import com.gammaray.entity.DAppFavouriteBean;
 import com.gammaray.entity.DAppGroupBean;
-import com.gammaray.entity.DAppRecommendBean;
+import com.gammaray.entity.DAppItemBean;
+import com.gammaray.entity.DAppRecentlyBean;
 import com.google.gson.JsonObject;
 import com.gammaray.R;
 import com.gammaray.adapter.UploadCodeBean;
@@ -596,8 +598,8 @@ public class RequestManager {
     /**
      * 查询账单明细
      */
-    public void queryAccountHistory(int page,int pageSize, MinerCallback<BaseResponseVo<List<HistoriesBean>>> mCallBack) {
-        Call<BaseResponseVo<List<HistoriesBean>>> mCall = NetworkManager.instance().getmRemoteService().queryAccountHistory(page,pageSize);
+    public void queryAccountHistory(int page, int pageSize, MinerCallback<BaseResponseVo<List<HistoriesBean>>> mCallBack) {
+        Call<BaseResponseVo<List<HistoriesBean>>> mCall = NetworkManager.instance().getmRemoteService().queryAccountHistory(page, pageSize);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
@@ -705,13 +707,43 @@ public class RequestManager {
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
-    public void queryRecommendDApps(String chainId,MinerCallback<BaseResponseVo<List<DAppRecommendBean>>> mCallBack) {
-        Call<BaseResponseVo<List<DAppRecommendBean>>> mCall = NetworkManager.instance().getmRemoteService().queryRecommendDApps(chainId);
+    public void queryRecommendDApps(String chainId, MinerCallback<BaseResponseVo<List<DAppItemBean>>> mCallBack) {
+        Call<BaseResponseVo<List<DAppItemBean>>> mCall = NetworkManager.instance().getmRemoteService().queryRecommendDApps(chainId);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
-    public void queryCategoryDApps(String chainId,MinerCallback<BaseResponseVo<List<DAppGroupBean>>> mCallBack) {
+    public void queryCategoryDApps(String chainId, MinerCallback<BaseResponseVo<List<DAppGroupBean>>> mCallBack) {
         Call<BaseResponseVo<List<DAppGroupBean>>> mCall = NetworkManager.instance().getmRemoteService().queryCategoryDApps(chainId);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryCollectedDApps(int page, int page_size, MinerCallback<BaseResponseVo<List<DAppFavouriteBean>>> mCallBack) {
+        Call<BaseResponseVo<List<DAppFavouriteBean>>> mCall = NetworkManager.instance().getmRemoteService().queryCollectedDApps(page, page_size);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryHotSearchDApps(MinerCallback<BaseResponseVo<List<DAppGroupBean>>> mCallBack) {
+        Call<BaseResponseVo<List<DAppGroupBean>>> mCall = NetworkManager.instance().getmRemoteService().queryHotSearchDApps();
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryRecentlyDApps(int page, int page_size, MinerCallback<BaseResponseVo<List<DAppRecentlyBean>>> mCallBack) {
+        Call<BaseResponseVo<List<DAppRecentlyBean>>> mCall = NetworkManager.instance().getmRemoteService().queryRecentlyDApps(page, page_size);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void favoriteDApp(String id, MinerCallback<BaseResponseVo<DAppItemBean>> mCallBack) {
+        Call<BaseResponseVo<DAppItemBean>> mCall = NetworkManager.instance().getmRemoteService().favoriteDApp(id);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void unfavoriteDApp(String id, MinerCallback<BaseResponseVo<String>> mCallBack) {
+        Call<BaseResponseVo<String>> mCall = NetworkManager.instance().getmRemoteService().unfavoriteDApp(id);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void sendRecentlyDApps(HashMap<String, String> param, MinerCallback<BaseResponseVo<DAppRecentlyBean>> mCallBack) {
+        Call<BaseResponseVo<DAppRecentlyBean>> mCall = NetworkManager.instance().getmRemoteService().sendRecentlyDApps(param);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 }
