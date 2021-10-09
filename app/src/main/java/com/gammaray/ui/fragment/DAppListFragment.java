@@ -1,5 +1,6 @@
 package com.gammaray.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +14,8 @@ import com.gammaray.entity.DAppGroupBean;
 import com.gammaray.entity.DAppItemBean;
 import com.gammaray.net.MinerCallback;
 import com.gammaray.net.RequestManager;
-import com.gammaray.utils.ToastManager;
+import com.gammaray.ui.activity.ChainFunctionDAppsActivity;
+import com.gammaray.ui.activity.ChainRecommendDAppsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,9 +75,17 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
         mBinding.rvDappGroups.setAdapter(mAdapter);
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            Intent intent = null;
             if (view.getId() == R.id.tv_dapp_list_all) {
-                //todo 每个组的全部点击事件
-                ToastManager.showShort("全部---" + position);
+                if (position == 0) {
+                    intent = new Intent(requireContext(), ChainRecommendDAppsActivity.class);
+
+                } else {
+                    intent = new Intent(requireContext(), ChainFunctionDAppsActivity.class);
+                }
+                intent.putExtra("title", mDAppGroupBeans.get(position).getTitle());
+                intent.putExtra("chain_id", mDAppGroupBeans.get(position).getId());
+                startActivity(intent);
             }
         });
     }

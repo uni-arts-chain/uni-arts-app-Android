@@ -193,6 +193,7 @@
                             android:layout_below="@id/rl_apps"
                             android:layout_marginBottom="15dp"
                             android:background="@color/white"
+                            app:tabMinWidth="70dp"
                             app:tabIndicatorColor="@color/_101010"
                             app:tabIndicatorFullWidth="false"
                             app:tabSelectedTextColor="@color/_101010" />

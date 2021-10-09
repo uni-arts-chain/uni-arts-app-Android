@@ -752,4 +752,9 @@ public class RequestManager {
         Call<BaseResponseVo<List<DAppSearchBean>>> mCall = NetworkManager.instance().getmRemoteService().searchDApps(param);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
+
+    public void queryChainDApps(HashMap<String, String> param, MinerCallback<BaseResponseVo<List<DAppItemBean>>> mCallBack) {
+        Call<BaseResponseVo<List<DAppItemBean>>> mCall = NetworkManager.instance().getmRemoteService().queryChainDApps(param);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
 }

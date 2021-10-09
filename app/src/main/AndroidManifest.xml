@@ -341,6 +341,12 @@
             android:name="com.gammaray.ui.activity.DAppSearchActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.gammaray.ui.activity.ChainRecommendDAppsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.gammaray.ui.activity.ChainFunctionDAppsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.gammaray.ui.activity.DAppWebActivity"
             android:screenOrientation="portrait" />
 

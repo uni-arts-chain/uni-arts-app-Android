@@ -192,18 +192,20 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
 
     //获取链列表，获取ChainId
     private void getChainList() {
+        showLoading(R.string.progress_loading);
         RequestManager.instance().queryChainList(new MinerCallback<BaseResponseVo<List<ChainBean>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<ChainBean>>> call, Response<BaseResponseVo<List<ChainBean>>> response) {
+                dismissLoading();
                 if (response != null) {
                     if (response.isSuccessful()) {
                         if (response.body() != null) {
                             mChainList = response.body().getBody();
+                            mChainNames.clear();
                             for (int i = 0; i < mChainList.size(); i++) {
-                                mChainNames.clear();
                                 mChainNames.add(mChainList.get(i).getTitle());
-                                initTabs();
                             }
+                            initTabs();
                         }
                     }
                 }
@@ -211,12 +213,12 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
 
             @Override
             public void onError(Call<BaseResponseVo<List<ChainBean>>> call, Response<BaseResponseVo<List<ChainBean>>> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
     }

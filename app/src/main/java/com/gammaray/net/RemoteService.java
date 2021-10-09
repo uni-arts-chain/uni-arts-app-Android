@@ -453,5 +453,9 @@ public interface RemoteService {
     //搜索Dapps
     @GET("/api/v2/dapps/search")
     Call<BaseResponseVo<List<DAppSearchBean>>> searchDApps(@QueryMap HashMap<String, String> map);
+
+    //链分类下的Dapp
+    @GET("/api/v2/dapps/category_dapps")
+    Call<BaseResponseVo<List<DAppItemBean>>> queryChainDApps(@QueryMap HashMap<String, String> map);
 }
 
