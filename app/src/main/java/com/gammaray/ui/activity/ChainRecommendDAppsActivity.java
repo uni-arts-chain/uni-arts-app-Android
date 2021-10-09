@@ -13,6 +13,7 @@ import com.gammaray.net.MinerCallback;
 import com.gammaray.net.RequestManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -74,28 +75,31 @@ public class ChainRecommendDAppsActivity extends BaseActivity<ActivityDappsListL
     }
 
     private void queryRecommendDapps() {
-        RequestManager.instance().queryRecommendDApps(String.valueOf(mChainId), new MinerCallback<BaseResponseVo<List<DAppItemBean>>>() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("page", String.valueOf(mPage));
+        params.put("per_page", String.valueOf(mPerPage));
+        RequestManager.instance().queryRecommendDApps(String.valueOf(mChainId), params, new MinerCallback<BaseResponseVo<List<DAppItemBean>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<DAppItemBean>>> call, Response<BaseResponseVo<List<DAppItemBean>>> response) {
-                    if (response != null && response.isSuccessful()) {
-                        if (response.body() != null) {
-                            List<DAppItemBean> recentApps = response.body().getBody();
-                            if (recentApps != null && recentApps.size() > 0) {
-                                if (mPage == 1) {
-                                    mRecommendDApps.clear();
-                                    mRecommendDApps = recentApps;
-                                } else {
-                                    mRecommendDApps.addAll(recentApps);
-                                }
-                                mPage++;
-                                if (mRecommendDApps.size() > 0) {
-                                    mRecommendAdapter.setNewData(mRecommendDApps);
-                                }
+                if (response != null && response.isSuccessful()) {
+                    if (response.body() != null) {
+                        List<DAppItemBean> recentApps = response.body().getBody();
+                        if (recentApps != null && recentApps.size() > 0) {
+                            if (mPage == 1) {
+                                mRecommendDApps.clear();
+                                mRecommendDApps = recentApps;
                             } else {
-                                if (mPage > 1) {
-                                    mRecommendAdapter.loadMoreEnd();
-                                }
+                                mRecommendDApps.addAll(recentApps);
                             }
+                            mPage++;
+                            if (mRecommendDApps.size() > 0) {
+                                mRecommendAdapter.setNewData(mRecommendDApps);
+                            }
+                        } else {
+                            if (mPage > 1) {
+                                mRecommendAdapter.loadMoreEnd();
+                            }
+                        }
                     }
                 }
             }

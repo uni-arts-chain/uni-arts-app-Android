@@ -708,13 +708,13 @@ public class RequestManager {
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
-    public void queryRecommendDApps(String chainId, MinerCallback<BaseResponseVo<List<DAppItemBean>>> mCallBack) {
-        Call<BaseResponseVo<List<DAppItemBean>>> mCall = NetworkManager.instance().getmRemoteService().queryRecommendDApps(chainId);
+    public void queryRecommendDApps(String chainId, HashMap<String, String> param,MinerCallback<BaseResponseVo<List<DAppItemBean>>> mCallBack) {
+        Call<BaseResponseVo<List<DAppItemBean>>> mCall = NetworkManager.instance().getmRemoteService().queryRecommendDApps(chainId,param);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
-    public void queryCategoryDApps(String chainId, MinerCallback<BaseResponseVo<List<DAppGroupBean>>> mCallBack) {
-        Call<BaseResponseVo<List<DAppGroupBean>>> mCall = NetworkManager.instance().getmRemoteService().queryCategoryDApps(chainId);
+    public void queryCategoryDApps(String chainId, HashMap<String, String> param,MinerCallback<BaseResponseVo<List<DAppGroupBean>>> mCallBack) {
+        Call<BaseResponseVo<List<DAppGroupBean>>> mCall = NetworkManager.instance().getmRemoteService().queryCategoryDApps(chainId,param);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 

@@ -419,11 +419,11 @@ public interface RemoteService {
 
     //获取对应ID下的推荐Dapp列表
     @GET("/api/v2/chains/{id}/recommend_dapps")
-    Call<BaseResponseVo<List<DAppItemBean>>> queryRecommendDApps(@Path("id") String id);
+    Call<BaseResponseVo<List<DAppItemBean>>> queryRecommendDApps(@Path("id") String id,@QueryMap HashMap<String, String> map);
 
     //获取对应ID下的Dapp列表
     @GET("/api/v2/chains/{id}/categories")
-    Call<BaseResponseVo<List<DAppGroupBean>>> queryCategoryDApps(@Path("id") String id);
+    Call<BaseResponseVo<List<DAppGroupBean>>> queryCategoryDApps(@Path("id") String id,@QueryMap HashMap<String, String> map);
 
     //获取收藏DApp列表
     @GET("/api/v2/dapps/favorites")

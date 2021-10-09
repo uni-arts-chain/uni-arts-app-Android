@@ -17,7 +17,10 @@ import com.gammaray.net.RequestManager;
 import com.gammaray.ui.activity.ChainFunctionDAppsActivity;
 import com.gammaray.ui.activity.ChainRecommendDAppsActivity;
 
+import org.web3j.crypto.Hash;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -91,7 +94,10 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
     }
 
     private void queryRecommendDapps() {
-        RequestManager.instance().queryRecommendDApps(mChainId, new MinerCallback<BaseResponseVo<List<DAppItemBean>>>() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("page", "1");
+        params.put("per_page", "9");
+        RequestManager.instance().queryRecommendDApps(mChainId, params, new MinerCallback<BaseResponseVo<List<DAppItemBean>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<DAppItemBean>>> call, Response<BaseResponseVo<List<DAppItemBean>>> response) {
                 if (response != null) {
@@ -135,7 +141,10 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
     }
 
     private void queryCategoryDapps() {
-        RequestManager.instance().queryCategoryDApps(mChainId, new MinerCallback<BaseResponseVo<List<DAppGroupBean>>>() {
+        HashMap<String,String> params = new HashMap<>();
+        params.put("page", "1");
+        params.put("per_page", "9");
+        RequestManager.instance().queryCategoryDApps(mChainId, params,new MinerCallback<BaseResponseVo<List<DAppGroupBean>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<DAppGroupBean>>> call, Response<BaseResponseVo<List<DAppGroupBean>>> response) {
                 if (response != null) {
