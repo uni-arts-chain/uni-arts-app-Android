@@ -1,5 +1,7 @@
 package com.gammaray.ui.activity;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -7,25 +9,32 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gammaray.R;
-import com.gammaray.adapter.DAppsListAdapter;
 import com.gammaray.adapter.HotSearchDAppAdapter;
+import com.gammaray.adapter.SearchDAppsListAdapter;
 import com.gammaray.base.BaseActivity;
 import com.gammaray.databinding.ActivityDappSearchLayoutBinding;
-import com.gammaray.entity.DAppBean;
-import com.gammaray.entity.WalletLinkBean;
+import com.gammaray.entity.BaseResponseVo;
+import com.gammaray.entity.DAppSearchBean;
+import com.gammaray.net.MinerCallback;
+import com.gammaray.net.RequestManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Response;
+
+//DApps搜索页面
 public class DAppSearchActivity extends BaseActivity<ActivityDappSearchLayoutBinding> {
 
     private HotSearchDAppAdapter mHotSearchAdapter;
 
-    private List<DAppBean> mDApps = new ArrayList<>();
+    private List<DAppSearchBean> mDApps = new ArrayList<>();
 
-    private DAppsListAdapter mSearchAdapter;
+    private SearchDAppsListAdapter mSearchAdapter;
 
-    private List<WalletLinkBean> mResults = new ArrayList<>();
+    private List<DAppSearchBean> mResults = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -40,33 +49,118 @@ public class DAppSearchActivity extends BaseActivity<ActivityDappSearchLayoutBin
     @Override
     public void initView() {
 
-        for (int i = 0; i < 10; i++) {
-            mDApps.add(new DAppBean(R.mipmap.icon_eth, "ETH"));
-        }
-
-        for (int i = 0; i < 10; i++) {
-            mResults.add(new WalletLinkBean("BTC", "BitCoin", R.mipmap.icon_eth));
-        }
-
-//        mDataBinding.rlHotSearchResult.setVisibility(View.VISIBLE);
         initHotSearchDApp();
+
+        queryHotSearchDApp();
+
         initSearchDApp();
 
+        mDataBinding.rlSearchResult.setVisibility(View.GONE);
+        mDataBinding.rlHotSearchResult.setVisibility(View.VISIBLE);
         mDataBinding.cancel.setOnClickListener(view -> finish());
+        mDataBinding.rlClear.setOnClickListener(view -> clear());
+        mDataBinding.searchEx.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() != 0) {
+                    mDataBinding.rlClear.setVisibility(View.VISIBLE);
+                    mDataBinding.rlHotSearchResult.setVisibility(View.GONE);
+                    mDataBinding.rlSearchResult.setVisibility(View.VISIBLE);
+                    searchKeyWords(charSequence.toString());
+                } else {
+                    mDataBinding.rlClear.setVisibility(View.GONE);
+                    mDataBinding.rlHotSearchResult.setVisibility(View.VISIBLE);
+                    mDataBinding.rlSearchResult.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
+    //热门搜索列表初始化
     private void initHotSearchDApp() {
-        mHotSearchAdapter = new HotSearchDAppAdapter(mDApps);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,5);
+        mHotSearchAdapter = new HotSearchDAppAdapter(this, mDApps);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
         mDataBinding.rvHotSearchResult.setLayoutManager(layoutManager);
         mDataBinding.rvHotSearchResult.setAdapter(mHotSearchAdapter);
     }
 
     private void initSearchDApp() {
-//        mSearchAdapter = new DAppsListAdapter(mResults);
+        mSearchAdapter = new SearchDAppsListAdapter(this, mResults);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         mDataBinding.rvSearchResult.setLayoutManager(layoutManager);
         mDataBinding.rvSearchResult.setAdapter(mSearchAdapter);
+    }
+
+    //热门搜索数据
+    private void queryHotSearchDApp() {
+        showLoading(R.string.progress_loading);
+        RequestManager.instance().queryHotSearchDApps(new MinerCallback<BaseResponseVo<List<DAppSearchBean>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<DAppSearchBean>>> call, Response<BaseResponseVo<List<DAppSearchBean>>> response) {
+                dismissLoading();
+                if (response != null && response.isSuccessful()) {
+                    if (response.body() != null) {
+                        mDApps.clear();
+                        mDApps = response.body().getBody();
+                        if (mDApps.size() > 0) {
+                            mHotSearchAdapter.setNewData(mDApps);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<DAppSearchBean>>> call, Response<BaseResponseVo<List<DAppSearchBean>>> response) {
+                dismissLoading();
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+                dismissLoading();
+            }
+        });
+    }
+
+    private void searchKeyWords(String keyWords) {
+        showLoading(R.string.progress_loading);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("q", keyWords);
+        RequestManager.instance().searchDApps(params, new MinerCallback<BaseResponseVo<List<DAppSearchBean>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<DAppSearchBean>>> call, Response<BaseResponseVo<List<DAppSearchBean>>> response) {
+                dismissLoading();
+                if (response != null && response.isSuccessful()) {
+                    if (response.body() != null) {
+                        mResults = response.body().getBody();
+                        mSearchAdapter.setNewData(mResults);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<DAppSearchBean>>> call, Response<BaseResponseVo<List<DAppSearchBean>>> response) {
+                dismissLoading();
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+                dismissLoading();
+            }
+        });
+    }
+
+    private void clear() {
+        mDataBinding.searchEx.getText().clear();
     }
 }

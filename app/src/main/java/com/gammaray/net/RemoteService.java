@@ -24,6 +24,7 @@ import com.gammaray.entity.ChainBean;
 import com.gammaray.entity.CollectArtVo;
 import com.gammaray.entity.DAppFavouriteBean;
 import com.gammaray.entity.DAppGroupBean;
+import com.gammaray.entity.DAppSearchBean;
 import com.gammaray.entity.DAppItemBean;
 import com.gammaray.entity.DAppRecentlyBean;
 import com.gammaray.entity.FollowerVO;
@@ -430,7 +431,7 @@ public interface RemoteService {
 
     //获取热门搜索DApp列表
     @GET("/api/v2/dapps/hot_search_dapps")
-    Call<BaseResponseVo<List<DAppGroupBean>>> queryHotSearchDApps();
+    Call<BaseResponseVo<List<DAppSearchBean>>> queryHotSearchDApps();
 
     //获取最近DApp列表
     @GET("/api/v2/member_recently_dapps")
@@ -448,5 +449,9 @@ public interface RemoteService {
     //取消收藏DApp
     @POST("/api/v2/dapps/{id}/unfavorite")
     Call<BaseResponseVo<String>> unfavoriteDApp(@Path("id") String id);
+
+    //搜索Dapps
+    @GET("/api/v2/dapps/search")
+    Call<BaseResponseVo<List<DAppSearchBean>>> searchDApps(@QueryMap HashMap<String, String> map);
 }
 

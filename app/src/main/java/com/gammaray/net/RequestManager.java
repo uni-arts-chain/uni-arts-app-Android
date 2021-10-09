@@ -3,6 +3,7 @@ package com.gammaray.net;
 import com.gammaray.entity.ChainBean;
 import com.gammaray.entity.DAppFavouriteBean;
 import com.gammaray.entity.DAppGroupBean;
+import com.gammaray.entity.DAppSearchBean;
 import com.gammaray.entity.DAppItemBean;
 import com.gammaray.entity.DAppRecentlyBean;
 import com.google.gson.JsonObject;
@@ -722,8 +723,8 @@ public class RequestManager {
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
-    public void queryHotSearchDApps(MinerCallback<BaseResponseVo<List<DAppGroupBean>>> mCallBack) {
-        Call<BaseResponseVo<List<DAppGroupBean>>> mCall = NetworkManager.instance().getmRemoteService().queryHotSearchDApps();
+    public void queryHotSearchDApps(MinerCallback<BaseResponseVo<List<DAppSearchBean>>> mCallBack) {
+        Call<BaseResponseVo<List<DAppSearchBean>>> mCall = NetworkManager.instance().getmRemoteService().queryHotSearchDApps();
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
@@ -744,6 +745,11 @@ public class RequestManager {
 
     public void sendRecentlyDApps(HashMap<String, String> param, MinerCallback<BaseResponseVo<DAppRecentlyBean>> mCallBack) {
         Call<BaseResponseVo<DAppRecentlyBean>> mCall = NetworkManager.instance().getmRemoteService().sendRecentlyDApps(param);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void searchDApps(HashMap<String, String> param, MinerCallback<BaseResponseVo<List<DAppSearchBean>>> mCallBack) {
+        Call<BaseResponseVo<List<DAppSearchBean>>> mCall = NetworkManager.instance().getmRemoteService().searchDApps(param);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 }
