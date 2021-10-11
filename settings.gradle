@@ -12,4 +12,5 @@ include ':common', ':feature-splash', ':core-db', ':library-arouter'
 include ':feature-account-api'
 include ':feature-account-impl'
 include ':picture_library',"ucrop"
+//include ':lib'
 //,':takephoto_library'

@@ -77,7 +77,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     sourceSets.main {
         assets.srcDir "../CubismSdkForNative-4-r.2/Samples/Resources"
         jniLibs.srcDirs = ['src/main/jniLibs']
@@ -179,6 +178,8 @@ dependencies {
     implementation 'com.github.zyyoona7:wheelview:1.0.7'
     implementation 'com.github.zyyoona7:pickerview:1.0.9'
     implementation 'com.getui:sdk:2.14.2.0'
+    implementation 'com.github.trustwallet:trust-web3-provider:1.0.5'
+    implementation "com.trustwallet:wallet-core:2.6.23"
     implementation kotlinDep
     implementation zXingEmbeddedDep
 

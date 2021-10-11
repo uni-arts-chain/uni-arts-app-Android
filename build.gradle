@@ -140,6 +140,7 @@ buildscript {
         classpath 'cn.leo.plugin:magic-plugin:1.0.0' //防止重复点击
         classpath 'com.github.zcweng:switch-button:0.0.3@aar'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -151,6 +152,17 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
+        maven {
+            url = uri("https://maven.pkg.github.com/trustwallet/wallet-core")
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            credentials {
+//                username = properties.getProperty("gpr.user")
+//                password = properties.getProperty("gpr.key")
+                username = "346791489@qq.com"
+                password = "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"
+            }
+        }
         maven { url "https://nexus.iroha.tech/repository/maven-soramitsu/" }
         mavenCentral()
         mavenLocal()

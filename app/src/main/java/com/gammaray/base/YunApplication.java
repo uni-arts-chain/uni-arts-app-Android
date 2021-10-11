@@ -129,6 +129,7 @@ public class YunApplication extends App {
     public void onCreate() {
         super.onCreate();
         mYunApplicaion = this;
+        System.loadLibrary("TrustWalletCore");
         ARouter.init(this);
         PushManager.getInstance().initialize(this);
         NetworkManager.instance().init();

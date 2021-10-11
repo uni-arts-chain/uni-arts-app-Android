@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gammaray.R;
 import com.gammaray.adapter.CollectedDAppsAdapter;
 import com.gammaray.adapter.MyHomePageAdapter;
@@ -28,9 +29,9 @@ import com.gammaray.entity.DAppItemBean;
 import com.gammaray.entity.DAppRecentlyBean;
 import com.gammaray.net.MinerCallback;
 import com.gammaray.net.RequestManager;
+import com.gammaray.ui.activity.DAppWebsActivity;
 import com.gammaray.ui.activity.CollectedDAppsActivity;
 import com.gammaray.ui.activity.DAppSearchActivity;
-import com.gammaray.ui.activity.DAppsListActivity;
 import com.gammaray.ui.activity.QrScanActivity;
 import com.gammaray.ui.activity.RecentlyDAppsActivity;
 import com.google.android.material.tabs.TabLayout;
@@ -115,6 +116,13 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         mBinding.rvCollects.setLayoutManager(collectLayoutManager);
         mCollectAdapter.setEmptyView(R.layout.dapps_empty_layout, mBinding.rvCollects);
         mBinding.rvCollects.setAdapter(mCollectAdapter);
+        mCollectAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         LinearLayoutManager recentLayoutManager = new LinearLayoutManager(requireContext());
         recentLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -122,7 +130,13 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         mBinding.rvRecent.setLayoutManager(recentLayoutManager);
         mRecentAdapter.setEmptyView(R.layout.dapps_empty_layout, mBinding.rvRecent);
         mBinding.rvRecent.setAdapter(mRecentAdapter);
-
+        mRecentAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void scan() {

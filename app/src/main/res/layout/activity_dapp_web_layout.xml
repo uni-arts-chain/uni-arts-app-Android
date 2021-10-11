@@ -71,7 +71,7 @@
 
         </RelativeLayout>
 
-        <com.gammaray.ui.x5.X5WebView
+        <WebView
             android:id="@+id/webview_dapp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

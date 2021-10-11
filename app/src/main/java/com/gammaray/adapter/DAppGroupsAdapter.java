@@ -1,6 +1,7 @@
 package com.gammaray.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gammaray.R;
 import com.gammaray.entity.DAppGroupBean;
+import com.gammaray.ui.activity.DAppWebsActivity;
 import com.gammaray.utils.DisplayUtils;
 import com.gammaray.utils.ToastManager;
 import com.gammaray.widget.pager.PagerGridLayoutManager;
@@ -69,6 +71,8 @@ public class DAppGroupsAdapter extends BaseQuickAdapter<DAppGroupBean, BaseViewH
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             //todo 每个组中每个Dapp的点击事件
             ToastManager.showShort("Item--" + position);
+            Intent intent = new Intent(mContext, DAppWebsActivity.class);
+            mContext.startActivity(intent);
         });
     }
 }

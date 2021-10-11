@@ -349,7 +349,9 @@
         <activity
             android:name="com.gammaray.ui.activity.DAppWebActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name="com.gammaray.ui.activity.DAppWebsActivity"
+            android:screenOrientation="portrait" />
         <meta-data
             android:name="com.gammaray.utils.CustomGlideModule"
             android:value="AppGlideModule" />
