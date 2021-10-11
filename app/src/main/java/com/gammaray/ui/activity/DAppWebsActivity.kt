@@ -8,10 +8,11 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupWindow
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ToastUtils
+import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.gammaray.R
 import com.gammaray.adapter.DAppFunctionAdapter
@@ -24,6 +25,7 @@ import com.gammaray.entity.DappFunctionBean
 import com.gammaray.net.MinerCallback
 import com.gammaray.net.RequestManager
 import com.gammaray.ui.web3.WebAppInterface
+import com.gammaray.utils.SharedPreUtils
 import com.gammaray.widget.BasePopupWindow
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
@@ -42,11 +44,17 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private var mDAppUrl: String = ""
 
+    private var mDAppIconUrl: String = ""
+
     private lateinit var mTitle: String
 
     private var mDAppId: Int = -1
 
+    private var mDAppIsNeddNotice = false;
+
     private var mDAppFunctionsWindow: PopupWindow? = null
+
+    private var mDAppWalletLinkHintWindow: PopupWindow? = null
 
     private var mFuncListView: RecyclerView? = null
 
@@ -84,7 +92,9 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
             mDAppUrl = intent.getStringExtra("dapp_url")
 
-            bIsCollect = intent.getBooleanExtra("dapp_collect",false)
+            bIsCollect = intent.getBooleanExtra("dapp_collect", false)
+
+            mDAppIconUrl = intent.getStringExtra("dapp_icon_url")
         }
 
         if (!TextUtils.isEmpty(mDAppId.toString())) {
@@ -101,6 +111,12 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
         initListener()
 
         initFunctionPopWindow()
+
+        initWalletLinkHintPopWindow()
+
+        mDAppIsNeddNotice = SharedPreUtils.getBoolean(this,mDAppUrl,false)
+
+        showWalletLinkPopWindow()
 
         WebView.setWebContentsDebuggingEnabled(true)
 
@@ -119,7 +135,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
                 }
             }
             mDataBinding.webviewDapp.webViewClient = webViewClient
-            if(!TextUtils.isEmpty(DAPP_URL)){
+            if (!TextUtils.isEmpty(DAPP_URL)) {
                 mDataBinding.webviewDapp.loadUrl(DAPP_URL)
             }
         }
@@ -207,6 +223,79 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private fun showFunctionPopWindow() {
         mDAppFunctionsWindow?.showAtLocation(mDataBinding.parentLayout, Gravity.BOTTOM, 0, 0)
+    }
+
+    private fun initWalletLinkHintPopWindow() {
+        val walletLinkHintView =
+            LayoutInflater.from(this).inflate(R.layout.pop_wallet_link_hint_layout, null)
+        mDAppWalletLinkHintWindow = BasePopupWindow(this)
+        mDAppWalletLinkHintWindow?.contentView = walletLinkHintView
+        mDAppWalletLinkHintWindow?.width = ViewGroup.LayoutParams.MATCH_PARENT
+        mDAppWalletLinkHintWindow?.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        mDAppWalletLinkHintWindow?.isOutsideTouchable = false
+        mDAppWalletLinkHintWindow?.isTouchable = true
+        mDAppWalletLinkHintWindow?.animationStyle = R.style.mypopwindow_anim_style
+
+        val walletDAppIcon = walletLinkHintView.findViewById<ImageView>(R.id.tv_hint_icon)
+        val walletDAppName = walletLinkHintView.findViewById<TextView>(R.id.tv_icon_name)
+        val walletDAppHint = walletLinkHintView.findViewById<TextView>(R.id.tv_hint_content)
+        val walletDAppNotice = walletLinkHintView.findViewById<CheckBox>(R.id.ckbox_never_notice)
+        val walletDAppNoticeLayout =
+            walletLinkHintView.findViewById<RelativeLayout>(R.id.rl_checkbox)
+        val walletDAppRefuse = walletLinkHintView.findViewById<Button>(R.id.btn_refuse)
+        val walletDAppConfirm = walletLinkHintView.findViewById<Button>(R.id.btn_confirm)
+
+//        walletDAppNotice.setOnCheckedChangeListener(object :
+//            CompoundButton.OnCheckedChangeListener {
+//            override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+//                if (p1) {
+//                    ToastUtils.showShort("IsChecked 1--" + p1);
+//                } else {
+//                    ToastUtils.showShort("IsChecked 2--" + p1);
+//                }
+//            }
+//        })
+
+        walletDAppNoticeLayout.setOnClickListener {
+            if (mDAppIsNeddNotice) {
+                walletDAppNotice.isChecked = false
+                mDAppIsNeddNotice = false
+            } else {
+                walletDAppNotice.isChecked = true
+                mDAppIsNeddNotice = true
+            }
+        }
+
+        if (!TextUtils.isEmpty(mDAppIconUrl)) {
+            Glide.with(this).load(mDAppIconUrl).into(walletDAppIcon)
+        }
+        if (!TextUtils.isEmpty(mTitle)) {
+            walletDAppName.text = mTitle
+            walletDAppHint.text = getString(R.string.wallet_link_hint, mTitle)
+        }
+
+        walletDAppRefuse.setOnClickListener {
+            mDAppWalletLinkHintWindow?.dismiss()
+            finish()
+        }
+
+        walletDAppConfirm.setOnClickListener {
+            mDAppWalletLinkHintWindow?.dismiss()
+            SharedPreUtils.setBoolean(this,mDAppUrl,mDAppIsNeddNotice)
+        }
+    }
+
+    private fun showWalletLinkPopWindow() {
+        if(!mDAppIsNeddNotice){
+            mDataBinding.parentLayout.post {
+                mDAppWalletLinkHintWindow?.showAtLocation(
+                    mDataBinding.parentLayout,
+                    Gravity.BOTTOM,
+                    0,
+                    0
+                )
+            }
+        }
     }
 
     private fun copyDAppUrl() {

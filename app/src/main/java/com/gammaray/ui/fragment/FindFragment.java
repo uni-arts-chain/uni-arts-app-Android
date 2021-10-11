@@ -125,6 +125,7 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
             intent.putExtra("dapp_id", mCollectApps.get(position).getFavoritable().getId());
             intent.putExtra("dapp_collect",true);
             try {
+                intent.putExtra("dapp_icon_url",URLDecoder.decode(mCollectApps.get(position).getFavoritable().getLogo().getUrl(), "UTF-8"));
                 intent.putExtra("dapp_url", URLDecoder.decode(mCollectApps.get(position).getFavoritable().getWebsite_url(), "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -144,6 +145,7 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
             intent.putExtra("dapp_id", mRecentApps.get(position).getDapp().getId());
             intent.putExtra("dapp_collect",mRecentApps.get(position).getDapp().isFavorite_by_me());
             try {
+                intent.putExtra("dapp_icon_url",URLDecoder.decode(mRecentApps.get(position).getDapp().getLogo().getUrl(),"UTF-8"));
                 intent.putExtra("dapp_url", URLDecoder.decode(mRecentApps.get(position).getDapp().getWebsite_url(), "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
