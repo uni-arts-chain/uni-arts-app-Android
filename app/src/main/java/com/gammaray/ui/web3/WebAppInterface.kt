@@ -2,12 +2,12 @@ package com.gammaray.ui.web3
 
 import android.content.Context
 import android.webkit.JavascriptInterface
-import android.webkit.WebView
+import com.gammaray.ui.x5.X5WebView
 import org.json.JSONObject
 
 class WebAppInterface(
     private val context: Context,
-    private val webView: WebView,
+    private val webView: X5WebView,
     private val dappUrl: String
 ) {
 //    private val privateKey =

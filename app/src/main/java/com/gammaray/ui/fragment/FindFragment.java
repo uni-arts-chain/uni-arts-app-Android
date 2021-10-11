@@ -116,12 +116,10 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         mBinding.rvCollects.setLayoutManager(collectLayoutManager);
         mCollectAdapter.setEmptyView(R.layout.dapps_empty_layout, mBinding.rvCollects);
         mBinding.rvCollects.setAdapter(mCollectAdapter);
-        mCollectAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
-                startActivity(intent);
-            }
+        mCollectAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
+            intent.putExtra("dapp_title",mCollectApps.get(position).getFavoritable().getTitle());
+            startActivity(intent);
         });
 
         LinearLayoutManager recentLayoutManager = new LinearLayoutManager(requireContext());
@@ -130,12 +128,10 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         mBinding.rvRecent.setLayoutManager(recentLayoutManager);
         mRecentAdapter.setEmptyView(R.layout.dapps_empty_layout, mBinding.rvRecent);
         mBinding.rvRecent.setAdapter(mRecentAdapter);
-        mRecentAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
-                startActivity(intent);
-            }
+        mRecentAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
+            intent.putExtra("dapp_title",mRecentApps.get(position).getDapp().getTitle());
+            startActivity(intent);
         });
     }
 

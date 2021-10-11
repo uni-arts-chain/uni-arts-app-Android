@@ -50,9 +50,9 @@ public class DAppGroupsAdapter extends BaseQuickAdapter<DAppGroupBean, BaseViewH
                 itemHeight = 240;
                 itemRows = 3;
             }
-        } /*else {
+        } else {
             helper.setVisible(R.id.rl_title, false);
-        }*/
+        }
 
         PagerGridLayoutManager layoutManager = new PagerGridLayoutManager(itemRows, 1, PagerGridLayoutManager.HORIZONTAL);
         dappRV.setLayoutManager(layoutManager);
@@ -69,9 +69,8 @@ public class DAppGroupsAdapter extends BaseQuickAdapter<DAppGroupBean, BaseViewH
         DAppsListAdapter mAdapter = new DAppsListAdapter(item.getDapps(), mContext);
         dappRV.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            //todo 每个组中每个Dapp的点击事件
-            ToastManager.showShort("Item--" + position);
             Intent intent = new Intent(mContext, DAppWebsActivity.class);
+            intent.putExtra("dapp_title",item.getDapps().get(position).getTitle());
             mContext.startActivity(intent);
         });
     }

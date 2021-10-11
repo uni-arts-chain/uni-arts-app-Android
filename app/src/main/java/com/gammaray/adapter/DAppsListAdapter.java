@@ -18,7 +18,7 @@ import java.util.List;
 public class DAppsListAdapter extends BaseQuickAdapter<DAppGroupBean.DApps, BaseViewHolder> {
 
 
-    private Context mContext;
+    private final Context mContext;
 
     public DAppsListAdapter(@Nullable @org.jetbrains.annotations.Nullable List<DAppGroupBean.DApps> data, Context context) {
         super(R.layout.item_dapp_list_layout, data);
