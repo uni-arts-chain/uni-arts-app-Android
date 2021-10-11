@@ -3,6 +3,7 @@ package com.gammaray.ui.activity
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +17,18 @@ import com.gammaray.R
 import com.gammaray.adapter.DAppFunctionAdapter
 import com.gammaray.base.BaseActivity
 import com.gammaray.databinding.ActivityDappWebLayoutBinding
+import com.gammaray.entity.BaseResponseVo
+import com.gammaray.entity.DAppItemBean
+import com.gammaray.entity.DAppRecentlyBean
 import com.gammaray.entity.DappFunctionBean
+import com.gammaray.net.MinerCallback
+import com.gammaray.net.RequestManager
 import com.gammaray.ui.web3.WebAppInterface
 import com.gammaray.widget.BasePopupWindow
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
+import retrofit2.Call
+import retrofit2.Response
 
 //DApp WebView
 class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnClickListener {
@@ -32,9 +40,11 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
         private const val RPC_URL = "https://mainnet.infura.io/v3/7e2855d5896946cb985af8944713a371"
     }
 
-    private lateinit var mDAppUrl: String
+    private var mDAppUrl: String = ""
 
     private lateinit var mTitle: String
+
+    private var mDAppId: Int = -1
 
     private var mDAppFunctionsWindow: PopupWindow? = null
 
@@ -44,7 +54,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private val mFunctions: ArrayList<DappFunctionBean> = ArrayList()
 
-    private val mCollect = DappFunctionBean("收藏", R.mipmap.icon_a_collect)
+    private val mCollect = DappFunctionBean("取消收藏", R.mipmap.icon_a_collect)
 
     private val mUnCollect = DappFunctionBean("收藏", R.mipmap.icon_c_collect)
 
@@ -70,7 +80,15 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
             mTitle = intent.getStringExtra("dapp_title")
             mDataBinding.tvAppName.text = mTitle
 
-//            mDAppUrl = intent.getStringExtra("dapp_url")
+            mDAppId = intent.getIntExtra("dapp_id", -1)
+
+            mDAppUrl = intent.getStringExtra("dapp_url")
+
+            bIsCollect = intent.getBooleanExtra("dapp_collect",false)
+        }
+
+        if (!TextUtils.isEmpty(mDAppId.toString())) {
+            sendRecentlyDApps(mDAppId.toString())
         }
 
         //加载RPC配置JS
@@ -90,7 +108,6 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
             javaScriptEnabled = true
             domStorageEnabled = true
         }
-
         WebAppInterface(this, mDataBinding.webviewDapp, DAPP_URL).run {
             mDataBinding.webviewDapp.addJavascriptInterface(this, "_tw_")
 
@@ -102,7 +119,9 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
                 }
             }
             mDataBinding.webviewDapp.webViewClient = webViewClient
-            mDataBinding.webviewDapp.loadUrl(DAPP_URL)
+            if(!TextUtils.isEmpty(DAPP_URL)){
+                mDataBinding.webviewDapp.loadUrl(DAPP_URL)
+            }
         }
     }
 
@@ -162,15 +181,10 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
             BaseQuickAdapter.OnItemClickListener { adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int ->
                 if (position == 0) {
                     if (bIsCollect) {
-                        bIsCollect = false
-                        mFunctions[position].dappIcon = R.mipmap.icon_c_collect
-                        mFunctions[position].dappName = "收藏"
+                        unFavouriteDApp(mDAppId.toString())
                     } else {
-                        bIsCollect = true
-                        mFunctions[position].dappIcon = R.mipmap.icon_a_collect
-                        mFunctions[position].dappName = "取消收藏"
+                        favouriteDApp(mDAppId.toString())
                     }
-                    mAdapter!!.notifyDataSetChanged()
                 } else if (position == 1) {
                     copyDAppUrl()
                     if (mDAppFunctionsWindow != null) {
@@ -197,11 +211,104 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private fun copyDAppUrl() {
         val cm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-        // 创建普通字符型ClipData
-        val mClipData = ClipData.newPlainText("Label", DAPP_URL)
-        // 将ClipData内容放到系统剪贴板里。
+        val mClipData = ClipData.newPlainText("Label", mDAppUrl)
         cm.primaryClip = mClipData
         ToastUtils.showShort("复制成功")
+    }
+
+    //最近使用DApp
+    private fun sendRecentlyDApps(id: String) {
+        val params = HashMap<String, String>()
+        params["dapp_id"] = id
+        RequestManager.instance()
+            .sendRecentlyDApps(params, object : MinerCallback<BaseResponseVo<DAppRecentlyBean>> {
+                override fun onSuccess(
+                    call: Call<BaseResponseVo<DAppRecentlyBean>>?,
+                    response: Response<BaseResponseVo<DAppRecentlyBean>>?
+                ) {
+                    if (response != null && response.isSuccessful) {
+
+                    }
+                }
+
+                override fun onError(
+                    call: Call<BaseResponseVo<DAppRecentlyBean>>?,
+                    response: Response<BaseResponseVo<DAppRecentlyBean>>?
+                ) {
+
+                }
+
+                override fun onFailure(call: Call<*>?, t: Throwable?) {
+
+                }
+
+            })
+    }
+
+    private fun favouriteDApp(id: String) {
+        showLoading(R.string.progress_loading)
+        val params = HashMap<String, String>()
+        params["id"] = id
+        RequestManager.instance()
+            .favoriteDApp(id, object : MinerCallback<BaseResponseVo<DAppItemBean>> {
+                override fun onSuccess(
+                    call: Call<BaseResponseVo<DAppItemBean>>?,
+                    response: Response<BaseResponseVo<DAppItemBean>>?
+                ) {
+                    dismissLoading()
+                    if (response != null && response.isSuccessful) {
+                        bIsCollect = true
+                        mFunctions[0].dappIcon = R.mipmap.icon_a_collect
+                        mFunctions[0].dappName = "取消收藏"
+                        mAdapter!!.notifyDataSetChanged()
+                        ToastUtils.showShort("已收藏")
+                    }
+                }
+
+                override fun onError(
+                    call: Call<BaseResponseVo<DAppItemBean>>?,
+                    response: Response<BaseResponseVo<DAppItemBean>>?
+                ) {
+                    dismissLoading()
+                }
+
+                override fun onFailure(call: Call<*>?, t: Throwable?) {
+                    dismissLoading()
+                }
+            })
+    }
+
+    private fun unFavouriteDApp(id: String) {
+        showLoading(R.string.progress_loading)
+        val params = HashMap<String, String>()
+        params["id"] = id
+        RequestManager.instance()
+            .unfavoriteDApp(id, object : MinerCallback<BaseResponseVo<DAppItemBean>> {
+                override fun onSuccess(
+                    call: Call<BaseResponseVo<DAppItemBean>>?,
+                    response: Response<BaseResponseVo<DAppItemBean>>?
+                ) {
+                    dismissLoading()
+                    if (response != null && response.isSuccessful) {
+                        bIsCollect = false
+                        mFunctions[0].dappIcon = R.mipmap.icon_c_collect
+                        mFunctions[0].dappName = "收藏"
+                        mAdapter!!.notifyDataSetChanged()
+                        ToastUtils.showShort("已取消收藏")
+                    }
+                }
+
+                override fun onError(
+                    call: Call<BaseResponseVo<DAppItemBean>>?,
+                    response: Response<BaseResponseVo<DAppItemBean>>?
+                ) {
+                    dismissLoading()
+                }
+
+                override fun onFailure(call: Call<*>?, t: Throwable?) {
+                    dismissLoading()
+                }
+            })
     }
 
     override fun onClick(view: View?) {

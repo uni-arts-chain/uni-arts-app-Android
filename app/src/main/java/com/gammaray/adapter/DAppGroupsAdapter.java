@@ -17,6 +17,8 @@ import com.gammaray.utils.ToastManager;
 import com.gammaray.widget.pager.PagerGridLayoutManager;
 import com.gammaray.widget.pager.PagerGridSnapHelper;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 public class DAppGroupsAdapter extends BaseQuickAdapter<DAppGroupBean, BaseViewHolder> {
@@ -64,6 +66,7 @@ public class DAppGroupsAdapter extends BaseQuickAdapter<DAppGroupBean, BaseViewH
 
         // 2.设置滚动辅助工具
         PagerGridSnapHelper pageSnapHelper = new PagerGridSnapHelper();
+        dappRV.setOnFlingListener(null);
         pageSnapHelper.attachToRecyclerView(dappRV);
 
         DAppsListAdapter mAdapter = new DAppsListAdapter(item.getDapps(), mContext);
@@ -71,6 +74,13 @@ public class DAppGroupsAdapter extends BaseQuickAdapter<DAppGroupBean, BaseViewH
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(mContext, DAppWebsActivity.class);
             intent.putExtra("dapp_title",item.getDapps().get(position).getTitle());
+            intent.putExtra("dapp_id",item.getDapps().get(position).getId());
+            intent.putExtra("dapp_collect",item.getDapps().get(position).isFavorite_by_me());
+            try {
+                intent.putExtra("dapp_url", URLDecoder.decode(item.getDapps().get(position).getWebsite_url(), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             mContext.startActivity(intent);
         });
     }

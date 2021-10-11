@@ -448,7 +448,7 @@ public interface RemoteService {
 
     //取消收藏DApp
     @POST("/api/v2/dapps/{id}/unfavorite")
-    Call<BaseResponseVo<String>> unfavoriteDApp(@Path("id") String id);
+    Call<BaseResponseVo<DAppItemBean>> unfavoriteDApp(@Path("id") String id);
 
     //搜索Dapps
     @GET("/api/v2/dapps/search")

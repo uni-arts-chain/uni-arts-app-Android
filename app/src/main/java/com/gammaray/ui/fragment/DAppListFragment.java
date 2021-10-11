@@ -94,14 +94,18 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
     }
 
     private void queryRecommendDapps() {
+        showLoading(R.string.progress_loading);
         HashMap<String, String> params = new HashMap<>();
         params.put("page", "1");
         params.put("per_page", "9");
         RequestManager.instance().queryRecommendDApps(mChainId, params, new MinerCallback<BaseResponseVo<List<DAppItemBean>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<DAppItemBean>>> call, Response<BaseResponseVo<List<DAppItemBean>>> response) {
+                dismissLoading();
                 if (response != null) {
                     if (response.body() != null) {
+                        mDAppItemBeans.clear();
+                        mDAppGroupBeans.clear();
                         mDAppItemBeans = response.body().getBody();
                         if (mDAppItemBeans.size() > 0) {
                             int id = mDAppItemBeans.get(0).getChain_category().getId(); //最外层的ID
@@ -118,6 +122,7 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
                                 dapp.setDesc(mDAppItemBeans.get(i).getDesc());
                                 dapp.setWebsite_url(mDAppItemBeans.get(i).getWebsite_url());
                                 dapp.setLogo(mDAppItemBeans.get(i).getLogo());
+                                dapp.setFavorite_by_me(mDAppItemBeans.get(i).isFavorite_by_me());
                                 dApps.add(dapp);
                             }
                             dAppGroupBean.setDapps(dApps);
@@ -130,23 +135,25 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
 
             @Override
             public void onError(Call<BaseResponseVo<List<DAppItemBean>>> call, Response<BaseResponseVo<List<DAppItemBean>>> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
     }
 
     private void queryCategoryDapps() {
+        showLoading(R.string.progress_loading);
         HashMap<String,String> params = new HashMap<>();
         params.put("page", "1");
         params.put("per_page", "9");
         RequestManager.instance().queryCategoryDApps(mChainId, params,new MinerCallback<BaseResponseVo<List<DAppGroupBean>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<DAppGroupBean>>> call, Response<BaseResponseVo<List<DAppGroupBean>>> response) {
+                dismissLoading();
                 if (response != null) {
                     if (response.body() != null) {
                         List<DAppGroupBean> dAppGroupBeans = response.body().getBody();
@@ -158,12 +165,12 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
 
             @Override
             public void onError(Call<BaseResponseVo<List<DAppGroupBean>>> call, Response<BaseResponseVo<List<DAppGroupBean>>> response) {
-
+                dismissLoading();
             }
 
             @Override
             public void onFailure(Call<?> call, Throwable t) {
-
+                dismissLoading();
             }
         });
     }

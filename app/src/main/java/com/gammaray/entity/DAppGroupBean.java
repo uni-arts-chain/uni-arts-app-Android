@@ -66,6 +66,8 @@ public class DAppGroupBean implements Serializable {
 
         private String desc;
 
+        private boolean favorite_by_me;
+
         public int getId() {
             return id;
         }
@@ -128,6 +130,14 @@ public class DAppGroupBean implements Serializable {
 
         public void setDesc(String desc) {
             this.desc = desc;
+        }
+
+        public boolean isFavorite_by_me() {
+            return favorite_by_me;
+        }
+
+        public void setFavorite_by_me(boolean favorite_by_me) {
+            this.favorite_by_me = favorite_by_me;
         }
     }
 }

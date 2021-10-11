@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -36,6 +37,8 @@ import com.gammaray.ui.activity.QrScanActivity;
 import com.gammaray.ui.activity.RecentlyDAppsActivity;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -118,7 +121,14 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         mBinding.rvCollects.setAdapter(mCollectAdapter);
         mCollectAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
-            intent.putExtra("dapp_title",mCollectApps.get(position).getFavoritable().getTitle());
+            intent.putExtra("dapp_title", mCollectApps.get(position).getFavoritable().getTitle());
+            intent.putExtra("dapp_id", mCollectApps.get(position).getFavoritable().getId());
+            intent.putExtra("dapp_collect",true);
+            try {
+                intent.putExtra("dapp_url", URLDecoder.decode(mCollectApps.get(position).getFavoritable().getWebsite_url(), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             startActivity(intent);
         });
 
@@ -130,8 +140,22 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         mBinding.rvRecent.setAdapter(mRecentAdapter);
         mRecentAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
-            intent.putExtra("dapp_title",mRecentApps.get(position).getDapp().getTitle());
+            intent.putExtra("dapp_title", mRecentApps.get(position).getDapp().getTitle());
+            intent.putExtra("dapp_id", mRecentApps.get(position).getDapp().getId());
+            intent.putExtra("dapp_collect",mRecentApps.get(position).getDapp().isFavorite_by_me());
+            try {
+                intent.putExtra("dapp_url", URLDecoder.decode(mRecentApps.get(position).getDapp().getWebsite_url(), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             startActivity(intent);
+        });
+
+        mBinding.srlLayout.setOnRefreshListener(() -> {
+            mBinding.srlLayout.setRefreshing(false);
+            getChainList(); //获取链列表
+            getCollectedDApps(); //获取收藏DApps
+            getRecentlyDApps();//获取最近DApps
         });
     }
 
@@ -247,6 +271,7 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
             public void onSuccess(Call<BaseResponseVo<List<DAppFavouriteBean>>> call, Response<BaseResponseVo<List<DAppFavouriteBean>>> response) {
                 if (response != null && response.isSuccessful()) {
                     if (response.body() != null) {
+                        mCollectApps.clear();
                         mCollectApps = response.body().getBody();
                         mCollectAdapter.setNewData(mCollectApps);
                     }
@@ -271,6 +296,7 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
             public void onSuccess(Call<BaseResponseVo<List<DAppRecentlyBean>>> call, Response<BaseResponseVo<List<DAppRecentlyBean>>> response) {
                 if (response != null && response.isSuccessful()) {
                     if (response.body() != null) {
+                        mRecentApps.clear();
                         mRecentApps = response.body().getBody();
                         mRecentAdapter.setNewData(mRecentApps);
                     }
@@ -279,48 +305,6 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
 
             @Override
             public void onError(Call<BaseResponseVo<List<DAppRecentlyBean>>> call, Response<BaseResponseVo<List<DAppRecentlyBean>>> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<?> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void sendRecentlyDApps(String id) {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("dapp_id", id);
-        RequestManager.instance().sendRecentlyDApps(params, new MinerCallback<BaseResponseVo<DAppRecentlyBean>>() {
-            @Override
-            public void onSuccess(Call<BaseResponseVo<DAppRecentlyBean>> call, Response<BaseResponseVo<DAppRecentlyBean>> response) {
-
-            }
-
-            @Override
-            public void onError(Call<BaseResponseVo<DAppRecentlyBean>> call, Response<BaseResponseVo<DAppRecentlyBean>> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<?> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void favoriteDApp(String id) {
-        RequestManager.instance().favoriteDApp(id, new MinerCallback<BaseResponseVo<DAppItemBean>>() {
-            @Override
-            public void onSuccess(Call<BaseResponseVo<DAppItemBean>> call, Response<BaseResponseVo<DAppItemBean>> response) {
-                if (response != null && response.isSuccessful()) {
-
-                }
-            }
-
-            @Override
-            public void onError(Call<BaseResponseVo<DAppItemBean>> call, Response<BaseResponseVo<DAppItemBean>> response) {
 
             }
 

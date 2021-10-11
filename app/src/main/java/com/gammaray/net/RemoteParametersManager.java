@@ -143,8 +143,13 @@ public class RemoteParametersManager {
             MD5Encrypt md5Encrypt = new MD5Encrypt();
             mParamsWithToken.put(StringUtils.formatLowerCase("Tonce"), currentTime);
             mParamsWithToken = md5Encrypt.orderByASC(mParamsWithToken);
-            String signStr = ParamsBuilder.getSign(request, mParamsWithToken);
-            LogUtils.e("signStr" + signStr);
+            String signStr = "";
+            try {
+                signStr = ParamsBuilder.getSign(request, mParamsWithToken);
+                LogUtils.e("signStr" + signStr);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             String sha256str = null;
             if (YunApplication.getmUserVo() != null)
                 if (!TextUtils.isEmpty(YunApplication.getmUserVo().getExpire_at())) {

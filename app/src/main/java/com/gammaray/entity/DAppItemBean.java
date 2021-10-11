@@ -16,6 +16,7 @@ public class DAppItemBean implements Serializable {
 
     private ChainCategory chain_category;
 
+    private boolean favorite_by_me;
 
     public static class ChainCategory {
 
@@ -86,5 +87,13 @@ public class DAppItemBean implements Serializable {
 
     public void setChain_category(ChainCategory chain_category) {
         this.chain_category = chain_category;
+    }
+
+    public boolean isFavorite_by_me() {
+        return favorite_by_me;
+    }
+
+    public void setFavorite_by_me(boolean favorite_by_me) {
+        this.favorite_by_me = favorite_by_me;
     }
 }

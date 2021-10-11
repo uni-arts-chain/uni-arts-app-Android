@@ -738,8 +738,8 @@ public class RequestManager {
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
-    public void unfavoriteDApp(String id, MinerCallback<BaseResponseVo<String>> mCallBack) {
-        Call<BaseResponseVo<String>> mCall = NetworkManager.instance().getmRemoteService().unfavoriteDApp(id);
+    public void unfavoriteDApp(String id, MinerCallback<BaseResponseVo<DAppItemBean>> mCallBack) {
+        Call<BaseResponseVo<DAppItemBean>> mCall = NetworkManager.instance().getmRemoteService().unfavoriteDApp(id);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 
