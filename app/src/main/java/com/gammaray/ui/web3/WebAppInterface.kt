@@ -4,16 +4,20 @@ import android.content.Context
 import android.webkit.JavascriptInterface
 import com.gammaray.ui.x5.X5WebView
 import org.json.JSONObject
+import wallet.core.jni.CoinType
+import wallet.core.jni.PrivateKey
 
 class WebAppInterface(
     private val context: Context,
     private val webView: X5WebView,
-    private val dappUrl: String
+    private val dappUrl: String,
+    private val addr: String
 ) {
 //    private val privateKey =
-//        PrivateKey("0x4646464646464646464646464646464646464646464646464646464646464646".toHexByteArray())
+//        PrivateKey(selfPrivateKey.toHexByteArray())
 //    private val addr = CoinType.ETHEREUM.deriveAddress(privateKey).toLowerCase()
-    private val addr = "0xab3f94dedae86fbfbc5dd1ba1a8af0e168a6fc40"
+
+    //    private val addr = "0x6B9690CEa137b694f5E052A6459798aE995991Af"
     @JavascriptInterface
     fun postMessage(json: String) {
         val obj = JSONObject(json)

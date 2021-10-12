@@ -141,10 +141,10 @@ public class RemoteParametersManager {
                 }
             }
             MD5Encrypt md5Encrypt = new MD5Encrypt();
-            mParamsWithToken.put(StringUtils.formatLowerCase("Tonce"), currentTime);
-            mParamsWithToken = md5Encrypt.orderByASC(mParamsWithToken);
             String signStr = "";
             try {
+                mParamsWithToken.put(StringUtils.formatLowerCase("Tonce"), currentTime);
+                mParamsWithToken = md5Encrypt.orderByASC(mParamsWithToken);
                 signStr = ParamsBuilder.getSign(request, mParamsWithToken);
                 LogUtils.e("signStr" + signStr);
             }catch (Exception e){

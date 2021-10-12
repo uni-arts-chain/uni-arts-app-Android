@@ -22,6 +22,8 @@ import com.gammaray.entity.BaseResponseVo
 import com.gammaray.entity.DAppItemBean
 import com.gammaray.entity.DAppRecentlyBean
 import com.gammaray.entity.DappFunctionBean
+import com.gammaray.eth.domain.ETHWallet
+import com.gammaray.eth.interact.FetchWalletInteract
 import com.gammaray.net.MinerCallback
 import com.gammaray.net.RequestManager
 import com.gammaray.ui.web3.WebAppInterface
@@ -29,6 +31,7 @@ import com.gammaray.utils.SharedPreUtils
 import com.gammaray.widget.BasePopupWindow
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
+import io.reactivex.functions.Consumer
 import retrofit2.Call
 import retrofit2.Response
 
@@ -36,10 +39,11 @@ import retrofit2.Response
 class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnClickListener {
 
     companion object {
-        private const val DAPP_URL =
-            "https://cbridge.celer.network/?locale=zh-CN&utm_source=imtoken"
-        private const val CHAIN_ID = 1
-        private const val RPC_URL = "https://mainnet.infura.io/v3/7e2855d5896946cb985af8944713a371"
+//        private const val DAPP_URL =
+//            "https://cbridge.celer.network/?locale=zh-CN&utm_source=imtoken"
+        private const val DAPP_URL = "https://app.dodoex.io/exchange/ETH-USDC?C3VK=3a0ea1&network=rinkeby"
+        private const val CHAIN_ID = 4
+        private const val RPC_URL = " https://rinkeby.infura.io/v3/7e2855d5896946cb985af8944713a371"
     }
 
     private var mDAppUrl: String = ""
@@ -72,6 +76,10 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private var bIsCollect = false
 
+    private var mEthWallet:ETHWallet? = null
+
+    private var fetchWalletInteract: FetchWalletInteract? = null
+
     override fun getLayoutId(): Int {
         return R.layout.activity_dapp_web_layout
     }
@@ -80,6 +88,9 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
     }
 
     override fun initView() {
+
+        fetchWalletInteract = FetchWalletInteract()
+        fetchWalletInteract!!.findDefault().subscribe(this::getCurrentWallet)
 
         //加载固定JS
         val providerJs = loadProviderJs()
@@ -114,7 +125,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
         initWalletLinkHintPopWindow()
 
-        mDAppIsNeddNotice = SharedPreUtils.getBoolean(this,mDAppUrl,false)
+        mDAppIsNeddNotice = SharedPreUtils.getBoolean(this, mDAppUrl, false)
 
         showWalletLinkPopWindow()
 
@@ -124,20 +135,31 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
             javaScriptEnabled = true
             domStorageEnabled = true
         }
-        WebAppInterface(this, mDataBinding.webviewDapp, DAPP_URL).run {
-            mDataBinding.webviewDapp.addJavascriptInterface(this, "_tw_")
+        if(mEthWallet != null){
+            val address = mEthWallet!!.address
+            WebAppInterface(this, mDataBinding.webviewDapp, DAPP_URL,address).run {
+                mDataBinding.webviewDapp.addJavascriptInterface(this, "_tw_")
 
-            val webViewClient = object : WebViewClient() {
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)
-                    view?.evaluateJavascript(providerJs, null)
-                    view?.evaluateJavascript(initJs, null)
+                val webViewClient = object : WebViewClient() {
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        super.onPageFinished(view, url)
+                        dismissLoading()
+                        view?.evaluateJavascript(providerJs, null)
+                        view?.evaluateJavascript(initJs, null)
+                    }
+                }
+                mDataBinding.webviewDapp.webViewClient = webViewClient
+                if (!TextUtils.isEmpty(mDAppUrl)) {
+                    showLoading(R.string.progress_loading)
+                    mDataBinding.webviewDapp.loadUrl(mDAppUrl)
                 }
             }
-            mDataBinding.webviewDapp.webViewClient = webViewClient
-            if (!TextUtils.isEmpty(DAPP_URL)) {
-                mDataBinding.webviewDapp.loadUrl(DAPP_URL)
-            }
+        }
+    }
+
+    private fun getCurrentWallet(ethWallet: ETHWallet?) {
+        if (ethWallet != null) {
+            mEthWallet = ethWallet
         }
     }
 
@@ -245,17 +267,6 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
         val walletDAppRefuse = walletLinkHintView.findViewById<Button>(R.id.btn_refuse)
         val walletDAppConfirm = walletLinkHintView.findViewById<Button>(R.id.btn_confirm)
 
-//        walletDAppNotice.setOnCheckedChangeListener(object :
-//            CompoundButton.OnCheckedChangeListener {
-//            override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
-//                if (p1) {
-//                    ToastUtils.showShort("IsChecked 1--" + p1);
-//                } else {
-//                    ToastUtils.showShort("IsChecked 2--" + p1);
-//                }
-//            }
-//        })
-
         walletDAppNoticeLayout.setOnClickListener {
             if (mDAppIsNeddNotice) {
                 walletDAppNotice.isChecked = false
@@ -281,12 +292,12 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
         walletDAppConfirm.setOnClickListener {
             mDAppWalletLinkHintWindow?.dismiss()
-            SharedPreUtils.setBoolean(this,mDAppUrl,mDAppIsNeddNotice)
+            SharedPreUtils.setBoolean(this, mDAppUrl, mDAppIsNeddNotice)
         }
     }
 
     private fun showWalletLinkPopWindow() {
-        if(!mDAppIsNeddNotice){
+        if (!mDAppIsNeddNotice) {
             mDataBinding.parentLayout.post {
                 mDAppWalletLinkHintWindow?.showAtLocation(
                     mDataBinding.parentLayout,

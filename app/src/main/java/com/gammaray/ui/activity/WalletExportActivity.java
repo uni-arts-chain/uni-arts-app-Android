@@ -84,7 +84,9 @@ public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayou
             startActivityForResult(intent, KEY_PSW_CONFIRM);
         } else if (view.getId() == R.id.exportPrivateKey) {
             //导出私钥
-            startActivityForResult(ETHPinCodeActivity.class, KEY_PRIVATE);
+            Intent intent = new Intent(WalletExportActivity.this, ETHPinCodeActivity.class);
+            intent.putExtra("wallet_pwd", walletPwd);
+            startActivityForResult(intent, KEY_PRIVATE);
         } else if (view.getId() == R.id.protocal) {
             //隐私协议
             startActivity(UserAgreementActivity.class);
