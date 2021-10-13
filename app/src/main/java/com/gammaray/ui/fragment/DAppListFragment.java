@@ -17,8 +17,6 @@ import com.gammaray.net.RequestManager;
 import com.gammaray.ui.activity.ChainFunctionDAppsActivity;
 import com.gammaray.ui.activity.ChainRecommendDAppsActivity;
 
-import org.web3j.crypto.Hash;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +33,6 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
     private List<DAppGroupBean> mDAppGroupBeans = new ArrayList<>();
 
     private String mChainId;
-
 
     static BaseFragment newInstance(String chainId) {
         DAppListFragment dAppListFragment = new DAppListFragment();
@@ -64,6 +61,7 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
         initData();
         queryRecommendDapps();
     }
+
 
     private void initData() {
         //若ViewPager嵌套的RecyclerView，且NestscrollView需要整体滑动，则需要重写ViewPager并使用下方LayoutManager
@@ -147,10 +145,10 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
 
     private void queryCategoryDapps() {
         showLoading(R.string.progress_loading);
-        HashMap<String,String> params = new HashMap<>();
+        HashMap<String, String> params = new HashMap<>();
         params.put("page", "1");
         params.put("per_page", "9");
-        RequestManager.instance().queryCategoryDApps(mChainId, params,new MinerCallback<BaseResponseVo<List<DAppGroupBean>>>() {
+        RequestManager.instance().queryCategoryDApps(mChainId, params, new MinerCallback<BaseResponseVo<List<DAppGroupBean>>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<List<DAppGroupBean>>> call, Response<BaseResponseVo<List<DAppGroupBean>>> response) {
                 dismissLoading();

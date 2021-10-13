@@ -1,8 +1,10 @@
 package com.gammaray.ui.activity
 
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Intent
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -24,31 +26,48 @@ import com.gammaray.entity.DAppRecentlyBean
 import com.gammaray.entity.DappFunctionBean
 import com.gammaray.eth.domain.ETHWallet
 import com.gammaray.eth.interact.FetchWalletInteract
+import com.gammaray.eth.interact.ModifyWalletInteract
 import com.gammaray.net.MinerCallback
 import com.gammaray.net.RequestManager
 import com.gammaray.ui.web3.WebAppInterface
 import com.gammaray.utils.SharedPreUtils
+import com.gammaray.utils.ToastManager
 import com.gammaray.widget.BasePopupWindow
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
-import io.reactivex.functions.Consumer
 import retrofit2.Call
 import retrofit2.Response
+import java.math.BigDecimal
 
 //DApp WebView
 class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnClickListener {
 
     companion object {
-//        private const val DAPP_URL =
-//            "https://cbridge.celer.network/?locale=zh-CN&utm_source=imtoken"
-        private const val DAPP_URL = "https://app.dodoex.io/exchange/ETH-USDC?C3VK=3a0ea1&network=rinkeby"
+//        private const val DAPP_URL = "https://cbridge.celer.network/?locale=zh-CN&utm_source=imtoken"
+
+        //        Rinkeby Test
+        private const val DAPP_URL =
+            "https://app.dodoex.io/exchange/ETH-USDC?C3VK=3a0ea1&network=rinkeby"
         private const val CHAIN_ID = 4
         private const val RPC_URL = " https://rinkeby.infura.io/v3/7e2855d5896946cb985af8944713a371"
+
     }
 
     private var mDAppUrl: String = ""
 
     private var mDAppIconUrl: String = ""
+
+    private var mPrivateKey: String = ""
+
+    private var mTransValue: String = ""
+
+    private var mGasPrice: String = ""
+
+    private var mGasLimit: String = ""
+
+    private var mFromAdress: String = ""
+
+    private var mToAddress: String = ""
 
     private lateinit var mTitle: String
 
@@ -76,9 +95,12 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private var bIsCollect = false
 
-    private var mEthWallet:ETHWallet? = null
+    private var mETHWallet: ETHWallet? = null
 
-    private var fetchWalletInteract: FetchWalletInteract? = null
+    private var mFetchWalletInteract: FetchWalletInteract? = null
+
+    private var mModifyWalletInteract: ModifyWalletInteract? = null
+
 
     override fun getLayoutId(): Int {
         return R.layout.activity_dapp_web_layout
@@ -89,11 +111,6 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     override fun initView() {
 
-        fetchWalletInteract = FetchWalletInteract()
-        fetchWalletInteract!!.findDefault().subscribe(this::getCurrentWallet)
-
-        //加载固定JS
-        val providerJs = loadProviderJs()
 
         if (intent != null) {
             mTitle = intent.getStringExtra("dapp_title")
@@ -108,15 +125,11 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
             mDAppIconUrl = intent.getStringExtra("dapp_icon_url")
         }
 
+        initWallet()
+
         if (!TextUtils.isEmpty(mDAppId.toString())) {
             sendRecentlyDApps(mDAppId.toString())
         }
-
-        //加载RPC配置JS
-        val initJs = loadInitJs(
-            CHAIN_ID,
-            RPC_URL
-        )
 
         //初始化点击事件
         initListener()
@@ -135,9 +148,49 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
             javaScriptEnabled = true
             domStorageEnabled = true
         }
-        if(mEthWallet != null){
-            val address = mEthWallet!!.address
-            WebAppInterface(this, mDataBinding.webviewDapp, DAPP_URL,address).run {
+
+    }
+
+    @SuppressLint("CheckResult")
+    private fun initWallet() {
+        showLoading(R.string.progress_loading)
+        mETHWallet = ETHWallet()
+        mFetchWalletInteract = FetchWalletInteract()
+        mFetchWalletInteract!!.findDefault().subscribe { ethWallet: ETHWallet? ->
+            getCurrentWallet(
+                ethWallet
+            )
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun getCurrentWallet(ethWallet: ETHWallet?) {
+        if (ethWallet != null) {
+            mETHWallet = ethWallet
+            mModifyWalletInteract = ModifyWalletInteract()
+            val password = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN)
+            mModifyWalletInteract!!.deriveWalletPrivateKey(mETHWallet!!.id, password)
+                .subscribe { privateKey: String? ->
+                    this.getCurrentPrivateKey(
+                        privateKey!!
+                    )
+                }
+        }
+    }
+
+    private fun getCurrentPrivateKey(privateKey: String) {
+        dismissLoading()
+        //加载固定JS
+        val providerJs = loadProviderJs()
+
+        //加载RPC配置JS
+        val initJs = loadInitJs(
+            CHAIN_ID,
+            RPC_URL
+        )
+        if (privateKey[0] != '0' && privateKey[1] != 'x') {
+            mPrivateKey = "0x$privateKey"
+            WebAppInterface(this, mDataBinding.webviewDapp, mDAppUrl, mPrivateKey).run {
                 mDataBinding.webviewDapp.addJavascriptInterface(this, "_tw_")
 
                 val webViewClient = object : WebViewClient() {
@@ -150,16 +203,11 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
                 }
                 mDataBinding.webviewDapp.webViewClient = webViewClient
                 if (!TextUtils.isEmpty(mDAppUrl)) {
-                    showLoading(R.string.progress_loading)
                     mDataBinding.webviewDapp.loadUrl(mDAppUrl)
                 }
             }
-        }
-    }
-
-    private fun getCurrentWallet(ethWallet: ETHWallet?) {
-        if (ethWallet != null) {
-            mEthWallet = ethWallet
+        } else {
+            ToastManager.showShort("获取钱包信息失败")
         }
     }
 
@@ -409,6 +457,29 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
                     dismissLoading()
                 }
             })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == BigDecimal.ONE.toInt()) {
+            val intent = Intent(this@DAppWebsActivity, ETHTransDetailActivity::class.java)
+            intent.putExtra("trans_value",mTransValue)
+            intent.putExtra("gas_price", mGasPrice)
+            intent.putExtra("gas_limit", mGasLimit)
+            intent.putExtra("from", mFromAdress)
+            intent.putExtra("to",mToAddress)
+            intent.putExtra("dapp_url",mDAppUrl)
+            startActivity(intent)
+        }
+    }
+
+    public fun toPinCodeActivity(value: String,gasPrice: String, gasLimit: String, fromAddress: String,toAddress: String) {
+        mTransValue = value
+        mGasPrice = gasPrice
+        mGasLimit = gasLimit
+        mFromAdress = fromAddress
+        mToAddress = toAddress
+        startActivityForResult(PinCodeKtActivity::class.java, 0)
     }
 
     override fun onClick(view: View?) {

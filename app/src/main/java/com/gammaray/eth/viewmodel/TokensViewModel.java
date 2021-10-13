@@ -71,12 +71,12 @@ public class TokensViewModel extends BaseViewModel {
     }
 
     public void prepare() {
-        progress.postValue(true);
+//        progress.postValue(true);
+//        defaultNetwork.postValue(ethereumNetworkRepository.getDefaultNetwork());
+//        disposable = findDefaultWalletInteract.findDefault()
+//                .subscribe(this::onDefaultWallet, this::onError);
 
-        defaultNetwork.postValue(ethereumNetworkRepository.getDefaultNetwork());
-        disposable = findDefaultWalletInteract.findDefault()
-                .subscribe(this::onDefaultWallet, this::onError);
-
+        getTicker("token.tokenInfo.symbol").subscribe(this::onPrice, this::onError);
     }
 
     public void getBlockNum() throws ExecutionException, InterruptedException {
@@ -157,13 +157,7 @@ public class TokensViewModel extends BaseViewModel {
         LogUtils.e("view model Tokens", "onTokens");
         this.tokens.postValue(tokens);
         LogUtils.e("times", System.currentTimeMillis());
-//        getTicker("token.tokenInfo.symbol").subscribe(this::onPrice, this::onError);
-//        for (Token token : tokens) {
-//            if (token.balance != null) {
-//
-//            }
-//        }
-
+        getTicker("token.tokenInfo.symbol").subscribe(this::onPrice, this::onError);
     }
 
     private void register(RegiseResponse result) {

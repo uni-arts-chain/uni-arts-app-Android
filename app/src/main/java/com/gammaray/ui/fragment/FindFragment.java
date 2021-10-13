@@ -28,6 +28,10 @@ import com.gammaray.entity.ChainBean;
 import com.gammaray.entity.DAppFavouriteBean;
 import com.gammaray.entity.DAppItemBean;
 import com.gammaray.entity.DAppRecentlyBean;
+import com.gammaray.eth.domain.ETHWallet;
+import com.gammaray.eth.interact.FetchWalletInteract;
+import com.gammaray.eth.interact.ModifyWalletInteract;
+import com.gammaray.eth.util.Md5Utils;
 import com.gammaray.net.MinerCallback;
 import com.gammaray.net.RequestManager;
 import com.gammaray.ui.activity.DAppWebsActivity;
@@ -35,7 +39,11 @@ import com.gammaray.ui.activity.CollectedDAppsActivity;
 import com.gammaray.ui.activity.DAppSearchActivity;
 import com.gammaray.ui.activity.QrScanActivity;
 import com.gammaray.ui.activity.RecentlyDAppsActivity;
+import com.gammaray.ui.activity.WalletExportActivity;
+import com.gammaray.utils.SharedPreUtils;
+import com.gammaray.utils.ToastManager;
 import com.google.android.material.tabs.TabLayout;
+import com.luck.picture.lib.tools.ToastManage;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -123,9 +131,9 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
             Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
             intent.putExtra("dapp_title", mCollectApps.get(position).getFavoritable().getTitle());
             intent.putExtra("dapp_id", mCollectApps.get(position).getFavoritable().getId());
-            intent.putExtra("dapp_collect",true);
+            intent.putExtra("dapp_collect", true);
             try {
-                intent.putExtra("dapp_icon_url",URLDecoder.decode(mCollectApps.get(position).getFavoritable().getLogo().getUrl(), "UTF-8"));
+                intent.putExtra("dapp_icon_url", URLDecoder.decode(mCollectApps.get(position).getFavoritable().getLogo().getUrl(), "UTF-8"));
                 intent.putExtra("dapp_url", URLDecoder.decode(mCollectApps.get(position).getFavoritable().getWebsite_url(), "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -143,9 +151,9 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
             Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
             intent.putExtra("dapp_title", mRecentApps.get(position).getDapp().getTitle());
             intent.putExtra("dapp_id", mRecentApps.get(position).getDapp().getId());
-            intent.putExtra("dapp_collect",mRecentApps.get(position).getDapp().isFavorite_by_me());
+            intent.putExtra("dapp_collect", mRecentApps.get(position).getDapp().isFavorite_by_me());
             try {
-                intent.putExtra("dapp_icon_url",URLDecoder.decode(mRecentApps.get(position).getDapp().getLogo().getUrl(),"UTF-8"));
+                intent.putExtra("dapp_icon_url", URLDecoder.decode(mRecentApps.get(position).getDapp().getLogo().getUrl(), "UTF-8"));
                 intent.putExtra("dapp_url", URLDecoder.decode(mRecentApps.get(position).getDapp().getWebsite_url(), "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();

@@ -73,11 +73,11 @@ public class DAppGroupsAdapter extends BaseQuickAdapter<DAppGroupBean, BaseViewH
         dappRV.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(mContext, DAppWebsActivity.class);
-            intent.putExtra("dapp_title",item.getDapps().get(position).getTitle());
-            intent.putExtra("dapp_id",item.getDapps().get(position).getId());
-            intent.putExtra("dapp_collect",item.getDapps().get(position).isFavorite_by_me());
+            intent.putExtra("dapp_title", item.getDapps().get(position).getTitle());
+            intent.putExtra("dapp_id", item.getDapps().get(position).getId());
+            intent.putExtra("dapp_collect", item.getDapps().get(position).isFavorite_by_me());
             try {
-                intent.putExtra("dapp_icon_url",URLDecoder.decode(item.getDapps().get(position).getLogo().getUrl(), "UTF-8"));
+                intent.putExtra("dapp_icon_url", URLDecoder.decode(item.getDapps().get(position).getLogo().getUrl(), "UTF-8"));
                 intent.putExtra("dapp_url", URLDecoder.decode(item.getDapps().get(position).getWebsite_url(), "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();

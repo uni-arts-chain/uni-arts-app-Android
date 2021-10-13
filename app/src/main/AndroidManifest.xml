@@ -347,10 +347,10 @@
             android:name="com.gammaray.ui.activity.ChainFunctionDAppsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.gammaray.ui.activity.DAppWebActivity"
+            android:name="com.gammaray.ui.activity.DAppWebsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.gammaray.ui.activity.DAppWebsActivity"
+            android:name="com.gammaray.ui.activity.ETHTransDetailActivity"
             android:screenOrientation="portrait" />
         <meta-data
             android:name="com.gammaray.utils.CustomGlideModule"
