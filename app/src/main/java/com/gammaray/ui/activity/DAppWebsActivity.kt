@@ -46,10 +46,9 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 //        private const val DAPP_URL = "https://cbridge.celer.network/?locale=zh-CN&utm_source=imtoken"
 
         //        Rinkeby Test
-        private const val DAPP_URL =
-            "https://app.dodoex.io/exchange/ETH-USDC?C3VK=3a0ea1&network=rinkeby"
+        private const val DAPP_URL = "https://app.dodoex.io/exchange/ETH-USDC?C3VK=3a0ea1&network=rinkeby"
         private const val CHAIN_ID = 4
-        private const val RPC_URL = " https://rinkeby.infura.io/v3/7e2855d5896946cb985af8944713a371"
+        private const val RPC_URL = "https://rinkeby.infura.io/v3/7e2855d5896946cb985af8944713a371"
 
     }
 

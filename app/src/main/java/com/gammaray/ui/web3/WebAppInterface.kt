@@ -5,6 +5,7 @@ import com.gammaray.eth.util.BalanceUtils
 import com.gammaray.ui.activity.DAppWebsActivity
 import com.gammaray.ui.x5.X5WebView
 import org.json.JSONObject
+import wallet.core.jni.CoinType
 import wallet.core.jni.Curve
 import wallet.core.jni.PrivateKey
 import java.math.BigInteger
@@ -16,10 +17,10 @@ class WebAppInterface(
     private val selfPrivateKey: String
 ) {
     private val privateKey = PrivateKey(selfPrivateKey.toHexByteArray())
-//    private val addr = CoinType.ETHEREUM.deriveAddress(privateKey).toLowerCase()
+    private val addr = CoinType.ETHEREUM.deriveAddress(privateKey).toLowerCase()
 
     //    private val addr = "0x6B9690CEa137b694f5E052A6459798aE995991Af"
-        private val addr = "0xf2a377D4efE32A62400974c00A61acDcB3cA5735"
+//        private val addr = "0xf2a377D4efE32A62400974c00A61acDcB3cA5735"
 
     @JavascriptInterface
     fun postMessage(json: String) {
