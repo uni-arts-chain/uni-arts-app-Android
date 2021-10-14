@@ -6,6 +6,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -30,11 +31,14 @@ import com.gammaray.eth.interact.ModifyWalletInteract
 import com.gammaray.net.MinerCallback
 import com.gammaray.net.RequestManager
 import com.gammaray.ui.web3.WebAppInterface
+import com.gammaray.ui.web3.sendError
+import com.gammaray.ui.web3.sendResult
 import com.gammaray.utils.SharedPreUtils
 import com.gammaray.utils.ToastManager
 import com.gammaray.widget.BasePopupWindow
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
+import kotlinx.android.synthetic.main.activity_web_view.*
 import retrofit2.Call
 import retrofit2.Response
 import java.math.BigDecimal
@@ -42,15 +46,22 @@ import java.math.BigDecimal
 //DApp WebView
 class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnClickListener {
 
+    private val JS_PROTOCOL_CANCELLED = "cancelled"
+    private val JS_PROTOCOL_ON_SUCCESSFUL = "executeCallback(%1\$s, null, \"%2\$s\")"
+    private val JS_PROTOCOL_ON_FAILURE = "executeCallback(%1\$s, \"%2\$s\", null)"
+
     companion object {
 //        private const val DAPP_URL = "https://cbridge.celer.network/?locale=zh-CN&utm_source=imtoken"
 
         //        Rinkeby Test
-        private const val DAPP_URL = "https://app.dodoex.io/exchange/ETH-USDC?C3VK=3a0ea1&network=rinkeby"
+        private const val DAPP_URL =
+            "https://app.dodoex.io/exchange/ETH-USDC?C3VK=3a0ea1&network=rinkeby"
         private const val CHAIN_ID = 4
         private const val RPC_URL = "https://rinkeby.infura.io/v3/7e2855d5896946cb985af8944713a371"
 
     }
+
+    private var mCallbackId: Long = 0L
 
     private var mDAppUrl: String = ""
 
@@ -60,13 +71,13 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private var mTransValue: String = ""
 
-    private var mGasPrice: String = ""
-
     private var mGasLimit: String = ""
 
     private var mFromAdress: String = ""
 
     private var mToAddress: String = ""
+
+    private var mData: String = ""
 
     private lateinit var mTitle: String
 
@@ -462,22 +473,40 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == BigDecimal.ONE.toInt()) {
             val intent = Intent(this@DAppWebsActivity, ETHTransDetailActivity::class.java)
-            intent.putExtra("trans_value",mTransValue)
-            intent.putExtra("gas_price", mGasPrice)
+            intent.putExtra("trans_value", mTransValue)
             intent.putExtra("gas_limit", mGasLimit)
             intent.putExtra("from", mFromAdress)
-            intent.putExtra("to",mToAddress)
-            intent.putExtra("dapp_url",mDAppUrl)
-            startActivity(intent)
+            intent.putExtra("to", mToAddress)
+            intent.putExtra("dapp_url", mDAppUrl)
+            intent.putExtra("data", mData)
+            startActivityForResult(intent, 0)
+        } else if (resultCode == 2) {
+            if (data != null) {
+                val signHash = data.getStringExtra("sign_hash")
+                val callback = "window.ethereum.sendResponse($mCallbackId, [\"$signHash\"])"
+                mDataBinding.webviewDapp.post {
+                    mDataBinding.webviewDapp.evaluateJavascript(callback) { value ->
+                        println(value)
+                    }
+                }
+            }
         }
     }
 
-    public fun toPinCodeActivity(value: String,gasPrice: String, gasLimit: String, fromAddress: String,toAddress: String) {
+    fun toPinCodeActivity(
+        callbackId: Long,
+        value: String,
+        gasLimit: String,
+        fromAddress: String,
+        toAddress: String,
+        data: String
+    ) {
+        mCallbackId = callbackId
         mTransValue = value
-        mGasPrice = gasPrice
         mGasLimit = gasLimit
         mFromAdress = fromAddress
         mToAddress = toAddress
+        mData = data
         startActivityForResult(PinCodeKtActivity::class.java, 0)
     }
 

@@ -1,22 +1,18 @@
 package com.gammaray.ui.activity;
 
-import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.gammaray.R;
 import com.gammaray.base.BaseActivity;
 import com.gammaray.base.ToolBarOptions;
 import com.gammaray.databinding.ActivityEthTransDetailLayoutBinding;
+import com.gammaray.eth.entity.ConfirmationType;
+import com.gammaray.eth.entity.GasSettings;
 import com.gammaray.eth.entity.Ticker;
-import com.gammaray.eth.entity.Token;
 import com.gammaray.eth.interact.FetchWalletInteract;
 import com.gammaray.eth.util.BalanceUtils;
 import com.gammaray.eth.viewmodel.ConfirmationViewModel;
@@ -25,17 +21,13 @@ import com.gammaray.eth.viewmodel.TokensViewModel;
 import com.gammaray.eth.viewmodel.TokensViewModelFactory;
 import com.gammaray.utils.SharedPreUtils;
 
-import org.greenrobot.eventbus.EventBus;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.List;
 
 public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailLayoutBinding> {
-
-    private String mGasPrice;
 
     private String mGasLimit;
 
@@ -47,6 +39,8 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
 
     private String mTransValue;
 
+    private String mData;
+
     private TokensViewModelFactory tokensViewModelFactory;
 
     private TokensViewModel tokensViewModel;
@@ -56,6 +50,9 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
     private ConfirmationViewModelFactory confirmationViewModelFactory;
 
     private ConfirmationViewModel viewModel;
+
+    private BigInteger mLatestGasPrice;
+    private BigInteger mLatestGasLimit;
 
     @Override
     public int getLayoutId() {
@@ -76,11 +73,12 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
 
         if (getIntent() != null) {
             mTransValue = getIntent().getStringExtra("trans_value");
-            mGasPrice = getIntent().getStringExtra("gas_price");
             mGasLimit = getIntent().getStringExtra("gas_limit");
             mFromAddress = getIntent().getStringExtra("from");
             mToAddress = getIntent().getStringExtra("to");
             mDAppUrl = getIntent().getStringExtra("dapp_url");
+            mData = getIntent().getStringExtra("data");
+            mLatestGasLimit = BalanceUtils.gweiToWei(new BigDecimal(mGasLimit));
         }
 
         fetchWalletInteract = new FetchWalletInteract();
@@ -92,8 +90,9 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
         confirmationViewModelFactory = new ConfirmationViewModelFactory();
         viewModel = ViewModelProviders.of(this, confirmationViewModelFactory)
                 .get(ConfirmationViewModel.class);
+        viewModel.prepare(this, ConfirmationType.ETH, mFromAddress, mToAddress, BalanceUtils.EthToWeiInBigInteger(mTransValue),mData);
         viewModel.sendTransaction().observe(this, this::onTransaction);
-
+        viewModel.gasSettings().observe(this, this::onGasSettings);
         mDataBinding.tvTransEth.setText(getString(R.string.eth_trans_value, mTransValue));
         mDataBinding.tvReceiverValue.setText(mFromAddress);
         mDataBinding.tvDAppValue.setText(getString(R.string.eth_dapp_url, mDAppUrl));
@@ -101,14 +100,21 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
         mDataBinding.btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showLoading(R.string.progress_loading);
                 String password = SharedPreUtils.getString(ETHTransDetailActivity.this, SharedPreUtils.KEY_PIN);
                 viewModel.createTransaction(password,
                         mToAddress,
                         Convert.toWei(mTransValue, Convert.Unit.ETHER).toBigInteger(),
-                        BalanceUtils.gweiToWei(new BigDecimal(mGasPrice)),
-                        BalanceUtils.gweiToWei(new BigDecimal(mGasLimit)));
+                        mLatestGasPrice,
+                        mLatestGasLimit);
             }
         });
+    }
+
+    private void onGasSettings(GasSettings gasSettings) {
+        mLatestGasPrice = gasSettings.gasPrice;
+        mLatestGasLimit = gasSettings.gasLimit;
+        tokensViewModel.prepare();
     }
 
     private void onPrices(List<Ticker.TickersBean> ticker) {
@@ -118,9 +124,9 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
                     String curCNYPrice = tickersBean.getPrice();
                     if (!TextUtils.isEmpty(curCNYPrice) && !TextUtils.isEmpty(mTransValue)) {
                         String transValueForCNY = BalanceUtils.ethToUsd(curCNYPrice, mTransValue);
-                        String maxTransFeeForCNY = BalanceUtils.ethToUsd(curCNYPrice, mGasLimit);
+                        String maxTransFeeForCNY = BalanceUtils.ethToUsd(curCNYPrice, BalanceUtils.weiToEth(mLatestGasLimit).toString());
                         mDataBinding.tvTransEthRmb.setText(getString(R.string.eth_for_cny, transValueForCNY));
-                        mDataBinding.tvTransFee.setText(getString(R.string.eth_gas_price, mGasPrice, maxTransFeeForCNY));
+                        mDataBinding.tvTransFee.setText(getString(R.string.eth_gas_price, BalanceUtils.weiToGwei(mLatestGasPrice), maxTransFeeForCNY));
                         BigDecimal result = new BigDecimal(transValueForCNY).add(new BigDecimal(maxTransFeeForCNY));
                         mDataBinding.tvMaxTransFee.setText(getString(R.string.eth_for_cny_, result.toPlainString()));
                     }
@@ -130,6 +136,12 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
     }
 
     private void onTransaction(String hash) {
-        Log.e("onTransaction", "Success--" + hash);
+        dismissLoading();
+        if (!TextUtils.isEmpty(hash)) {
+            Intent intent = new Intent();
+            intent.putExtra("sign_hash", hash);
+            setResult(2, intent);
+            finish();
+        }
     }
 }

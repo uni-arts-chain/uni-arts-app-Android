@@ -1,7 +1,6 @@
 package com.gammaray.eth.interact;
 
 
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -64,14 +63,13 @@ public class FetchGasSettingsInteract {
     }
 
 
-    public MutableLiveData<BigInteger> gasPriceUpdate()
-    {
+    public MutableLiveData<BigInteger> gasPriceUpdate() {
         return gasPrice;
     }
 
     public Single<GasSettings> fetch(ConfirmationType type) {
 
-        return Single.fromCallable( () -> {
+        return Single.fromCallable(() -> {
             BigInteger gasLimit = new BigInteger(C.DEFAULT_GAS_LIMIT);
             if (type == ConfirmationType.ETH) {
                 gasLimit = new BigInteger(C.DEFAULT_GAS_LIMIT_FOR_ETH);
@@ -90,20 +88,17 @@ public class FetchGasSettingsInteract {
 
     private void fetchGasPriceByWeb3() {
         LogUtils.d("fetchGasPriceByWeb3 start");
-        final Web3j web3j = Web3j.build(new HttpService(networkRepository.getDefaultNetwork().rpcServerUrl));
+        final Web3j web3j = Web3j.build(new HttpService(networkRepository.getEthNetWork().rpcServerUrl));
 
         try {
             EthGasPrice price = web3j
                     .ethGasPrice()
                     .send();
-            if (price.getGasPrice().compareTo(BalanceUtils.gweiToWei(BigDecimal.ONE)) >= 0)
-            {
+            if (price.getGasPrice().compareTo(BalanceUtils.gweiToWei(BigDecimal.ONE)) >= 0) {
                 cachedGasPrice = price.getGasPrice();
-                LogUtils.d("FetchGasSettingsInteract", "web3 price:" +  price.getGasPrice());
+                LogUtils.d("FetchGasSettingsInteract", "web3 price:" + price.getGasPrice());
                 gasPrice.postValue(cachedGasPrice);
-            }
-            else if (networkRepository.getDefaultNetwork().chainId != currentChainId)
-            {
+            } else if (networkRepository.getDefaultNetwork().chainId != currentChainId) {
                 //didn't update the current price correctly, switch to default:
                 cachedGasPrice = new BigInteger(C.DEFAULT_GAS_PRICE);
                 this.currentChainId = networkRepository.getDefaultNetwork().chainId;
@@ -114,15 +109,12 @@ public class FetchGasSettingsInteract {
     }
 
     public Single<GasSettings> getGasSettings(byte[] transactionBytes, boolean isNonFungible) {
-        return Single.fromCallable( () -> {
+        return Single.fromCallable(() -> {
             BigInteger gasLimit = new BigInteger(C.DEFAULT_GAS_LIMIT);
             if (transactionBytes != null) {
-                if (isNonFungible)
-                {
+                if (isNonFungible) {
                     gasLimit = new BigInteger(C.DEFAULT_GAS_LIMIT_FOR_NONFUNGIBLE_TOKENS);
-                }
-                else
-                {
+                } else {
                     gasLimit = new BigInteger(C.DEFAULT_GAS_LIMIT_FOR_TOKENS);
                 }
                 BigInteger estimate = estimateGasLimit(transactionBytes);
@@ -143,8 +135,7 @@ public class FetchGasSettingsInteract {
         });
     }
 
-    private BigInteger estimateGasLimit(byte[] data)
-    {
+    private BigInteger estimateGasLimit(byte[] data) {
         BigInteger roundingFactor = BigInteger.valueOf(10000);
         BigInteger txMin = BigInteger.valueOf(GAS_LIMIT_MIN);
         BigInteger bytePrice = BigInteger.valueOf(GAS_PER_BYTE);
@@ -154,19 +145,19 @@ public class FetchGasSettingsInteract {
         return estimate;
     }
 
-    public BigInteger getTransactionGasLimit(Transaction transaction) {
-
-        final Web3j web3j = Web3j.build(new HttpService(networkRepository.getDefaultNetwork().rpcServerUrl));
-        try {
-            EthEstimateGas ethEstimateGas = web3j.ethEstimateGas(transaction).send();
-            if (ethEstimateGas.hasError()){
-                throw new RuntimeException(ethEstimateGas.getError().getMessage());
+    public Single<BigInteger> getTransactionGasLimit(Transaction transaction) {
+        return Single.fromCallable(() -> {
+            final Web3j web3j = Web3j.build(new HttpService(networkRepository.getDefaultNetwork().rpcServerUrl));
+            try {
+                EthEstimateGas ethEstimateGas = web3j.ethEstimateGas(transaction).send();
+                if (ethEstimateGas.hasError()) {
+                    throw new RuntimeException(ethEstimateGas.getError().getMessage());
+                }
+                return ethEstimateGas.getAmountUsed();
+            } catch (IOException e) {
+                throw new RuntimeException("net error");
             }
-            return ethEstimateGas.getAmountUsed();
-        } catch (IOException e) {
-            throw new RuntimeException("net error");
-        }
-
+        });
     }
 
 }

@@ -38,6 +38,11 @@ public class BalanceUtils {
         return wei.toBigInteger().toString();
     }
 
+    public static BigInteger EthToWeiInBigInteger(String eth){
+        BigDecimal wei = new BigDecimal(eth).multiply(new BigDecimal(weiInEth));
+        return wei.toBigInteger();
+    }
+
     public static BigDecimal weiToGweiBI(BigInteger wei) {
         return Convert.fromWei(new BigDecimal(wei), Convert.Unit.GWEI);
     }

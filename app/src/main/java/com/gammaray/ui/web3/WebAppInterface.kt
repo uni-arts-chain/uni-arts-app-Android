@@ -1,5 +1,7 @@
 package com.gammaray.ui.web3
 
+import android.text.TextUtils
+import android.util.Log
 import android.webkit.JavascriptInterface
 import com.gammaray.eth.util.BalanceUtils
 import com.gammaray.ui.activity.DAppWebsActivity
@@ -73,12 +75,21 @@ class WebAppInterface(
             }
             DAppMethod.SIGNTRANSACTION -> {
                 val param = obj.getJSONObject("object")
-                val transValue = BalanceUtils.weiToEth(BigInteger(param.getString("value").removePrefix("0x"),16)).toPlainString()
-                val gasPrice = BalanceUtils.weiToGwei(BigInteger(param.getString("gasPrice").removePrefix("0x"),16))
-                val gasLimit = BalanceUtils.weiToGwei(BigInteger(param.getString("gasLimit").removePrefix("0x"),16))
+                val transValue = BalanceUtils.weiToEth(
+                    BigInteger(
+                        param.getString("value").removePrefix("0x"),
+                        16
+                    )
+                ).toPlainString()
+                val gasLimit = BalanceUtils.weiToGwei(
+                    BigInteger(
+                        param.getString("gasLimit").removePrefix("0x"), 16
+                    )
+                )
                 val from = param.getString("from")
                 val to = param.getString("to")
-                context.toPinCodeActivity(transValue,gasPrice,gasLimit,from,to)
+                val data = param.getString("data")
+                context.toPinCodeActivity(id, transValue, gasLimit, from, to,data)
             }
             else -> {
 //                context.materialAlertDialog {
@@ -113,6 +124,7 @@ class WebAppInterface(
 //                webView.sendResult(signEthereumMessage(data, addPrefix), id)
 //            }
 //        }.show()
+        webView.sendResult(signEthereumMessage(data, addPrefix), id)
     }
 
     private fun handleSignTypedMessage(id: Long, data: ByteArray, raw: String) {

@@ -1,10 +1,13 @@
 package com.gammaray.eth.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.gammaray.base.BaseActivity;
 import com.gammaray.eth.base.BaseViewModel;
+import com.gammaray.eth.base.C;
 import com.gammaray.eth.domain.ETHWallet;
 import com.gammaray.eth.entity.ConfirmationType;
 import com.gammaray.eth.entity.GasSettings;
@@ -13,6 +16,8 @@ import com.gammaray.eth.interact.CreateTransactionInteract;
 import com.gammaray.eth.interact.FetchGasSettingsInteract;
 import com.gammaray.eth.interact.FetchWalletInteract;
 import com.gammaray.eth.repository.EthereumNetworkRepository;
+
+import org.web3j.protocol.core.methods.request.Transaction;
 
 import java.math.BigInteger;
 
@@ -33,6 +38,13 @@ public class ConfirmationViewModel extends BaseViewModel {
     private final CreateTransactionInteract createTransactionInteract;
 
     ConfirmationType confirmationType;
+
+
+    private String mFromAddress;
+    private String mToAddress;
+    private BigInteger mValue;
+    private BigInteger mCurGasPrice;
+    private String mData;
 
     public ConfirmationViewModel(
             EthereumNetworkRepository ethereumNetworkRepository,
@@ -57,16 +69,21 @@ public class ConfirmationViewModel extends BaseViewModel {
         return gasSettings;
     }
 
-    public LiveData<String> sendTransaction() { return newTransaction; }
+    public LiveData<String> sendTransaction() {
+        return newTransaction;
+    }
 
-    public void overrideGasSettings(GasSettings settings)
-    {
+    public void overrideGasSettings(GasSettings settings) {
         gasSettingsOverride = settings;
         gasSettings.postValue(settings);
     }
 
-    public void prepare(BaseActivity ctx, ConfirmationType type) {
+    public void prepare(BaseActivity ctx, ConfirmationType type, String fromAddress, String toAddress, BigInteger value,String data) {
         this.confirmationType = type;
+        this.mFromAddress = fromAddress;
+        this.mToAddress = toAddress;
+        this.mValue = value;
+        this.mData = data;
         disposable = ethereumNetworkRepository
                 .find()
                 .subscribe(this::onDefaultNetwork, this::onError);
@@ -80,7 +97,6 @@ public class ConfirmationViewModel extends BaseViewModel {
         super.onCleared();
         fetchGasSettingsInteract.clean();
     }
-
 
 
     private void onDefaultNetwork(NetworkInfo networkInfo) {
@@ -119,10 +135,8 @@ public class ConfirmationViewModel extends BaseViewModel {
         }
     }
 
-    public void calculateGasSettings(byte[] transaction, boolean isNonFungible)
-    {
-        if (gasSettings.getValue() == null)
-        {
+    public void calculateGasSettings(byte[] transaction, boolean isNonFungible) {
+        if (gasSettings.getValue() == null) {
             disposable = fetchGasSettingsInteract
                     .fetch(transaction, isNonFungible)
                     .subscribe(this::onGasSettings, this::onError);
@@ -134,15 +148,20 @@ public class ConfirmationViewModel extends BaseViewModel {
         this.gasSettings.setValue(gasSettings);
     }
 
-    private void onGasPrice(BigInteger currentGasPrice)
-    {
+    private void onGasPrice(BigInteger currentGasPrice) {
         if (this.gasSettings.getValue() != null //protect against race condition
                 && this.gasSettingsOverride == null //only update if user hasn't overriden
-                )
-        {
-            GasSettings updateSettings = new GasSettings(currentGasPrice, gasSettings.getValue().gasLimit);
-            this.gasSettings.postValue(updateSettings);
+        ) {
+            Transaction transaction = new Transaction(mFromAddress, null, currentGasPrice, null, mToAddress, mValue, mData);
+            fetchGasSettingsInteract.getTransactionGasLimit(transaction)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(this::onGasLimit, this::onError);
+            mCurGasPrice = currentGasPrice;
         }
     }
 
+    private void onGasLimit(BigInteger gasLimit) {
+        GasSettings updateSettings = new GasSettings(mCurGasPrice, gasLimit);
+        this.gasSettings.postValue(updateSettings);
+    }
 }
