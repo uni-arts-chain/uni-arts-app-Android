@@ -58,7 +58,7 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
 
     private TokensViewModelFactory tokensViewModelFactory;
 
-    private  String mCurrentEthInCny;
+    private String mCurrentEthInCny;
 
     @Override
     public int getLayoutId() {
@@ -75,7 +75,10 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
 
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
         mToolBarOptions.titleString = "发送";
-        setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
+        setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions, view -> {
+            setResult(3);
+            finish();
+        });
 
         if (getIntent() != null) {
             mTransValue = getIntent().getStringExtra("trans_value");
@@ -89,7 +92,7 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
 
         confirmationViewModelFactory = new ConfirmationViewModelFactory();
         viewModel = ViewModelProviders.of(this, confirmationViewModelFactory).get(ConfirmationViewModel.class);
-        viewModel.prepare(this, ConfirmationType.ETH, mFromAddress, mToAddress, BalanceUtils.EthToWeiInBigInteger(mTransValue), mGasLimit,mData);
+        viewModel.prepare(this, ConfirmationType.ETH, mFromAddress, mToAddress, BalanceUtils.EthToWeiInBigInteger(mTransValue), mGasLimit, mData);
         viewModel.sendTransaction().observe(this, this::onTransaction);
         viewModel.gasSettings().observe(this, this::onGasSettings);
 
@@ -98,15 +101,15 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
         mDataBinding.tvDAppValue.setText(mDAppUrl);
 
         mDataBinding.btnConfirm.setOnClickListener(view -> {
-            if(mLatestGasLimit.compareTo(new BigInteger("0")) != 0){
+            if (mLatestGasLimit.compareTo(new BigInteger("0")) != 0) {
                 queryETHBalance();
             }
         });
     }
 
     private void onGasSettings(GasSettings gasSettings) {
-        if(gasSettings != null){
-            if(gasSettings.gasPrice.compareTo(new BigInteger("0")) != 0){
+        if (gasSettings != null) {
+            if (gasSettings.gasPrice.compareTo(new BigInteger("0")) != 0) {
                 //单位为wei
                 BigInteger b1 = new BigInteger("100");
                 BigInteger b2 = new BigInteger("20");
@@ -130,7 +133,7 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
 
     //更新页面
     private void updatePrices(String currentEthInCny) {
-       if (!TextUtils.isEmpty(currentEthInCny) && !TextUtils.isEmpty(mTransValue)) {
+        if (!TextUtils.isEmpty(currentEthInCny) && !TextUtils.isEmpty(mTransValue)) {
             String transValueForCNY = BalanceUtils.ethToUsd(currentEthInCny, mTransValue);
             BigInteger totalFee = mLatestGasPrice.multiply(mLatestGasLimit);
             String maxTransFeeForCNY = BalanceUtils.ethToUsd(currentEthInCny, BalanceUtils.weiToEth(totalFee).toString());
@@ -186,15 +189,15 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
             BigInteger totalFee = mLatestGasPrice.multiply(mLatestGasLimit);
             BigInteger transValue = BalanceUtils.EthToWeiInBigInteger(mTransValue);
             BigInteger ethBalance = BalanceUtils.EthToWeiInBigInteger(balance);
-            if(ethBalance.compareTo(totalFee.add(transValue)) >= 0){
+            if (ethBalance.compareTo(totalFee.add(transValue)) >= 0) {
                 sendTransaction();
-            }else{
+            } else {
                 ToastManager.showShort("余额不足");
             }
         }
     }
 
-    private void sendTransaction(){
+    private void sendTransaction() {
         showLoading(R.string.progress_loading);
         String password = SharedPreUtils.getString(ETHTransDetailActivity.this, SharedPreUtils.KEY_PIN);
         viewModel.createTransaction(password,

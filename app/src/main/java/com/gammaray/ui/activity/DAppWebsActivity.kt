@@ -6,7 +6,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +31,6 @@ import com.gammaray.net.MinerCallback
 import com.gammaray.net.RequestManager
 import com.gammaray.ui.web3.WebAppInterface
 import com.gammaray.ui.web3.sendError
-import com.gammaray.ui.web3.sendResult
 import com.gammaray.utils.SharedPreUtils
 import com.gammaray.utils.ToastManager
 import com.gammaray.widget.BasePopupWindow
@@ -490,6 +488,8 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
                     }
                 }
             }
+        }else if(resultCode == 3){
+            mDataBinding.webviewDapp.sendError("Cancel",mCallbackId)
         }
     }
 

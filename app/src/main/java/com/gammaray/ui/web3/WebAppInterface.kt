@@ -1,7 +1,5 @@
 package com.gammaray.ui.web3
 
-import android.text.TextUtils
-import android.util.Log
 import android.webkit.JavascriptInterface
 import com.gammaray.eth.util.BalanceUtils
 import com.gammaray.ui.activity.DAppWebsActivity
@@ -89,7 +87,7 @@ class WebAppInterface(
                 val from = param.getString("from")
                 val to = param.getString("to")
                 val data = param.getString("data")
-                context.toPinCodeActivity(id, transValue, gasLimit, from, to,data)
+                context.toPinCodeActivity(id, transValue, gasLimit, from, to, data)
             }
             else -> {
 //                context.materialAlertDialog {

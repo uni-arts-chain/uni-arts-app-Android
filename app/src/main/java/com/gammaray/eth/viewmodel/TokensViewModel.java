@@ -156,7 +156,7 @@ public class TokensViewModel extends BaseViewModel {
         LogUtils.e("view model Tokens", "onTokens");
         this.tokens.postValue(tokens);
         LogUtils.e("times", System.currentTimeMillis());
-        getTicker("token.tokenInfo.symbol").subscribe(this::onPrice, this::onError);
+//        getTicker("token.tokenInfo.symbol").subscribe(this::onPrice, this::onError);
     }
 
     private void register(RegiseResponse result) {
