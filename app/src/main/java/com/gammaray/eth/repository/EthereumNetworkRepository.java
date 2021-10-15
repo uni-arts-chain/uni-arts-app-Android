@@ -2,6 +2,7 @@ package com.gammaray.eth.repository;
 
 import android.text.TextUtils;
 
+import com.gammaray.BuildConfig;
 import com.gammaray.entity.ReceiverPushBean;
 import com.gammaray.eth.entity.NetworkInfo;
 import com.gammaray.eth.ui.AddTokenActivity;
@@ -44,22 +45,24 @@ public class EthereumNetworkRepository {
     public static EthereumNetworkRepository sSelf;
     public static List<AddTokenActivity.TokenItem> tokenItem = new ArrayList<>();
     public static ReceiverPushBean receiverPushBean = new ReceiverPushBean();
+    public static final String ETH_PRC_URL = BuildConfig.DEBUG ? "https://rinkeby.infura.io/v3/7e2855d5896946cb985af8944713a371" : "https://mainnet.infura.io/v3/7e2855d5896946cb985af8944713a371";
+    public static final int ETH_CHAIN_ID = BuildConfig.DEBUG ? 4 : 61;
+
     private final NetworkInfo[] NETWORKS = new NetworkInfo[]{
             new NetworkInfo(QTS_MAIN_NETWORK_NAME, QTS_SYMBOL,
                     "https://rpc.tatmasglobal.com",
                     "http://192.168.0.113:8911",
                     "http://192.168.0.113:51067/docs", 1, true),
-//            new NetworkInfo(ETHEREUM_MAIN_NETWORK_NAME, ETC_SYMBOL,
-//                    "https://ropsten.infura.io/v3/8ddd215139c849559864f7aaf7097307",
-//                    "https://classic.trustwalletapp.com",
-//                    "https://gastracker.io", 61, true),
+
             new NetworkInfo(ETHEREUM_MAIN_NETWORK_NAME, ETC_SYMBOL,
-                    "https://rinkeby.infura.io/v3/7e2855d5896946cb985af8944713a371",
+                    ETH_PRC_URL,
                     "https://classic.trustwalletapp.com",
-                    "https://gastracker.io", 4, true),
+                    "https://gastracker.io", ETH_CHAIN_ID, true),
+
             new NetworkInfo(POA_NETWORK_NAME, POA_SYMBOL,
                     "https://core.poa.network",
                     "https://poa.trustwalletapp.com", "poa", 99, false),
+
             new NetworkInfo(KOVAN_NETWORK_NAME, ETH_SYMBOL,
                     "https://kovan.infura.io/llyrtzQ3YhkdESt2Fzrk",
                     "http://192.168.8.103:8001/",
