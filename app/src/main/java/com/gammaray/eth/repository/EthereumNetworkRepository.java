@@ -149,7 +149,7 @@ public class EthereumNetworkRepository {
     }
 
     public Single<NetworkInfo> find() {
-        return Single.just(getDefaultNetwork())
+        return Single.just(getEthNetWork())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

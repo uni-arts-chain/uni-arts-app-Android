@@ -57,7 +57,7 @@ public class TokenRepository implements TokenRepositoryType {
         this.tokenLocalSource = tokenLocalSource;
         this.ethereumNetworkRepository.addOnChangeDefaultNetwork(this::buildWeb3jClient);
 
-        buildWeb3jClient(ethereumNetworkRepository.getDefaultNetwork().rpcServerUrl);
+        buildWeb3jClient(ethereumNetworkRepository.getEthNetWork().rpcServerUrl);
     }
 
     private void buildWeb3jClient(String networkInfo) {
@@ -236,6 +236,4 @@ public class TokenRepository implements TokenRepositoryType {
                 walletAddress,
                 new TokenInfo(address, "", symbol, decimals, server, icon));
     }
-
-
 }

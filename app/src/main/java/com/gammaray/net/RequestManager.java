@@ -6,6 +6,7 @@ import com.gammaray.entity.DAppGroupBean;
 import com.gammaray.entity.DAppSearchBean;
 import com.gammaray.entity.DAppItemBean;
 import com.gammaray.entity.DAppRecentlyBean;
+import com.gammaray.entity.ETHToCNYBean;
 import com.google.gson.JsonObject;
 import com.gammaray.R;
 import com.gammaray.adapter.UploadCodeBean;
@@ -755,6 +756,11 @@ public class RequestManager {
 
     public void queryChainDApps(HashMap<String, String> param, MinerCallback<BaseResponseVo<List<DAppItemBean>>> mCallBack) {
         Call<BaseResponseVo<List<DAppItemBean>>> mCall = NetworkManager.instance().getmRemoteService().queryChainDApps(param);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryCurrentETHInCNY(String code, MinerCallback<BaseResponseVo<ETHToCNYBean>> mCallBack) {
+        Call<BaseResponseVo<ETHToCNYBean>> mCall = NetworkManager.instance().getmRemoteService().queryCurrentETHInCNY(code);
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 }

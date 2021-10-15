@@ -16,9 +16,11 @@ import com.gammaray.eth.interact.CreateTransactionInteract;
 import com.gammaray.eth.interact.FetchGasSettingsInteract;
 import com.gammaray.eth.interact.FetchWalletInteract;
 import com.gammaray.eth.repository.EthereumNetworkRepository;
+import com.gammaray.eth.util.BalanceUtils;
 
 import org.web3j.protocol.core.methods.request.Transaction;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import io.reactivex.schedulers.Schedulers;
@@ -45,6 +47,7 @@ public class ConfirmationViewModel extends BaseViewModel {
     private BigInteger mValue;
     private BigInteger mCurGasPrice;
     private String mData;
+    private String mGasLimit;
 
     public ConfirmationViewModel(
             EthereumNetworkRepository ethereumNetworkRepository,
@@ -78,11 +81,12 @@ public class ConfirmationViewModel extends BaseViewModel {
         gasSettings.postValue(settings);
     }
 
-    public void prepare(BaseActivity ctx, ConfirmationType type, String fromAddress, String toAddress, BigInteger value,String data) {
+    public void prepare(BaseActivity ctx, ConfirmationType type, String fromAddress, String toAddress, BigInteger value,String gasLimit,String data) {
         this.confirmationType = type;
         this.mFromAddress = fromAddress;
         this.mToAddress = toAddress;
         this.mValue = value;
+        this.mGasLimit = gasLimit;
         this.mData = data;
         disposable = ethereumNetworkRepository
                 .find()
@@ -131,7 +135,7 @@ public class ConfirmationViewModel extends BaseViewModel {
     private void onDefaultWallet(ETHWallet wallet) {
         defaultWallet.setValue(wallet);
         if (gasSettings.getValue() == null) {
-            fetchGasSettingsInteract.fetch(confirmationType).subscribe(this::onGasSettings, this::onError);
+            fetchGasSettingsInteract.fetch(confirmationType,BalanceUtils.gweiToWei(new BigDecimal(mGasLimit))).subscribe(this::onGasSettings, this::onError);
         }
     }
 

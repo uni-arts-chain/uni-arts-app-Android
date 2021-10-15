@@ -48,9 +48,9 @@ public class FetchGasSettingsInteract {
     public FetchGasSettingsInteract(SharedPreferenceRepository repository, EthereumNetworkRepository networkRepository) {
         this.networkRepository = networkRepository;
 
-        this.currentChainId = networkRepository.getDefaultNetwork().chainId;
+        this.currentChainId = networkRepository.getEthNetWork().chainId;
 
-        cachedGasPrice = new BigInteger(C.DEFAULT_GAS_PRICE);
+        cachedGasPrice = new BigInteger("0");
 
         gasSettingsDisposable = Observable.interval(0, FETCH_GAS_PRICE_INTERVAL, TimeUnit.SECONDS)
                 .doOnNext(l ->
@@ -67,12 +67,12 @@ public class FetchGasSettingsInteract {
         return gasPrice;
     }
 
-    public Single<GasSettings> fetch(ConfirmationType type) {
+    public Single<GasSettings> fetch(ConfirmationType type,BigInteger initGasLimit) {
 
         return Single.fromCallable(() -> {
             BigInteger gasLimit = new BigInteger(C.DEFAULT_GAS_LIMIT);
             if (type == ConfirmationType.ETH) {
-                gasLimit = new BigInteger(C.DEFAULT_GAS_LIMIT_FOR_ETH);
+                gasLimit = initGasLimit;
             } else if (type == ConfirmationType.ERC20) {
                 gasLimit = new BigInteger(C.DEFAULT_GAS_LIMIT_FOR_TOKENS);
             }
@@ -89,7 +89,6 @@ public class FetchGasSettingsInteract {
     private void fetchGasPriceByWeb3() {
         LogUtils.d("fetchGasPriceByWeb3 start");
         final Web3j web3j = Web3j.build(new HttpService(networkRepository.getEthNetWork().rpcServerUrl));
-
         try {
             EthGasPrice price = web3j
                     .ethGasPrice()
@@ -147,7 +146,7 @@ public class FetchGasSettingsInteract {
 
     public Single<BigInteger> getTransactionGasLimit(Transaction transaction) {
         return Single.fromCallable(() -> {
-            final Web3j web3j = Web3j.build(new HttpService(networkRepository.getDefaultNetwork().rpcServerUrl));
+            final Web3j web3j = Web3j.build(new HttpService(networkRepository.getEthNetWork().rpcServerUrl));
             try {
                 EthEstimateGas ethEstimateGas = web3j.ethEstimateGas(transaction).send();
                 if (ethEstimateGas.hasError()) {

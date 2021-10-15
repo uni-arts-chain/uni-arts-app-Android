@@ -73,9 +73,8 @@ public class TokensViewModel extends BaseViewModel {
     public void prepare() {
 //        progress.postValue(true);
 //        defaultNetwork.postValue(ethereumNetworkRepository.getDefaultNetwork());
-//        disposable = findDefaultWalletInteract.findDefault()
-//                .subscribe(this::onDefaultWallet, this::onError);
-        findDefaultWalletInteract.findDefault().subscribe(this::onDefaultWallet, this::onError);
+        disposable = findDefaultWalletInteract.findDefault()
+                .subscribe(this::onDefaultWallet, this::onError);
     }
 
     public void getBlockNum() throws ExecutionException, InterruptedException {
@@ -98,7 +97,8 @@ public class TokensViewModel extends BaseViewModel {
     private void onDefaultWallet(ETHWallet wallet) {
         defaultWallet.setValue(wallet);
         LogUtils.e("view model onDefaultWallet", "onDefaultWallet");
-        getTicker("token.tokenInfo.symbol").subscribe(this::onPrice, this::onError);
+        fetchTokens();
+//        getTicker("token.tokenInfo.symbol").subscribe(this::onPrice, this::onError);
     }
 
     public LiveData<NetworkInfo> defaultNetwork() {

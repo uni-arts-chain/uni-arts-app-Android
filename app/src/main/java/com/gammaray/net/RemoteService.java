@@ -27,6 +27,7 @@ import com.gammaray.entity.DAppGroupBean;
 import com.gammaray.entity.DAppSearchBean;
 import com.gammaray.entity.DAppItemBean;
 import com.gammaray.entity.DAppRecentlyBean;
+import com.gammaray.entity.ETHToCNYBean;
 import com.gammaray.entity.FollowerVO;
 import com.gammaray.entity.HistoriesBean;
 import com.gammaray.entity.MemberInfo;
@@ -457,5 +458,9 @@ public interface RemoteService {
     //链分类下的Dapp
     @GET("/api/v2/dapps/category_dapps")
     Call<BaseResponseVo<List<DAppItemBean>>> queryChainDApps(@QueryMap HashMap<String, String> map);
+
+    //当前以太坊对应人民币价格
+    @GET("/api/v1/prices/exchange")
+    Call<BaseResponseVo<ETHToCNYBean>> queryCurrentETHInCNY(@Query("codes") String code);
 }
 
