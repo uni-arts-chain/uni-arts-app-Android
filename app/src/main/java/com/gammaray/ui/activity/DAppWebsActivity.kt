@@ -481,7 +481,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
         } else if (resultCode == 2) {
             if (data != null) {
                 val signHash = data.getStringExtra("sign_hash")
-                val callback = "window.ethereum.sendResponse($mCallbackId, [\"$signHash\"])"
+                val callback = "window.ethereum.sendResponse($mCallbackId, \"$signHash\")"
                 mDataBinding.webviewDapp.post {
                     mDataBinding.webviewDapp.evaluateJavascript(callback) { value ->
                         println(value)
