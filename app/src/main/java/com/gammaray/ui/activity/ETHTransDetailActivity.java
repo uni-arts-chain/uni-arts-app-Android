@@ -200,10 +200,16 @@ public class ETHTransDetailActivity extends BaseActivity<ActivityEthTransDetailL
     private void sendTransaction() {
         showLoading(R.string.progress_loading);
         String password = SharedPreUtils.getString(ETHTransDetailActivity.this, SharedPreUtils.KEY_PIN);
-        viewModel.createTransaction(password,
-                mToAddress,
-                Convert.toWei(mTransValue, Convert.Unit.ETHER).toBigInteger(),
+//        viewModel.createTransaction(password,
+//                mToAddress,
+//                Convert.toWei(mTransValue, Convert.Unit.ETHER).toBigInteger(),
+//                mLatestGasPrice,
+//                mLatestGasLimit);
+        viewModel.createContractTransaction(mToAddress,
                 mLatestGasPrice,
-                mLatestGasLimit);
+                mLatestGasLimit,
+                Convert.toWei(mTransValue, Convert.Unit.ETHER).toBigInteger(),
+                mData,
+                password);
     }
 }

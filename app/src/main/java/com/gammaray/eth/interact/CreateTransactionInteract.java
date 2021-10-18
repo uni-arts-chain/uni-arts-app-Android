@@ -132,11 +132,11 @@ public class CreateTransactionInteract {
     }
 
     public Single<String> createTransaction(ETHWallet from, String toAddress, BigInteger subunitAmount, BigInteger gasPrice, BigInteger gasLimit, String data, String password) {
-        final Web3j web3j = Web3j.build(new HttpService(networkRepository.getDefaultNetwork().rpcServerUrl));
+        final Web3j web3j = Web3j.build(new HttpService(networkRepository.getEthNetWork().rpcServerUrl));
 
         return networkRepository.getLastTransactionNonce(web3j, from.address)
                 .flatMap(nonce -> getRawTransaction(nonce, gasPrice, gasLimit,toAddress, subunitAmount,  data))
-                .flatMap(rawTx -> signEncodeRawTransaction(rawTx, password, from, networkRepository.getDefaultNetwork().chainId))
+                .flatMap(rawTx -> signEncodeRawTransaction(rawTx, password, from, networkRepository.getEthNetWork().chainId))
                 .flatMap(signedMessage -> Single.fromCallable( () -> {
                     EthSendTransaction raw = web3j
                             .ethSendRawTransaction(Numeric.toHexString(signedMessage))

@@ -81,7 +81,7 @@ public class ConfirmationViewModel extends BaseViewModel {
         gasSettings.postValue(settings);
     }
 
-    public void prepare(BaseActivity ctx, ConfirmationType type, String fromAddress, String toAddress, BigInteger value,String gasLimit,String data) {
+    public void prepare(BaseActivity ctx, ConfirmationType type, String fromAddress, String toAddress, BigInteger value, String gasLimit, String data) {
         this.confirmationType = type;
         this.mFromAddress = fromAddress;
         this.mToAddress = toAddress;
@@ -124,6 +124,13 @@ public class ConfirmationViewModel extends BaseViewModel {
 
     }
 
+    public void createContractTransaction(String toAddress, BigInteger gasPrice, BigInteger gasLimit, BigInteger value, String data, String password) {
+        if (defaultWallet.getValue() != null) {
+            createTransactionInteract.createTransaction(defaultWallet.getValue(), toAddress, value, gasPrice, gasLimit, data, password).subscribeOn(Schedulers.io())
+                    .subscribe(this::onCreateTransaction, this::onError);
+        }
+    }
+
     public void createTokenTransfer(String password, String to, String contractAddress,
                                     BigInteger amount, BigInteger gasPrice, BigInteger gasLimit) {
         progress.postValue(true);
@@ -135,7 +142,7 @@ public class ConfirmationViewModel extends BaseViewModel {
     private void onDefaultWallet(ETHWallet wallet) {
         defaultWallet.setValue(wallet);
         if (gasSettings.getValue() == null) {
-            fetchGasSettingsInteract.fetch(confirmationType,BalanceUtils.gweiToWei(new BigDecimal(mGasLimit))).subscribe(this::onGasSettings, this::onError);
+            fetchGasSettingsInteract.fetch(confirmationType, BalanceUtils.gweiToWei(new BigDecimal(mGasLimit))).subscribe(this::onGasSettings, this::onError);
         }
     }
 
