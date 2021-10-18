@@ -212,6 +212,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
                     }
 
                     override fun shouldOverrideUrlLoading(p0: WebView?, p1: String?): Boolean {
+                        showLoading(R.string.progress_loading)
                         mUrls ++
                         if(mUrls > 0){
                             mDataBinding.btnBack.visibility = View.VISIBLE
