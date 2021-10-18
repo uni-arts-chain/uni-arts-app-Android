@@ -6,6 +6,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -109,6 +110,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private var mModifyWalletInteract: ModifyWalletInteract? = null
 
+    private var mUrls = 0
 
     override fun getLayoutId(): Int {
         return R.layout.activity_dapp_web_layout
@@ -208,6 +210,16 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
                         view?.evaluateJavascript(providerJs, null)
                         view?.evaluateJavascript(initJs, null)
                     }
+
+                    override fun shouldOverrideUrlLoading(p0: WebView?, p1: String?): Boolean {
+                        mUrls ++
+                        if(mUrls > 0){
+                            mDataBinding.btnBack.visibility = View.VISIBLE
+                        }else{
+                            mDataBinding.btnBack.visibility = View.INVISIBLE
+                        }
+                        return false
+                    }
                 }
                 mDataBinding.webviewDapp.webViewClient = webViewClient
                 if (!TextUtils.isEmpty(mDAppUrl)) {
@@ -244,6 +256,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
     private fun initListener() {
         mDataBinding.rlFunctions.setOnClickListener(this)
         mDataBinding.rlClose.setOnClickListener(this)
+        mDataBinding.btnBack.setOnClickListener(this)
     }
 
     private fun initFunctionPopWindow() {
@@ -513,6 +526,15 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.rl_functions -> showFunctionPopWindow()
+            R.id.btn_back -> {
+                if(mDataBinding.webviewDapp.canGoBack()){
+                    mUrls --
+                    mDataBinding.webviewDapp.goBack()
+                    if(mUrls == 0){
+                        mDataBinding.btnBack.visibility = View.INVISIBLE
+                    }
+                }
+            }
             R.id.rl_close -> finish()
         }
     }
