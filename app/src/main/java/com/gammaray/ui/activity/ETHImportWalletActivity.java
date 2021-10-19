@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
@@ -74,6 +75,7 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
 
         mDataBinding.rlImportWay.setOnClickListener(this);
         mDataBinding.btnImport.setOnClickListener(this);
+        mDataBinding.rlRawData.setOnClickListener(this);
         initData();
         initPopWindow();
     }
@@ -168,9 +170,12 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
             mImportPopwindow.dismiss();
             initData();
         } else if (view.getId() == R.id.rl_import_way) {
+            hideInput();
             showPopWindow();
         } else if (view.getId() == R.id.btn_import) {
             resetPassWord();
+        }else if(view.getId() == R.id.rl_raw_data){
+            mDataBinding.edRawData.requestFocus();
         }
     }
 
@@ -187,6 +192,17 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventBusMessageEvent eventBusMessageEvent) {
 
+    }
+
+    /**
+     * 隐藏键盘
+     */
+    public void hideInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        View v = getWindow().peekDecorView();
+        if (null != v) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
     }
 
     @Override

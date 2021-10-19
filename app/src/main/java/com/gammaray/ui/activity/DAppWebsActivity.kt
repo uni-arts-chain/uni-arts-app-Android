@@ -6,7 +6,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -72,7 +71,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private var mGasLimit: String = ""
 
-    private var mFromAdress: String = ""
+    private var mFromAddress: String = ""
 
     private var mToAddress: String = ""
 
@@ -82,7 +81,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private var mDAppId: Int = -1
 
-    private var mDAppIsNeddNotice = false;
+    private var mDAppIsNeedNotice = false;
 
     private var mDAppFunctionsWindow: PopupWindow? = null
 
@@ -148,7 +147,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
         initWalletLinkHintPopWindow()
 
-        mDAppIsNeddNotice = SharedPreUtils.getBoolean(this, mDAppUrl, false)
+        mDAppIsNeedNotice = SharedPreUtils.getBoolean(this, mDAppUrl, false)
 
         showWalletLinkPopWindow()
 
@@ -338,12 +337,12 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
         val walletDAppConfirm = walletLinkHintView.findViewById<Button>(R.id.btn_confirm)
 
         walletDAppNoticeLayout.setOnClickListener {
-            if (mDAppIsNeddNotice) {
+            if (mDAppIsNeedNotice) {
                 walletDAppNotice.isChecked = false
-                mDAppIsNeddNotice = false
+                mDAppIsNeedNotice = false
             } else {
                 walletDAppNotice.isChecked = true
-                mDAppIsNeddNotice = true
+                mDAppIsNeedNotice = true
             }
         }
 
@@ -362,12 +361,12 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
         walletDAppConfirm.setOnClickListener {
             mDAppWalletLinkHintWindow?.dismiss()
-            SharedPreUtils.setBoolean(this, mDAppUrl, mDAppIsNeddNotice)
+            SharedPreUtils.setBoolean(this, mDAppUrl, mDAppIsNeedNotice)
         }
     }
 
     private fun showWalletLinkPopWindow() {
-        if (!mDAppIsNeddNotice) {
+        if (!mDAppIsNeedNotice) {
             mDataBinding.parentLayout.post {
                 mDAppWalletLinkHintWindow?.showAtLocation(
                     mDataBinding.parentLayout,
@@ -487,7 +486,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
             val intent = Intent(this@DAppWebsActivity, ETHTransDetailActivity::class.java)
             intent.putExtra("trans_value", mTransValue)
             intent.putExtra("gas_limit", mGasLimit)
-            intent.putExtra("from", mFromAdress)
+            intent.putExtra("from", mFromAddress)
             intent.putExtra("to", mToAddress)
             intent.putExtra("dapp_url", mDAppUrl)
             intent.putExtra("data", mData)
@@ -518,7 +517,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
         mCallbackId = callbackId
         mTransValue = value
         mGasLimit = gasLimit
-        mFromAdress = fromAddress
+        mFromAddress = fromAddress
         mToAddress = toAddress
         mData = data
         startActivityForResult(PinCodeKtActivity::class.java, 0)

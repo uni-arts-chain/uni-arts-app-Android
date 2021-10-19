@@ -14,6 +14,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.gammaray.ui.fragment.DAppListFragment;
+import com.gammaray.ui.fragment.FindFragment;
+import com.gammaray.ui.fragment.PersonalNFTSFragment;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.upbest.arouter.EventEntity;
 import com.upbest.arouter.Extras;
@@ -110,7 +113,7 @@ public class AcountActivity extends BaseActivity<ActivityAcountBinding> {
         EventBus.getDefault().register(this);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = fragmentManager.beginTransaction();
-        BalanceListFragment otcFragment = new BalanceListFragment();
+        BalanceListFragment otcFragment = new BalanceListFragment(PersonalNFTSFragment.newInstance());
         Extras.isShow = true;
         mFragmentTransaction.add(R.id.container, otcFragment, "");
         mFragmentTransaction.show(otcFragment);

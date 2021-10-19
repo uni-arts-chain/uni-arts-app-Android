@@ -171,6 +171,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="15dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:background="@color/white"
                 android:gravity="right"
                 android:hint="请输入钱包名"

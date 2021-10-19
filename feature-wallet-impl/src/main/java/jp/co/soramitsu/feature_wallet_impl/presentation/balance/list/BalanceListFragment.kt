@@ -32,7 +32,7 @@ import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 import kotlin.collections.ArrayList
 
-class BalanceListFragment : BaseFragment<BalanceListViewModel>(),
+class BalanceListFragment(val fragment : Fragment) : BaseFragment<BalanceListViewModel>(),
     BalanceListAdapter.ItemAssetHandler, MyHomePageAdapter.TabPagerListener {
     private lateinit var adapter: BalanceListAdapter
     private val walletLinks: ArrayList<WalletTokenBean> = ArrayList()
@@ -216,9 +216,9 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(),
 
     override fun getFragment(position: Int): Fragment {
         if (position == 0) {
-            return PersonalAssertFragment.newInstance("TOKEN", walletLinks)
+            return PersonalAssertFragment.newInstance(walletLinks)
         } else {
-            return PersonalAssertFragment.newInstance("NFT", walletLinks)
+            return fragment
         }
     }
 }

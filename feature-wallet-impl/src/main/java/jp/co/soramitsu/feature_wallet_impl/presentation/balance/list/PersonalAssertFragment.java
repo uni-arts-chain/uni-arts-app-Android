@@ -20,8 +20,6 @@ import jp.co.soramitsu.feature_wallet_impl.R;
 
 public class PersonalAssertFragment extends Fragment {
 
-    private String mType;
-
     private List<WalletTokenBean> walletTokenBeans = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
@@ -30,13 +28,12 @@ public class PersonalAssertFragment extends Fragment {
 
     private WalletTokenAdapter mAdapter;
 
-    public static Fragment newInstance(String type, List<WalletTokenBean> walletLinkBeans) {
-        return new PersonalAssertFragment(type, walletLinkBeans);
+    public static Fragment newInstance(List<WalletTokenBean> walletLinkBeans) {
+        return new PersonalAssertFragment(walletLinkBeans);
     }
 
 
-    public PersonalAssertFragment(String type, List<WalletTokenBean> walletLinkBeans) {
-        this.mType = type;
+    public PersonalAssertFragment(List<WalletTokenBean> walletLinkBeans) {
         this.walletTokenBeans = walletLinkBeans;
     }
 
