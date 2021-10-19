@@ -34,6 +34,7 @@ import com.gammaray.eth.viewmodel.AddTokenViewModel;
 import com.gammaray.eth.viewmodel.AddTokenViewModelFactory;
 import com.gammaray.eth.viewmodel.TokensViewModel;
 import com.gammaray.eth.viewmodel.TokensViewModelFactory;
+import com.gammaray.ui.fragment.ETHPersonalAssertFragment;
 import com.gammaray.ui.fragment.PersonalAssertFragment;
 import com.gammaray.widget.QrPopUpWindow;
 import com.google.android.material.tabs.TabLayout;
@@ -48,7 +49,6 @@ public class WalletsDetailActivity extends BaseActivity<ActivityWalletDetailLayo
 
     private MyHomePageAdapter mAdapter;
     private PersonalAssertFragment mTokenAssertFragment = new PersonalAssertFragment();
-    private PersonalAssertFragment mNFTAssertFragment = new PersonalAssertFragment();
     private QrPopUpWindow qrPopUpWindow;
     private String mWalletName;
     private String mHeadImgUrl;
@@ -128,7 +128,7 @@ public class WalletsDetailActivity extends BaseActivity<ActivityWalletDetailLayo
         if (position == 0) {
             return mTokenAssertFragment;
         } else {
-            return mNFTAssertFragment;
+            return ETHPersonalAssertFragment.newInstance(mWalletAddress);
         }
     }
 

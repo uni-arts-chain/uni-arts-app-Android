@@ -32,6 +32,7 @@ import com.gammaray.entity.FollowerVO;
 import com.gammaray.entity.HistoriesBean;
 import com.gammaray.entity.MemberInfo;
 import com.gammaray.entity.MessagesVo;
+import com.gammaray.entity.NFTSBean;
 import com.gammaray.entity.NoRead;
 import com.gammaray.entity.OfferPriceBean;
 import com.gammaray.entity.OrderAmountVo;
@@ -462,5 +463,9 @@ public interface RemoteService {
     //当前以太坊对应人民币价格
     @GET("/api/v1/prices/exchange")
     Call<BaseResponseVo<ETHToCNYBean>> queryCurrentETHInCNY(@Query("codes") String code);
+
+    //获取当前以太坊对应的NFT
+    @GET("/api/v2/chains/1/nft_infos")
+    Call<BaseResponseVo<List<NFTSBean>>> queryNFTsInETH(@Query("address") String address);
 }
 

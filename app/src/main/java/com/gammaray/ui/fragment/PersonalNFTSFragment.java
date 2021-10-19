@@ -54,6 +54,7 @@ public class PersonalNFTSFragment extends BaseFragment<FragmentPersonalNftsLayou
         mAdapter = new WalletNFTsAdapter(mArtSellVos);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         mBinding.rvAsserts.setLayoutManager(layoutManager);
+        mAdapter.setEmptyView(R.layout.layout_entrust_empty_for_homepage, mBinding.rvAsserts);
         mBinding.rvAsserts.setAdapter(mAdapter);
 
         mBinding.srlNfts.setOnRefreshListener(() -> {

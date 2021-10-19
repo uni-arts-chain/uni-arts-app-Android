@@ -17,14 +17,10 @@
             android:id="@+id/mAppBarLayout_av"
             layout="@layout/layout_generic_toolbar" />
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/mAppBarLayout_av">
-
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_below="@id/mAppBarLayout_av">
 
                 <RelativeLayout
                     android:id="@+id/headLayout"
@@ -137,8 +133,6 @@
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             </RelativeLayout>
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </RelativeLayout>
 </layout>
