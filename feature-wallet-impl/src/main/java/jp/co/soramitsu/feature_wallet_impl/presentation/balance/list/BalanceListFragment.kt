@@ -32,10 +32,11 @@ import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 import kotlin.collections.ArrayList
 
-class BalanceListFragment(val fragment : Fragment) : BaseFragment<BalanceListViewModel>(),
-    BalanceListAdapter.ItemAssetHandler, MyHomePageAdapter.TabPagerListener {
+class BalanceListFragment : BaseFragment<BalanceListViewModel>(),
+    BalanceListAdapter.ItemAssetHandler{
     private lateinit var adapter: BalanceListAdapter
     private val walletLinks: ArrayList<WalletTokenBean> = ArrayList()
+    private var nftsFragment: Fragment? = null
     var address: String = ""
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +48,34 @@ class BalanceListFragment(val fragment : Fragment) : BaseFragment<BalanceListVie
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onEvent(event: EventBusMessageEvent) {
+        if(event.getmMessage().equals(EventEntity.EVENT_TEST)){
+            val mAdapter = MyHomePageAdapter(
+                childFragmentManager,
+                2,
+                Arrays.asList(*resources.getStringArray(R.array.personal_tabs)),
+                requireContext()
+            )
+            mAdapter.setListener(object :MyHomePageAdapter.TabPagerListener{
+                override fun getFragment(position: Int): Fragment {
+                    if (position == 0) {
+                        return PersonalAssertFragment.newInstance(walletLinks)
+                    } else {
+                        return nftsFragment as Fragment
+                    }
+                }
+            })
+            viewpager.setAdapter(mAdapter)
+            tabLayout.setupWithViewPager(viewpager)
+            tabLayout.setTabMode(TabLayout.MODE_FIXED)
+        }
+    }
 
+    fun setNFTsFragment(fragment: Fragment) {
+        nftsFragment = fragment
+    }
+
+    fun getNFTsFragment(): Fragment? {
+        return nftsFragment
     }
 
     override fun onDestroy() {
@@ -136,16 +164,6 @@ class BalanceListFragment(val fragment : Fragment) : BaseFragment<BalanceListVie
         if (!TextUtils.isEmpty(Extras.headUrl))
             Glide.with(this).load(Extras.headUrl).into(imageview)
 
-        val mAdapter = MyHomePageAdapter(
-            childFragmentManager,
-            2,
-            Arrays.asList(*resources.getStringArray(R.array.personal_tabs)),
-            requireContext()
-        )
-        mAdapter.setListener(this)
-        viewpager.setAdapter(mAdapter)
-        tabLayout.setupWithViewPager(viewpager)
-        tabLayout.setTabMode(TabLayout.MODE_FIXED)
     }
 
     private fun setRefreshEnabled(bottomSheetState: Int) {
@@ -212,13 +230,5 @@ class BalanceListFragment(val fragment : Fragment) : BaseFragment<BalanceListVie
 //        if (eventBusMessageEvent.getmMessage() == EventEntity.EVENT_GO_ACOUNT) {
 //            Toast
 //        }
-    }
-
-    override fun getFragment(position: Int): Fragment {
-        if (position == 0) {
-            return PersonalAssertFragment.newInstance(walletLinks)
-        } else {
-            return fragment
-        }
     }
 }

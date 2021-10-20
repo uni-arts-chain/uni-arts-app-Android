@@ -16,6 +16,7 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gammaray.ui.fragment.DAppListFragment;
 import com.gammaray.ui.fragment.FindFragment;
+import com.gammaray.ui.fragment.PersonalAssertFragment;
 import com.gammaray.ui.fragment.PersonalNFTSFragment;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.upbest.arouter.EventEntity;
@@ -113,11 +114,13 @@ public class AcountActivity extends BaseActivity<ActivityAcountBinding> {
         EventBus.getDefault().register(this);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = fragmentManager.beginTransaction();
-        BalanceListFragment otcFragment = new BalanceListFragment(PersonalNFTSFragment.newInstance());
+        BalanceListFragment otcFragment = new BalanceListFragment();
         Extras.isShow = true;
         mFragmentTransaction.add(R.id.container, otcFragment, "");
         mFragmentTransaction.show(otcFragment);
         mFragmentTransaction.commitAllowingStateLoss();
+        otcFragment.setNFTsFragment(PersonalNFTSFragment.newInstance());
+        EventBus.getDefault().postSticky(new EventBusMessageEvent(EventEntity.EVENT_TEST,""));
     }
 
     private void showPopWindow(Bitmap bitmap) {

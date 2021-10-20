@@ -243,7 +243,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     public void loadSuccess(ETHWallet wallet) {
-        ToastUtils.showShort("导入钱包成功");
+//        ToastUtils.showShort("导入钱包成功");
 //        if (wallet != null) {
 //            ImportWalletActivity.addr = wallet.getAddress();
 //            ImportWalletActivity.name = wallet.getName();
