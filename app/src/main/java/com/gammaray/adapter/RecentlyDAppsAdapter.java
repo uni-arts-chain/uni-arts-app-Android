@@ -34,7 +34,7 @@ public class RecentlyDAppsAdapter extends BaseQuickAdapter<DAppRecentlyBean, Bas
                     Glide.with(mContext).load(item.getDapp().getLogo().getUrl())
                             .skipMemoryCache(true)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into((ImageView) helper.getView(R.id.img_app_icon));
+                            .into((de.hdodenhof.circleimageview.CircleImageView) helper.getView(R.id.img_app_icon));
                 }
             }
         }

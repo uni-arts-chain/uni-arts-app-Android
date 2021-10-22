@@ -145,7 +145,7 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(),
             walletLinks.add(
                 WalletTokenBean(
                     "UART",
-                    "UniArt",
+                    "UniArts",
                     R.drawable.icon_uart,
                     Extras.balance
                 )
@@ -154,7 +154,7 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(),
             walletLinks.add(
                 WalletTokenBean(
                     "UART",
-                    "UniArt",
+                    "UniArts",
                     R.drawable.icon_uart,
                     "0"
                 )

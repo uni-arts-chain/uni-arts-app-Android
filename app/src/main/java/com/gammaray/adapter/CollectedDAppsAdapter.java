@@ -34,7 +34,7 @@ public class CollectedDAppsAdapter extends BaseQuickAdapter<DAppFavouriteBean, B
                     Glide.with(mContext).load(item.getFavoritable().getLogo().getUrl())
                             .skipMemoryCache(true)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into((ImageView) helper.getView(R.id.img_app_icon));
+                            .into((de.hdodenhof.circleimageview.CircleImageView) helper.getView(R.id.img_app_icon));
                 }
             }
         }

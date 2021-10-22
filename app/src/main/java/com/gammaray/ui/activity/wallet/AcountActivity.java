@@ -100,7 +100,7 @@ public class AcountActivity extends BaseActivity<ActivityAcountBinding> {
     public void initView() {
 
         ToolBarOptions mToolBarOptions = new ToolBarOptions();
-        mToolBarOptions.titleId = R.string.count_bage;
+        mToolBarOptions.titleString = "UART";
         mToolBarOptions.rightTextString = R.string.import_wallet;
         mDataBinding.mAppBarLayoutAv.mToolbar.findViewById(R.id.txt_right).setOnClickListener(v ->
         {

@@ -92,7 +92,9 @@ public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayou
             startActivity(UserAgreementActivity.class);
         } else if (view.getId() == R.id.backupMnemonic) {
             //备份助记词
-            startActivityForResult(ETHPinCodeActivity.class, KEY_BACKUP);
+            Intent intent = new Intent(WalletExportActivity.this, ETHPinCodeActivity.class);
+            intent.putExtra("wallet_pwd", walletPwd);
+            startActivityForResult(intent, KEY_BACKUP);
         } else if (view.getId() == R.id.exportKeyStore) {
             //备份KeyStore
             Intent intent = new Intent(WalletExportActivity.this, ETHPinCodeActivity.class);
@@ -157,6 +159,7 @@ public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayou
 
     public void modifySuccess(boolean s) {
         ToastUtils.showShort("保存成功");
+        finish();
     }
 
     public void showDerivePrivateKeyDialog(String privateKey) {

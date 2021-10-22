@@ -15,12 +15,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.gammaray.R;
 import com.gammaray.adapter.MyHomePageAdapter;
 import com.gammaray.base.BaseActivity;
 import com.gammaray.base.ToolBarOptions;
 import com.gammaray.base.YunApplication;
 import com.gammaray.databinding.ActivityWalletDetailLayoutBinding;
+import com.gammaray.entity.UserVo;
 import com.gammaray.entity.WalletTokenBean;
 import com.gammaray.eth.base.C;
 import com.gammaray.eth.domain.ETHWallet;
@@ -82,8 +85,6 @@ public class WalletsDetailActivity extends BaseActivity<ActivityWalletDetailLayo
             mWalletName = getIntent().getStringExtra("wallet_name");
             mWalletAddress = getIntent().getStringExtra("wallet_address");
         }
-        fetchWalletInteract = new FetchWalletInteract();
-        fetchWalletInteract.findDefault().subscribe(this::getCurrentWallet);
         tokensViewModelFactory = new TokensViewModelFactory();
         tokensViewModel = ViewModelProviders.of(this, tokensViewModelFactory)
                 .get(TokensViewModel.class);
@@ -107,6 +108,19 @@ public class WalletsDetailActivity extends BaseActivity<ActivityWalletDetailLayo
         mDataBinding.tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tokensViewModel.tokens().observe(this, this::onTokens);
         getEthRemains();
+        UserVo userVo = YunApplication.getmUserVo();
+        if (userVo != null){
+            Glide.with(YunApplication.getInstance())
+                    .load(userVo.getAvatar().getUrl())
+                    .apply(new RequestOptions().placeholder(R.mipmap.icon_default_head)).into(mDataBinding.imageview);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchWalletInteract = new FetchWalletInteract();
+        fetchWalletInteract.findDefault().subscribe(this::getCurrentWallet);
     }
 
     private void getEthRemains() {
@@ -174,6 +188,8 @@ public class WalletsDetailActivity extends BaseActivity<ActivityWalletDetailLayo
     private void getCurrentWallet(ETHWallet ethWallet) {
         if (ethWallet != null) {
             mEthWallet = ethWallet;
+            mDataBinding.name.setText(mEthWallet.getName());
+            mDataBinding.addr.setText(mEthWallet.getAddress());
         }
     }
 

@@ -15,6 +15,8 @@ import com.gammaray.entity.WalletLinkBean;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DAppsListAdapter extends BaseQuickAdapter<DAppGroupBean.DApps, BaseViewHolder> {
 
 
@@ -32,6 +34,6 @@ public class DAppsListAdapter extends BaseQuickAdapter<DAppGroupBean.DApps, Base
         Glide.with(mContext).load(item.getLogo().getUrl())
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into((ImageView) helper.getView(R.id.img_app_icon));
+                .into((CircleImageView) helper.getView(R.id.img_app_icon));
     }
 }
