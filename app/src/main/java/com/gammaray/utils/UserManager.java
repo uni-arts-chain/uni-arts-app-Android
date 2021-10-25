@@ -10,12 +10,15 @@ import com.gammaray.base.YunApplication;
 import com.gammaray.constant.ExtraConstant;
 import com.gammaray.entity.BaseResponseVo;
 import com.gammaray.entity.EventBusMessageEvent;
+import com.gammaray.entity.NetworkInfos;
 import com.gammaray.entity.UserVo;
 import com.gammaray.net.MinerCallback;
 import com.gammaray.net.RequestManager;
 import com.gammaray.ui.activity.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -29,6 +32,16 @@ import retrofit2.Response;
  */
 public class UserManager {
     private static UserVo mUserVo;
+
+    private static List<NetworkInfos> mNetWorkInfos;
+
+    public static List<NetworkInfos> getNetWorkInfos() {
+        return mNetWorkInfos;
+    }
+
+    public static void setNetWorkInfo(List<NetworkInfos> netWorkInfos) {
+        UserManager.mNetWorkInfos = netWorkInfos;
+    }
 
     public static void setmUserVo(UserVo mUserVo) {
         setmUserVo(mUserVo, true);

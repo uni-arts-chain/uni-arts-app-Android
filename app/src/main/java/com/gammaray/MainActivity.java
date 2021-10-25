@@ -26,6 +26,7 @@ import com.gammaray.constant.ExtraConstant;
 import com.gammaray.databinding.ActivityMainBinding;
 import com.gammaray.entity.BaseResponseVo;
 import com.gammaray.entity.EventBusMessageEvent;
+import com.gammaray.entity.NetworkInfos;
 import com.gammaray.entity.ReceiverPushBean;
 import com.gammaray.entity.UserVo;
 import com.gammaray.eth.domain.ETHWallet;
@@ -131,6 +132,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         CacheDiskStaticUtils.put(ExtraConstant.KEY_GUIDE_FLAG, "1");
         saveData();
 //        loginByAddress();
+        queryNetworks();
         homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("homeFragment");
         nftMallFragment = (NFTMallFragment) getSupportFragmentManager().findFragmentByTag("nftMallFragment");
         creatorFragment = (CreatorFragment) getSupportFragmentManager().findFragmentByTag("creatorFragment");
@@ -312,6 +314,49 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
             }
         });
+    }
+
+    private void queryNetworks(){
+        RequestManager.instance().queryNetworks(new MinerCallback<BaseResponseVo<List<NetworkInfos>>>() {
+            @Override
+            public void onSuccess(Call<BaseResponseVo<List<NetworkInfos>>> call, Response<BaseResponseVo<List<NetworkInfos>>> response) {
+                if(response != null && response.isSuccessful()){
+                    if(response.body() != null){
+                        YunApplication.setNetWorkInfo(response.body().getBody());
+                        if(TextUtils.isEmpty(SharedPreUtils.getString(MainActivity.this,SharedPreUtils.KEY_RPC_URL))){
+                            initMainNet(response.body().getBody());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Call<BaseResponseVo<List<NetworkInfos>>> call, Response<BaseResponseVo<List<NetworkInfos>>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<?> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void initMainNet(List<NetworkInfos> networkInfos){
+        if(networkInfos != null && networkInfos.size() > 0){
+            for(int i = 0; i < networkInfos.size(); i++){
+                if(networkInfos.get(i).getTitle().equals("主网络")){
+                    List<NetworkInfos.ChainNetWork> mainChainWorks = networkInfos.get(i).getChain_networks();
+                    if(mainChainWorks != null && mainChainWorks.size() > 0){
+                        if(!TextUtils.isEmpty(mainChainWorks.get(0).getName())){
+                            YunApplication.NETWORK_RPC_URL = mainChainWorks.get(0).getRpc_url() + YunApplication.NETWORK_API_KEY;
+                            YunApplication.NETWORK_CHAIN_ID = mainChainWorks.get(0).getChain_id();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override

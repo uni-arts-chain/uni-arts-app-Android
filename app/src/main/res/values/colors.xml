@@ -52,6 +52,6 @@
     <color name="date_picker_bg">#FFFFFF</color>
     <color name="date_picker_divider">#11112233</color>
     <color name="date_picker_text_dark">#333333</color>
-
+    <color name="_627EEA">#627EEA</color>
     <color name="_FFB432">#FFB432</color>
 </resources>

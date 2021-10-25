@@ -48,7 +48,7 @@ class BalanceListFragment : BaseFragment<BalanceListViewModel>(),
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onEvent(event: EventBusMessageEvent) {
-        if(event.getmMessage().equals(EventEntity.EVENT_TEST)){
+        if(event.getmMessage().equals(EventEntity.EVENT_INIT_PAGER)){
             val mAdapter = MyHomePageAdapter(
                 childFragmentManager,
                 2,

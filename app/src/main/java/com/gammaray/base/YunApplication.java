@@ -9,31 +9,32 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.LogUtils;
+import com.gammaray.constant.AppConstant;
+import com.gammaray.constant.ExtraConstant;
+import com.gammaray.entity.ArtPriceVo;
+import com.gammaray.entity.ArtTypeVo;
+import com.gammaray.entity.EventBusMessageEvent;
+import com.gammaray.entity.NetworkInfos;
+import com.gammaray.entity.UserVo;
 import com.gammaray.eth.domain.DaoMaster;
 import com.gammaray.eth.domain.DaoSession;
+import com.gammaray.eth.entity.NetworkInfo;
 import com.gammaray.eth.repository.RepositoryFactory;
 import com.gammaray.eth.repository.SharedPreferenceRepository;
 import com.gammaray.eth.util.AppFilePath;
+import com.gammaray.net.HeaderIntercepter;
+import com.gammaray.net.LogInterceptor;
+import com.gammaray.net.NetworkManager;
+import com.gammaray.service.TokenInterceptor;
+import com.gammaray.utils.UserManager;
 import com.google.gson.Gson;
 import com.igexin.sdk.PushManager;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
-import com.gammaray.constant.AppConstant;
-import com.gammaray.constant.ExtraConstant;
-import com.gammaray.entity.ArtPriceVo;
-import com.gammaray.entity.ArtTypeVo;
-import com.gammaray.entity.EventBusMessageEvent;
-import com.gammaray.entity.UserVo;
-import com.gammaray.net.HeaderIntercepter;
-import com.gammaray.net.LogInterceptor;
-import com.gammaray.net.NetworkManager;
-import com.gammaray.service.TokenInterceptor;
-import com.gammaray.utils.UserManager;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.https.HttpsUtils;
-
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -88,6 +89,12 @@ public class YunApplication extends App {
 
 
     public static SharedPreferenceRepository sp;
+
+    public static String NETWORK_RPC_URL;
+
+    public static int NETWORK_CHAIN_ID;
+
+    public static String NETWORK_API_KEY = "7e2855d5896946cb985af8944713a371";
 
     public DaoSession getDaoSession() {
         return daoSession;
@@ -146,7 +153,7 @@ public class YunApplication extends App {
                 + File.separator.concat("GammaRay/live2d/");
     }
 
-    private void init(){
+    private void init() {
 
         sp = SharedPreferenceRepository.init(getApplicationContext());
 
@@ -206,6 +213,14 @@ public class YunApplication extends App {
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
         // 支持在子进程中统计自定义事件
         UMConfigure.setProcessEvent(true);
+    }
+
+    public static void setNetWorkInfo(List<NetworkInfos> netWorkInfos) {
+        UserManager.setNetWorkInfo(netWorkInfos);
+    }
+
+    public static List<NetworkInfos> getNetWorkInfos() {
+        return UserManager.getNetWorkInfos();
     }
 
     public static void setmUserVo(UserVo mUserVo) {

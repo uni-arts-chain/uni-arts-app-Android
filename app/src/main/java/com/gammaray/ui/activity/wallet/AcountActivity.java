@@ -14,9 +14,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.gammaray.ui.fragment.DAppListFragment;
-import com.gammaray.ui.fragment.FindFragment;
-import com.gammaray.ui.fragment.PersonalAssertFragment;
 import com.gammaray.ui.fragment.PersonalNFTSFragment;
 import com.upbest.arouter.EventBusMessageEvent;
 import com.upbest.arouter.EventEntity;
@@ -32,8 +29,6 @@ import com.gammaray.widget.UploadSuccessPopUpWindow;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.math.BigDecimal;
 
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 import jp.co.soramitsu.feature_wallet_impl.presentation.balance.list.BalanceListFragment;
@@ -120,7 +115,7 @@ public class AcountActivity extends BaseActivity<ActivityAcountBinding> {
         mFragmentTransaction.show(otcFragment);
         mFragmentTransaction.commitAllowingStateLoss();
         otcFragment.setNFTsFragment(PersonalNFTSFragment.newInstance());
-        EventBus.getDefault().postSticky(new EventBusMessageEvent(EventEntity.EVENT_TEST,""));
+        EventBus.getDefault().postSticky(new EventBusMessageEvent(EventEntity.EVENT_INIT_PAGER,""));
     }
 
     private void showPopWindow(Bitmap bitmap) {

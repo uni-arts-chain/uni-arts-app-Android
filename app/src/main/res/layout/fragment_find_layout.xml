@@ -16,22 +16,51 @@
             android:layout_height="match_parent"
             android:background="@color/white">
 
-            <!--页面标题栏-->
-            <TextView
-                android:id="@+id/tv_title"
+            <RelativeLayout
+                android:id="@+id/rl_title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:text="发现"
-                android:textColor="@color/_101010"
-                android:textSize="17sp" />
+                android:layout_centerHorizontal="true">
+
+                <!--页面标题栏-->
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="发现"
+                    android:textColor="@color/_101010"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_networks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/_627EEA"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="7dp"
+                    android:layout_below="@id/tv_title"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/tv_networks"
+                    android:background="@mipmap/icon_drop" />
+
+            </RelativeLayout>
+
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/tv_title"
+                android:layout_below="@id/rl_title_layout"
+                android:layout_marginTop="10dp"
                 android:fillViewport="true">
 
                 <LinearLayout
@@ -74,8 +103,8 @@
                                 android:id="@+id/rl_saoma"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:visibility="invisible"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:visibility="invisible">
 
                                 <ImageView
                                     android:layout_width="15dp"
@@ -193,9 +222,9 @@
                             android:layout_height="38dp"
                             android:layout_below="@id/rl_apps"
                             android:background="@color/white"
-                            app:tabMinWidth="70dp"
                             app:tabIndicatorColor="@color/_101010"
                             app:tabIndicatorFullWidth="false"
+                            app:tabMinWidth="70dp"
                             app:tabSelectedTextColor="@color/_101010" />
 
                         <com.gammaray.widget.NoScrollViewPager

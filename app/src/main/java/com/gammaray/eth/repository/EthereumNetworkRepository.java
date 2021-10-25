@@ -3,6 +3,7 @@ package com.gammaray.eth.repository;
 import android.text.TextUtils;
 
 import com.gammaray.BuildConfig;
+import com.gammaray.base.YunApplication;
 import com.gammaray.entity.ReceiverPushBean;
 import com.gammaray.eth.entity.NetworkInfo;
 import com.gammaray.eth.ui.AddTokenActivity;
@@ -54,11 +55,14 @@ public class EthereumNetworkRepository {
                     "http://192.168.0.113:8911",
                     "http://192.168.0.113:51067/docs", 1, true),
 
+//            new NetworkInfo(ETHEREUM_MAIN_NETWORK_NAME, ETC_SYMBOL,
+//                    ETH_PRC_URL,
+//                    "https://classic.trustwalletapp.com",
+//                    "https://gastracker.io", ETH_CHAIN_ID, true),
             new NetworkInfo(ETHEREUM_MAIN_NETWORK_NAME, ETC_SYMBOL,
-                    ETH_PRC_URL,
+                    YunApplication.NETWORK_RPC_URL,
                     "https://classic.trustwalletapp.com",
-                    "https://gastracker.io", ETH_CHAIN_ID, true),
-
+                    "https://gastracker.io", YunApplication.NETWORK_CHAIN_ID, true),
             new NetworkInfo(POA_NETWORK_NAME, POA_SYMBOL,
                     "https://core.poa.network",
                     "https://poa.trustwalletapp.com", "poa", 99, false),

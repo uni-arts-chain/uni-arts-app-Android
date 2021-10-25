@@ -31,5 +31,6 @@ public class EventEntity {
     public static final String EVENT_LIVE_CLOSE = "live_close";
 
     public static final String EVENT_IMPORT_ETH_SUCCESS = "import_eth_success";
-    public static final String EVENT_TEST = "test";
+    public static final String EVENT_INIT_PAGER = "init_pager";
+    public static final String EVENT_CLOSE_NETWORK_WINDOW = "close_network_window";
 }

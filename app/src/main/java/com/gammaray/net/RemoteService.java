@@ -33,6 +33,7 @@ import com.gammaray.entity.HistoriesBean;
 import com.gammaray.entity.MemberInfo;
 import com.gammaray.entity.MessagesVo;
 import com.gammaray.entity.NFTSBean;
+import com.gammaray.entity.NetworkInfos;
 import com.gammaray.entity.NoRead;
 import com.gammaray.entity.OfferPriceBean;
 import com.gammaray.entity.OrderAmountVo;
@@ -467,5 +468,9 @@ public interface RemoteService {
     //获取当前以太坊对应的NFT
     @GET("/api/v2/chains/1/nft_infos")
     Call<BaseResponseVo<List<NFTSBean>>> queryNFTsInETH(@Query("address") String address);
+
+    //获取Network列表
+    @GET("/api/v2/chains/1/networks")
+    Call<BaseResponseVo<List<NetworkInfos>>> queryNetworks();
 }
 

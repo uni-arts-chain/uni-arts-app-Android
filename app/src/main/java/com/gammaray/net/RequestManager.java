@@ -8,6 +8,7 @@ import com.gammaray.entity.DAppItemBean;
 import com.gammaray.entity.DAppRecentlyBean;
 import com.gammaray.entity.ETHToCNYBean;
 import com.gammaray.entity.NFTSBean;
+import com.gammaray.entity.NetworkInfos;
 import com.google.gson.JsonObject;
 import com.gammaray.R;
 import com.gammaray.adapter.UploadCodeBean;
@@ -767,6 +768,11 @@ public class RequestManager {
 
     public void queryNFTsInETH(String address, MinerCallback<BaseResponseVo<List<NFTSBean>>> mCallBack) {
         Call<BaseResponseVo<List<NFTSBean>>> mCall = NetworkManager.instance().getmRemoteService().queryNFTsInETH(address);
+        NetworkManager.instance().postReq(mCallBack, mCall);
+    }
+
+    public void queryNetworks(MinerCallback<BaseResponseVo<List<NetworkInfos>>> mCallBack) {
+        Call<BaseResponseVo<List<NetworkInfos>>> mCall = NetworkManager.instance().getmRemoteService().queryNetworks();
         NetworkManager.instance().postReq(mCallBack, mCall);
     }
 }

@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.gammaray.R
 import com.gammaray.adapter.DAppFunctionAdapter
 import com.gammaray.base.BaseActivity
+import com.gammaray.base.YunApplication
 import com.gammaray.databinding.ActivityDappWebLayoutBinding
 import com.gammaray.entity.BaseResponseVo
 import com.gammaray.entity.DAppItemBean
@@ -44,21 +45,6 @@ import java.math.BigDecimal
 //DApp WebView
 class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnClickListener {
 
-    private val JS_PROTOCOL_CANCELLED = "cancelled"
-    private val JS_PROTOCOL_ON_SUCCESSFUL = "executeCallback(%1\$s, null, \"%2\$s\")"
-    private val JS_PROTOCOL_ON_FAILURE = "executeCallback(%1\$s, \"%2\$s\", null)"
-
-    companion object {
-//        private const val DAPP_URL = "https://cbridge.celer.network/?locale=zh-CN&utm_source=imtoken"
-
-        //        Rinkeby Test
-        private const val DAPP_URL =
-            "https://app.dodoex.io/exchange/ETH-USDC?C3VK=3a0ea1&network=rinkeby"
-        private const val CHAIN_ID = 4
-        private const val RPC_URL = "https://rinkeby.infura.io/v3/7e2855d5896946cb985af8944713a371"
-
-    }
-
     private var mCallbackId: Long = 0L
 
     private var mDAppUrl: String = ""
@@ -81,7 +67,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private var mDAppId: Int = -1
 
-    private var mDAppIsNeedNotice = false;
+    private var mDAppIsNeedNotice = false
 
     private var mDAppFunctionsWindow: PopupWindow? = null
 
@@ -194,8 +180,8 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
         //加载RPC配置JS
         val initJs = loadInitJs(
-            CHAIN_ID,
-            RPC_URL
+            YunApplication.NETWORK_CHAIN_ID,
+            YunApplication.NETWORK_RPC_URL
         )
         if (privateKey[0] != '0' && privateKey[1] != 'x') {
             mPrivateKey = "0x$privateKey"

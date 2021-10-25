@@ -22,6 +22,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.gammaray.entity.NetworkInfos;
 import com.gammaray.eth.domain.ETHWallet;
 import com.gammaray.eth.interact.CreateWalletInteract;
 import com.gammaray.eth.util.ETHWalletUtils;

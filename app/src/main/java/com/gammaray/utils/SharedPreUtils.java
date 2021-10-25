@@ -56,6 +56,9 @@ public class SharedPreUtils {
     public static final String KEY_PUBLICKEY = "public_key";
     public static final String KEY_PIN = "pin";
     public static final String KEY_MNENONIC = "mnemonic";
+    public static final String KEY_RPC_URL = "rpc_url";
+    public static final String KEY_CHAIN_ID = "chain_id";
+    public static final String KEY_RPC_NAME = "rpc_name";
 
     /**
      * 序列化对象
