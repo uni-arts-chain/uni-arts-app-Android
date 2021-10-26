@@ -37,6 +37,7 @@ import com.gammaray.utils.ToastManager
 import com.gammaray.widget.BasePopupWindow
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
+import com.tencent.smtt.sdk.ui.dialog.widget.RoundImageView
 import kotlinx.android.synthetic.main.activity_web_view.*
 import retrofit2.Call
 import retrofit2.Response
@@ -313,7 +314,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
         mDAppWalletLinkHintWindow?.isTouchable = true
         mDAppWalletLinkHintWindow?.animationStyle = R.style.mypopwindow_anim_style
 
-        val walletDAppIcon = walletLinkHintView.findViewById<ImageView>(R.id.tv_hint_icon)
+        val walletDAppIcon = walletLinkHintView.findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.tv_hint_icon)
         val walletDAppName = walletLinkHintView.findViewById<TextView>(R.id.tv_icon_name)
         val walletDAppHint = walletLinkHintView.findViewById<TextView>(R.id.tv_hint_content)
         val walletDAppNotice = walletLinkHintView.findViewById<CheckBox>(R.id.ckbox_never_notice)

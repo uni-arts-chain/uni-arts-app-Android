@@ -1,5 +1,6 @@
 package com.gammaray.ui.activity;
 
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gammaray.R;
 import com.gammaray.adapter.HotSearchDAppAdapter;
 import com.gammaray.adapter.SearchDAppsListAdapter;
@@ -18,6 +20,8 @@ import com.gammaray.entity.DAppSearchBean;
 import com.gammaray.net.MinerCallback;
 import com.gammaray.net.RequestManager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,6 +96,19 @@ public class DAppSearchActivity extends BaseActivity<ActivityDappSearchLayoutBin
         GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
         mDataBinding.rvHotSearchResult.setLayoutManager(layoutManager);
         mDataBinding.rvHotSearchResult.setAdapter(mHotSearchAdapter);
+        mHotSearchAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(DAppSearchActivity.this, DAppWebsActivity.class);
+            intent.putExtra("dapp_title", mDApps.get(position).getTitle());
+            intent.putExtra("dapp_id", mDApps.get(position).getId());
+                intent.putExtra("dapp_collect", mDApps.get(position).isFavorite_by_me());
+            try {
+                intent.putExtra("dapp_icon_url", URLDecoder.decode(mDApps.get(position).getLogo().getUrl(), "UTF-8"));
+                intent.putExtra("dapp_url", URLDecoder.decode(mDApps.get(position).getWebsite_url(), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            startActivity(intent);
+        });
     }
 
     private void initSearchDApp() {
@@ -100,6 +117,19 @@ public class DAppSearchActivity extends BaseActivity<ActivityDappSearchLayoutBin
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         mDataBinding.rvSearchResult.setLayoutManager(layoutManager);
         mDataBinding.rvSearchResult.setAdapter(mSearchAdapter);
+        mSearchAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(DAppSearchActivity.this, DAppWebsActivity.class);
+            intent.putExtra("dapp_title", mResults.get(position).getTitle());
+            intent.putExtra("dapp_id", mResults.get(position).getId());
+            intent.putExtra("dapp_collect", mResults.get(position).isFavorite_by_me());
+            try {
+                intent.putExtra("dapp_icon_url", URLDecoder.decode(mResults.get(position).getLogo().getUrl(), "UTF-8"));
+                intent.putExtra("dapp_url", URLDecoder.decode(mResults.get(position).getWebsite_url(), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            startActivity(intent);
+        });
     }
 
     //热门搜索数据

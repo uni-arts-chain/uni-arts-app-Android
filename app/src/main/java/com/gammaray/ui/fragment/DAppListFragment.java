@@ -107,7 +107,7 @@ public class DAppListFragment extends BaseFragment<FragmentDappListLayoutBinding
                         mDAppItemBeans = response.body().getBody();
                         if (mDAppItemBeans.size() > 0) {
                             int id = mDAppItemBeans.get(0).getChain_category().getId(); //最外层的ID
-                            String title = mDAppItemBeans.get(0).getChain_category().getTitle(); //最外层的标题
+                            String title = "推荐"; //最外层的标题
                             //将推荐数据重新整合到Group数据中
                             DAppGroupBean dAppGroupBean = new DAppGroupBean();
                             dAppGroupBean.setId(id);
