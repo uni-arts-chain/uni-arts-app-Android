@@ -1,7 +1,13 @@
 package com.gammaray.ui.activity;
 
+import android.content.Intent;
+import android.text.TextUtils;
+import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gammaray.R;
 import com.gammaray.adapter.RecentDAppsAdapter;
 import com.gammaray.base.BaseActivity;
@@ -12,6 +18,8 @@ import com.gammaray.entity.DAppRecentlyBean;
 import com.gammaray.net.MinerCallback;
 import com.gammaray.net.RequestManager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +76,27 @@ public class RecentlyDAppsActivity extends BaseActivity<ActivityDappsListLayoutB
         mRecentAdapter.setEmptyView(R.layout.layout_entrust_empty, mDataBinding.rvDapps);
         mRecentAdapter.setEnableLoadMore(true);
         mDataBinding.rvDapps.setAdapter(mRecentAdapter);
+        mRecentAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if(mRecentApps.get(position).getDapp() != null){
+                Intent intent = new Intent(RecentlyDAppsActivity.this, DAppWebsActivity.class);
+                intent.putExtra("dapp_title", mRecentApps.get(position).getDapp().getTitle());
+                intent.putExtra("dapp_id", mRecentApps.get(position).getDapp().getId());
+                intent.putExtra("dapp_collect", mRecentApps.get(position).getDapp().isFavorite_by_me());
+                if(TextUtils.isEmpty(mRecentApps.get(position).getDapp().getWebsite_url())){
+                    ToastUtils.showShort("网址解析错误");
+                    return;
+                }
+                try {
+                    intent.putExtra("dapp_icon_url", URLDecoder.decode(mRecentApps.get(position).getDapp().getLogo().getUrl(), "UTF-8"));
+                    intent.putExtra("dapp_url", URLDecoder.decode(mRecentApps.get(position).getDapp().getWebsite_url(), "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                startActivity(intent);
+            }else{
+                ToastUtils.showShort("非法数据");
+            }
+        });
     }
 
     private void getRecentlyDApps() {

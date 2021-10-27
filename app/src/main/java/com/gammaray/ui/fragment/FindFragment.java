@@ -141,17 +141,25 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         mCollectAdapter.setEmptyView(R.layout.dapps_empty_layout, mBinding.rvCollects);
         mBinding.rvCollects.setAdapter(mCollectAdapter);
         mCollectAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
-            intent.putExtra("dapp_title", mCollectApps.get(position).getFavoritable().getTitle());
-            intent.putExtra("dapp_id", mCollectApps.get(position).getFavoritable().getId());
-            intent.putExtra("dapp_collect", true);
-            try {
-                intent.putExtra("dapp_icon_url", URLDecoder.decode(mCollectApps.get(position).getFavoritable().getLogo().getUrl(), "UTF-8"));
-                intent.putExtra("dapp_url", URLDecoder.decode(mCollectApps.get(position).getFavoritable().getWebsite_url(), "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+            if(mCollectApps.get(position).getFavoritable() != null) {
+                Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
+                intent.putExtra("dapp_title", mCollectApps.get(position).getFavoritable().getTitle());
+                intent.putExtra("dapp_id", mCollectApps.get(position).getFavoritable().getId());
+                intent.putExtra("dapp_collect", true);
+                if(TextUtils.isEmpty(mCollectApps.get(position).getFavoritable().getWebsite_url())){
+                    ToastUtils.showShort("网址解析错误");
+                    return;
+                }
+                try {
+                    intent.putExtra("dapp_icon_url", URLDecoder.decode(mCollectApps.get(position).getFavoritable().getLogo().getUrl(), "UTF-8"));
+                    intent.putExtra("dapp_url", URLDecoder.decode(mCollectApps.get(position).getFavoritable().getWebsite_url(), "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                startActivity(intent);
+            }else{
+                ToastUtils.showShort("非法数据");
             }
-            startActivity(intent);
         });
 
         LinearLayoutManager recentLayoutManager = new LinearLayoutManager(requireContext());
@@ -161,10 +169,15 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
         mRecentAdapter.setEmptyView(R.layout.dapps_empty_layout, mBinding.rvRecent);
         mBinding.rvRecent.setAdapter(mRecentAdapter);
         mRecentAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if(mRecentApps.get(position).getDapp() != null){
             Intent intent = new Intent(requireContext(), DAppWebsActivity.class);
             intent.putExtra("dapp_title", mRecentApps.get(position).getDapp().getTitle());
             intent.putExtra("dapp_id", mRecentApps.get(position).getDapp().getId());
             intent.putExtra("dapp_collect", mRecentApps.get(position).getDapp().isFavorite_by_me());
+                if(TextUtils.isEmpty(mRecentApps.get(position).getDapp().getWebsite_url())){
+                    ToastUtils.showShort("网址解析错误");
+                    return;
+                }
             try {
                 intent.putExtra("dapp_icon_url", URLDecoder.decode(mRecentApps.get(position).getDapp().getLogo().getUrl(), "UTF-8"));
                 intent.putExtra("dapp_url", URLDecoder.decode(mRecentApps.get(position).getDapp().getWebsite_url(), "UTF-8"));
@@ -172,7 +185,12 @@ public class FindFragment extends BaseFragment<FragmentFindLayoutBinding> implem
                 e.printStackTrace();
             }
             startActivity(intent);
+        }else{
+                ToastUtils.showShort("非法数据");
+            }
         });
+
+
 
         mBinding.srlLayout.setOnRefreshListener(() -> {
             mBinding.srlLayout.setRefreshing(false);
