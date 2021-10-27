@@ -98,6 +98,10 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private var mUrls = 0
 
+    private var chain_id = -1
+
+    private var rpc_url = ""
+
     override fun getLayoutId(): Int {
         return R.layout.activity_dapp_web_layout
     }
@@ -179,10 +183,17 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
         //加载固定JS
         val providerJs = loadProviderJs()
 
+        if(!TextUtils.isEmpty(SharedPreUtils.getString(this,SharedPreUtils.KEY_RPC_URL))){
+            chain_id = SharedPreUtils.getInteger(this,SharedPreUtils.KEY_CHAIN_ID,-1)
+            rpc_url = SharedPreUtils.getString(this,SharedPreUtils.KEY_RPC_URL)
+        }else{
+            chain_id = YunApplication.NETWORK_CHAIN_ID
+            rpc_url = YunApplication.NETWORK_RPC_URL
+        }
         //加载RPC配置JS
         val initJs = loadInitJs(
-            YunApplication.NETWORK_CHAIN_ID,
-            YunApplication.NETWORK_RPC_URL
+            chain_id,
+            rpc_url
         )
         if (privateKey[0] != '0' && privateKey[1] != 'x') {
             mPrivateKey = "0x$privateKey"
