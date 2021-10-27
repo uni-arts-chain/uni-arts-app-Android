@@ -114,11 +114,11 @@ public class MyHomePagePicuureSortFragment extends BaseFragment<FragmentMyPagePi
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(SellArtActivity.ARTINFO, sellingArtVo);
                 startActivity(TransferActivity.class, bundle);
-            } else if (view.getId() == R.id.auctionAction) {
+            } /*else if (view.getId() == R.id.auctionAction) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(SellArtActivity.ARTINFO, sellingArtVo);
                 startActivity(GoAuctionActivity.class, bundle);
-            }
+            }*/
         });
         mBinding.swipeRefresh.setOnRefreshListener(this::queryArts);
     }

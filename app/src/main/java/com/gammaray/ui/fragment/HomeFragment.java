@@ -96,7 +96,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
     TextView noReadFlag;
     private boolean resume = false;
     private HomeHotFragment homeHotFragment;
-    private HomeAuctionFragment homeAuctionFragment;
+//    private HomeAuctionFragment homeAuctionFragment;
     private MyHomePageAdapter pageAdapter;
     private final CreateWalletInteract createWalletInteract = new CreateWalletInteract();
     private String pinCode;
@@ -187,8 +187,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 
     private void initFragments() {
         homeHotFragment = new HomeHotFragment(popularList);
-        homeAuctionFragment = new HomeAuctionFragment(auctionList);
-        pageAdapter = new MyHomePageAdapter(getChildFragmentManager(), 2, Arrays.asList(getResources().getStringArray(R.array.home_tabs)), requireActivity());
+//        homeAuctionFragment = new HomeAuctionFragment(auctionList);
+        pageAdapter = new MyHomePageAdapter(getChildFragmentManager(), 1, Arrays.asList(getResources().getStringArray(R.array.home_tabs)), requireActivity());
         pageAdapter.setListener(this);
         mBinding.vpSellAuction.setAdapter(pageAdapter);
         mBinding.tabLayout.setupWithViewPager(mBinding.vpSellAuction);
@@ -202,7 +202,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
         getBanner();//获取banner
         getNews();//获取新闻
         getPopular();//获取流行
-        getAuctions();//获取推荐拍卖
+//        getAuctions();//获取推荐拍卖
         getTheme();//获取主题
         hasUnReadMessage();//查询唯独消息
     }
@@ -270,10 +270,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 
     @Override
     public Fragment getFragment(int position) {
-        if (position == 0) {
-            return homeHotFragment;
-        }
-        return homeAuctionFragment;
+//        if (position == 0) {
+//            return homeHotFragment;
+//        }
+//        return homeAuctionFragment;
+        return homeHotFragment;
     }
 
     public static class BannerViewHolder implements MZViewHolder<BannersVo> {
@@ -404,33 +405,33 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements V
 
     }
 
-    private void getAuctions() {
-        RequestManager.instance().queryHomePageAuctions(1, 10, new MinerCallback<BaseResponseVo<List<AuctionArtVo>>>() {
-            @Override
-            public void onSuccess(Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() == null) return;
-                    if (response.body().getBody() != null)
-                        auctionList = response.body().getBody();
-
-                    if (auctionList != null && auctionList.size() > 0) {
-                        homeAuctionFragment.updateData(auctionList);
-                    }
-                }
-            }
-
-            @Override
-            public void onError
-                    (Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<?> call, Throwable t) {
-
-            }
-        });
-    }
+//    private void getAuctions() {
+//        RequestManager.instance().queryHomePageAuctions(1, 10, new MinerCallback<BaseResponseVo<List<AuctionArtVo>>>() {
+//            @Override
+//            public void onSuccess(Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
+//                if (response.isSuccessful()) {
+//                    if (response.body() == null) return;
+//                    if (response.body().getBody() != null)
+//                        auctionList = response.body().getBody();
+//
+//                    if (auctionList != null && auctionList.size() > 0) {
+//                        homeAuctionFragment.updateData(auctionList);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onError
+//                    (Call<BaseResponseVo<List<AuctionArtVo>>> call, Response<BaseResponseVo<List<AuctionArtVo>>> response) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<?> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 
     /*
      * 获取主题

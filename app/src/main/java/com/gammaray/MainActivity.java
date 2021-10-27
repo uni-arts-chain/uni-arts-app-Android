@@ -39,6 +39,7 @@ import com.gammaray.ui.fragment.FindFragment;
 import com.gammaray.ui.fragment.HomeFragment;
 import com.gammaray.ui.fragment.MineFragment;
 import com.gammaray.ui.fragment.NFTMallFragment;
+import com.gammaray.ui.fragment.PictureSortFragment;
 import com.gammaray.utils.DownLoadManager;
 import com.gammaray.utils.NotificationUtil;
 import com.gammaray.utils.SharedPreUtils;
@@ -75,10 +76,11 @@ import retrofit2.Response;
 @Route(path = ArouterModelPath.MAIN)
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private HomeFragment homeFragment;
-    private NFTMallFragment nftMallFragment;
+//    private NFTMallFragment nftMallFragment;
+    private PictureSortFragment nftMallFragment;
     private MineFragment mineFragment;
-    private CreatorFragment creatorFragment;
-    private FindFragment findFragment;
+//    private CreatorFragment creatorFragment;
+//    private FindFragment findFragment;
     private boolean mIsback;
     private Fragment mCurrentFragment;
     private int mCurrentItemId;
@@ -134,9 +136,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 //        loginByAddress();
         queryNetworks();
         homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("homeFragment");
-        nftMallFragment = (NFTMallFragment) getSupportFragmentManager().findFragmentByTag("nftMallFragment");
-        creatorFragment = (CreatorFragment) getSupportFragmentManager().findFragmentByTag("creatorFragment");
-        findFragment = (FindFragment) getSupportFragmentManager().findFragmentByTag("findFragment");
+//        nftMallFragment = (NFTMallFragment) getSupportFragmentManager().findFragmentByTag("nftMallFragment");
+//        creatorFragment = (CreatorFragment) getSupportFragmentManager().findFragmentByTag("creatorFragment");
+//        findFragment = (FindFragment) getSupportFragmentManager().findFragmentByTag("findFragment");
+        nftMallFragment = (PictureSortFragment) getSupportFragmentManager().findFragmentByTag("nftMallFragment");
         mineFragment = (MineFragment) getSupportFragmentManager().findFragmentByTag("mineFragment");
         if (null == mCurrentFragment) {
             switch (mCurrentItemId) {
@@ -146,12 +149,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 case R.id.navigation_art_sort:
                     mCurrentFragment = nftMallFragment;
                     break;
-                case R.id.navigation_creator:
-                    mCurrentFragment = creatorFragment;
-                    break;
-                case R.id.navigation_find:
-                    mCurrentFragment = findFragment;
-                    break;
+//                case R.id.navigation_creator:
+//                    mCurrentFragment = creatorFragment;
+//                    break;
+//                case R.id.navigation_find:
+//                    mCurrentFragment = findFragment;
+//                    break;
                 case R.id.navigation_mine:
                     mCurrentFragment = mineFragment;
                     break;
@@ -187,39 +190,48 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                     mCurrentFragment = homeFragment;
                     break;
                 case R.id.navigation_art_sort:
+//                    if (null == nftMallFragment) {
+//                        if (null != getSupportFragmentManager().findFragmentByTag("nftMallFragment")) {
+//                            nftMallFragment = (NFTMallFragment) getSupportFragmentManager().findFragmentByTag("nftMallFragment");
+//                        } else {
+//                            nftMallFragment = (NFTMallFragment) NFTMallFragment.newInstance();
+//                            mFragmentTransaction.add(R.id.container, nftMallFragment, "nftMallFragment");
+//                        }
+//                    }
+//                    mCurrentFragment = nftMallFragment;
                     if (null == nftMallFragment) {
                         if (null != getSupportFragmentManager().findFragmentByTag("nftMallFragment")) {
-                            nftMallFragment = (NFTMallFragment) getSupportFragmentManager().findFragmentByTag("nftMallFragment");
+                            nftMallFragment = (PictureSortFragment) getSupportFragmentManager().findFragmentByTag("nftMallFragment");
                         } else {
-                            nftMallFragment = (NFTMallFragment) NFTMallFragment.newInstance();
+                            nftMallFragment = (PictureSortFragment) PictureSortFragment.newInstance();
                             mFragmentTransaction.add(R.id.container, nftMallFragment, "nftMallFragment");
                         }
                     }
                     mCurrentFragment = nftMallFragment;
                     break;
 
-                case R.id.navigation_find:
-                    if (null == findFragment) {
-                        if (null != getSupportFragmentManager().findFragmentByTag("findFragment")) {
-                            findFragment = (FindFragment) getSupportFragmentManager().findFragmentByTag("findFragment");
-                        } else {
-                            findFragment = (FindFragment) FindFragment.newInstance();
-                            mFragmentTransaction.add(R.id.container, findFragment, "findFragment");
-                        }
-                    }
-                    mCurrentFragment = findFragment;
-                    break;
-                case R.id.navigation_creator:
-                    if (null == creatorFragment) {
-                        if (null != getSupportFragmentManager().findFragmentByTag("creatorFragment")) {
-                            creatorFragment = (CreatorFragment) getSupportFragmentManager().findFragmentByTag("creatorFragment");
-                        } else {
-                            creatorFragment = (CreatorFragment) CreatorFragment.newInstance();
-                            mFragmentTransaction.add(R.id.container, creatorFragment, "creatorFragment");
-                        }
-                    }
-                    mCurrentFragment = creatorFragment;
-                    break;
+//                case R.id.navigation_find:
+//                    if (null == findFragment) {
+//                        if (null != getSupportFragmentManager().findFragmentByTag("findFragment")) {
+//                            findFragment = (FindFragment) getSupportFragmentManager().findFragmentByTag("findFragment");
+//                        } else {
+//                            findFragment = (FindFragment) FindFragment.newInstance();
+//                            mFragmentTransaction.add(R.id.container, findFragment, "findFragment");
+//                        }
+//                    }
+//                    mCurrentFragment = findFragment;
+//                    break;
+//                case R.id.navigation_creator:
+//                    if (null == creatorFragment) {
+//                        if (null != getSupportFragmentManager().findFragmentByTag("creatorFragment")) {
+//                            creatorFragment = (CreatorFragment) getSupportFragmentManager().findFragmentByTag("creatorFragment");
+//                        } else {
+//                            creatorFragment = (CreatorFragment) CreatorFragment.newInstance();
+//                            mFragmentTransaction.add(R.id.container, creatorFragment, "creatorFragment");
+//                        }
+//                    }
+//                    mCurrentFragment = creatorFragment;
+//                    break;
                 case R.id.navigation_mine:
                     if (null == mineFragment) {
                         if (null != getSupportFragmentManager().findFragmentByTag("mineFragment")) {

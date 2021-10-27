@@ -66,12 +66,11 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
     public static final int UPGRADE_ARTS = 1;
     public static final int BUY_IN = 2;
     public static final int SELL_OUT = 3;
-    public static final int AUCTIONS = 4;
-    public static final int COLLECT_ARTS = 5;
-    public static final int ABOUT_US = 6;
-    public static final int NEWS = 7;
-    public static final int CASH_ACCOUNT = 8;
-
+//    public static final int AUCTIONS = 4;
+    public static final int COLLECT_ARTS = 4;
+//    public static final int ABOUT_US = 6;
+    public static final int NEWS = 5;
+    public static final int CASH_ACCOUNT = 6;
     SocketService socketService;
     long lastClickTime = 0;
     private long time_space = 1000 * 1;
@@ -199,11 +198,11 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
             case NEWS:
                 startActivity(MessagesActivity.class);
                 break;
-            case AUCTIONS:
-                Intent intent = new Intent(requireActivity(), AuctionRecordsActivity.class);
-                intent.putExtra("page_index", page_index);
-                startActivity(intent);
-                break;
+//            case AUCTIONS:
+//                Intent intent = new Intent(requireActivity(), AuctionRecordsActivity.class);
+//                intent.putExtra("page_index", page_index);
+//                startActivity(intent);
+//                break;
             case MINE_PAGE:
                 startActivity(MyHomePageActivity.class);
                 break;
@@ -213,14 +212,14 @@ MineFragment extends BaseFragment<FragmentMineBinding> implements View.OnClickLi
             case UPGRADE_ARTS:
                 startActivity(UploadArtActivity.class);
                 break;
-            case ABOUT_US:
-                if (YunApplication.getmUserVo() != null)
-                    if (!TextUtils.isEmpty(YunApplication.getmUserVo().getPhone_number()))
-                        startActivity(ExchangeNFTActivity.class);
-                    else {
-                        ToastUtils.showShort("请先绑定手机号");
-                    }
-                break;
+//            case ABOUT_US:
+//                if (YunApplication.getmUserVo() != null)
+//                    if (!TextUtils.isEmpty(YunApplication.getmUserVo().getPhone_number()))
+//                        startActivity(ExchangeNFTActivity.class);
+//                    else {
+//                        ToastUtils.showShort("请先绑定手机号");
+//                    }
+//                break;
             case CASH_ACCOUNT:
                 Intent cashIntent = new Intent(requireContext(), CashAccountActivity.class);
                 cashIntent.putExtra("account_remain", accountRemain);

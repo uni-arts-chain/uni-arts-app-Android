@@ -44,7 +44,7 @@ public class MyHomePageActivity extends BaseActivity<ActivityMyHomePageBinding> 
         setToolBar(mDataBinding.mAppBarLayoutAv.mToolbar, mToolBarOptions);
         mDataBinding.collapsingToolbar.setExpandedTitleColor(Color.BLACK);//设置未收缩状态下的字体颜色
         mDataBinding.collapsingToolbar.setCollapsedTitleTextColor(Color.BLACK);
-        adapter = new MyHomePageAdapter(getSupportFragmentManager(), 3, Arrays.asList(getResources().getStringArray(R.array.my_page_tabs)), this);
+        adapter = new MyHomePageAdapter(getSupportFragmentManager(), 2, Arrays.asList(getResources().getStringArray(R.array.my_page_tabs)), this);
         adapter.setListener(this);
         mDataBinding.viewpager.setAdapter(adapter);
         mDataBinding.tabLayout.setupWithViewPager(mDataBinding.viewpager);
@@ -89,12 +89,17 @@ public class MyHomePageActivity extends BaseActivity<ActivityMyHomePageBinding> 
 
     @Override
     public Fragment getFragment(int position) {
+//        if (position == 0) {
+//            return MyHomePagePicuureSortFragment.newInstance(MyHomePagePicuureSortFragment.STATE_ONLINE);
+//        } else if (position == 1) {
+//            return MyHomePagePicuureSortSellingFragment.newInstance(MyHomePagePicuureSortSellingFragment.STATE_AUCTION);
+//        } else {
+//            return MyHomePageAuctionFragment.newInstance();
+//        }
         if (position == 0) {
             return MyHomePagePicuureSortFragment.newInstance(MyHomePagePicuureSortFragment.STATE_ONLINE);
-        } else if (position == 1) {
-            return MyHomePagePicuureSortSellingFragment.newInstance(MyHomePagePicuureSortSellingFragment.STATE_AUCTION);
         } else {
-            return MyHomePageAuctionFragment.newInstance();
+            return MyHomePagePicuureSortSellingFragment.newInstance(MyHomePagePicuureSortSellingFragment.STATE_AUCTION);
         }
     }
 }

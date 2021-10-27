@@ -34,7 +34,7 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> implemen
 
     private SearchResultFragment sellFragment;
 
-    private SearchAuctionsFragment auctionFragment;
+//    private SearchAuctionsFragment auctionFragment;
 
     @Override
     public int getLayoutId() {
@@ -50,8 +50,8 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> implemen
     public void initView() {
 
         sellFragment = new SearchResultFragment();
-        auctionFragment = new SearchAuctionsFragment();
-        pageAdapter = new MyHomePageAdapter(getSupportFragmentManager(), 2, Arrays.asList(getResources().getStringArray(R.array.mall_tabs)), this);
+//        auctionFragment = new SearchAuctionsFragment();
+        pageAdapter = new MyHomePageAdapter(getSupportFragmentManager(), 1, Arrays.asList(getResources().getStringArray(R.array.mall_tabs)), this);
         pageAdapter.setListener(this);
         mDataBinding.viewpager.setAdapter(pageAdapter);
         mDataBinding.tabLayout.setupWithViewPager(mDataBinding.viewpager);
@@ -96,19 +96,20 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> implemen
 
     @Override
     public Fragment getFragment(int position) {
-        if (position == 0) {
-            return sellFragment;
-        }
-        return auctionFragment;
+//        if (position == 0) {
+//            return sellFragment;
+//        }
+//        return auctionFragment;
+        return sellFragment;
     }
 
     private void toSearch(String keyWord) {
         if (sellFragment != null) {
             sellFragment.searchKeyWords(keyWord);
         }
-        if (auctionFragment != null) {
-            auctionFragment.searchKeyWords(keyWord);
-        }
+//        if (auctionFragment != null) {
+//            auctionFragment.searchKeyWords(keyWord);
+//        }
     }
 
     private static class HistoryListAdapter extends BaseQuickAdapter<String, BaseViewHolder> {

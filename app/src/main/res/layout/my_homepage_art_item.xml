@@ -133,7 +133,7 @@
                     android:textColor="@color/black"
                     android:textSize="13sp" />
 
-                <Button
+              <!--  <Button
                     android:id="@+id/auctionAction"
                     android:layout_width="0dp"
                     android:layout_height="25dp"
@@ -143,12 +143,13 @@
                     android:background="@drawable/shape_bg_black"
                     android:text="拍卖"
                     android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:textSize="13sp" />-->
 
                 <Button
                     android:id="@+id/transferAction"
                     android:layout_width="0dp"
                     android:layout_height="25dp"
+                    android:layout_marginLeft="30dp"
                     android:layout_weight="1"
                     android:background="@drawable/shape_bg_black"
                     android:text="转让"
