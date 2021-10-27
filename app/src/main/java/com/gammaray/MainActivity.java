@@ -499,6 +499,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         }
         if (!TextUtils.isEmpty(Extras.pinCode)) {
             SharedPreUtils.setString(this, SharedPreUtils.KEY_PIN, Extras.pinCode);
+            SharedPreUtils.setString(this, SharedPreUtils.KEY_ETH_WALLET_PWD, Extras.pinCode);
         }
         if (!TextUtils.isEmpty(Extras.mnemonic)) {
             SharedPreUtils.setString(this, SharedPreUtils.KEY_MNENONIC, Extras.mnemonic);

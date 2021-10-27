@@ -131,9 +131,10 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
             ToastUtils.showShort("钱包名不能为空");
             return;
         }
-        Intent intent = new Intent(ETHImportWalletActivity.this, ETHPinCodeActivity.class);
+        Intent intent = new Intent(ETHImportWalletActivity.this, PinCodeKtActivity.class);
         intent.putExtra(RESUME_CER, true);
         intent.putExtra(SET_CER, true);
+
         startActivityForResult(intent, mDefaultImportType);
     }
 
@@ -142,15 +143,15 @@ public class ETHImportWalletActivity extends BaseActivity<ActivityEthImportWalle
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
             String mnemonic = mDataBinding.edRawData.getText().toString();
-            String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
+            String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_ETH_WALLET_PWD);
             createWalletInteract.loadWalletByMnemonic(mWalletName, ethType, mnemonic, walletPwd, false).subscribe(this::loadSuccess, this::onError);
         } else if (requestCode == 1) {
             String privateKey = mDataBinding.edRawData.getText().toString();
-            String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
+            String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_ETH_WALLET_PWD);
             createWalletInteract.loadWalletByPrivateKey(mWalletName, privateKey, walletPwd, false, "ETH").subscribe(this::loadSuccess, this::onError);
         } else if (requestCode == 2) {
             String keyStore = mDataBinding.edWalletJson.getText().toString();
-            String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_PIN);
+            String walletPwd = SharedPreUtils.getString(this, SharedPreUtils.KEY_ETH_WALLET_PWD);
             createWalletInteract.loadWalletByKeystore(mWalletName, keyStore, walletPwd, false, "ETH").subscribe(this::loadSuccess, this::onError);
         }
     }

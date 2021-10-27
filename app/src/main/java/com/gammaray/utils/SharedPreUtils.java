@@ -59,6 +59,7 @@ public class SharedPreUtils {
     public static final String KEY_RPC_URL = "rpc_url";
     public static final String KEY_CHAIN_ID = "chain_id";
     public static final String KEY_RPC_NAME = "rpc_name";
+    public static final String KEY_ETH_WALLET_PWD ="eth_wallet_pwd";
 
     /**
      * 序列化对象

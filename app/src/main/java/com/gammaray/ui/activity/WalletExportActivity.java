@@ -14,6 +14,7 @@ import com.gammaray.databinding.ActivityWalletExportLayoutBinding;
 import com.gammaray.eth.domain.ETHWallet;
 import com.gammaray.eth.interact.ModifyWalletInteract;
 import com.gammaray.ui.activity.wallet.ExportKeystoreActivity;
+import com.gammaray.utils.SharedPreUtils;
 import com.gammaray.widget.PrivateKeyDerivetDialog;
 
 import java.math.BigDecimal;
@@ -78,27 +79,23 @@ public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayou
     public void onClick(View view) {
         if (view.getId() == R.id.editPsw) {
             //修改密码
-            Intent intent = new Intent(WalletExportActivity.this, ETHPinCodeActivity.class);
+            Intent intent = new Intent(WalletExportActivity.this, PinCodeKtActivity.class);
             intent.putExtra("resume", true);
-            intent.putExtra("wallet_pwd", walletPwd);
             startActivityForResult(intent, KEY_PSW_CONFIRM);
         } else if (view.getId() == R.id.exportPrivateKey) {
             //导出私钥
-            Intent intent = new Intent(WalletExportActivity.this, ETHPinCodeActivity.class);
-            intent.putExtra("wallet_pwd", walletPwd);
+            Intent intent = new Intent(WalletExportActivity.this, PinCodeKtActivity.class);
             startActivityForResult(intent, KEY_PRIVATE);
         } else if (view.getId() == R.id.protocal) {
             //隐私协议
             startActivity(UserAgreementActivity.class);
         } else if (view.getId() == R.id.backupMnemonic) {
             //备份助记词
-            Intent intent = new Intent(WalletExportActivity.this, ETHPinCodeActivity.class);
-            intent.putExtra("wallet_pwd", walletPwd);
+            Intent intent = new Intent(WalletExportActivity.this, PinCodeKtActivity.class);
             startActivityForResult(intent, KEY_BACKUP);
         } else if (view.getId() == R.id.exportKeyStore) {
             //备份KeyStore
-            Intent intent = new Intent(WalletExportActivity.this, ETHPinCodeActivity.class);
-            intent.putExtra("wallet_pwd", walletPwd);
+            Intent intent = new Intent(WalletExportActivity.this, PinCodeKtActivity.class);
             startActivityForResult(intent, KEY_KEYSTORE);
         } else if (view.getId() == R.id.saveAction) {
             //修改钱包名
@@ -121,20 +118,17 @@ public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayou
         if (requestCode == KEY_PRIVATE) {
             //导出私钥
             if (resultCode == BigDecimal.ONE.intValue()) {
-                if (data != null) {
-                    String password = data.getStringExtra("input_pwd");
+                    String password = SharedPreUtils.getString(WalletExportActivity.this,SharedPreUtils.KEY_ETH_WALLET_PWD);
                     modifyWalletInteract.deriveWalletPrivateKey(walletId, password).subscribe(WalletExportActivity.this::showDerivePrivateKeyDialog);
-                }
             }
         } else if (requestCode == KEY_PSW_CONFIRM) {
             //修改密码
             if (resultCode == BigDecimal.ONE.intValue()) {
-                if (data != null) {
-                    String oldPwd = data.getStringExtra("input_old_pwd");
-                    String newPwd = data.getStringExtra("input_new_pwd");
-                    showLoading(R.string.progress_loading);
-                    modifyWalletInteract.modifyWalletPwd(walletId, walletName, oldPwd, newPwd).subscribe(this::modifyPwdSuccess);
-                }
+//                    String oldPwd = data.getStringExtra("input_old_pwd");
+//                    String newPwd = data.getStringExtra("input_new_pwd");
+//                    showLoading(R.string.progress_loading);
+//                    modifyWalletInteract.modifyWalletPwd(walletId, walletName, oldPwd, newPwd).subscribe(this::modifyPwdSuccess);
+                ToastUtils.showShort("重置密码成功");
             }
         } else if (requestCode == KEY_BACKUP) {
             if (resultCode == BigDecimal.ONE.intValue()) {
@@ -145,7 +139,7 @@ public class WalletExportActivity extends BaseActivity<ActivityWalletExportLayou
         } else if (requestCode == KEY_KEYSTORE) {
             if (resultCode == BigDecimal.ONE.intValue()) {
                 showLoading(R.string.progress_loading);
-                String password = data.getStringExtra("input_pwd");
+                String password = SharedPreUtils.getString(WalletExportActivity.this,SharedPreUtils.KEY_ETH_WALLET_PWD);
                 modifyWalletInteract.deriveWalletKeystore(walletId, password).subscribe(this::showDeriveKeystore);
             }
         }
