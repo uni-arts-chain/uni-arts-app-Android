@@ -402,7 +402,7 @@ UniArts提供技术支持</string>
         <item>UART</item>
     </string-array>
 
-    <string name="wallet_link_hint">%1$s正在申请访问你的钱包地址，你确认将 钱包地址公开给此网站吗？</string>
+    <string name="wallet_link_hint">%1$s正在申请访问你的钱包地址，你确认将钱包地址公开给此网站吗？</string>
     <string name="eth_trans_value">-%1$s ETH</string>
     <string name="eth_gas_price">%1$s Gwei(¥%2$s)</string>
     <string name="eth_dapp_url">(%1$s)</string>

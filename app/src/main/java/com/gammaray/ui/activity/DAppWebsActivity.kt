@@ -68,7 +68,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
     private var mDAppId: Int = -1
 
-    private var mDAppIsNeedNotice = false
+    private var mDAppIsNeedNotice = true
 
     private var mDAppFunctionsWindow: PopupWindow? = null
 
@@ -125,6 +125,8 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
             mDAppIconUrl = intent.getStringExtra("dapp_icon_url")
         }
 
+        mDAppIsNeedNotice = SharedPreUtils.getBoolean(this, mDAppUrl, true)
+
         initWallet()
 
         if (!TextUtils.isEmpty(mDAppId.toString())) {
@@ -137,8 +139,6 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
         initFunctionPopWindow()
 
         initWalletLinkHintPopWindow()
-
-        mDAppIsNeedNotice = SharedPreUtils.getBoolean(this, mDAppUrl, false)
 
         showWalletLinkPopWindow()
 
@@ -336,13 +336,18 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
 
         walletDAppNoticeLayout.setOnClickListener {
             if (mDAppIsNeedNotice) {
-                walletDAppNotice.isChecked = false
+                walletDAppNotice.isChecked = true
                 mDAppIsNeedNotice = false
             } else {
-                walletDAppNotice.isChecked = true
+                walletDAppNotice.isChecked = false
                 mDAppIsNeedNotice = true
             }
         }
+        walletDAppNotice.setOnCheckedChangeListener(object:CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+                mDAppIsNeedNotice = !p1
+            }
+        })
 
         if (!TextUtils.isEmpty(mDAppIconUrl)) {
             Glide.with(this).load(mDAppIconUrl).into(walletDAppIcon)
@@ -364,7 +369,7 @@ class DAppWebsActivity : BaseActivity<ActivityDappWebLayoutBinding>(), View.OnCl
     }
 
     private fun showWalletLinkPopWindow() {
-        if (!mDAppIsNeedNotice) {
+        if (mDAppIsNeedNotice) {
             mDataBinding.parentLayout.post {
                 mDAppWalletLinkHintWindow?.showAtLocation(
                     mDataBinding.parentLayout,
