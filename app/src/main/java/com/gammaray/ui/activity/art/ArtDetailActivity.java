@@ -917,6 +917,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
 
     public void requestArtInfo() {
         showLoading(getString(R.string.progress_loading));
+        artDetailUrls.clear();
         RequestManager.instance().artInfo(request_art_id, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
