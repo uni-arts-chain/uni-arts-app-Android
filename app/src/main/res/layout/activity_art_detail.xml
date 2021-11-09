@@ -388,7 +388,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_20">
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:visibility="gone">
 
                     <View
                         android:layout_width="@dimen/dp_20"
@@ -420,7 +421,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_130">
+                    android:layout_height="@dimen/dp_130"
+                    android:visibility="gone">
 
                     <com.gammaray.widget.CircleImageView
                         android:id="@+id/headImg"

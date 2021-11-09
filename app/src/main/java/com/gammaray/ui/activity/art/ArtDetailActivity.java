@@ -112,6 +112,8 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
     private TextView mNftAddressTv;
     private RelativeLayout mNftCloseBtn;
     private List<String> artDetailUrls = new ArrayList<>();
+    private ArtDetailImgAdapter artDetailImgAdapter;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_art_detail;
@@ -139,15 +141,14 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         mDataBinding.imgZhengshu.setOnClickListener(this);
         mDataBinding.imgPlay.setOnClickListener(this);
         mDataBinding.imgVideo.setOnClickListener(this);
+        initArtDetails();
         initZhengShuPopwindow();
     }
 
     private void initArtDetails(){
-        if(!artDetailUrls.isEmpty()){
-            ArtDetailImgAdapter artDetailImgAdapter = new ArtDetailImgAdapter(artDetailUrls,this);
+            artDetailImgAdapter = new ArtDetailImgAdapter(artDetailUrls,this);
             mDataBinding.artDetails.setLayoutManager(new LinearLayoutManager(this));
             mDataBinding.artDetails.setAdapter(artDetailImgAdapter);
-        }
     }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
@@ -304,7 +305,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 mDataBinding.layoutVideo.setVisibility(View.GONE);
                 mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
             }
-
+            artDetailUrls.clear();
             if(sellingArtVo.getImg_detail_file1() != null){
                 if(!TextUtils.isEmpty(sellingArtVo.getImg_detail_file1().getUrl())){
                     artDetailUrls.add(sellingArtVo.getImg_detail_file1().getUrl());
@@ -319,6 +320,9 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 if(!TextUtils.isEmpty(sellingArtVo.getImg_detail_file3().getUrl())){
                     artDetailUrls.add(sellingArtVo.getImg_detail_file3().getUrl());
                 }
+            }
+            if(artDetailUrls != null && artDetailUrls.size() != 0){
+                artDetailImgAdapter.setNewData(artDetailUrls);
             }
         art_id = String.valueOf(sellingArtVo.getId());
         mDataBinding.pictureName.setText(sellingArtVo.getName());
@@ -925,7 +929,6 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                         dismissLoading();
                         sellingArtVo = response.body().getBody();
                         initPageData();
-                        initArtDetails();
                         getOrderAmount(String.valueOf(sellingArtVo.getId()));
                     }
                 }
