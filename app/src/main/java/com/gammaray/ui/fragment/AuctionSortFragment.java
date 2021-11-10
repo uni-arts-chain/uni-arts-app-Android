@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -282,16 +281,19 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
                 dismissLoading();
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getBody() != null) {
-                        if (page == BigDecimal.ONE.intValue()) {
-                            artBeanList.clear();
-                            artBeanList = response.body().getBody();
-                            picturesAdapter.setNewData(artBeanList);
-                        } else if (page > BigDecimal.ONE.intValue() && artBeanList.size() > BigDecimal.ZERO.intValue()) {
-                            artBeanList.addAll(response.body().getBody());
-                            picturesAdapter.notifyItemRangeChanged(artBeanList.size() - 1, response.body().getBody().size());
+                        if (response.body().getBody().size() > 0) {
+                            if (page == 1) {
+                                artBeanList.clear();
+                                artBeanList = response.body().getBody();
+                                picturesAdapter.setNewData(artBeanList);
+                            } else {
+                                picturesAdapter.addData(response.body().getBody());
+                            }
+                            picturesAdapter.loadMoreComplete();
+                            page++;
+                        } else {
+                            picturesAdapter.loadMoreEnd();
                         }
-                        picturesAdapter.loadMoreEnd();
-                        page++;
                     }
                 }
             }

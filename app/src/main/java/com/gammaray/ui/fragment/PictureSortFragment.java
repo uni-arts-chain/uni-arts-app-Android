@@ -287,8 +287,6 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
                                 artBeanList = response.body().getBody();
                                 picturesAdapter.setNewData(artBeanList);
                             } else {
-//                                artBeanList.addAll(response.body().getBody());
-//                                picturesAdapter.notifyItemRangeChanged(response.body().getBody().size(),artBeanList.size() - 1);
                                 picturesAdapter.addData(response.body().getBody());
                             }
                             picturesAdapter.loadMoreComplete();
