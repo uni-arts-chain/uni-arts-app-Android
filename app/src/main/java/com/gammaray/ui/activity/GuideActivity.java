@@ -22,7 +22,7 @@ public class GuideActivity extends BaseActivity<ActivityGuideBinding> {
     private final int[] mPageImages = {
             R.mipmap.guide1,
             R.mipmap.guide2,
-            R.mipmap.img_guide3,
+            R.mipmap.guide3,
     };
 
     @Override

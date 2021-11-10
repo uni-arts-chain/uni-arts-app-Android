@@ -38,6 +38,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:maxLines="1"
+            android:ellipsize="middle"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:textColor="#010034"
@@ -74,7 +78,7 @@
                 android:id="@+id/tv_nft_address_key"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NFT地址："
+                android:text="数字藏品地址："
                 android:textColor="#010034"
                 android:textSize="12sp" />
 

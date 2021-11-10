@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="描述一下自己在区块链行业的成就吧~"
+                android:hint="描述一下自己在行业的成就吧~"
                 android:padding="@dimen/dp_10"
                 android:textSize="@dimen/sp_13" />
 

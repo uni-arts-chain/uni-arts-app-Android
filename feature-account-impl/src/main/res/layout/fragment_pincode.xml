@@ -17,8 +17,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dp_15"
-        android:paddingRight="@dimen/dp_15"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
         android:text="@string/wallet_tips_pincode"
         android:textColor="#B25F00"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />

@@ -100,7 +100,7 @@
     <string name="about_privacy">Privacy policy</string>
     <string name="about_terms">Terms and conditions</string>
     <string name="onboarding_create_account">创建钱包</string>
-    <string name="wallet_tips_pincode">友情提醒：加码射线所有收藏品权益均绑定用户区块链地址和私钥，加码射线官方无权触碰用户藏品，也永远不会询问用户密码和私钥。
+    <string name="wallet_tips_pincode">友情提醒：加码射线所有收藏品权益均绑定用户地址和私钥，加码射线官方无权触碰用户藏品，也永远不会询问用户密码和私钥。
 </string>
 
     <string name="username_setup_choose_title">请输入钱包名</string>

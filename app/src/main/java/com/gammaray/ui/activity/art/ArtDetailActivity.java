@@ -111,8 +111,6 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
     private TextView mNftCountTv;
     private TextView mNftAddressTv;
     private RelativeLayout mNftCloseBtn;
-    private List<String> artDetailUrls = new ArrayList<>();
-    private ArtDetailImgAdapter artDetailImgAdapter;
 
     @Override
     public int getLayoutId() {
@@ -141,15 +139,9 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         mDataBinding.imgZhengshu.setOnClickListener(this);
         mDataBinding.imgPlay.setOnClickListener(this);
         mDataBinding.imgVideo.setOnClickListener(this);
-        initArtDetails();
         initZhengShuPopwindow();
     }
 
-    private void initArtDetails() {
-        artDetailImgAdapter = new ArtDetailImgAdapter(artDetailUrls, this);
-        mDataBinding.artDetails.setLayoutManager(new LinearLayoutManager(this));
-        mDataBinding.artDetails.setAdapter(artDetailImgAdapter);
-    }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void Event(EventBusMessageEvent mEventBusMessageEvent) {
@@ -305,24 +297,44 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
             mDataBinding.layoutVideo.setVisibility(View.GONE);
             mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
         }
-        artDetailUrls.clear();
         if (sellingArtVo.getImg_detail_file1() != null) {
             if (!TextUtils.isEmpty(sellingArtVo.getImg_detail_file1().getUrl())) {
-                artDetailUrls.add(sellingArtVo.getImg_detail_file1().getUrl());A
+                mDataBinding.artDetailImg1.setVisibility(View.VISIBLE);
+                Glide.with(this).load(sellingArtVo.getImg_detail_file1().getUrl())
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(mDataBinding.artDetailImg1);
+            } else {
+                mDataBinding.artDetailImg1.setVisibility(View.GONE);
             }
+        } else {
+            mDataBinding.artDetailImg1.setVisibility(View.GONE);
         }
         if (sellingArtVo.getImg_detail_file2() != null) {
             if (!TextUtils.isEmpty(sellingArtVo.getImg_detail_file2().getUrl())) {
-                artDetailUrls.add(sellingArtVo.getImg_detail_file2().getUrl());
+                mDataBinding.artDetailImg2.setVisibility(View.VISIBLE);
+                Glide.with(this).load(sellingArtVo.getImg_detail_file2().getUrl())
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(mDataBinding.artDetailImg2);
+            } else {
+                mDataBinding.artDetailImg2.setVisibility(View.GONE);
             }
+        } else {
+            mDataBinding.artDetailImg2.setVisibility(View.GONE);
         }
         if (sellingArtVo.getImg_detail_file3() != null) {
             if (!TextUtils.isEmpty(sellingArtVo.getImg_detail_file3().getUrl())) {
-                artDetailUrls.add(sellingArtVo.getImg_detail_file3().getUrl());
+                mDataBinding.artDetailImg3.setVisibility(View.VISIBLE);
+                Glide.with(this).load(sellingArtVo.getImg_detail_file3().getUrl())
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(mDataBinding.artDetailImg3);
+            } else {
+                mDataBinding.artDetailImg3.setVisibility(View.GONE);
             }
-        }
-        if (artDetailImgAdapter != null && artDetailUrls.size() > 0) {
-            artDetailImgAdapter.setNewData(artDetailUrls);
+        } else {
+            mDataBinding.artDetailImg3.setVisibility(View.GONE);
         }
         art_id = String.valueOf(sellingArtVo.getId());
         mDataBinding.pictureName.setText(sellingArtVo.getName());
@@ -921,16 +933,15 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
 
     public void requestArtInfo() {
         showLoading(getString(R.string.progress_loading));
-        artDetailUrls.clear();
         RequestManager.instance().artInfo(request_art_id, new MinerCallback<BaseResponseVo<SellingArtVo>>() {
             @Override
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
-                        dismissLoading();
                         sellingArtVo = response.body().getBody();
                         initPageData();
                         getOrderAmount(String.valueOf(sellingArtVo.getId()));
+                        dismissLoading();
                     }
                 }
             }
