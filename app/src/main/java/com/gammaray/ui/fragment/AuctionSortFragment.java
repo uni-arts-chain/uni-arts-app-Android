@@ -99,16 +99,16 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
 
-        mBinding.scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            layoutManager.invalidateSpanAssignments();
-            if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-                //滑动到底部
-                if (System.currentTimeMillis() - lastRefreshTime > timeFlag) {
-                    lastRefreshTime = System.currentTimeMillis();
-                    getAuctions(param);
-                }
-            }
-        });
+//        mBinding.scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+//            layoutManager.invalidateSpanAssignments();
+//            if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+//                //滑动到底部
+//                if (System.currentTimeMillis() - lastRefreshTime > timeFlag) {
+//                    lastRefreshTime = System.currentTimeMillis();
+//                    getAuctions(param);
+//                }
+//            }
+//        });
 
         mBinding.pictures.setLayoutManager(layoutManager);
         picturesAdapter.setEmptyView(R.layout.layout_entrust_empty, mBinding.pictures);
