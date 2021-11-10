@@ -112,7 +112,6 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
     private TextView mNftAddressTv;
     private RelativeLayout mNftCloseBtn;
     private List<String> artDetailUrls = new ArrayList<>();
-    private ArtDetailImgAdapter artDetailImgAdapter;
 
     @Override
     public int getLayoutId() {
@@ -141,14 +140,13 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         mDataBinding.imgZhengshu.setOnClickListener(this);
         mDataBinding.imgPlay.setOnClickListener(this);
         mDataBinding.imgVideo.setOnClickListener(this);
-        initArtDetails();
         initZhengShuPopwindow();
     }
 
-    private void initArtDetails(){
-            artDetailImgAdapter = new ArtDetailImgAdapter(artDetailUrls,this);
-            mDataBinding.artDetails.setLayoutManager(new LinearLayoutManager(this));
-            mDataBinding.artDetails.setAdapter(artDetailImgAdapter);
+    private void initArtDetails() {
+        ArtDetailImgAdapter artDetailImgAdapter = new ArtDetailImgAdapter(artDetailUrls, this);
+        mDataBinding.artDetails.setLayoutManager(new LinearLayoutManager(this));
+        mDataBinding.artDetails.setAdapter(artDetailImgAdapter);
     }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
@@ -188,8 +186,8 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
         mNftCountTv = contentView.findViewById(R.id.tv_nft_count);
         mNftAddressTv = contentView.findViewById(R.id.tv_nft_address);
         mNftCloseBtn = contentView.findViewById(R.id.layout_close);
-        if(sellingArtVo != null){
-            if(!TextUtils.isEmpty(sellingArtVo.getName())){
+        if (sellingArtVo != null) {
+            if (!TextUtils.isEmpty(sellingArtVo.getName())) {
                 mNftNameTv.setText(getString(R.string.nft_name, sellingArtVo.getName()));
             }
             if (!YunApplication.getArtThemeVoList().isEmpty()) {
@@ -200,7 +198,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 }
             }
             mNftCountTv.setText(getString(R.string.nft_count, String.valueOf(sellingArtVo.getTotal_amount())));
-            if(!TextUtils.isEmpty(sellingArtVo.getItem_hash())){
+            if (!TextUtils.isEmpty(sellingArtVo.getItem_hash())) {
                 mNftAddressTv.setText(sellingArtVo.getItem_hash());
             }
         }
@@ -282,48 +280,59 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
     public void initPageData() {
 
         if (sellingArtVo == null) return;
-            if(!TextUtils.isEmpty(sellingArtVo.getResource_type())){
-                if (sellingArtVo.getResource_type().equals("4")) {
-                    if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file2().getUrl()) && sellingArtVo.getImg_main_file2().getUrl().endsWith("mp4")) {
-                        mDataBinding.imgPlay.setOnClickListener(this);
-                        mDataBinding.layoutVideo.setVisibility(View.VISIBLE);
-                        mDataBinding.layoutBanner.setVisibility(View.GONE);
-                        Glide.with(this)
-                                .load(sellingArtVo.getImg_main_file1().getUrl())
-                                .skipMemoryCache(true).transition(withCrossFade())
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(mDataBinding.imgVideo);
-                    } else {
-                        mDataBinding.layoutVideo.setVisibility(View.GONE);
-                        mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
-                    }
-                }else{
+        if (sellingArtVo.getImg_detail_file1() != null) {
+            if (!TextUtils.isEmpty(sellingArtVo.getImg_detail_file1().getUrl())) {
+                mDataBinding.artDetailImg1.setVisibility(View.VISIBLE);
+                Glide.with(this).load(sellingArtVo.getImg_detail_file1().getUrl()).into(mDataBinding.artDetailImg1);
+            } else {
+                mDataBinding.artDetailImg1.setVisibility(View.GONE);
+            }
+        }else{
+            mDataBinding.artDetailImg1.setVisibility(View.GONE);
+        }
+        if (sellingArtVo.getImg_detail_file2() != null) {
+            if (!TextUtils.isEmpty(sellingArtVo.getImg_detail_file2().getUrl())) {
+                mDataBinding.artDetailImg2.setVisibility(View.VISIBLE);
+                Glide.with(this).load(sellingArtVo.getImg_detail_file2().getUrl()).into(mDataBinding.artDetailImg2);
+            }else{
+                mDataBinding.artDetailImg2.setVisibility(View.GONE);
+            }
+        }else{
+            mDataBinding.artDetailImg2.setVisibility(View.GONE);
+        }
+        if (sellingArtVo.getImg_detail_file3() != null) {
+            if (!TextUtils.isEmpty(sellingArtVo.getImg_detail_file3().getUrl())) {
+                mDataBinding.artDetailImg3.setVisibility(View.VISIBLE);
+                Glide.with(this).load(sellingArtVo.getImg_detail_file3().getUrl()).into(mDataBinding.artDetailImg3);
+            }else{
+                mDataBinding.artDetailImg3.setVisibility(View.GONE);
+            }
+        }else{
+            mDataBinding.artDetailImg3.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(sellingArtVo.getResource_type())) {
+            if (sellingArtVo.getResource_type().equals("4")) {
+                if (!TextUtils.isEmpty(sellingArtVo.getImg_main_file2().getUrl()) && sellingArtVo.getImg_main_file2().getUrl().endsWith("mp4")) {
+                    mDataBinding.imgPlay.setOnClickListener(this);
+                    mDataBinding.layoutVideo.setVisibility(View.VISIBLE);
+                    mDataBinding.layoutBanner.setVisibility(View.GONE);
+                    Glide.with(this)
+                            .load(sellingArtVo.getImg_main_file1().getUrl())
+                            .skipMemoryCache(true).transition(withCrossFade())
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(mDataBinding.imgVideo);
+                } else {
                     mDataBinding.layoutVideo.setVisibility(View.GONE);
                     mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
                 }
-            }else{
+            } else {
                 mDataBinding.layoutVideo.setVisibility(View.GONE);
                 mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
             }
-            artDetailUrls.clear();
-            if(sellingArtVo.getImg_detail_file1() != null){
-                if(!TextUtils.isEmpty(sellingArtVo.getImg_detail_file1().getUrl())){
-                    artDetailUrls.add(sellingArtVo.getImg_detail_file1().getUrl());
-                }
-            }
-            if(sellingArtVo.getImg_detail_file2() != null){
-                if(!TextUtils.isEmpty(sellingArtVo.getImg_detail_file2().getUrl())){
-                    artDetailUrls.add(sellingArtVo.getImg_detail_file2().getUrl());
-                }
-            }
-            if(sellingArtVo.getImg_detail_file3() != null){
-                if(!TextUtils.isEmpty(sellingArtVo.getImg_detail_file3().getUrl())){
-                    artDetailUrls.add(sellingArtVo.getImg_detail_file3().getUrl());
-                }
-            }
-            if(artDetailUrls != null && artDetailUrls.size() != 0){
-                artDetailImgAdapter.setNewData(artDetailUrls);
-            }
+        } else {
+            mDataBinding.layoutVideo.setVisibility(View.GONE);
+            mDataBinding.layoutBanner.setVisibility(View.VISIBLE);
+        }
         art_id = String.valueOf(sellingArtVo.getId());
         mDataBinding.pictureName.setText(sellingArtVo.getName());
         mDataBinding.picturePrize.setText(getString(R.string.text_buy_amount, sellingArtVo.getPrice()));
@@ -529,7 +538,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                     if (sellingArtVo.getImg_main_file2().getUrl().endsWith("mp4")) {
                         try {
                             PictureSelector.create(ArtDetailActivity.this).externalPictureVideo(sellingArtVo.getImg_main_file2().getUrl());
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -546,7 +555,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 if ((sellingArtVo.getHas_amount() - sellingArtVo.getSelling_amount()) > 0) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(SellArtActivity.ARTINFO, sellingArtVo);
-                    bundle.putBoolean("is_from_detail",true);
+                    bundle.putBoolean("is_from_detail", true);
                     startActivity(SellArtActivity.class, bundle);
                 }
             } else {
@@ -558,7 +567,7 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
                 } else {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(SellArtUnCutActivity.ARTINFO, sellingArtVo);
-                    bundle.putBoolean("is_from_detail",true);
+                    bundle.putBoolean("is_from_detail", true);
                     startActivity(SellArtUnCutActivity.class, bundle);
                 }
             }
@@ -926,10 +935,10 @@ public class ArtDetailActivity extends BaseActivity<ActivityArtDetailBinding> im
             public void onSuccess(Call<BaseResponseVo<SellingArtVo>> call, Response<BaseResponseVo<SellingArtVo>> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getBody() != null) {
-                        dismissLoading();
                         sellingArtVo = response.body().getBody();
                         initPageData();
                         getOrderAmount(String.valueOf(sellingArtVo.getId()));
+                        dismissLoading();
                     }
                 }
             }

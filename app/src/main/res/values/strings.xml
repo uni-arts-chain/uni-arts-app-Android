@@ -9,7 +9,7 @@
     <string name="edit_hint">请输入关键字搜索作品</string>
     <string name="parameter_error">请求参数错误，请稍候重试</string>
     <string name="artist">作品</string>
-    <string name="mine_acount">区块链积分：%1$s</string>
+    <string name="mine_acount">数字藏品积分：%1$s</string>
     <string name="centify_addr">证书地址：%1$s</string>
     <string name="sign_amounts">交易次数：%1$s次</string>
     <string name="create_amount">发行份数：%1$s份</string>
@@ -76,7 +76,7 @@
     <string name="id_card_1">身份证人像面</string>
     <string name="id_card_2">身份证国徽面</string>
     <string name="select_pics">选择作品</string>
-    <string name="qukuai">区块链信息</string>
+    <string name="qukuai">数字藏品信息</string>
     <string name="picture_profile">创作者张大中在作品《水墨》系列中以“梅花”作为自己某种观念或隐喻的象征，山林中的梅花不再有寒冷的感觉，红热的梅花体现出了烈焰灼烧的意味，这也代表了创作者心中某种热烈的情感需要爆发。生活只有遵循内心的想法才会精彩，真实从心的想法才会是第一顺位。</string>
     <string name="go_creator_page">进入创作者主页</string>
     <string name="up_id_img">请拍摄以下证件照片,注意避免证件反光</string>
@@ -263,7 +263,7 @@
     <string name="nft_name">名称：%1$s</string>
     <string name="nft_theme">主题：%1$s</string>
     <string name="nft_count">发行份数：%1$s份</string>
-    <string name="nft_address">NFT地址：%1$s</string>
+    <string name="nft_address">数字藏品地址：%1$s</string>
 
     <string name="upload_art_tips">上传作品(支持静态图、GIF、Live2D、视频)</string>
 
@@ -305,12 +305,12 @@
     <string name="blindbox_open_x1">开启 x1</string>
     <string name="blindbox_open_x10">开启 x10</string>
 
-    <string name="text_group_desc">电影/游戏/艺术领域</string>
-    <string name="text_group_desc2">基于NFT技术的数字化宣发和衍生品交易服务</string>
+    <string name="text_group_desc">IP / 画师 / cos / 潮玩</string>
+    <string name="text_group_desc2">ACG二次元艺术创作衍生品交流平台</string>
     <string name="title_exchange_nft">兑换NFT</string>
     <string name="title_exchange_action">兑换</string>
     <string name="text_group_copright">Copyright©2020-2021\n
-加码射线版权所有</string>
+加码射线版权所有\n上海黑皇文化创意有限公司</string>
 
     <string name="text_exchange_code_null_tips">请输入兑换码</string>
 

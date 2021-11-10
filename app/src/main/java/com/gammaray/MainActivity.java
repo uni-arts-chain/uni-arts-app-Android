@@ -134,7 +134,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         CacheDiskStaticUtils.put(ExtraConstant.KEY_GUIDE_FLAG, "1");
         saveData();
 //        loginByAddress();
-        queryNetworks();
+//        queryNetworks();
         homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("homeFragment");
 //        nftMallFragment = (NFTMallFragment) getSupportFragmentManager().findFragmentByTag("nftMallFragment");
 //        creatorFragment = (CreatorFragment) getSupportFragmentManager().findFragmentByTag("creatorFragment");

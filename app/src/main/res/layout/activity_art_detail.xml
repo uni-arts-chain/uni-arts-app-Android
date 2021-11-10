@@ -640,43 +640,38 @@
                     android:textColor="@color/picture_name_color"
                     android:textSize="@dimen/sp_14" />
 
-                <RelativeLayout
+                <ImageView
+                    android:id="@+id/art_detail_img1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"/>
 
-                    <View
-                        android:layout_width="@dimen/dp_20"
-                        android:layout_height="@dimen/dp_2"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/title_detail"
-                        android:background="@color/line_color" />
+                <ImageView
+                    android:id="@+id/art_detail_img2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"/>
 
-                    <TextView
-                        android:id="@+id/title_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:padding="@dimen/dp_10"
-                        android:text="@string/art_detail"
-                        android:textColor="@color/picture_name_color"
-                        android:textSize="@dimen/sp_17"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="@dimen/dp_20"
-                        android:layout_height="@dimen/dp_2"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/title_detail"
-                        android:background="@color/line_color" />
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/art_detail_img3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/art_details"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:visibility="gone"/>
 
                 <View
                     android:layout_width="match_parent"

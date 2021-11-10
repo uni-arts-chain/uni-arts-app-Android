@@ -44,7 +44,7 @@
                 android:layout_marginTop="@dimen/dp_15"
                 android:layout_marginRight="@dimen/dp_15"
                 android:gravity="center"
-                android:text="NFT卡片将在5分钟内划转完成，
+                android:text="数字藏品将在5分钟内划转完成，
 可在“我的主页”查看！"
                 android:textColor="@color/_101010"
                 android:textSize="14sp" />
