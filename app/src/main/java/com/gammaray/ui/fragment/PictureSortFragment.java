@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -59,6 +58,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
     private int curThemeClickPos;
     private int curTypeClickPos;
     private int curPriceClickPos;
+
     public static BaseFragment newInstance() {
         return new PictureSortFragment();
     }
@@ -95,24 +95,13 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         prizeAdapter = new PrizeAdapter(priceVos);
         picturesAdapter = new PicturesAdapter(artBeanList);
         initSelectedListener();
+
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-
-
-        mBinding.scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            layoutManager.invalidateSpanAssignments();
-            if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-                //滑动到底部
-                if (System.currentTimeMillis() - lastRefreshTime > timeFlag) {
-                    lastRefreshTime = System.currentTimeMillis();
-                    getPopular(param);
-                }
-            }
-        });
-
         mBinding.pictures.setLayoutManager(layoutManager);
         picturesAdapter.setEmptyView(R.layout.layout_entrust_empty, mBinding.pictures);
+        picturesAdapter.bindToRecyclerView(mBinding.pictures);
         picturesAdapter.setOnLoadMoreListener(() -> {
-
+            getPopular(param);
         }, mBinding.pictures);
         mBinding.pictures.setAdapter(picturesAdapter);
         picturesAdapter.setOnItemClickListener(this);
@@ -128,10 +117,10 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         mBinding.sortList.setAdapter(sortAdapter);
         mBinding.typeList.setAdapter(typeAdapter);
         mBinding.prizeList.setAdapter(prizeAdapter);
-        if(priceVos != null && priceVos.size() > 1){
+        if (priceVos != null && priceVos.size() > 1) {
             param.put("price_sort", String.valueOf(priceVos.get(0).getId()));
             curPriceClickPos = 1;
-            prizeAdapter.selectTag(1,false);
+            prizeAdapter.selectTag(1, false);
         }
         getPopular(param);
     }
@@ -139,7 +128,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
     public void initSelectedListener() {
         sortAdapter.addSelectedListener(new SortAdapter.onSelectedListener() {
             @Override
-            public void onSelected(boolean isInit,int selectPosition) {
+            public void onSelected(boolean isInit, int selectPosition) {
                 page = 1;
                 if (selectPosition != 0) {
                     param.put("category_id", String.valueOf(materialVos.get(selectPosition).getId()));
@@ -155,7 +144,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
             }
 
             @Override
-            public void onUnSelected(boolean isInit,int selectPosition) {
+            public void onUnSelected(boolean isInit, int selectPosition) {
                 if (isInit) {
                     curThemeClickPos = 0;
                 }
@@ -170,7 +159,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
 
         typeAdapter.addSelectedListener(new TypeAdapter.onSelectedListener() {
             @Override
-            public void onSelected(boolean isInit,int selectPosition) {
+            public void onSelected(boolean isInit, int selectPosition) {
                 page = 1;
                 if (selectPosition != 0) {
                     param.put("resource_type", String.valueOf(typeList.get(selectPosition).getId()));
@@ -186,7 +175,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
             }
 
             @Override
-            public void onUnSelected(boolean isInit,int selectPosition) {
+            public void onUnSelected(boolean isInit, int selectPosition) {
                 if (isInit) {
                     curTypeClickPos = 0;
                 }
@@ -200,7 +189,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
         });
         prizeAdapter.addSelectedListener(new PrizeAdapter.onSelectedListener() {
             @Override
-            public void onSelected(boolean isInit,int selectPosition) {
+            public void onSelected(boolean isInit, int selectPosition) {
                 page = 1;
                 if (selectPosition != 0) {
                     param.put("price_sort", String.valueOf(priceVos.get(selectPosition).getId()));
@@ -216,7 +205,7 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
             }
 
             @Override
-            public void onUnSelected(boolean isInit,int selectPosition) {
+            public void onUnSelected(boolean isInit, int selectPosition) {
                 if (isInit) {
                     curPriceClickPos = 0;
                 }
@@ -278,22 +267,20 @@ public class PictureSortFragment extends BaseFragment<FragmentPictureSortBinding
                 dismissLoading();
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getBody() != null) {
-//                        if (response.body().getBody().size() == 0) return;
-                        if (page == BigDecimal.ONE.intValue()) {
-                            artBeanList.clear();
-                            artBeanList = response.body().getBody();
-                            picturesAdapter.setNewData(artBeanList);
-                        } else if (page > BigDecimal.ONE.intValue() && artBeanList.size() > BigDecimal.ZERO.intValue()) {
-                            artBeanList.addAll(response.body().getBody());
-                            picturesAdapter.notifyItemRangeChanged(artBeanList.size() - 1, response.body().getBody().size());
+                        if (response.body().getBody().size() > 0) {
+                            if (page == 1) {
+                                artBeanList.clear();
+                                artBeanList = response.body().getBody();
+                                picturesAdapter.setNewData(artBeanList);
+                            } else {
+                                picturesAdapter.addData(response.body().getBody());
+                            }
+                            picturesAdapter.loadMoreComplete();
+                            page++;
+                        } else {
+                            picturesAdapter.loadMoreEnd();
                         }
-
-//                        if (page > BigDecimal.ONE.intValue()) {
-                        picturesAdapter.loadMoreEnd();
-//                        }
-                        page++;
                     }
-
                 }
             }
 

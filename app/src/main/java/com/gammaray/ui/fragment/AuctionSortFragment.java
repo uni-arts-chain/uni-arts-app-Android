@@ -99,21 +99,11 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
 
-        mBinding.scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            layoutManager.invalidateSpanAssignments();
-            if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-                //滑动到底部
-                if (System.currentTimeMillis() - lastRefreshTime > timeFlag) {
-                    lastRefreshTime = System.currentTimeMillis();
-                    getAuctions(param);
-                }
-            }
-        });
-
         mBinding.pictures.setLayoutManager(layoutManager);
         picturesAdapter.setEmptyView(R.layout.layout_entrust_empty, mBinding.pictures);
+        picturesAdapter.bindToRecyclerView(mBinding.pictures);
         picturesAdapter.setOnLoadMoreListener(() -> {
-
+            getAuctions(param);
         }, mBinding.pictures);
         mBinding.pictures.setAdapter(picturesAdapter);
         picturesAdapter.setOnItemClickListener(this);
@@ -282,16 +272,19 @@ public class AuctionSortFragment extends BaseFragment<FragmentPictureSortBinding
                 dismissLoading();
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getBody() != null) {
-                        if (page == BigDecimal.ONE.intValue()) {
-                            artBeanList.clear();
-                            artBeanList = response.body().getBody();
-                            picturesAdapter.setNewData(artBeanList);
-                        } else if (page > BigDecimal.ONE.intValue() && artBeanList.size() > BigDecimal.ZERO.intValue()) {
-                            artBeanList.addAll(response.body().getBody());
-                            picturesAdapter.notifyItemRangeChanged(artBeanList.size() - 1, response.body().getBody().size());
+                        if (response.body().getBody().size() > 0) {
+                            if (page == 1) {
+                                artBeanList.clear();
+                                artBeanList = response.body().getBody();
+                                picturesAdapter.setNewData(artBeanList);
+                            } else {
+                                picturesAdapter.addData(response.body().getBody());
+                            }
+                            picturesAdapter.loadMoreComplete();
+                            page++;
+                        } else {
+                            picturesAdapter.loadMoreEnd();
                         }
-                        picturesAdapter.loadMoreEnd();
-                        page++;
                     }
                 }
             }
